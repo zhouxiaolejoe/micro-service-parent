@@ -13,7 +13,14 @@
         <module>micro-service-spring-redis</module>
         <module>micro-service-spring-mongodb</module>
         <module>micro-service-file-upload</module>
-<!--        <module>micro-service-spring-admin</module>-->
+        <module>micro-service-spring-admin</module>
+        <module>micro-service-spring-kafka</module>
+        <module>micro-service-mybatis-plus</module>
+        <module>micro-service-spring-activemq</module>
+        <module>micro-service-spring-rabbitmq</module>
+        <module>micro-service-spring-quartz</module>
+        <module>micro-service-spring-security</module>
+        <module>micro-service-spring-websocket</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>

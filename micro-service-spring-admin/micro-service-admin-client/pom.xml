@@ -7,7 +7,6 @@
         <artifactId>micro-service-spring-admin</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.micro.service</groupId>
     <artifactId>micro-service-admin-client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>micro-service-admin-client</name>
@@ -35,14 +34,5 @@
             </exclusions>
         </dependency>
     </dependencies>
-
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
 
 </project>
