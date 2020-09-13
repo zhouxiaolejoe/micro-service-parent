@@ -1,0 +1,16 @@
+task:
+  corePoolSize: 10
+  maxPoolSize: 200
+  queueCapacity: 10
+server:
+  port: 18002
+info:
+  name: micro-service-spring-websocket
+  version: 1.0.0
+  email: a864511019@163.com
+spring:
+  application:
+    name: micro-service-spring-websocket
+  thymeleaf:
+    mode: HTML
+    encoding: UTF-8
