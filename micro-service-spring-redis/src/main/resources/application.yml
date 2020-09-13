@@ -1,0 +1,11 @@
+spring:
+  redis:
+    port: 6339
+    password: 123456
+    host: 192.168.175.199
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
