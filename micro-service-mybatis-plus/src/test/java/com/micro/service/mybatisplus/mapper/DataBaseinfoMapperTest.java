@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
+import com.github.pagehelper.PageHelper;
 import com.micro.service.mybatisplus.MicroServiceMybatisPlusApplicationTests;
 import com.micro.service.mybatisplus.model.DataBaseinfo;
 import com.micro.service.mybatisplus.model.User100w;
-import com.micro.service.mybatisplus.model.User100wMapper;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,8 +18,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * @Description
@@ -57,6 +55,7 @@ public class DataBaseinfoMapperTest extends MicroServiceMybatisPlusApplicationTe
         map.put("first_name", "李");
         QueryWrapper<User100w> queryWrapper = new QueryWrapper<>();
         queryWrapper.allEq(map);
+        PageHelper.startPage(2,10);
         List<User100w> user100ws = user100wMapper.selectList(queryWrapper);
         System.err.println(user100ws);
         QueryWrapper<User100w> queryWrapperMap = new QueryWrapper<>();
@@ -72,12 +71,14 @@ public class DataBaseinfoMapperTest extends MicroServiceMybatisPlusApplicationTe
         /**
          *  查询信息
          */
+        Map<String, Object> map = new HashMap<>();
+        map.put("first_name", "李");
         QueryWrapper<User100w> queryWrapper = new QueryWrapper<>();
-//        queryWrapper.orderByDesc("id");
+        queryWrapper.allEq(map);
         /**
          *  分页信息
          */
-        Page<User100w> page = new Page(1,1);
+        Page<User100w> page = new Page(1,5);
 
         IPage<User100w> user100wIPage = user100wMapper.selectPage(page,queryWrapper);
         System.err.println(user100wIPage.getRecords());
@@ -157,12 +158,12 @@ public class DataBaseinfoMapperTest extends MicroServiceMybatisPlusApplicationTe
         user100wMapper.selectList(queryWrapper).forEach(System.err::println);
 
     }
-    @Test
-    public void add01(){
-        User100w user100w = User100w.builder().firstName("周").lastName("小乐").copyId(1).isDelete(0).score(92).sex("1").build();
-        int insert = user100wMapper.insert(user100w);
-        System.err.println(insert);
-    }
+//    @Test
+//    public void add01(){
+//        User100w user100w = User100w.builder().firstName("周").lastName("小乐").copyId(1).isDelete(0).score(92).sex("1").build();
+//        int insert = user100wMapper.insert(user100w);
+//        System.err.println(insert);
+//    }
     @Test
     public void delete01(){
         int i = user100wMapper.deleteById(12238099);

@@ -1,0 +1,9 @@
+CREATE TABLE user100w(
+  id INT NOT NULL AUTO_INCREMENT,
+  first_name VARCHAR(10) NOT NULL,
+  last_name VARCHAR(10) NOT NULL,
+  sex VARCHAR(5) NOT NULL,
+  score INT NOT NULL,
+  copy_id INT NOT NULL,
+  PRIMARY KEY (`id`)
+);
