@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micro.service.springredis.mapper.DataBaseinfoMapper">
+  <resultMap id="BaseResultMap" type="com.micro.service.springredis.model.DataBaseinfo">
+    <!--@mbg.generated-->
+    <!--@Table fasp_t_dbinfo-->
+    <id column="guid" jdbcType="INTEGER" property="guid" />
+    <result column="datasourceid" jdbcType="VARCHAR" property="datasourceid" />
+    <result column="databasetype" jdbcType="INTEGER" property="databasetype" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="driverclassname" jdbcType="VARCHAR" property="driverclassname" />
+    <result column="createtime" jdbcType="DATE" property="createtime" />
+    <result column="createuser" jdbcType="VARCHAR" property="createuser" />
+    <result column="updatetime" jdbcType="DATE" property="updatetime" />
+    <result column="updateuser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="dbversion" jdbcType="DATE" property="dbversion" />
+    <result column="isdelete" jdbcType="INTEGER" property="isdelete" />
+    <result column="publickey" jdbcType="VARCHAR" property="publickey" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    guid, datasourceid, databasetype, url, username, `password`, driverclassname, createtime, 
+    `createuser`, updatetime, updateuser, dbversion, isdelete, publickey
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from fasp_t_dbinfo
+    where guid = #{guid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from fasp_t_dbinfo
+    where guid = #{guid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="guid" keyProperty="guid" parameterType="com.micro.service.springredis.model.DataBaseinfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into fasp_t_dbinfo (guid,datasourceid, databasetype, url,
+      username, `password`, driverclassname, 
+      createtime, `createuser`, updatetime, 
+      updateuser, dbversion, isdelete, 
+      publickey)
+    values (#{guid,jdbcType=INTEGER},#{datasourceid,jdbcType=VARCHAR}, #{databasetype,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR},
+      #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{driverclassname,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=DATE}, #{createuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=DATE}, 
+      #{updateuser,jdbcType=VARCHAR}, #{dbversion,jdbcType=DATE}, #{isdelete,jdbcType=INTEGER}, 
+      #{publickey,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="guid" keyProperty="guid" parameterType="com.micro.service.springredis.model.DataBaseinfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into fasp_t_dbinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="datasourceid != null">
+        datasourceid,
+      </if>
+      <if test="databasetype != null">
+        databasetype,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="driverclassname != null">
+        driverclassname,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="createuser != null">
+        `createuser`,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="updateuser != null">
+        updateuser,
+      </if>
+      <if test="dbversion != null">
+        dbversion,
+      </if>
+      <if test="isdelete != null">
+        isdelete,
+      </if>
+      <if test="publickey != null">
+        publickey,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="datasourceid != null">
+        #{datasourceid,jdbcType=VARCHAR},
+      </if>
+      <if test="databasetype != null">
+        #{databasetype,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="driverclassname != null">
+        #{driverclassname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=DATE},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="dbversion != null">
+        #{dbversion,jdbcType=DATE},
+      </if>
+      <if test="isdelete != null">
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="publickey != null">
+        #{publickey,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.micro.service.springredis.model.DataBaseinfo">
+    <!--@mbg.generated-->
+    update fasp_t_dbinfo
+    <set>
+      <if test="datasourceid != null">
+        datasourceid = #{datasourceid,jdbcType=VARCHAR},
+      </if>
+      <if test="databasetype != null">
+        databasetype = #{databasetype,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="driverclassname != null">
+        driverclassname = #{driverclassname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="createuser != null">
+        `createuser` = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=DATE},
+      </if>
+      <if test="updateuser != null">
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="dbversion != null">
+        dbversion = #{dbversion,jdbcType=DATE},
+      </if>
+      <if test="isdelete != null">
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="publickey != null">
+        publickey = #{publickey,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.micro.service.springredis.model.DataBaseinfo">
+    <!--@mbg.generated-->
+    update fasp_t_dbinfo
+    set datasourceid = #{datasourceid,jdbcType=VARCHAR},
+      databasetype = #{databasetype,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      driverclassname = #{driverclassname,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=DATE},
+      `createuser` = #{createuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=DATE},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      dbversion = #{dbversion,jdbcType=DATE},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      publickey = #{publickey,jdbcType=VARCHAR}
+    where guid = #{guid,jdbcType=INTEGER}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update fasp_t_dbinfo
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="datasourceid = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.datasourceid,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="databasetype = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.databasetype,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="url = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.url,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="username = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.username,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`password` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.password,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="driverclassname = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.driverclassname,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="createtime = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.createtime,jdbcType=DATE}
+        </foreach>
+      </trim>
+      <trim prefix="`createuser` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.createuser,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="updatetime = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.updatetime,jdbcType=DATE}
+        </foreach>
+      </trim>
+      <trim prefix="updateuser = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.updateuser,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="dbversion = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.dbversion,jdbcType=DATE}
+        </foreach>
+      </trim>
+      <trim prefix="isdelete = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.isdelete,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="publickey = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when guid = #{item.guid,jdbcType=INTEGER} then #{item.publickey,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where guid in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.guid,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update fasp_t_dbinfo
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="datasourceid = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.datasourceid != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.datasourceid,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="databasetype = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.databasetype != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.databasetype,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="url = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.url != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.url,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="username = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.username != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.username,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`password` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.password != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.password,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="driverclassname = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.driverclassname != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.driverclassname,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="createtime = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.createtime != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.createtime,jdbcType=DATE}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`createuser` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.createuser != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.createuser,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="updatetime = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.updatetime != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.updatetime,jdbcType=DATE}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="updateuser = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.updateuser != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.updateuser,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="dbversion = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.dbversion != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.dbversion,jdbcType=DATE}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="isdelete = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.isdelete != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.isdelete,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="publickey = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.publickey != null">
+            when guid = #{item.guid,jdbcType=INTEGER} then #{item.publickey,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where guid in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.guid,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="guid" keyProperty="guid" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into fasp_t_dbinfo
+    (datasourceid, databasetype, url, username, `password`, driverclassname, createtime, 
+      `createuser`, updatetime, updateuser, dbversion, isdelete, publickey)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.datasourceid,jdbcType=VARCHAR}, #{item.databasetype,jdbcType=INTEGER}, #{item.url,jdbcType=VARCHAR}, 
+        #{item.username,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR}, #{item.driverclassname,jdbcType=VARCHAR}, 
+        #{item.createtime,jdbcType=DATE}, #{item.createuser,jdbcType=VARCHAR}, #{item.updatetime,jdbcType=DATE}, 
+        #{item.updateuser,jdbcType=VARCHAR}, #{item.dbversion,jdbcType=DATE}, #{item.isdelete,jdbcType=INTEGER}, 
+        #{item.publickey,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="guid" keyProperty="guid" parameterType="com.micro.service.springredis.model.DataBaseinfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into fasp_t_dbinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="guid != null">
+        guid,
+      </if>
+      datasourceid,
+      databasetype,
+      url,
+      username,
+      `password`,
+      driverclassname,
+      createtime,
+      `createuser`,
+      updatetime,
+      updateuser,
+      dbversion,
+      isdelete,
+      publickey,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="guid != null">
+        #{guid,jdbcType=INTEGER},
+      </if>
+      #{datasourceid,jdbcType=VARCHAR},
+      #{databasetype,jdbcType=INTEGER},
+      #{url,jdbcType=VARCHAR},
+      #{username,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR},
+      #{driverclassname,jdbcType=VARCHAR},
+      #{createtime,jdbcType=DATE},
+      #{createuser,jdbcType=VARCHAR},
+      #{updatetime,jdbcType=DATE},
+      #{updateuser,jdbcType=VARCHAR},
+      #{dbversion,jdbcType=DATE},
+      #{isdelete,jdbcType=INTEGER},
+      #{publickey,jdbcType=VARCHAR},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="guid != null">
+        guid = #{guid,jdbcType=INTEGER},
+      </if>
+      datasourceid = #{datasourceid,jdbcType=VARCHAR},
+      databasetype = #{databasetype,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      driverclassname = #{driverclassname,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=DATE},
+      `createuser` = #{createuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=DATE},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      dbversion = #{dbversion,jdbcType=DATE},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      publickey = #{publickey,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="guid" keyProperty="guid" parameterType="com.micro.service.springredis.model.DataBaseinfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into fasp_t_dbinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="guid != null">
+        guid,
+      </if>
+      <if test="datasourceid != null">
+        datasourceid,
+      </if>
+      <if test="databasetype != null">
+        databasetype,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="driverclassname != null">
+        driverclassname,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="createuser != null">
+        `createuser`,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="updateuser != null">
+        updateuser,
+      </if>
+      <if test="dbversion != null">
+        dbversion,
+      </if>
+      <if test="isdelete != null">
+        isdelete,
+      </if>
+      <if test="publickey != null">
+        publickey,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="guid != null">
+        #{guid,jdbcType=INTEGER},
+      </if>
+      <if test="datasourceid != null">
+        #{datasourceid,jdbcType=VARCHAR},
+      </if>
+      <if test="databasetype != null">
+        #{databasetype,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="driverclassname != null">
+        #{driverclassname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=DATE},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="dbversion != null">
+        #{dbversion,jdbcType=DATE},
+      </if>
+      <if test="isdelete != null">
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="publickey != null">
+        #{publickey,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="guid != null">
+        guid = #{guid,jdbcType=INTEGER},
+      </if>
+      <if test="datasourceid != null">
+        datasourceid = #{datasourceid,jdbcType=VARCHAR},
+      </if>
+      <if test="databasetype != null">
+        databasetype = #{databasetype,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="driverclassname != null">
+        driverclassname = #{driverclassname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="createuser != null">
+        `createuser` = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=DATE},
+      </if>
+      <if test="updateuser != null">
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="dbversion != null">
+        dbversion = #{dbversion,jdbcType=DATE},
+      </if>
+      <if test="isdelete != null">
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="publickey != null">
+        publickey = #{publickey,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!--关闭二级缓存-->
+        <setting name="cacheEnabled" value="false"/>
+        <!--解决返回值为null不显示的问题-->
+        <setting name="callSettersOnNulls" value="true"/>
+        <!--开启自动驼峰命名 即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 打印出sql语句 可在控制台查看-->
+        <!--<setting name="logImpl" value="STDOUT_LOGGING" />-->
+    </settings>
+
+    <typeAliases>
+        <!--使用包扫描规范就是对应包装类的类名首字母变为小写-->
+        <package name="com.micro.service.springredis.model"/>
+    </typeAliases>
+
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- 分页参数合理化
+            reasonable：分页合理化参数，默认值为false。当该参数设置为 true 时，
+            pageNum<=0 时会查询第一页，pageNum>pages（超过总数时），会查询最后一页。
+            默认false 时，直接根据参数进行查询 -->
+            <property name="reasonable" value="true"/>
+            <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库,4.0版本以后不需要设置该参数，
+            能自动识别数据库 -->
+            <!--<property name="helperDialect" value="Oracle" />-->
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
+    </plugins>
+</configuration>
