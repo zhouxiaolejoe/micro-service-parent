@@ -1,10 +1,10 @@
 package com.micro.service.springquartz;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MicroServiceSpringQuartzApplicationTests {
+public class MicroServiceSpringQuartzApplicationTests {
 
     @Test
     void contextLoads() {

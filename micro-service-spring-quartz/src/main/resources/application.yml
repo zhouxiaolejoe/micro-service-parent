@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@127.0.0.1:1521/xe
+    username: guest1
+    password: guest1
+    driver-class-name: oracle.jdbc.OracleDriver
+  quartz:
+    job-store-type: jdbc
+    properties:
+      org:
+        quartz:
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 5
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+          scheduler:
+            instanceName: SyncScheduler
+            instanceId: AUTO
+            idleWaitTime: 5000
+            threadName: SYNC
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.oracle.OracleDelegate
+#            dataSource: HIYNN
+            misfireThreshold: 5000
+            isClustered: true
+            useProperties: true
+          datasource:
+            username: guest1
+            password: guest1
+            jdbcUrl: jdbc:oracle:thin:@127.0.0.1:1521/xe
+            driver-class-name: oracle.jdbc.OracleDriver
