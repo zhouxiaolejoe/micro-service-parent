@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micro.service.springquartz.mapper.FaspTPubmenuMapper">
+  <resultMap id="BaseResultMap" type="com.micro.service.springquartz.model.FaspTPubmenu">
+    <!--@mbg.generated-->
+    <!--@Table FASP_T_PUBMENU-->
+    <result column="GUID" jdbcType="VARCHAR" property="guid" />
+    <result column="LEVELNO" jdbcType="DECIMAL" property="levelno" />
+    <result column="ISLEAF" jdbcType="DECIMAL" property="isleaf" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PARENTID" jdbcType="VARCHAR" property="parentid" />
+    <result column="URL" jdbcType="VARCHAR" property="url" />
+    <result column="MENUORDER" jdbcType="DECIMAL" property="menuorder" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="DBVERSION" jdbcType="TIMESTAMP" property="dbversion" />
+    <result column="APPSYSID" jdbcType="DECIMAL" property="appsysid" />
+    <result column="PROVINCE" jdbcType="VARCHAR" property="province" />
+    <result column="YEAR" jdbcType="CHAR" property="year" />
+    <result column="APPID" jdbcType="VARCHAR" property="appid" />
+    <result column="PARAM1" jdbcType="VARCHAR" property="param1" />
+    <result column="PARAM2" jdbcType="VARCHAR" property="param2" />
+    <result column="PARAM3" jdbcType="VARCHAR" property="param3" />
+    <result column="PARAM4" jdbcType="VARCHAR" property="param4" />
+    <result column="PARAM5" jdbcType="VARCHAR" property="param5" />
+    <result column="SSOFLAG" jdbcType="CHAR" property="ssoflag" />
+    <result column="ADMINTYPE" jdbcType="DECIMAL" property="admintype" />
+    <result column="ALIAS" jdbcType="VARCHAR" property="alias" />
+    <result column="ISPTADMIN" jdbcType="CHAR" property="isptadmin" />
+    <result column="ADMDIV" jdbcType="VARCHAR" property="admdiv" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    GUID, LEVELNO, ISLEAF, "STATUS", CODE, "NAME", PARENTID, URL, MENUORDER, REMARK, 
+    DBVERSION, APPSYSID, PROVINCE, "YEAR", APPID, PARAM1, PARAM2, PARAM3, PARAM4, PARAM5, 
+    SSOFLAG, ADMINTYPE, "ALIAS", ISPTADMIN, ADMDIV
+  </sql>
+  <insert id="insert" parameterType="com.micro.service.springquartz.model.FaspTPubmenu">
+    <!--@mbg.generated-->
+    insert into FASP_T_PUBMENU (GUID, LEVELNO, ISLEAF, 
+      "STATUS", CODE, "NAME", PARENTID, 
+      URL, MENUORDER, REMARK, 
+      DBVERSION, APPSYSID, PROVINCE, 
+      "YEAR", APPID, PARAM1, PARAM2, 
+      PARAM3, PARAM4, PARAM5, 
+      SSOFLAG, ADMINTYPE, "ALIAS", 
+      ISPTADMIN, ADMDIV)
+    values (#{guid,jdbcType=VARCHAR}, #{levelno,jdbcType=DECIMAL}, #{isleaf,jdbcType=DECIMAL}, 
+      #{status,jdbcType=CHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{parentid,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{menuorder,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{dbversion,jdbcType=TIMESTAMP}, #{appsysid,jdbcType=DECIMAL}, #{province,jdbcType=VARCHAR}, 
+      #{year,jdbcType=CHAR}, #{appid,jdbcType=VARCHAR}, #{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR}, 
+      #{param3,jdbcType=VARCHAR}, #{param4,jdbcType=VARCHAR}, #{param5,jdbcType=VARCHAR}, 
+      #{ssoflag,jdbcType=CHAR}, #{admintype,jdbcType=DECIMAL}, #{alias,jdbcType=VARCHAR}, 
+      #{isptadmin,jdbcType=CHAR}, #{admdiv,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.micro.service.springquartz.model.FaspTPubmenu">
+    <!--@mbg.generated-->
+    insert into FASP_T_PUBMENU
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="guid != null">
+        GUID,
+      </if>
+      <if test="levelno != null">
+        LEVELNO,
+      </if>
+      <if test="isleaf != null">
+        ISLEAF,
+      </if>
+      <if test="status != null">
+        "STATUS",
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="name != null">
+        "NAME",
+      </if>
+      <if test="parentid != null">
+        PARENTID,
+      </if>
+      <if test="url != null">
+        URL,
+      </if>
+      <if test="menuorder != null">
+        MENUORDER,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="dbversion != null">
+        DBVERSION,
+      </if>
+      <if test="appsysid != null">
+        APPSYSID,
+      </if>
+      <if test="province != null">
+        PROVINCE,
+      </if>
+      <if test="year != null">
+        "YEAR",
+      </if>
+      <if test="appid != null">
+        APPID,
+      </if>
+      <if test="param1 != null">
+        PARAM1,
+      </if>
+      <if test="param2 != null">
+        PARAM2,
+      </if>
+      <if test="param3 != null">
+        PARAM3,
+      </if>
+      <if test="param4 != null">
+        PARAM4,
+      </if>
+      <if test="param5 != null">
+        PARAM5,
+      </if>
+      <if test="ssoflag != null">
+        SSOFLAG,
+      </if>
+      <if test="admintype != null">
+        ADMINTYPE,
+      </if>
+      <if test="alias != null">
+        "ALIAS",
+      </if>
+      <if test="isptadmin != null">
+        ISPTADMIN,
+      </if>
+      <if test="admdiv != null">
+        ADMDIV,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="guid != null">
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="levelno != null">
+        #{levelno,jdbcType=DECIMAL},
+      </if>
+      <if test="isleaf != null">
+        #{isleaf,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="menuorder != null">
+        #{menuorder,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="dbversion != null">
+        #{dbversion,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appsysid != null">
+        #{appsysid,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=CHAR},
+      </if>
+      <if test="appid != null">
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="param1 != null">
+        #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null">
+        #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null">
+        #{param3,jdbcType=VARCHAR},
+      </if>
+      <if test="param4 != null">
+        #{param4,jdbcType=VARCHAR},
+      </if>
+      <if test="param5 != null">
+        #{param5,jdbcType=VARCHAR},
+      </if>
+      <if test="ssoflag != null">
+        #{ssoflag,jdbcType=CHAR},
+      </if>
+      <if test="admintype != null">
+        #{admintype,jdbcType=DECIMAL},
+      </if>
+      <if test="alias != null">
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="isptadmin != null">
+        #{isptadmin,jdbcType=CHAR},
+      </if>
+      <if test="admdiv != null">
+        #{admdiv,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+<!--auto generated by MybatisCodeHelper on 2020-09-20-->
+  <select id="selectOneByGuid" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from FASP_T_PUBMENU
+    where GUID=#{guid,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

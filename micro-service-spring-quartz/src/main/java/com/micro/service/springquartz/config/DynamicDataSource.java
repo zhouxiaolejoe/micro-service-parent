@@ -35,14 +35,14 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         if (!StringUtils.isEmpty(datasource)) {
             Map<Object, Object> dynamicTargetDataSources2 = this.dynamicTargetDataSources;
             if (dynamicTargetDataSources2.containsKey(datasource)) {
-//                log.info("---当前数据源：" + datasource + "---");
+//                log.debug("---当前数据源：" + datasource + "---");
             } else {
-                log.info("不存在的数据源：");
+                log.debug("不存在的数据源：");
                 return null;
 //                    throw new ADIException("不存在的数据源："+datasource,500);
             }
         } else {
-            log.info("---当前数据源：默认数据源---");
+            log.debug("---当前数据源：默认数据源---");
         }
 
         return datasource;
@@ -117,8 +117,8 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
             this.dynamicTargetDataSources.put(key, druidDataSource);
             setTargetDataSources(this.dynamicTargetDataSources);
             super.afterPropertiesSet();
-            log.info(key + "数据源初始化成功");
-            //log.info(key+"数据源的概况："+druidDataSource.dump());
+            log.debug(key + "数据源初始化成功");
+            //log.debug(key+"数据源的概况："+druidDataSource.dump());
             return true;
         } catch (Exception e) {
             log.error(e + "");
@@ -211,32 +211,32 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     public void createDataSourceWithCheck(DataSourceInfo dataSource) throws Exception {
         String datasourceId = dataSource.getDatasourceId();
-        log.info("正在检查数据源：" + datasourceId);
+        log.debug("正在检查数据源：" + datasourceId);
         Map<Object, Object> dynamicTargetDataSources2 = this.dynamicTargetDataSources;
         if (dynamicTargetDataSources2.containsKey(datasourceId)) {
-            log.info("数据源" + datasourceId + "已初始化，准备测试数据源是否正常...");
+            log.debug("数据源" + datasourceId + "已初始化，准备测试数据源是否正常...");
             //DataSource druidDataSource = (DataSource) dynamicTargetDataSources2.get(datasourceId);
             DruidDataSource druidDataSource = (DruidDataSource) dynamicTargetDataSources2.get(datasourceId);
             boolean rightFlag = true;
             Connection connection = null;
             try {
-                log.info(datasourceId + "数据源的概况->当前闲置连接数：" + druidDataSource.getPoolingCount());
+                log.debug(datasourceId + "数据源的概况->当前闲置连接数：" + druidDataSource.getPoolingCount());
                 long activeCount = druidDataSource.getActiveCount();
-                log.info(datasourceId + "数据源的概况->当前活动连接数：" + activeCount);
+                log.debug(datasourceId + "数据源的概况->当前活动连接数：" + activeCount);
                 if (activeCount > 0) {
-                    log.info(datasourceId + "数据源的概况->活跃连接堆栈信息：" + druidDataSource.getActiveConnectionStackTrace());
+                    log.debug(datasourceId + "数据源的概况->活跃连接堆栈信息：" + druidDataSource.getActiveConnectionStackTrace());
                 }
-                log.info("准备获取数据库连接...");
+                log.debug("准备获取数据库连接...");
                 connection = druidDataSource.getConnection();
-                log.info("数据源" + datasourceId + "正常");
+                log.debug("数据源" + datasourceId + "正常");
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
                 rightFlag = false;
-                log.info("缓存数据源" + datasourceId + "已失效，准备删除...");
+                log.debug("缓存数据源" + datasourceId + "已失效，准备删除...");
                 if (delDatasources(datasourceId)) {
-                    log.info("缓存数据源删除成功");
+                    log.debug("缓存数据源删除成功");
                 } else {
-                    log.info("缓存数据源删除失败");
+                    log.debug("缓存数据源删除失败");
                 }
             } finally {
                 if (null != connection) {
@@ -244,12 +244,12 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
                 }
             }
             if (rightFlag) {
-                log.info("不需要重新创建数据源");
+                log.debug("不需要重新创建数据源");
                 return;
             } else {
-                log.info("准备重新创建数据源...");
+                log.debug("准备重新创建数据源...");
                 createDataSource(dataSource);
-                log.info("重新创建数据源完成");
+                log.debug("重新创建数据源完成");
             }
         } else {
             createDataSource(dataSource);
@@ -259,7 +259,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     private void createDataSource(DataSourceInfo dataSource) throws Exception {
         String datasourceId = dataSource.getDatasourceId();
-        log.info("准备创建数据源" + datasourceId);
+        log.debug("准备创建数据源" + datasourceId);
         String databasetype = dataSource.getDatabasetype();
         String username = dataSource.getUserName();
         String password = dataSource.getPassWord();

@@ -56,6 +56,9 @@ public class JobServiceImpl implements JobService {
                 .newJob(MyJob.class)
                 .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
                 .build();
+        JobDataMap map = job.getJobDataMap();
+        map.put("guid", quartzJobDTO.getGuid());
+        map.put("datasourceid",quartzJobDTO.getDatasourceid());
         /**
          *  2.创建触发器
          */

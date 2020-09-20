@@ -33,11 +33,11 @@ public class InitDataSource implements ApplicationListener<ContextRefreshedEvent
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         List<DataSourceInfo> dataSources = dataSourceMapper.get();
         for (DataSourceInfo dataSource : dataSources) {
-            log.info(String.format("初始化数据源,datasourceId是: [ %s ]", dataSource.getDatasourceId()));
+            log.debug(String.format("初始化数据源,datasourceId是: [ %s ]", dataSource.getDatasourceId()));
             try {
                 dynamicDataSource.createDataSourceWithCheck(dataSource);
             } catch (Exception e) {
-                log.info("创建数据源失败......");
+                log.debug("创建数据源失败......");
             }
         }
 
