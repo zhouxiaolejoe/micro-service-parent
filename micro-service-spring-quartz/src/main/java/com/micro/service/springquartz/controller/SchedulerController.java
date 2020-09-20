@@ -43,6 +43,11 @@ public class SchedulerController {
         jobService.addJob(quartzJobDTO);
         return ResultBuilder.success();
     }
+    @GetMapping("/jobStatus")
+    @ApiOperation(value = "任务状态", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
+    public ResultBuilder jobStatus(@RequestParam("triggerName")String triggerName,@RequestParam("triggerGroup")String triggerGroup) throws SchedulerException {
+        return jobService.jobStatus(triggerName,triggerGroup);
+    }
     @PostMapping("/triggerJob")
     @ApiOperation(value = "触发任务", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
     public ResultBuilder triggerJob(@RequestParam("jobName")String jobName,@RequestParam("jobGroup")String jobGroup) throws SchedulerException {

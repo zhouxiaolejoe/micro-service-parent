@@ -64,7 +64,7 @@ public class JobServiceImpl implements JobService {
                 .withDescription(quartzJobDTO.getDescription())
 //                .startNow() // 设置立刻启动
                 .startAt(DateBuilder.futureDate(5, DateBuilder.IntervalUnit.SECOND))
-                .withIdentity(quartzJobDTO.getTriggerNmae(),quartzJobDTO.getTriggerGroup())
+                .withIdentity(quartzJobDTO.getTriggerNmae(), quartzJobDTO.getTriggerGroup())
                 .withSchedule(CronScheduleBuilder
                         .cronSchedule(quartzJobDTO.getCronExpression())
                         .withMisfireHandlingInstructionDoNothing())
@@ -72,32 +72,32 @@ public class JobServiceImpl implements JobService {
         /**
          * 3.关联job 和 触发器
          */
-        this.scheduler.scheduleJob(job,trigger);
+        this.scheduler.scheduleJob(job, trigger);
         return ResultBuilder.success();
     }
 
     @Override
     public ResultBuilder triggerJob(String jobName, String jobGroup) throws SchedulerException {
-        scheduler.triggerJob(JobKey.jobKey(jobName,jobGroup));
+        scheduler.triggerJob(JobKey.jobKey(jobName, jobGroup));
         return ResultBuilder.success();
     }
 
     @Override
     public ResultBuilder pauseJob(String jobName, String jobGroup) throws SchedulerException {
-        scheduler.pauseJob(JobKey.jobKey(jobName,jobGroup));
+        scheduler.pauseJob(JobKey.jobKey(jobName, jobGroup));
         return ResultBuilder.success();
     }
 
     @Override
     public ResultBuilder resumeJob(String jobName, String jobGroup) throws SchedulerException {
-        scheduler.resumeJob(JobKey.jobKey(jobName,jobGroup));
+        scheduler.resumeJob(JobKey.jobKey(jobName, jobGroup));
         return ResultBuilder.success();
     }
 
     @Override
     public ResultBuilder removeJob(String jobName, String jobGroup) throws SchedulerException {
 
-        scheduler.pauseJob(JobKey.jobKey(jobName,jobGroup));
+        scheduler.pauseJob(JobKey.jobKey(jobName, jobGroup));
 
         TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
 
@@ -105,9 +105,16 @@ public class JobServiceImpl implements JobService {
 
         scheduler.unscheduleJob(triggerKey);
 
-        scheduler.deleteJob(JobKey.jobKey(jobName,jobGroup));
+        scheduler.deleteJob(JobKey.jobKey(jobName, jobGroup));
 
         return ResultBuilder.success();
+    }
+
+    @Override
+    public ResultBuilder jobStatus(String triggerName, String triggerGroup) throws SchedulerException {
+        TriggerKey triggerKey = TriggerKey.triggerKey(triggerName, triggerGroup);
+        Trigger.TriggerState triggerState = scheduler.getTriggerState(triggerKey);
+        return ResultBuilder.success(triggerState);
     }
 
     @Override
@@ -120,12 +127,12 @@ public class JobServiceImpl implements JobService {
                 .newTrigger()
                 .startAt(DateBuilder.futureDate(5, DateBuilder.IntervalUnit.SECOND))
                 .withDescription(quartzJobDTO.getDescription())
-                .withIdentity(quartzJobDTO.getTriggerNmae(),quartzJobDTO.getTriggerGroup())
+                .withIdentity(quartzJobDTO.getTriggerNmae(), quartzJobDTO.getTriggerGroup())
                 .withSchedule(CronScheduleBuilder
                         .cronSchedule(quartzJobDTO.getCronExpression())
                         .withMisfireHandlingInstructionDoNothing())
                 .build();
-        scheduler.rescheduleJob(triggerKey,trigger);
+        scheduler.rescheduleJob(triggerKey, trigger);
         return ResultBuilder.success();
     }
 }

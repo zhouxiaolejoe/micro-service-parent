@@ -33,12 +33,4 @@ public class MicroServiceSpringQuartzApplication {
     public DataSource myQuartzDataSource(){
         return DataSourceBuilder.create().build();
     }
-
-
-//    @Bean
-//    @ConfigurationProperties("spring.datasource")
-//    @Primary
-//    public DataSource dataSource(){
-//        return DataSourceBuilder.create().build();
-//    }
 }
