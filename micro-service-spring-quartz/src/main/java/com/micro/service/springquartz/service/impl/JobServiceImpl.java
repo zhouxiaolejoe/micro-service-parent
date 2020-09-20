@@ -4,6 +4,7 @@ import com.micro.service.springquartz.job.MyJob;
 import com.micro.service.springquartz.mapper.QrtzJobDetailsMapper;
 import com.micro.service.springquartz.model.QrtzJobDetails;
 import com.micro.service.springquartz.model.QuartzJobDTO;
+import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.service.JobService;
 import com.micro.service.springquartz.untils.ResultBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -28,19 +29,20 @@ public class JobServiceImpl implements JobService {
 
     @Autowired
     QrtzJobDetailsMapper qrtzJobDetailsMapper;
+    @Autowired
+    DBChangeService dbChangeService;
 
     @Autowired
     Scheduler scheduler;
 
     @Override
     public List<QrtzJobDetails> getJobList(QuartzJobDTO quartzJobDTO) {
-        TriggerKey triggerKey = TriggerKey.triggerKey("trigger1", "group1");
         try {
-            Trigger.TriggerState triggerState = scheduler.getTriggerState(triggerKey);
-        } catch (SchedulerException e) {
+            dbChangeService.changeDb("quartz");
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return qrtzJobDetailsMapper.selectList(null);
+        return qrtzJobDetailsMapper.selectAll();
     }
 
     @Override
@@ -88,14 +90,15 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public ResultBuilder resumeJob(String jobName, String jobGroup) throws SchedulerException {
-//        TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
-//        scheduler.resumeTrigger(triggerKey);
         scheduler.resumeJob(JobKey.jobKey(jobName,jobGroup));
         return ResultBuilder.success();
     }
 
     @Override
     public ResultBuilder removeJob(String jobName, String jobGroup) throws SchedulerException {
+
+        scheduler.pauseJob(JobKey.jobKey(jobName,jobGroup));
+
         TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
 
         scheduler.pauseTrigger(triggerKey);

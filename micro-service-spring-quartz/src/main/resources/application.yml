@@ -1,9 +1,27 @@
 spring:
+  aop:
+    proxy-target-class: true
   datasource:
     url: jdbc:oracle:thin:@127.0.0.1:1521/xe
-    username: guest1
-    password: guest1
-    driver-class-name: oracle.jdbc.OracleDriver
+    username: guest
+    password: guest
+    driverClassName: oracle.jdbc.OracleDriver
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall,log4j
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    useGlobalDataSourceStat: true
   quartz:
     job-store-type: jdbc
     properties:
@@ -11,23 +29,32 @@ spring:
         quartz:
           threadPool:
             class: org.quartz.simpl.SimpleThreadPool
-            threadCount: 5
+            threadCount: 10
             threadPriority: 5
             threadsInheritContextClassLoaderOfInitializingThread: true
           scheduler:
             instanceName: SyncScheduler
             instanceId: AUTO
             idleWaitTime: 5000
-            threadName: SYNC
+            threadName: quartzScheduler
           jobStore:
             class: org.quartz.impl.jdbcjobstore.JobStoreTX
             driverDelegateClass: org.quartz.impl.jdbcjobstore.oracle.OracleDelegate
-#            dataSource: HIYNN
+#            dataSource: quartzScheduler
             misfireThreshold: 5000
             isClustered: true
             useProperties: true
+            tablePrefix: QRTZ_
           datasource:
             username: guest1
             password: guest1
             jdbcUrl: jdbc:oracle:thin:@127.0.0.1:1521/xe
             driver-class-name: oracle.jdbc.OracleDriver
+            validationQuery: select 1 from dual
+            type: com.alibaba.druid.pool.DruidDataSource
+    jdbc:
+      schema: classpath:org/quartz/impl/jdbcjobstore/tables_oracle.sql
+      initialize-schema: never
+logging:
+  level.org.springframework.web: debug
+  level.com.micro.service.springquartz.mapper: debug
