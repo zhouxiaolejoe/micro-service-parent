@@ -55,10 +55,12 @@ public class JobServiceImpl implements JobService {
         JobDetail job = JobBuilder
                 .newJob(MyJob.class)
                 .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
+                .withDescription(quartzJobDTO.getDescription())
                 .build();
         JobDataMap map = job.getJobDataMap();
-        map.put("guid", quartzJobDTO.getGuid());
-        map.put("datasourceid",quartzJobDTO.getDatasourceid());
+        map.put("origin", quartzJobDTO.getOrigin());
+        map.put("target",quartzJobDTO.getTarget());
+
         /**
          *  2.创建触发器
          */
@@ -99,8 +101,6 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public ResultBuilder removeJob(String jobName, String jobGroup) throws SchedulerException {
-
-        scheduler.pauseJob(JobKey.jobKey(jobName, jobGroup));
 
         TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
 

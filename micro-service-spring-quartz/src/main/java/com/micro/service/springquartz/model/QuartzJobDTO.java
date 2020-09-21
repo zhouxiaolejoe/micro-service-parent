@@ -30,8 +30,9 @@ public class QuartzJobDTO {
     private String description;
     @ApiModelProperty(value = "任务执行时间")
     private String cronExpression;
-    @ApiModelProperty(value = "任务执行时间")
-    private String datasourceid;
-    private String guid;
+    @ApiModelProperty(value = "数据源")
+    private String origin;
+    @ApiModelProperty(value = "目标数据源")
+    private String target;
 
 }

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micro.service.springquartz.mapper.target.SyncRoleMapper">
+
+    <select id="exitsRoleTable" resultType="java.lang.Integer" >
+    	select count(*) from user_tables where table_name='FASP_T_CAROLE'
+	</select>
+
+
+    <select id="queryRoleVersion" resultType="java.lang.String" >
+		select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from fasp_t_carole
+	</select>
+
+
+    <insert id="insertRoleData">
+		insert into FASP_T_CAROLE(agency,remark1,remark2,remark3,year,province,roletype,rolenature,status,division,bank,admdiv,rolelevel,guid,code,name,remark,issys,ordernum,paytypeflag,salarytypeflag,speaccttypeflag,bgttypeflag,dbversion)
+		values(
+			#{agency         ,jdbcType=VARCHAR},
+			#{remark1        ,jdbcType=VARCHAR},
+			#{remark2        ,jdbcType=VARCHAR},
+			#{remark3        ,jdbcType=VARCHAR},
+			#{year           ,jdbcType=VARCHAR},
+			#{province       ,jdbcType=VARCHAR},
+			#{roletype       ,jdbcType=INTEGER},
+			#{rolenature     ,jdbcType=INTEGER},
+			#{status         ,jdbcType=VARCHAR},
+			#{division       ,jdbcType=VARCHAR},
+			#{bank           ,jdbcType=VARCHAR},
+			#{admdiv         ,jdbcType=VARCHAR},
+			#{rolelevel      ,jdbcType=VARCHAR},
+			#{guid           ,jdbcType=VARCHAR},
+			#{code           ,jdbcType=VARCHAR},
+			#{name           ,jdbcType=VARCHAR},
+			#{remark         ,jdbcType=VARCHAR},
+			#{issys          ,jdbcType=INTEGER},
+			#{ordernum       ,jdbcType=INTEGER},
+			#{paytypeflag    ,jdbcType=VARCHAR},
+			#{salarytypeflag ,jdbcType=VARCHAR},
+			#{speaccttypeflag,jdbcType=VARCHAR},
+			#{bgttypeflag    ,jdbcType=VARCHAR},
+			#{dbversion    ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+
+    <update id="createRoleTable" >
+		create table FASP_T_CAROLE
+		(
+		  GUID            VARCHAR2(50) not null,
+		  AGENCY          VARCHAR2(50),
+		  REMARK1         VARCHAR2(200),
+		  REMARK2         VARCHAR2(200),
+		  REMARK3         VARCHAR2(200),
+		  YEAR            CHAR(4),
+		  PROVINCE        VARCHAR2(30),
+		  ROLETYPE        NUMBER(2),
+		  ROLENATURE      NUMBER(1),
+		  DBVERSION       TIMESTAMP(6),
+		  STATUS          CHAR(1),
+		  DIVISION        VARCHAR2(50),
+		  BANK            VARCHAR2(50),
+		  ADMDIV          VARCHAR2(50),
+		  ROLELEVEL       VARCHAR2(50),
+		  CODE            VARCHAR2(50),
+		  NAME            VARCHAR2(100),
+		  REMARK          VARCHAR2(255),
+		  ISSYS           NUMBER(1),
+		  ORDERNUM        NUMBER(5),
+		  PAYTYPEFLAG     CHAR(1) default '1',
+		  SALARYTYPEFLAG  CHAR(1) default '1',
+		  SPEACCTTYPEFLAG CHAR(1) default '1',
+		  BGTTYPEFLAG     CHAR(1) default '1'
+		)
+	</update>
+
+
+    <delete id="deleteRoleData">
+		delete from FASP_T_CAROLE where guid = #{guid,jdbcType=VARCHAR}
+        <choose>
+            <when test=" year != null and year != '' ">
+                and year = #{year,jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                and year is null
+            </otherwise>
+        </choose>
+        <choose>
+            <when test=" province != null and province != '' ">
+                and province = #{province,jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                and province is null
+            </otherwise>
+        </choose>
+	</delete>
+</mapper>

@@ -173,10 +173,12 @@ public class DruidDBConfig {
      * @return
      */
     static final String MAPPER_LOCATION_1 = "classpath:mapper/*.xml";
+    static final String MAPPER_LOCATION_2 = "classpath:mapper/**/*.xml";
     public Resource[] resolveMapperLocations() {
         ResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
         List<String> mapperLocations = new ArrayList<>();
         mapperLocations.add(MAPPER_LOCATION_1);
+        mapperLocations.add(MAPPER_LOCATION_2);
         List<Resource> resources = new ArrayList<>();
         if (mapperLocations != null) {
             for (String mapperLocation : mapperLocations) {
