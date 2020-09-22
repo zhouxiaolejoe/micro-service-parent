@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micro.service.springquartz.mapper.target.SyncDicDSMapper">
+
+    <select id="queryDSMaxVersion" resultType="String">
+    	select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from fasp_t_dicds
+	</select>
+
+
+    <select id="queryTableMaxVersion" resultType="String">
+		select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from fasp_t_mgdictable
+	</select>
+
+
+    <select id="queryColumnMaxVersion" resultType="String">
+		select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from fasp_t_mgdiccolumn
+	</select>
+
+
+	<select id="exitsDicTable" resultType="java.lang.Integer" >
+		select count(*) from user_tables where table_name='FASP_T_MGDICTABLE'
+	</select>
+
+
+	<select id="exitsDicColumn" resultType="java.lang.Integer" >
+		select count(*) from user_tables where table_name='FASP_T_MGDICCOLUMN'
+	</select>
+
+	<select id="exitsDs" resultType="java.lang.Integer" >
+		select count(*) from user_tables where table_name='FASP_T_DICDS'
+	</select>
+    <update id="createDs">
+        create table FASP_T_DICDS
+        (
+          guid                     VARCHAR2(32) not null,
+          code                     VARCHAR2(50),
+          name                     VARCHAR2(100),
+          elementcode              VARCHAR2(100),
+          alias                    VARCHAR2(100),
+          apply                    VARCHAR2(1),
+          codemode                 VARCHAR2(32),
+          publishname              VARCHAR2(32),
+          remark                   VARCHAR2(1000),
+          status                   CHAR(1),
+          createtime               VARCHAR2(17),
+          starttime                VARCHAR2(17),
+          endtime                  VARCHAR2(17),
+          province                 VARCHAR2(9),
+          year                     CHAR(4),
+          version                  NUMBER(9),
+          typeguid                 VARCHAR2(32),
+          tablecode                VARCHAR2(32),
+          crc                      VARCHAR2(32),
+          isexporttranslate        VARCHAR2(1),
+          exportranslateguidformat VARCHAR2(32),
+          isacrossfiscal           VARCHAR2(1),
+          acrossfiscalformat       VARCHAR2(32),
+          cachetype                VARCHAR2(1),
+          ispublic                 VARCHAR2(1),
+          transactioncache         VARCHAR2(1),
+          codetyep                 VARCHAR2(1),
+          dbversion                TIMESTAMP(6),
+          importstandard           VARCHAR2(255),
+          isnormversion            CHAR(1)
+        )
+    </update>
+
+    <insert id="insertDS">
+		INSERT INTO FASP_T_DICDS(GUID,CODE,NAME,ELEMENTCODE,ALIAS,APPLY,CODEMODE,PUBLISHNAME,
+		REMARK,STATUS,CREATETIME,STARTTIME,ENDTIME,PROVINCE,YEAR,VERSION,TYPEGUID,TABLECODE,
+		CRC,ISEXPORTTRANSLATE,EXPORTRANSLATEGUIDFORMAT,ISACROSSFISCAL,ACROSSFISCALFORMAT,
+		CACHETYPE,ISPUBLIC,TRANSACTIONCACHE,CODETYEP,DBVERSION,IMPORTSTANDARD,ISNORMVERSION)
+		values(
+			#{GUID                                  ,jdbcType=VARCHAR},
+			#{CODE                                  ,jdbcType=VARCHAR},
+			#{NAME                                  ,jdbcType=VARCHAR},
+			#{ELEMENTCODE                           ,jdbcType=VARCHAR},
+			#{ALIAS                                 ,jdbcType=VARCHAR},
+			#{APPLY                                 ,jdbcType=VARCHAR},
+			#{CODEMODE                              ,jdbcType=VARCHAR},
+			#{PUBLISHNAME                           ,jdbcType=VARCHAR},
+			#{REMARK                                ,jdbcType=VARCHAR},
+			#{STATUS                                ,jdbcType=VARCHAR},
+			#{CREATETIME                            ,jdbcType=VARCHAR},
+			#{STARTTIME                             ,jdbcType=VARCHAR},
+			#{ENDTIME                               ,jdbcType=VARCHAR},
+			#{PROVINCE                              ,jdbcType=VARCHAR},
+			#{YEAR                                  ,jdbcType=VARCHAR},
+			#{VERSION                               ,jdbcType=INTEGER},
+			#{TYPEGUID                              ,jdbcType=VARCHAR},
+			#{TABLECODE                             ,jdbcType=VARCHAR},
+			#{CRC                                   ,jdbcType=VARCHAR},
+			#{ISEXPORTTRANSLATE                     ,jdbcType=VARCHAR},
+			#{EXPORTRANSLATEGUIDFORMAT              ,jdbcType=VARCHAR},
+			#{ISACROSSFISCAL                        ,jdbcType=VARCHAR},
+			#{ACROSSFISCALFORMAT                    ,jdbcType=VARCHAR},
+			#{CACHETYPE                             ,jdbcType=VARCHAR},
+			#{ISPUBLIC                              ,jdbcType=VARCHAR},
+			#{TRANSACTIONCACHE                      ,jdbcType=VARCHAR},
+			#{CODETYEP                              ,jdbcType=VARCHAR},
+			#{DBVERSION                             ,jdbcType=VARCHAR},
+			#{IMPORTSTANDARD                        ,jdbcType=VARCHAR},
+			#{ISNORMVERSION                         ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+
+    <insert id="insertTable">
+		insert into fasp_t_mgdictable(year,province,tablecode,name,remark,tabletype,version,dbtabname,appid,exp,tablepart,isshow,dbimpflag,issys,isuses,viewtablename,datasync,hastrigger,syncclassname,status,dbversion)
+		values(
+			#{year          ,jdbcType=VARCHAR},
+			#{province      ,jdbcType=VARCHAR},
+			#{tablecode     ,jdbcType=VARCHAR},
+			#{name          ,jdbcType=VARCHAR},
+			#{remark        ,jdbcType=VARCHAR},
+			#{tabletype     ,jdbcType=INTEGER},
+			#{version       ,jdbcType=INTEGER},
+			#{dbtabname     ,jdbcType=VARCHAR},
+			#{appid         ,jdbcType=VARCHAR},
+			#{exp           ,jdbcType=VARCHAR},
+			#{tablepart     ,jdbcType=VARCHAR},
+			#{isshow        ,jdbcType=INTEGER},
+			#{dbimpflag     ,jdbcType=VARCHAR},
+			#{issys         ,jdbcType=INTEGER},
+			#{isuses        ,jdbcType=INTEGER},
+			#{viewtablename ,jdbcType=VARCHAR},
+			#{datasync      ,jdbcType=INTEGER},
+			#{hastrigger    ,jdbcType=INTEGER},
+			#{syncclassname ,jdbcType=VARCHAR},
+			#{status        ,jdbcType=VARCHAR},
+			to_date(#{dbversion    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+		)
+	</insert>
+
+
+	<insert id="insertColumn">
+		insert into fasp_t_mgdiccolumn(deid,csid,exp,issys,dbcolumncode,isuses,year,province,columnid,columncode,tablecode,name,datatype,datalength,scale,version,nullable,defaultvalue,dbversion)
+		values(
+			#{deid         ,jdbcType=VARCHAR},
+			#{csid         ,jdbcType=VARCHAR},
+			#{exp          ,jdbcType=VARCHAR},
+			#{issys        ,jdbcType=VARCHAR},
+			#{dbcolumncode ,jdbcType=VARCHAR},
+			#{isuses       ,jdbcType=VARCHAR},
+			#{year         ,jdbcType=VARCHAR},
+			#{province     ,jdbcType=VARCHAR},
+			#{columnid     ,jdbcType=VARCHAR},
+			#{columncode   ,jdbcType=VARCHAR},
+			#{tablecode    ,jdbcType=VARCHAR},
+			#{name         ,jdbcType=VARCHAR},
+			#{datatype     ,jdbcType=VARCHAR},
+			#{datalength   ,jdbcType=VARCHAR},
+			#{scale        ,jdbcType=INTEGER},
+			#{version      ,jdbcType=INTEGER},
+			#{nullable     ,jdbcType=INTEGER},
+			#{defaultvalue ,jdbcType=VARCHAR},
+			to_date(#{dbversion    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+		)
+	</insert>
+
+
+	<update id="createDicTable">
+		create table FASP_T_MGDICTABLE
+		(
+		  YEAR          VARCHAR2(20),
+		  PROVINCE      VARCHAR2(20),
+		  TABLECODE     VARCHAR2(200) ,
+		  NAME          VARCHAR2(500),
+		  REMARK        VARCHAR2(1000),
+		  TABLETYPE     NUMBER(2) ,
+		  VERSION       NUMBER(9) ,
+		  DBTABNAME     VARCHAR2(30) ,
+		  APPID         VARCHAR2(50) ,
+		  EXP           VARCHAR2(10),
+		  TABLEPART     VARCHAR2(100),
+		  ISSHOW        NUMBER(1),
+		  DBIMPFLAG     VARCHAR2(1),
+		  ISSYS         NUMBER(1),
+		  ISUSES        NUMBER(1),
+		  VIEWTABLENAME VARCHAR2(100),
+		  DBVERSION     TIMESTAMP(6),
+		  DATASYNC      NUMBER(1),
+		  HASTRIGGER    NUMBER(1),
+		  SYNCCLASSNAME VARCHAR2(500),
+		  STATUS        CHAR(1)
+		)
+	</update>
+
+
+	<update id="createDicColumn">
+		create table FASP_T_MGDICCOLUMN
+		(
+		  DEID         VARCHAR2(50),
+		  CSID         VARCHAR2(50),
+		  EXP          VARCHAR2(50),
+		  ISSYS        VARCHAR2(10),
+		  DBCOLUMNCODE VARCHAR2(100),
+		  ISUSES       VARCHAR2(1),
+		  YEAR         CHAR(4),
+		  PROVINCE     VARCHAR2(50),
+		  COLUMNID     VARCHAR2(100),
+		  COLUMNCODE   VARCHAR2(100),
+		  TABLECODE    VARCHAR2(100),
+		  NAME         VARCHAR2(200),
+		  DATATYPE     VARCHAR2(50),
+		  DATALENGTH   VARCHAR2(50),
+		  SCALE        NUMBER(2),
+		  VERSION      NUMBER(9),
+		  NULLABLE     NUMBER(2) default 1,
+		  DEFAULTVALUE VARCHAR2(255),
+		  DBVERSION    TIMESTAMP(6)
+		)
+	</update>
+
+
+	<delete id="deleteDS">
+		delete from fasp_t_dicds where guid = #{guid,jdbcType=VARCHAR}
+	</delete>
+
+
+    <delete id="deleteTable">
+		delete from fasp_t_mgdictable where tablecode = #{tablecode,jdbcType=VARCHAR}
+	</delete>
+
+
+    <delete id="deleteColumn">
+		delete from fasp_t_mgdiccolumn where tablecode = #{tablecode,jdbcType=VARCHAR} and columncode = #{columncode,jdbcType=VARCHAR}
+	</delete>
+
+    <insert id="batchInsertDicds">
+        INSERT INTO FASP_T_DICDS
+           (GUID,CODE,NAME,ELEMENTCODE,ALIAS,APPLY,CODEMODE,PUBLISHNAME,REMARK,
+           STATUS,CREATETIME,STARTTIME,ENDTIME,PROVINCE,YEAR,VERSION,TYPEGUID,
+           TABLECODE,CRC,ISEXPORTTRANSLATE,EXPORTRANSLATEGUIDFORMAT,ISACROSSFISCAL,
+           ACROSSFISCALFORMAT,CACHETYPE,ISPUBLIC,TRANSACTIONCACHE,CODETYEP,DBVERSION,
+           IMPORTSTANDARD,ISNORMVERSION)
+		 SELECT a.* FROM(
+        <foreach collection="list" item="item" index="index" separator="union all">
+            select
+			#{item.GUID,                        jdbcType=VARCHAR},
+			#{item.CODE,                        jdbcType=VARCHAR},
+			#{item.NAME,                        jdbcType=VARCHAR},
+			#{item.ELEMENTCODE,                 jdbcType=VARCHAR},
+			#{item.ALIAS,                       jdbcType=VARCHAR},
+			#{item.APPLY,                       jdbcType=VARCHAR},
+			#{item.CODEMODE,                    jdbcType=VARCHAR},
+			#{item.PUBLISHNAME,                 jdbcType=VARCHAR},
+			#{item.REMARK,                      jdbcType=VARCHAR},
+            #{item.STATUS,                      jdbcType=VARCHAR},
+			#{item.CREATETIME,                  jdbcType=VARCHAR},
+			#{item.STARTTIME,                   jdbcType=VARCHAR},
+			#{item.ENDTIME,                     jdbcType=VARCHAR},
+			#{item.PROVINCE,                    jdbcType=VARCHAR},
+			#{item.YEAR,                        jdbcType=VARCHAR},
+			#{item.VERSION,                     jdbcType=INTEGER},
+			#{item.TYPEGUID,                    jdbcType=VARCHAR},
+			#{item.TABLECODE,                   jdbcType=VARCHAR},
+			#{item.CRC,                         jdbcType=VARCHAR},
+			#{item.ISEXPORTTRANSLATE,           jdbcType=VARCHAR},
+			#{item.EXPORTRANSLATEGUIDFORMAT,    jdbcType=VARCHAR},
+			#{item.ISACROSSFISCAL,              jdbcType=VARCHAR},
+			#{item.ACROSSFISCALFORMAT,          jdbcType=VARCHAR},
+			#{item.CACHETYPE,                   jdbcType=VARCHAR},
+			#{item.ISPUBLIC,                    jdbcType=VARCHAR},
+			#{item.TRANSACTIONCACHE,            jdbcType=VARCHAR},
+			#{item.CODETYEP,                    jdbcType=VARCHAR},
+			to_timestamp(#{item.DBVERSION,      jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF'),
+			#{item.IMPORTSTANDARD,              jdbcType=VARCHAR},
+			#{item.ISNORMVERSION,               jdbcType=VARCHAR}
+                FROM DUAL
+        </foreach>
+            ) a
+    </insert>
+
+	<insert id="batchInsertDicTable" parameterType="java.util.Map">
+        insert into FASP_T_MGDICTABLE
+            (YEAR,PROVINCE,TABLECODE,NAME,REMARK,TABLETYPE,VERSION,DBTABNAME,APPID,EXP,TABLEPART,ISSHOW,DBIMPFLAG,ISSYS,ISUSES,VIEWTABLENAME,DATASYNC,HASTRIGGER,SYNCCLASSNAME,STATUS,DBVERSION)
+		    select a.* from(
+        <foreach collection="list" item="item" separator="union all">
+            select
+			#{item.YEAR          ,jdbcType=VARCHAR},
+			#{item.PROVINCE      ,jdbcType=VARCHAR},
+			#{item.TABLECODE     ,jdbcType=VARCHAR},
+			#{item.NAME          ,jdbcType=VARCHAR},
+			#{item.REMARK        ,jdbcType=VARCHAR},
+			#{item.TABLETYPE     ,jdbcType=INTEGER},
+			#{item.VERSION       ,jdbcType=INTEGER},
+			#{item.DBTABNAME     ,jdbcType=VARCHAR},
+			#{item.APPID         ,jdbcType=VARCHAR},
+			#{item.EXP           ,jdbcType=VARCHAR},
+			#{item.TABLEPART     ,jdbcType=VARCHAR},
+			#{item.ISSHOW        ,jdbcType=INTEGER},
+			#{item.DBIMPFLAG     ,jdbcType=VARCHAR},
+			#{item.ISSYS         ,jdbcType=INTEGER},
+			#{item.ISUSES        ,jdbcType=INTEGER},
+			#{item.VIEWTABLENAME ,jdbcType=VARCHAR},
+			#{item.DATASYNC      ,jdbcType=INTEGER},
+			#{item.HASTRIGGER    ,jdbcType=INTEGER},
+			#{item.SYNCCLASSNAME ,jdbcType=VARCHAR},
+			#{item.STATUS        ,jdbcType=VARCHAR},
+			to_date(#{item.DBVERSION    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+                from DUAL
+        </foreach>
+            ) a
+    </insert>
+    <insert id="batchInsertDicColumn" parameterType="java.util.Map">
+        insert into FASP_T_MGDICCOLUMN
+            (DEID,CSID,EXP,ISSYS,DBCOLUMNCODE,ISUSES,YEAR,PROVINCE,COLUMNID,COLUMNCODE,TABLECODE,NAME,DATATYPE,DATALENGTH,SCALE,VERSION,NULLABLE,DEFAULTVALUE,DBVERSION)
+            select a.* from(
+        <foreach collection="list" item="item" separator="union all">
+            select
+			#{item.DEID         ,jdbcType=VARCHAR},
+			#{item.CSID         ,jdbcType=VARCHAR},
+			#{item.EXP          ,jdbcType=VARCHAR},
+			#{item.ISSYS        ,jdbcType=VARCHAR},
+			#{item.DBCOLUMNCODE ,jdbcType=VARCHAR},
+			#{item.ISUSES       ,jdbcType=VARCHAR},
+			#{item.YEAR         ,jdbcType=VARCHAR},
+			#{item.PROVINCE     ,jdbcType=VARCHAR},
+			#{item.COLUMNID     ,jdbcType=VARCHAR},
+			#{item.COLUMNCODE   ,jdbcType=VARCHAR},
+			#{item.TABLECODE    ,jdbcType=VARCHAR},
+			#{item.NAME         ,jdbcType=VARCHAR},
+			#{item.DATATYPE     ,jdbcType=VARCHAR},
+			#{item.DATALENGTH   ,jdbcType=VARCHAR},
+			#{item.SCALE        ,jdbcType=INTEGER},
+			#{item.VERSION      ,jdbcType=INTEGER},
+			#{item.NULLABLE     ,jdbcType=INTEGER},
+			#{item.DEFAULTVALUE ,jdbcType=VARCHAR},
+			to_date(#{item.DBVERSION    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+                from DUAL
+        </foreach>
+            ) a
+    </insert>
+    <delete id="deleteAllData">
+		delete from ${tablename}
+	</delete>
+	<select id="tableExitsData" resultType="java.lang.Integer">
+        select count(*) from ${tablename}
+    </select>
+
+    <select id="queryTableList" resultType="java.lang.String">
+        select table_name from user_tables
+    </select>
+
+    <select id="queryViewList" resultType="java.lang.String">
+        select view_name from user_views
+    </select>
+</mapper>

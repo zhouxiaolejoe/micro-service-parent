@@ -1,13 +1,13 @@
 package com.micro.service.springquartz.sync;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.micro.service.springquartz.config.TableContextHolder;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
 import com.micro.service.springquartz.mapper.target.SyncRoleMapper;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.utils.SyncDataUtils;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -24,13 +24,11 @@ import static com.micro.service.springquartz.utils.MapUtils.toLowerMapKey;
  */
 @Service
 @Slf4j
+@AllArgsConstructor
 public class SyncRoleService implements IFaspClientScheduler {
-    public static final String DEFAULT_DBVERSION = "20000101000000";
-    @Autowired
+
     OriginMapper originMapper;
-    @Autowired
     DBChangeService changeService;
-    @Autowired
     SyncRoleMapper syncRoleMapper;
 
     @Override
@@ -38,51 +36,43 @@ public class SyncRoleService implements IFaspClientScheduler {
         if (StringUtils.isEmpty(origin) || StringUtils.isEmpty(target)) {
             return;
         }
-
-        /**
-         * 切换到目标库
-         */
         try {
+            /**
+             * 切换到目标库
+             */
             changeService.changeDb(target);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String version = syncRoleMapper.queryRoleVersion();
-        version = StringUtils.isEmpty(version) ? SyncDataUtils.DEFAULT_DBVERSION : version;
-        Integer syncCount = null;
-        Integer page = 1;
-        do {
-            /**
-             * 切换到源库
-             */
-            try {
+            checkRoleTable();
+            String version = syncRoleMapper.queryRoleVersion();
+            version = StringUtils.isEmpty(version) ? SyncDataUtils.DEFAULT_DBVERSION : version;
+            Integer syncCount;
+            Integer page = 1;
+            do {
+                /**
+                 * 切换到源库
+                 */
                 changeService.changeDb(origin);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            PageHelper.startPage(page++, 10);
-            List<Map<String, Object>> datas = originMapper.queryTableDataByDBVersion("FASP_T_CAROLE", version);
+                PageHelper.startPage(page++, 1000);
+                List<Map<String, Object>> datas = originMapper.queryTableDataByDBVersion("FASP_T_CAROLE", version);
 
-            if (CollectionUtils.isEmpty(datas)) {
-                break;
-            }
+                if (CollectionUtils.isEmpty(datas)) {
+                    break;
+                }
 
-            /**
-             * 切换到目标库 写入数据
-             */
-            try {
+                /**
+                 * 切换到目标库 写入数据
+                 */
                 changeService.changeDb(target);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            for (Map<String, Object> role : datas) {
-                syncData(role);
-            }
+                for (Map<String, Object> role : datas) {
+                    syncData(role);
+                }
 
-            syncCount = datas.size();
-            log.info("TABLENAME :[ FASP_T_CAUSER ] DBVERSION :[" + version + "] DATA SIZE: [ " + (syncCount + 10 * (page - 2)) + " ]");
+                syncCount = datas.size();
+                log.info("TABLENAME :[ FASP_T_CAROLE ] DBVERSION :[" + version + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
+            }
+            while (1000 == syncCount);
+        } catch (Exception e) {
+            log.error("TABLENAME :[ FASP_T_CAROLE ] 数据同步失败");
         }
-        while (10 == syncCount);
 
     }
 
@@ -94,4 +84,18 @@ public class SyncRoleService implements IFaspClientScheduler {
         syncRoleMapper.insertRoleData(role);
         return dbversion;
     }
+
+    private void checkRoleTable() {
+        if (exitsRoleTable()) {
+            return;
+        }
+        syncRoleMapper.createRoleTable();
+    }
+
+    private Boolean exitsRoleTable() {
+        List<String> tableList = TableContextHolder.getTableData().get("tableList");
+        return CollectionUtils.isEmpty(tableList) ? false : tableList.contains("FASP_T_CAROLE");
+    }
+
+
 }

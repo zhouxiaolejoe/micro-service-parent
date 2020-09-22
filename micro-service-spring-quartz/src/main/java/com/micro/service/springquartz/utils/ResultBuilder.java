@@ -1,4 +1,4 @@
-package com.micro.service.springquartz.untils;
+package com.micro.service.springquartz.utils;
 
 import lombok.Data;
 

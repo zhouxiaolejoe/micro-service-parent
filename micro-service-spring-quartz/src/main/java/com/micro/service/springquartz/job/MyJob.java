@@ -1,23 +1,17 @@
 package com.micro.service.springquartz.job;
 
 import com.micro.service.springquartz.mapper.FaspTPubmenuMapper;
-import com.micro.service.springquartz.model.FaspTPubmenu;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.sync.IFaspClientScheduler;
-import com.micro.service.springquartz.sync.SyncRoleService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -38,10 +32,8 @@ public class MyJob extends QuartzJobBean {
     public static final String TARGET = "target";
     DBChangeService changeService;
     FaspTPubmenuMapper pubmenuMapper;
-    SyncRoleService syncRoleService;
     ApplicationContext faspContext;
 
-    @SneakyThrows
     @Override
     protected void executeInternal(JobExecutionContext context) {
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
@@ -56,12 +48,14 @@ public class MyJob extends QuartzJobBean {
                     scheduler.start(origin, target);
                 } catch (Exception e) {
                     log.error("IFaspClientScheduler run error " + scheduler.getClass().getName(), e);
+                    JobExecutionException e2 = new JobExecutionException(e);
+                    e2.setRefireImmediately(true);
                 }
             }
         }
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
-        String time = format.format(System.currentTimeMillis());
-        JobKey jobKey = context.getJobDetail().getKey();
-        log.debug(String.format("[%s]正在执行,时间: %s", jobKey, time));
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+//        String time = format.format(System.currentTimeMillis());
+//        JobKey jobKey = context.getJobDetail().getKey();
+//        log.debug(String.format("[%s]正在执行,时间: %s", jobKey, time));
     }
 }

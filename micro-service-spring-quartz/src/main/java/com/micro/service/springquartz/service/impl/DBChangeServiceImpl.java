@@ -7,6 +7,8 @@ import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.ThreadLocalDSInfo;
 import com.micro.service.springquartz.service.DBChangeService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +21,11 @@ import java.util.List;
  * @Description :
  **/
 @Service
+@Slf4j
+@AllArgsConstructor
 public class DBChangeServiceImpl implements DBChangeService {
 
-    @Autowired
     DataSourceMapper dataSourceMapper;
-    @Autowired
     private DynamicDataSource dynamicDataSource;
 
     @Override

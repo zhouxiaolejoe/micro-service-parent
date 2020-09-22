@@ -6,10 +6,10 @@ import com.micro.service.springquartz.model.QrtzJobDetails;
 import com.micro.service.springquartz.model.QuartzJobDTO;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.service.JobService;
-import com.micro.service.springquartz.untils.ResultBuilder;
+import com.micro.service.springquartz.utils.ResultBuilder;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,15 +24,12 @@ import java.util.List;
  */
 @Slf4j
 @Service
+@AllArgsConstructor
 public class JobServiceImpl implements JobService {
 
 
-    @Autowired
     QrtzJobDetailsMapper qrtzJobDetailsMapper;
-    @Autowired
     DBChangeService dbChangeService;
-
-    @Autowired
     Scheduler scheduler;
 
     @Override

@@ -1,5 +1,6 @@
 package com.micro.service.springquartz.config;
 
+import lombok.AllArgsConstructor;
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -10,9 +11,9 @@ import org.springframework.stereotype.Component;
  * @author Administrator
  */
 @Component
+@AllArgsConstructor
 public class JobFactory extends AdaptableJobFactory {
       
-    @Autowired
     private AutowireCapableBeanFactory capableBeanFactory;
   
     @Override  

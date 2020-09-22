@@ -2,11 +2,11 @@ package com.micro.service.springquartz.controller;
 
 import com.micro.service.springquartz.model.QuartzJobDTO;
 import com.micro.service.springquartz.service.JobService;
-import com.micro.service.springquartz.untils.ResultBuilder;
+import com.micro.service.springquartz.utils.ResultBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.quartz.SchedulerException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Api(tags = "任务调度")
+@AllArgsConstructor
 public class SchedulerController {
-    @Autowired
     JobService jobService;
 
     @GetMapping("/getJobList")

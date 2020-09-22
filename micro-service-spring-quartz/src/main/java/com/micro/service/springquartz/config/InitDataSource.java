@@ -3,6 +3,7 @@ package com.micro.service.springquartz.config;
 
 import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.model.DataSourceInfo;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -23,10 +24,9 @@ import java.util.List;
 @Order(-1)
 @Configuration
 @Slf4j
+@AllArgsConstructor
 public class InitDataSource implements ApplicationListener<ContextRefreshedEvent> {
-    @Autowired
-    private DynamicDataSource dynamicDataSource;
-    @Autowired
+    DynamicDataSource dynamicDataSource;
     DataSourceMapper dataSourceMapper;
 
     @Override
