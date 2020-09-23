@@ -43,7 +43,47 @@
 			#{dbversion    ,jdbcType=VARCHAR}
 		)
 	</insert>
+    <insert id="batchInsertRoleTable">
+     INSERT INTO FASP_T_CAROLE
+               (AGENCY,REMARK1,REMARK2,REMARK3,YEAR,PROVINCE,ROLETYPE,ROLENATURE,STATUS,DIVISION,BANK,
+               ADMDIV,ROLELEVEL,GUID,CODE,NAME,REMARK,ISSYS,ORDERNUM,PAYTYPEFLAG,SALARYTYPEFLAG,SPEACCTTYPEFLAG,
+               BGTTYPEFLAG,DBVERSION)
+             SELECT a.* FROM(
+            <foreach collection="list" item="item" index="index" separator="union all">
+                select
+                #{item.AGENCY                        ,jdbcType=VARCHAR},
+                #{item.REMARK1                       ,jdbcType=VARCHAR},
+                #{item.REMARK2                       ,jdbcType=VARCHAR},
+                #{item.REMARK3                       ,jdbcType=VARCHAR},
+                #{item.YEAR                          ,jdbcType=VARCHAR},
+                #{item.PROVINCE                      ,jdbcType=VARCHAR},
+                #{item.ROLETYPE                      ,jdbcType=INTEGER},
+                #{item.ROLENATURE                    ,jdbcType=INTEGER},
+                #{item.STATUS                        ,jdbcType=VARCHAR},
+                #{item.DIVISION                      ,jdbcType=VARCHAR},
+                #{item.BANK                          ,jdbcType=VARCHAR},
+                #{item.ADMDIV                        ,jdbcType=VARCHAR},
+                #{item.ROLELEVEL                     ,jdbcType=VARCHAR},
+                #{item.GUID                          ,jdbcType=VARCHAR},
+                #{item.CODE                          ,jdbcType=VARCHAR},
+                #{item.NAME                          ,jdbcType=VARCHAR},
+                #{item.REMARK                        ,jdbcType=VARCHAR},
+                #{item.ISSYS                         ,jdbcType=INTEGER},
+                #{item.ORDERNUM                      ,jdbcType=INTEGER},
+                #{item.PAYTYPEFLAG                   ,jdbcType=VARCHAR},
+                #{item.SALARYTYPEFLAG                ,jdbcType=VARCHAR},
+                #{item.SPEACCTTYPEFLAG               ,jdbcType=VARCHAR},
+                #{item.BGTTYPEFLAG                   ,jdbcType=VARCHAR},
+                to_timestamp(#{item.DBVERSION,      jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
+                    FROM DUAL
+            </foreach>
+                ) a
 
+    </insert>
+
+    <delete id="deleteAllData">
+		delete from ${tablename}
+	</delete>
 
     <update id="createRoleTable" >
 		create table FASP_T_CAROLE

@@ -1,5 +1,6 @@
 package com.micro.service.springquartz.sync;
 
+import com.github.benmanes.caffeine.cache.Cache;
 import com.github.pagehelper.PageHelper;
 import com.micro.service.springquartz.config.TableContextHolder;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
@@ -12,9 +13,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import sun.misc.BASE64Encoder;
 
+import java.lang.reflect.Method;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.micro.service.springquartz.utils.MapUtils.toLowerMapKey;
 
@@ -30,6 +38,7 @@ public class SyncRoleService implements IFaspClientScheduler {
     OriginMapper originMapper;
     DBChangeService changeService;
     SyncRoleMapper syncRoleMapper;
+    Cache<String, List<String>> caffeineCache;
 
     @Override
     public void start(String origin, String target) {
@@ -37,24 +46,19 @@ public class SyncRoleService implements IFaspClientScheduler {
             return;
         }
         try {
-            /**
-             * 切换到目标库
-             */
-            changeService.changeDb(target);
-            checkRoleTable();
-            String version = syncRoleMapper.queryRoleVersion();
-            version = StringUtils.isEmpty(version) ? SyncDataUtils.DEFAULT_DBVERSION : version;
+            String version = getRoleVersion(target);
             Integer syncCount;
             Integer page = 1;
+            Boolean isdelete = true;
             do {
                 /**
                  * 切换到源库
                  */
                 changeService.changeDb(origin);
                 PageHelper.startPage(page++, 1000);
-                List<Map<String, Object>> datas = originMapper.queryTableDataByDBVersion("FASP_T_CAROLE", version);
+                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion("FASP_T_CAROLE", version);
 
-                if (CollectionUtils.isEmpty(datas)) {
+                if (CollectionUtils.isEmpty(dsDatas)) {
                     break;
                 }
 
@@ -62,11 +66,15 @@ public class SyncRoleService implements IFaspClientScheduler {
                  * 切换到目标库 写入数据
                  */
                 changeService.changeDb(target);
-                for (Map<String, Object> role : datas) {
-                    syncData(role);
+                dsDatas = getFilterRoleTable(dsDatas);
+                if (version.equals(SyncDataUtils.DEFAULT_DBVERSION)) {
+                    isdelete = saveBatchRoles(isdelete, dsDatas);
+                } else {
+                    for (Map<String, Object> role : dsDatas) {
+                        saveOneRole(role);
+                    }
                 }
-
-                syncCount = datas.size();
+                syncCount = dsDatas.size();
                 log.info("TABLENAME :[ FASP_T_CAROLE ] DBVERSION :[" + version + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
             }
             while (1000 == syncCount);
@@ -76,13 +84,38 @@ public class SyncRoleService implements IFaspClientScheduler {
 
     }
 
+    private String getRoleVersion(String target) throws Exception {
+        /**
+         * 切换到目标库
+         */
+        changeService.changeDb(target);
+        checkRoleTable();
+        String version = syncRoleMapper.queryRoleVersion();
+        version = StringUtils.isEmpty(version) ? SyncDataUtils.DEFAULT_DBVERSION : version;
+        return version;
+    }
+
     @Transactional(rollbackFor = Exception.class)
-    Object syncData(Map<String, Object> role) {
+    Object saveOneRole(Map<String, Object> role) {
         toLowerMapKey(role);
         Object dbversion = role.get("dbversion");
         syncRoleMapper.deleteRoleData(role);
         syncRoleMapper.insertRoleData(role);
         return dbversion;
+    }
+
+    private Boolean saveBatchRoles(Boolean isdelete, List<Map<String, Object>> dsDatas) {
+        /**
+         * 首次同步清表批量写入
+         */
+        if (isdelete) {
+            syncRoleMapper.deleteAllData("FASP_T_CAROLE");
+            isdelete = false;
+        }
+        Map<String, Object> param = new HashMap<>(1);
+        param.put("list", dsDatas);
+        syncRoleMapper.batchInsertRoleTable(param);
+        return isdelete;
     }
 
     private void checkRoleTable() {
@@ -93,9 +126,50 @@ public class SyncRoleService implements IFaspClientScheduler {
     }
 
     private Boolean exitsRoleTable() {
-        List<String> tableList = TableContextHolder.getTableData().get("tableList");
-        return CollectionUtils.isEmpty(tableList) ? false : tableList.contains("FASP_T_CAROLE");
+        List<String> tableList = caffeineCache.asMap().get("tableList");
+        if (!CollectionUtils.isEmpty(tableList) && tableList.contains("FASP_T_CAROLE")) {
+            return true;
+        }
+        tableList = new ArrayList<>();
+        tableList.add("FASP_T_CAROLE");
+        Map<String, List<String>> map = new HashMap<>(1);
+        map.put("tableList", tableList);
+        TableContextHolder.setTableData(map);
+        return false;
     }
 
+    private List<Map<String, Object>> getFilterRoleTable(List<Map<String, Object>> dsDatas) {
+        return dsDatas.stream().map(x -> {
+            String dbversion = getStringValue(x.get("DBVERSION"));
+            x.put("DBVERSION", dbversion);
+            return x;
+        }).collect(Collectors.toList());
+    }
 
+    /**
+     * 转换 ORACLE TIMESTAMP
+     */
+    private String getStringValue(Object obj) {
+        if (null == obj) {
+            return "";
+        } else if (obj instanceof byte[]) {
+            return new BASE64Encoder().encode((byte[]) obj);
+        } else if (obj instanceof oracle.sql.TIMESTAMP) {
+            Timestamp timestamp = getOracleTimestamp(obj);
+            String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
+            return time;
+        }
+        return obj.toString();
+    }
+
+    private Timestamp getOracleTimestamp(Object value) {
+        try {
+            Class clz = value.getClass();
+            Method method = clz.getMethod("timestampValue", null);
+            return (Timestamp) method.invoke(value, null);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package com.micro.service.springquartz.mapper.target;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.Map;
 
 /**
@@ -20,4 +22,10 @@ public interface SyncRoleMapper {
     Integer deleteRoleData(Map<String, Object> role);
 
     Integer insertRoleData(Map<String, Object> role);
+
+    boolean batchInsertRoleTable(Map<String, Object> map);
+
+    boolean deleteAllData(@Param("tablename") String tablename);
+
+
 }

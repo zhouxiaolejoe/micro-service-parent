@@ -4,14 +4,15 @@ import com.micro.service.springquartz.mapper.FaspTPubmenuMapper;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.sync.IFaspClientScheduler;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.*;
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.TreeMap;
 

@@ -48,7 +48,6 @@ public class JobServiceImpl implements JobService {
         /**
          *  1.创建jobDetail
          */
-
         JobDetail job = JobBuilder
                 .newJob(MyJob.class)
                 .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())

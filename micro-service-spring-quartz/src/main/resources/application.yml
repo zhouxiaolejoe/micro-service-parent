@@ -56,5 +56,5 @@ spring:
       initialize-schema: never
 logging:
   level.org.springframework.web: debug
-  level.com.micro.service.springquartz.mapper: debug
+#  level.com.micro.service.springquartz.mapper: debug
   level.com.micro.service.springquartz.job: debug

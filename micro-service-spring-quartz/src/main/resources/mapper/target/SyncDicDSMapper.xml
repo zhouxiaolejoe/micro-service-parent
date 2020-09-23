@@ -109,53 +109,53 @@
     <insert id="insertTable">
 		insert into fasp_t_mgdictable(year,province,tablecode,name,remark,tabletype,version,dbtabname,appid,exp,tablepart,isshow,dbimpflag,issys,isuses,viewtablename,datasync,hastrigger,syncclassname,status,dbversion)
 		values(
-			#{year          ,jdbcType=VARCHAR},
-			#{province      ,jdbcType=VARCHAR},
-			#{tablecode     ,jdbcType=VARCHAR},
-			#{name          ,jdbcType=VARCHAR},
-			#{remark        ,jdbcType=VARCHAR},
-			#{tabletype     ,jdbcType=INTEGER},
-			#{version       ,jdbcType=INTEGER},
-			#{dbtabname     ,jdbcType=VARCHAR},
-			#{appid         ,jdbcType=VARCHAR},
-			#{exp           ,jdbcType=VARCHAR},
-			#{tablepart     ,jdbcType=VARCHAR},
-			#{isshow        ,jdbcType=INTEGER},
-			#{dbimpflag     ,jdbcType=VARCHAR},
-			#{issys         ,jdbcType=INTEGER},
-			#{isuses        ,jdbcType=INTEGER},
-			#{viewtablename ,jdbcType=VARCHAR},
-			#{datasync      ,jdbcType=INTEGER},
-			#{hastrigger    ,jdbcType=INTEGER},
-			#{syncclassname ,jdbcType=VARCHAR},
-			#{status        ,jdbcType=VARCHAR},
-			to_date(#{dbversion    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+			#{YEAR                          ,jdbcType=VARCHAR},
+			#{PROVINCE                      ,jdbcType=VARCHAR},
+			#{TABLECODE                     ,jdbcType=VARCHAR},
+			#{NAME                          ,jdbcType=VARCHAR},
+			#{REMARK                        ,jdbcType=VARCHAR},
+			#{TABLETYPE                     ,jdbcType=INTEGER},
+			#{VERSION                       ,jdbcType=INTEGER},
+			#{DBTABNAME                     ,jdbcType=VARCHAR},
+			#{APPID                         ,jdbcType=VARCHAR},
+			#{EXP                           ,jdbcType=VARCHAR},
+			#{TABLEPART                     ,jdbcType=VARCHAR},
+			#{ISSHOW                        ,jdbcType=INTEGER},
+			#{DBIMPFLAG                     ,jdbcType=VARCHAR},
+			#{ISSYS                         ,jdbcType=INTEGER},
+			#{ISUSES                        ,jdbcType=INTEGER},
+			#{VIEWTABLENAME                 ,jdbcType=VARCHAR},
+			#{DATASYNC                      ,jdbcType=INTEGER},
+			#{HASTRIGGER                    ,jdbcType=INTEGER},
+			#{SYNCCLASSNAME                 ,jdbcType=VARCHAR},
+			#{STATUS                        ,jdbcType=VARCHAR},
+			to_timestamp(#{DBVERSION        ,jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
 		)
 	</insert>
 
 
 	<insert id="insertColumn">
-		insert into fasp_t_mgdiccolumn(deid,csid,exp,issys,dbcolumncode,isuses,year,province,columnid,columncode,tablecode,name,datatype,datalength,scale,version,nullable,defaultvalue,dbversion)
+		INSERT INTO FASP_T_MGDICCOLUMN(DEID,CSID,EXP,ISSYS,DBCOLUMNCODE,ISUSES,YEAR,PROVINCE,COLUMNID,COLUMNCODE,TABLECODE,NAME,DATATYPE,DATALENGTH,SCALE,VERSION,NULLABLE,DEFAULTVALUE,DBVERSION)
 		values(
-			#{deid         ,jdbcType=VARCHAR},
-			#{csid         ,jdbcType=VARCHAR},
-			#{exp          ,jdbcType=VARCHAR},
-			#{issys        ,jdbcType=VARCHAR},
-			#{dbcolumncode ,jdbcType=VARCHAR},
-			#{isuses       ,jdbcType=VARCHAR},
-			#{year         ,jdbcType=VARCHAR},
-			#{province     ,jdbcType=VARCHAR},
-			#{columnid     ,jdbcType=VARCHAR},
-			#{columncode   ,jdbcType=VARCHAR},
-			#{tablecode    ,jdbcType=VARCHAR},
-			#{name         ,jdbcType=VARCHAR},
-			#{datatype     ,jdbcType=VARCHAR},
-			#{datalength   ,jdbcType=VARCHAR},
-			#{scale        ,jdbcType=INTEGER},
-			#{version      ,jdbcType=INTEGER},
-			#{nullable     ,jdbcType=INTEGER},
-			#{defaultvalue ,jdbcType=VARCHAR},
-			to_date(#{dbversion    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+			#{DEID                 ,jdbcType=VARCHAR},
+			#{CSID                 ,jdbcType=VARCHAR},
+			#{EXP                  ,jdbcType=VARCHAR},
+			#{ISSYS                ,jdbcType=VARCHAR},
+			#{DBCOLUMNCODE         ,jdbcType=VARCHAR},
+			#{ISUSES               ,jdbcType=VARCHAR},
+			#{YEAR                 ,jdbcType=VARCHAR},
+			#{PROVINCE             ,jdbcType=VARCHAR},
+			#{COLUMNID             ,jdbcType=VARCHAR},
+			#{COLUMNCODE           ,jdbcType=VARCHAR},
+			#{TABLECODE            ,jdbcType=VARCHAR},
+			#{NAME                 ,jdbcType=VARCHAR},
+			#{DATATYPE             ,jdbcType=VARCHAR},
+			#{DATALENGTH           ,jdbcType=VARCHAR},
+			#{SCALE                ,jdbcType=INTEGER},
+			#{VERSION              ,jdbcType=INTEGER},
+			#{NULLABLE             ,jdbcType=INTEGER},
+			#{DEFAULTVALUE         ,jdbcType=VARCHAR},
+			to_timestamp(#{DBVERSION,      jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
 		)
 	</insert>
 
@@ -299,15 +299,15 @@
 			#{item.HASTRIGGER    ,jdbcType=INTEGER},
 			#{item.SYNCCLASSNAME ,jdbcType=VARCHAR},
 			#{item.STATUS        ,jdbcType=VARCHAR},
-			to_date(#{item.DBVERSION    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+			to_timestamp(#{item.DBVERSION,      jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
                 from DUAL
         </foreach>
             ) a
     </insert>
     <insert id="batchInsertDicColumn" parameterType="java.util.Map">
-        insert into FASP_T_MGDICCOLUMN
+        INSERT INTO FASP_T_MGDICCOLUMN
             (DEID,CSID,EXP,ISSYS,DBCOLUMNCODE,ISUSES,YEAR,PROVINCE,COLUMNID,COLUMNCODE,TABLECODE,NAME,DATATYPE,DATALENGTH,SCALE,VERSION,NULLABLE,DEFAULTVALUE,DBVERSION)
-            select a.* from(
+            SELECT A.* FROM(
         <foreach collection="list" item="item" separator="union all">
             select
 			#{item.DEID         ,jdbcType=VARCHAR},
@@ -328,8 +328,8 @@
 			#{item.VERSION      ,jdbcType=INTEGER},
 			#{item.NULLABLE     ,jdbcType=INTEGER},
 			#{item.DEFAULTVALUE ,jdbcType=VARCHAR},
-			to_date(#{item.DBVERSION    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
-                from DUAL
+			to_timestamp(#{item.DBVERSION,      jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
+                FROM DUAL
         </foreach>
             ) a
     </insert>

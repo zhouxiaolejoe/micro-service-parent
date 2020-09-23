@@ -54,7 +54,7 @@ public interface SyncDicDSMapper {
 
     boolean deleteAllData(@Param("tablename") String tablename);
 
-
     List<String> queryTableList();
+
     List<String> queryViewList();
 }
