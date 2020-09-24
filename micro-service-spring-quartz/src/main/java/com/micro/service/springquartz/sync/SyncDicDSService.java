@@ -145,6 +145,11 @@ public class SyncDicDSService implements IFaspClientScheduler {
                 if (CollectionUtils.isEmpty(dsDatas)) {
                     return;
                 }
+
+                /**
+                 * 切换到目标库 写入数据
+                 */
+                changeService.changeDb(target);
                 dsDatas = getFilterDicColumnsAndDicTable(dsDatas);
                 if (version.equals(SyncDataUtils.DEFAULT_DBVERSION)) {
                     /**
@@ -159,7 +164,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
                     syncDicDSMapper.batchInsertDicTable(param);
                 } else {
                     for (Map<String, Object> data : dsDatas) {
-                        syncDicDSMapper.deleteTable(data.get("tablecode").toString());
+                        syncDicDSMapper.deleteTable(data.get("TABLECODE").toString());
                         syncDicDSMapper.insertTable(data);
                     }
                 }
@@ -169,7 +174,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("TABLENAME :[ FASP_T_DICTABLE ] 数据同步失败 [ " + e + " ]");
         }
     }
 
@@ -191,7 +196,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
         syncDicDSMapper.createDicTable();
     }
 
-    Boolean exitsDicTable() {
+    private Boolean exitsDicTable() {
         List<String> tableList = caffeineCache.asMap().get("tableList");
         if (!CollectionUtils.isEmpty(tableList) && tableList.contains("FASP_T_MGDICTABLE")) {
             return true;
@@ -334,7 +339,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
     /**
      * 检查FASP_T_MGDICCOLUMN是否存在 否则创建
      */
-    public void checkDicColumn() {
+    private void checkDicColumn() {
         if (exitsDicColumn()) {
             return;
         }
@@ -414,8 +419,8 @@ public class SyncDicDSService implements IFaspClientScheduler {
     private Timestamp getOracleTimestamp(Object value) {
         try {
             Class clz = value.getClass();
-            Method method = clz.getMethod("timestampValue", null);
-            return (Timestamp) method.invoke(value, null);
+            Method method = clz.getMethod("timestampValue", new Class[0]);
+            return (Timestamp) method.invoke(value, new Class[0]);
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;

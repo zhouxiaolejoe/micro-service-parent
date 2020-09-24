@@ -107,8 +107,8 @@
 
 
     <insert id="insertTable">
-		insert into fasp_t_mgdictable(year,province,tablecode,name,remark,tabletype,version,dbtabname,appid,exp,tablepart,isshow,dbimpflag,issys,isuses,viewtablename,datasync,hastrigger,syncclassname,status,dbversion)
-		values(
+		INSERT INTO FASP_T_MGDICTABLE (YEAR,PROVINCE,TABLECODE,NAME,REMARK,TABLETYPE,VERSION,DBTABNAME,APPID,EXP,TABLEPART,ISSHOW,DBIMPFLAG,ISSYS,ISUSES,VIEWTABLENAME,DATASYNC,HASTRIGGER,SYNCCLASSNAME,STATUS,DBVERSION)
+		VALUES(
 			#{YEAR                          ,jdbcType=VARCHAR},
 			#{PROVINCE                      ,jdbcType=VARCHAR},
 			#{TABLECODE                     ,jdbcType=VARCHAR},
@@ -274,8 +274,7 @@
     </insert>
 
 	<insert id="batchInsertDicTable" parameterType="java.util.Map">
-        insert into FASP_T_MGDICTABLE
-            (YEAR,PROVINCE,TABLECODE,NAME,REMARK,TABLETYPE,VERSION,DBTABNAME,APPID,EXP,TABLEPART,ISSHOW,DBIMPFLAG,ISSYS,ISUSES,VIEWTABLENAME,DATASYNC,HASTRIGGER,SYNCCLASSNAME,STATUS,DBVERSION)
+         insert into FASP_T_MGDICTABLE (YEAR,PROVINCE,TABLECODE,NAME,REMARK,TABLETYPE,VERSION,DBTABNAME,APPID,EXP,TABLEPART,ISSHOW,DBIMPFLAG,ISSYS,ISUSES,VIEWTABLENAME,DATASYNC,HASTRIGGER,SYNCCLASSNAME,STATUS,DBVERSION)
 		    select a.* from(
         <foreach collection="list" item="item" separator="union all">
             select
@@ -300,7 +299,7 @@
 			#{item.SYNCCLASSNAME ,jdbcType=VARCHAR},
 			#{item.STATUS        ,jdbcType=VARCHAR},
 			to_timestamp(#{item.DBVERSION,      jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
-                from DUAL
+                 from DUAL
         </foreach>
             ) a
     </insert>

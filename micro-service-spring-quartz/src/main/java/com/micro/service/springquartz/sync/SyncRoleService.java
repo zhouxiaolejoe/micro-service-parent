@@ -96,12 +96,9 @@ public class SyncRoleService implements IFaspClientScheduler {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    Object saveOneRole(Map<String, Object> role) {
-        toLowerMapKey(role);
-        Object dbversion = role.get("dbversion");
+    void saveOneRole(Map<String, Object> role) {
         syncRoleMapper.deleteRoleData(role);
         syncRoleMapper.insertRoleData(role);
-        return dbversion;
     }
 
     private Boolean saveBatchRoles(Boolean isdelete, List<Map<String, Object>> dsDatas) {

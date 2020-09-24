@@ -3,8 +3,8 @@ spring:
     proxy-target-class: true
   datasource:
     url: jdbc:oracle:thin:@127.0.0.1:1521/xe
-    username: guest
-    password: guest
+    username: quartz
+    password: quartz
     driverClassName: oracle.jdbc.OracleDriver
     type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 5
@@ -45,8 +45,8 @@ spring:
             useProperties: true
             tablePrefix: QRTZ_
           datasource:
-            username: guest1
-            password: guest1
+            username: quartz
+            password: quartz
             jdbcUrl: jdbc:oracle:thin:@127.0.0.1:1521/xe
             driver-class-name: oracle.jdbc.OracleDriver
             validationQuery: select 1 from dual
