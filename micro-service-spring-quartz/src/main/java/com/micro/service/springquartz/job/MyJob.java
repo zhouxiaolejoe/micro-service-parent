@@ -31,8 +31,6 @@ import java.util.TreeMap;
 public class MyJob extends QuartzJobBean {
     public static final String ORIGIN = "origin";
     public static final String TARGET = "target";
-    DBChangeService changeService;
-    FaspTPubmenuMapper pubmenuMapper;
     ApplicationContext faspContext;
 
     @Override

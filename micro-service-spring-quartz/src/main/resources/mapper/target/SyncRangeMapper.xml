@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micro.service.springquartz.mapper.target.SyncRangeMapper">
+    <select id="exitsView" resultType="java.lang.Integer" >
+		select count(*) from user_views where lower(view_name)=#{viewName}
+	</select>
+    <delete id="deleteView" >
+		DROP VIEW ${viewName}
+	</delete>
+
+
+
+    <select id="exitsTable" resultType="java.lang.Integer" >
+		select count(*) from user_tables where lower(table_name)=#{tableName}
+	</select>
+
+
+    <insert id="insertData">
+		insert into ${tablename}(guid,code,name,superguid,levelno,isleaf,status,remark,pinyin,year,province,admdiv,dbversion)
+		values(
+			#{data.guid       ,jdbcType=VARCHAR},
+			#{data.code       ,jdbcType=VARCHAR},
+			#{data.name       ,jdbcType=VARCHAR},
+			#{data.superguid  ,jdbcType=VARCHAR},
+			#{data.levelno    ,jdbcType=INTEGER},
+			#{data.isleaf     ,jdbcType=INTEGER},
+			#{data.status     ,jdbcType=VARCHAR},
+			#{data.remark     ,jdbcType=VARCHAR},
+			#{data.pinyin     ,jdbcType=VARCHAR},
+			#{data.year       ,jdbcType=VARCHAR},
+			#{data.province   ,jdbcType=VARCHAR},
+			#{data.admdiv     ,jdbcType=VARCHAR},
+			to_date(#{data.dbversion,jdbcType=VARCHAR},'yyyymmddhh24miss')
+		)
+	</insert>
+
+
+    <update id="createTable" >
+		create table ${tableName}
+		(
+		    CODE       VARCHAR2(50) not null,
+			STATUS     CHAR(1),
+			YEAR       CHAR(4) ,
+			PROVINCE   VARCHAR2(9) ,
+			ADMDIV     VARCHAR2(50) ,
+			GUID       VARCHAR2(50) not null,
+			ISLEAF     NUMBER(1),
+			NAME       VARCHAR2(200) not null,
+			DESGUID    VARCHAR2(32),
+			LEVELNO    NUMBER(1),
+			SRCSCALE   NUMBER(18,4),
+			REMARK     VARCHAR2(500),
+			STARTTIME  VARCHAR2(17),
+		  	CREATETIME VARCHAR2(17),
+			PINYIN     VARCHAR2(200),
+		    ALIAS      VARCHAR2(200),
+	  		VERSION    NUMBER(9),
+			SUPERGUID  VARCHAR2(32),
+			ENDTIME    VARCHAR2(17),
+			SRCGUID    VARCHAR2(32),
+			DBVERSION  TIMESTAMP(6),
+			CANCELTIME VARCHAR2(17),
+			ENABLE     CHAR(1)
+		)
+	</update>
+
+
+    <delete id="deleteData">
+		delete from ${tablename} where guid = #{data.guid,jdbcType=VARCHAR}
+        <choose>
+            <when test=" data.year != null and data.year != '' ">
+                and year = #{data.year,jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                and year is null
+            </otherwise>
+        </choose>
+        <choose>
+            <when test=" data.province != null and data.province != '' ">
+                and province = #{data.province,jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                and province is null
+            </otherwise>
+        </choose>
+	</delete>
+
+    <insert id="batchInsertData" parameterType="java.util.Map">
+        insert into ${tablename}
+            (GUID,CODE,NAME,SUPERGUID,LEVELNO,ISLEAF,STATUS,REMARK,PINYIN,YEAR,PROVINCE,ADMDIV,DBVERSION)
+            select a.* from(
+        <foreach collection="list" item="item" separator="union all">
+            select
+                #{item.GUID       ,jdbcType=VARCHAR},
+                #{item.CODE       ,jdbcType=VARCHAR},
+                #{item.NAME       ,jdbcType=VARCHAR},
+                #{item.SUPERGUID  ,jdbcType=VARCHAR},
+                #{item.LEVELNO    ,jdbcType=INTEGER},
+                #{item.ISLEAF     ,jdbcType=INTEGER},
+                #{item.STATUS     ,jdbcType=VARCHAR},
+                #{item.REMARK     ,jdbcType=VARCHAR},
+                #{item.PINYIN     ,jdbcType=VARCHAR},
+                #{item.YEAR       ,jdbcType=VARCHAR},
+                #{item.PROVINCE   ,jdbcType=VARCHAR},
+                #{item.ADMDIV     ,jdbcType=VARCHAR},
+                to_date(#{item.DBVERSION,jdbcType=VARCHAR},'yyyymmddhh24miss')
+                from dual
+        </foreach>
+            ) a
+    </insert>
+    <delete id="deleteAllData">
+		delete from ${tablename}
+	</delete>
+</mapper>

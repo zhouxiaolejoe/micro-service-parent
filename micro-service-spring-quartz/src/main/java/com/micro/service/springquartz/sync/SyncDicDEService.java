@@ -4,13 +4,12 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.pagehelper.PageHelper;
 import com.micro.service.springquartz.config.TableContextHolder;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
-import com.micro.service.springquartz.mapper.target.SyncRoleMapper;
+import com.micro.service.springquartz.mapper.target.SyncDicDEMapper;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.utils.SyncDataUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import sun.misc.BASE64Encoder;
@@ -24,43 +23,42 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.micro.service.springquartz.utils.MapUtils.toLowerMapKey;
-
 /**
- * 同步用户表内容
- * Created by wengy on 2019/11/20.
+ * @ClassName SyncDicDEService
+ * @Description TODO
+ * @Author Administrator
+ * @Date 2020/9/24 14:38
+ * @Version 1.0.0
  */
+
 @Service
 @Slf4j
 @AllArgsConstructor
-public class SyncRoleService implements IFaspClientScheduler {
+public class SyncDicDEService implements IFaspClientScheduler {
 
-    OriginMapper originMapper;
-    DBChangeService changeService;
-    SyncRoleMapper syncRoleMapper;
+    SyncDicDEMapper syncDicDEMapper;
     Cache<String, List<String>> caffeineCache;
-    public static final String FASP_T_CAROLE = "FASP_T_CAROLE";
-
+    DBChangeService changeService;
+    OriginMapper originMapper;
+    public static final String FASP_T_DICDE = "FASP_T_DICDE";
     @Override
     public void start(String origin, String target) {
-        if (StringUtils.isEmpty(origin) || StringUtils.isEmpty(target)) {
-            return;
-        }
+
         try {
-            String version = getRoleVersion(target);
+            String version = getDicdeVersion(target);
+            int page = 1;
             Integer syncCount;
-            Integer page = 1;
             Boolean isdelete = true;
+
             do {
                 /**
                  * 切换到源库
                  */
                 changeService.changeDb(origin);
                 PageHelper.startPage(page++, 1000);
-                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion(FASP_T_CAROLE, version);
-
+                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion(FASP_T_DICDE, version);
                 if (CollectionUtils.isEmpty(dsDatas)) {
-                    break;
+                    return;
                 }
 
                 /**
@@ -68,84 +66,95 @@ public class SyncRoleService implements IFaspClientScheduler {
                  */
                 changeService.changeDb(target);
                 //使用typeHandler替换
-//                dsDatas = getFilterRoleTable(dsDatas);
+//                dsDatas = getFilterDicDe(dsDatas);
                 if (version.equals(SyncDataUtils.DEFAULT_DBVERSION)) {
-                    isdelete = saveBatchRoles(isdelete, dsDatas);
+                    isdelete = saveBatchDicde(isdelete, dsDatas);
                 } else {
-                    for (Map<String, Object> role : dsDatas) {
-                        saveOneRole(role);
-                    }
+                    saveOneDicde(dsDatas);
                 }
                 syncCount = dsDatas.size();
-                log.info("TABLENAME :[ FASP_T_CAROLE ] DBVERSION :[" + version + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
-            }
-            while (1000 == syncCount);
+                log.info("TABLENAME :[ FASP_T_DICDE ] DBVERSION :[" + version + "  data size=" + (syncCount + 1000 * (page - 2)) + " ]");
+
+            } while (syncCount == 1000);
+
+
         } catch (Exception e) {
-            log.error("TABLENAME :[ FASP_T_CAROLE ] 数据同步失败 [ " + e + " ]");
+            log.error("TABLENAME :[ FASP_T_DICDE ] 数据同步失败 [ " + e + " ]");
         }
 
     }
 
-    private String getRoleVersion(String target) throws Exception {
-        /**
-         * 切换到目标库
-         */
-        changeService.changeDb(target);
-        checkRoleTable();
-        String version = syncRoleMapper.queryRoleVersion();
-        version = StringUtils.isEmpty(version) ? SyncDataUtils.DEFAULT_DBVERSION : version;
-        return version;
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    void saveOneRole(Map<String, Object> role) {
-        syncRoleMapper.deleteRoleData(role);
-        syncRoleMapper.insertRoleData(role);
-    }
-
-    private Boolean saveBatchRoles(Boolean isdelete, List<Map<String, Object>> dsDatas) {
-        /**
-         * 首次同步清表批量写入
-         */
-        if (isdelete) {
-            syncRoleMapper.deleteAllData(FASP_T_CAROLE);
-            isdelete = false;
-        }
-        Map<String, Object> param = new HashMap<>(1);
-        param.put("list", dsDatas);
-        syncRoleMapper.batchInsertRoleTable(param);
-        return isdelete;
-    }
-
-    private void checkRoleTable() {
-        if (exitsRoleTable()) {
+    /**
+     * 检查FASP_T_DICDE是否存在 否则创建
+     */
+    private void checkDicde() {
+        if (exitsDicde()) {
             return;
         }
-        syncRoleMapper.createRoleTable();
+        syncDicDEMapper.createDeTable();
     }
-
-    private Boolean exitsRoleTable() {
+    /**
+     * 判断FASP_T_DICDE是否存在
+     */
+    private Boolean exitsDicde() {
         Map<String, List<String>> tableData = TableContextHolder.getTableData();
         Map<String, List<String>> map = new HashMap<>(1);
         List<String> tableList =null;
         if(!CollectionUtils.isEmpty(tableData)){
             tableList = tableData.get("tableList");
-            if (!CollectionUtils.isEmpty(tableList) && tableList.contains(FASP_T_CAROLE)) {
+            if (!CollectionUtils.isEmpty(tableList) && tableList.contains(FASP_T_DICDE)) {
                 return true;
             }
-            tableList.add(FASP_T_CAROLE);
+            tableList.add(FASP_T_DICDE);
             map.put("tableList", tableList);
             TableContextHolder.setTableData(map);
             return false;
         }
         tableList = new ArrayList<>();
-        tableList.add(FASP_T_CAROLE);
+        tableList.add(FASP_T_DICDE);
         map.put("tableList", tableList);
         TableContextHolder.setTableData(map);
         return false;
     }
 
-    private List<Map<String, Object>> getFilterRoleTable(List<Map<String, Object>> dsDatas) {
+
+
+    private void saveOneDicde(List<Map<String, Object>> dsDatas) {
+        for (Map<String, Object> data : dsDatas) {
+            syncDicDEMapper.deleteDE(data.get("GUID").toString());
+            syncDicDEMapper.insertDE(data);
+        }
+    }
+
+    private Boolean saveBatchDicde(Boolean isdelete, List<Map<String, Object>> dsDatas) {
+        /**
+         * 首次同步清表批量写入
+         */
+        if (isdelete) {
+            syncDicDEMapper.deleteAllData(FASP_T_DICDE);
+            isdelete = false;
+        }
+        Map<String, Object> param = new HashMap<>(1);
+        param.put("list", dsDatas);
+        syncDicDEMapper.batchInsertDicDE(param);
+        return isdelete;
+    }
+
+    private String getDicdeVersion(String target) throws Exception {
+        /**
+         * 切换到目标库
+         */
+        changeService.changeDb(target);
+        checkDicde();
+        String version = syncDicDEMapper.queryDEMaxVersion();
+        version = StringUtils.isEmpty(version) ? SyncDataUtils.DEFAULT_DBVERSION : version;
+        return version;
+    }
+
+    /**
+     * 过滤FASP_T_DICDE分类(如项目库、基础库、预算库所注册的表)
+     */
+    private List<Map<String, Object>> getFilterDicDe(List<Map<String, Object>> dsDatas) {
         return dsDatas.stream().map(x -> {
             String dbversion = getStringValue(x.get("DBVERSION"));
             x.put("DBVERSION", dbversion);
@@ -172,8 +181,8 @@ public class SyncRoleService implements IFaspClientScheduler {
     private Timestamp getOracleTimestamp(Object value) {
         try {
             Class clz = value.getClass();
-            Method method = clz.getMethod("timestampValue", null);
-            return (Timestamp) method.invoke(value, null);
+            Method method = clz.getMethod("timestampValue", new Class[0]);
+            return (Timestamp) method.invoke(value, new Class[0]);
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;

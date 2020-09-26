@@ -7,6 +7,8 @@ import com.micro.service.springquartz.config.DBContextHolder;
 import com.micro.service.springquartz.config.TableContextHolder;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
 import com.micro.service.springquartz.mapper.target.SyncDicDSMapper;
+import com.micro.service.springquartz.mapper.target.SyncRangeMapper;
+import com.micro.service.springquartz.model.Dic3SyncDSPO;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.utils.SyncDataUtils;
 import lombok.AllArgsConstructor;
@@ -26,7 +28,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Created by wengy on 2019/11/20.
+ * Created by zxl on 2019/11/20.
  */
 @Slf4j
 @Service("aSyncDicDSService")
@@ -37,14 +39,21 @@ public class SyncDicDSService implements IFaspClientScheduler {
     SyncDicDSMapper syncDicDSMapper;
     DBChangeService changeService;
     OriginMapper originMapper;
+    SyncRangeMapper syncRangeMapper;
     private static int count = 0;
+    public static final String FASP_T_DICDS = "FASP_T_DICDS";
+    public static final String FASP_T_DICCOLUMN = "FASP_T_DICCOLUMN";
+    public static final String FASP_T_MGDICCOLUMN = "FASP_T_MGDICCOLUMN";
+    public static final String FASP_T_DICTABLE = "FASP_T_DICTABLE";
+    public static final String FASP_T_MGDICTABLE = "FASP_T_MGDICTABLE";
+    public static final String FASP_T_DIC3SYNCDS = "FASP_T_DIC3SYNCDS";
 
     @Override
     public void start(String origin, String target) {
         saveUserTableView(target);
-        syncDicds(origin, target);
         syncDicTable(origin, target);
         syncDicColumns(origin, target);
+        syncDicds(origin, target);
     }
 
     /**
@@ -53,9 +62,6 @@ public class SyncDicDSService implements IFaspClientScheduler {
     private void syncDicds(String origin, String target) {
         try {
 
-            /**
-             * 切换到目标库
-             */
             String version = getDicdsVersion(target);
 
             int page = 1;
@@ -67,7 +73,8 @@ public class SyncDicDSService implements IFaspClientScheduler {
                  */
                 changeService.changeDb(origin);
                 PageHelper.startPage(page++, 1000);
-                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion("FASP_T_DICDS", version);
+                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion(FASP_T_DICDS, version);
+
                 if (CollectionUtils.isEmpty(dsDatas)) {
                     return;
                 }
@@ -83,12 +90,90 @@ public class SyncDicDSService implements IFaspClientScheduler {
                 } else {
                     saveOneDicds(dsDatas);
                 }
+//                checkDic3syncdsTable();
+//                syncFaspDic3();
+//                for (Map<String, Object> dsData : dsDatas) {
+//                    String elementcode = dsData.get("ELEMENTCODE").toString().toUpperCase();
+//                    if (!StringUtils.isEmpty(elementcode) && !("AGENCY").equals(elementcode)) {
+//                        Dic3SyncDSPO po = new Dic3SyncDSPO();
+//                        po.setElementcode(elementcode);
+//                        po.setTablecode(dsData.get("TABLECODE").toString());
+//                        po.setTablename("FASP_T_PUP" + dsData.get("CODE").toString());
+//                        po.setVersion(dsData.get("VERSION").toString());
+//                        checkTable(po);
+//                        checkTableVeiws(po);
+//                        syncElement(po);
+//                    }
+//                }
                 syncCount = dsDatas.size();
                 log.info("TABLENAME :[ FASP_T_DICDS ] DBVERSION :[" + version + "  data size=" + (syncCount + 1000 * (page - 2)) + " ]");
             } while (1000 == syncCount);
         } catch (Exception e) {
             log.error("TABLENAME :[ FASP_T_DICDS ] 数据同步失败 [ " + e + " ]");
         }
+    }
+
+    private void syncElement(Dic3SyncDSPO po) {
+
+
+    }
+
+    private void checkTable(Dic3SyncDSPO po) {
+        String tablename = po.getTablename().trim().toUpperCase();
+        if (tablename.length() > 30) {
+            tablename = tablename.substring(0, 30);
+        }
+        if (!exitsTable(tablename)) {
+            if (!exitsView(tablename)) {
+                List<Map<String, Object>> maps = syncDicDSMapper.selectDicColumnData(po.getTablecode());
+                createTableDynamic(tablename, maps);
+            }
+        }
+    }
+
+    public void createTableDynamic(String tablename, List<Map<String, Object>> list) {
+        StringBuffer sql = new StringBuffer();
+        for (int i = 0; i < list.size(); i++) {
+            String dbcolumncode = list.get(i).get("DBCOLUMNCODE").toString();
+            String datatype = list.get(i).get("DATATYPE").toString();
+            String datalength = list.get(i).get("DATALENGTH").toString();
+            sql.append(dbcolumncode);
+            sql.append(" ");
+            sql.append(datatype);
+            if (!datatype.toLowerCase().contains("timestamp")) {
+                sql.append("(");
+                sql.append(datalength);
+                sql.append(")");
+            }
+            if (i < list.size() - 1) {
+                sql.append(",");
+            }
+        }
+        syncDicDSMapper.createTableDynamic(tablename, sql.toString());
+    }
+
+    private void checkTableVeiws(Dic3SyncDSPO po) {
+        String tablename = po.getTablename().trim().toUpperCase();
+        tablename = tablename.replace("P#", "");
+        if (tablename.length() > 30) {
+            tablename = tablename.substring(0, 30);
+        }
+        String view = tablename.replace("P#", "").replace("_T_", "_V_");
+        if (view.length() > 30) {
+            view = view.substring(0, 30);
+        }
+        if (!exitsView(view)) {
+            syncDicDSMapper.createElementcodeView(tablename, view);
+            syncDicDSMapper.updateElementcodeView(po.getElementcode(), view);
+        }
+    }
+
+    public void syncFaspDic3() {
+        List<Dic3SyncDSPO> pos = syncDicDSMapper.querySyncElementsFromDS();
+        for (Dic3SyncDSPO po : pos) {
+            syncDicDSMapper.insertSyncElements(po);
+        }
+        syncDicDSMapper.deleteSyncElements();
     }
 
     /**
@@ -105,7 +190,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
 
                 changeService.changeDb(origin);
                 PageHelper.startPage(page++, 1000);
-                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion("FASP_T_MGDICCOLUMN", version);
+                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion(FASP_T_DICCOLUMN, version);
                 if (CollectionUtils.isEmpty(dsDatas)) {
                     return;
                 }
@@ -114,7 +199,8 @@ public class SyncDicDSService implements IFaspClientScheduler {
                  * 切换到目标库 写入数据
                  */
                 changeService.changeDb(target);
-                dsDatas = getFilterDicColumnsAndDicTable(dsDatas);
+                //使用typeHandler替换
+//                dsDatas = getFilterDicColumnsAndDicTable(dsDatas);
                 if (version.equals(SyncDataUtils.DEFAULT_DBVERSION)) {
                     isdelete = saveBatchDicColumns(isdelete, dsDatas);
                 } else {
@@ -141,7 +227,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
             do {
                 changeService.changeDb(origin);
                 PageHelper.startPage(page++, 1000);
-                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion("FASP_T_DICTABLE", version);
+                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion(FASP_T_DICTABLE, version);
                 if (CollectionUtils.isEmpty(dsDatas)) {
                     return;
                 }
@@ -150,23 +236,12 @@ public class SyncDicDSService implements IFaspClientScheduler {
                  * 切换到目标库 写入数据
                  */
                 changeService.changeDb(target);
-                dsDatas = getFilterDicColumnsAndDicTable(dsDatas);
+                //使用typeHandler替换
+//                dsDatas = getFilterDicColumnsAndDicTable(dsDatas);
                 if (version.equals(SyncDataUtils.DEFAULT_DBVERSION)) {
-                    /**
-                     * 首次同步清表批量写入
-                     */
-                    if (isdelete) {
-                        syncDicDSMapper.deleteAllData("FASP_T_MGDICTABLE");
-                        isdelete = false;
-                    }
-                    Map<String, Object> param = new HashMap<>(1);
-                    param.put("list", dsDatas);
-                    syncDicDSMapper.batchInsertDicTable(param);
+                    isdelete = saveBatchDicTable(isdelete, dsDatas);
                 } else {
-                    for (Map<String, Object> data : dsDatas) {
-                        syncDicDSMapper.deleteTable(data.get("TABLECODE").toString());
-                        syncDicDSMapper.insertTable(data);
-                    }
+                    saveOneDicTable(dsDatas);
                 }
                 syncCount = dsDatas.size();
                 log.info("TABLENAME :[ FASP_T_DICTABLE ] DBVERSION :[" + version + "  data size=" + (syncCount + 1000 * (page - 2)) + " ]");
@@ -178,35 +253,25 @@ public class SyncDicDSService implements IFaspClientScheduler {
         }
     }
 
-    private String getDicTableVersion(String target) throws Exception {
-        changeService.changeDb(target);
-        checkDicTable();
-        String version = syncDicDSMapper.queryTableMaxVersion();
-        version = StringUtils.isEmpty(version) ? SyncDataUtils.DEFAULT_DBVERSION : version;
-        return version;
+    /**
+     * 单条保存FASP_T_DICDS
+     */
+    private void saveOneDicds(List<Map<String, Object>> dsDatas) {
+        for (Map<String, Object> data : dsDatas) {
+            syncDicDSMapper.deleteDS(data.get("GUID").toString());
+            syncDicDSMapper.insertDS(data);
+        }
     }
 
     /**
-     * 检查FASP_T_DICTABLE是否存在 否则创建
+     * 单条保存FASP_T_DICTABLE
      */
-    private void checkDicTable() {
-        if (exitsDicTable()) {
-            return;
+    private void saveOneDicTable(List<Map<String, Object>> dsDatas) {
+        for (Map<String, Object> data : dsDatas) {
+            syncDicDSMapper.deleteTable(data.get("TABLECODE").toString());
+            syncDicDSMapper.insertTable(data);
         }
-        syncDicDSMapper.createDicTable();
     }
-
-    private Boolean exitsDicTable() {
-        List<String> tableList = caffeineCache.asMap().get("tableList");
-        if (!CollectionUtils.isEmpty(tableList) && tableList.contains("FASP_T_MGDICTABLE")) {
-            return true;
-        }
-        tableList = new ArrayList<>();
-        tableList.add("FASP_T_MGDICTABLE");
-        caffeineCache.asMap().put("tableList", tableList);
-        return false;
-    }
-
 
     /**
      * 单条保存FASP_T_DICCOLUMN
@@ -216,6 +281,37 @@ public class SyncDicDSService implements IFaspClientScheduler {
             syncDicDSMapper.deleteColumn(data.get("TABLECODE").toString(), data.get("COLUMNCODE").toString());
             syncDicDSMapper.insertColumn(data);
         }
+    }
+
+    /**
+     * 批量保存FASP_T_DICDS
+     */
+    private Boolean saveBatchDicds(Boolean isdelete, List<Map<String, Object>> dsDatas) {
+        /**
+         * 首次同步清表批量写入
+         */
+        if (isdelete) {
+            syncDicDSMapper.deleteAllData("FASP_T_DICDS");
+            isdelete = false;
+        }
+        Map<String, Object> param = new HashMap<>(1);
+        param.put("list", dsDatas);
+        syncDicDSMapper.batchInsertDicds(param);
+        return isdelete;
+    }
+
+    private Boolean saveBatchDicTable(Boolean isdelete, List<Map<String, Object>> dsDatas) {
+        /**
+         * 首次同步清表批量写入
+         */
+        if (isdelete) {
+            syncDicDSMapper.deleteAllData("FASP_T_MGDICTABLE");
+            isdelete = false;
+        }
+        Map<String, Object> param = new HashMap<>(1);
+        param.put("list", dsDatas);
+        syncDicDSMapper.batchInsertDicTable(param);
+        return isdelete;
     }
 
     /**
@@ -236,6 +332,31 @@ public class SyncDicDSService implements IFaspClientScheduler {
     }
 
     /**
+     * 获取FASP_T_DICDS version
+     */
+    private String getDicdsVersion(String target) throws Exception {
+        /**
+         * 切换到目标库
+         */
+        changeService.changeDb(target);
+        checkDicds();
+        String version = syncDicDSMapper.queryDSMaxVersion();
+        version = StringUtils.isEmpty(version) ? SyncDataUtils.DEFAULT_DBVERSION : version;
+        return version;
+    }
+
+    /**
+     * 获取FASP_T_DICTable version
+     */
+    private String getDicTableVersion(String target) throws Exception {
+        changeService.changeDb(target);
+        checkDicTable();
+        String version = syncDicDSMapper.queryTableMaxVersion();
+        version = StringUtils.isEmpty(version) ? SyncDataUtils.DEFAULT_DBVERSION : version;
+        return version;
+    }
+
+    /**
      * 获取FASP_T_DICCOLUMN version
      */
     private String getDicColumnsVersion(String target) throws Exception {
@@ -246,43 +367,116 @@ public class SyncDicDSService implements IFaspClientScheduler {
         return version;
     }
 
-    /**
-     * 获取FASP_T_DICDS version
-     */
-    private String getDicdsVersion(String target) throws Exception {
-        changeService.changeDb(target);
-        checkDicds();
-        String version = syncDicDSMapper.queryDSMaxVersion();
-        version = StringUtils.isEmpty(version) ? SyncDataUtils.DEFAULT_DBVERSION : version;
-        return version;
+    private void checkDic3syncdsTable() {
+        if (exitsTable(FASP_T_DIC3SYNCDS)) {
+            return;
+        }
+        syncDicDSMapper.createDic3syncdsTable();
     }
 
     /**
-     * 单条保存FASP_T_DICDS
+     * 检查FASP_T_DICDS是否存在 否则创建
      */
-    private void saveOneDicds(List<Map<String, Object>> dsDatas) {
-        for (Map<String, Object> data : dsDatas) {
-            syncDicDSMapper.deleteDS(data.get("GUID").toString());
-            syncDicDSMapper.insertDS(data);
+    private void checkDicds() {
+        if (exitsTable(FASP_T_DICDS)) {
+            return;
         }
+        syncDicDSMapper.createDs();
     }
 
     /**
-     * 批量保存FASP_T_DICDS
+     * 检查FASP_T_DICTABLE是否存在 否则创建
      */
-    private Boolean saveBatchDicds(Boolean isdelete, List<Map<String, Object>> dsDatas) {
-        /**
-         * 首次同步清表批量写入
-         */
-        if (isdelete) {
-            syncDicDSMapper.deleteAllData("FASP_T_DICDS");
-            isdelete = false;
+    private void checkDicTable() {
+        if (exitsTable(FASP_T_MGDICTABLE)) {
+            return;
         }
-        Map<String, Object> param = new HashMap<>(1);
-        param.put("list", dsDatas);
-        syncDicDSMapper.batchInsertDicds(param);
-        return isdelete;
+        syncDicDSMapper.createDicTable();
     }
+
+    /**
+     * 检查FASP_T_MGDICCOLUMN是否存在 否则创建
+     */
+    private void checkDicColumn() {
+        if (exitsTable(FASP_T_MGDICCOLUMN)) {
+            return;
+        }
+        syncDicDSMapper.createDicColumn();
+    }
+
+    /**
+     * 判断表是否存在
+     */
+    private Boolean exitsTable(String tablename) {
+        Map<String, List<String>> tableData = TableContextHolder.getTableData();
+        Map<String, List<String>> map = new HashMap<>(1);
+        List<String> tableList = null;
+        if (!CollectionUtils.isEmpty(tableData)) {
+            tableList = tableData.get("tableList");
+            if (!CollectionUtils.isEmpty(tableList) && tableList.contains(tablename)) {
+                return true;
+            }
+            tableList.add(tablename);
+            map.put("tableList", tableList);
+            TableContextHolder.setTableData(map);
+            return false;
+        }
+        tableList = new ArrayList<>();
+        tableList.add(tablename);
+        map.put("tableList", tableList);
+        TableContextHolder.setTableData(map);
+        return false;
+    }
+
+    Boolean exitsView(String viewName) {
+        Map<String, List<String>> viewData = TableContextHolder.getTableData();
+        Map<String, List<String>> map = new HashMap<>(1);
+        List<String> viewList = null;
+        if (!CollectionUtils.isEmpty(viewList)) {
+            viewList = viewData.get("viewList");
+            if (!CollectionUtils.isEmpty(viewList) && viewList.contains(viewName)) {
+                return true;
+            }
+            viewList.add(viewName);
+            map.put("viewList", viewList);
+            TableContextHolder.setTableData(map);
+            return false;
+        }
+        viewList = new ArrayList<>();
+        viewList.add(viewName);
+        map.put("viewList", viewList);
+        TableContextHolder.setTableData(map);
+        return false;
+    }
+
+
+//    /**
+//     * 判断FASP_T_DICTABLE是否存在
+//     */
+//    private Boolean exitsDicTable() {
+//        List<String> tableList = caffeineCache.asMap().get("tableList");
+//        if (!CollectionUtils.isEmpty(tableList) && tableList.contains("FASP_T_MGDICTABLE")) {
+//            return true;
+//        }
+//        tableList = new ArrayList<>();
+//        tableList.add("FASP_T_MGDICTABLE");
+//        caffeineCache.asMap().put("tableList", tableList);
+//        return false;
+//    }
+//
+//    /**
+//     * 判断FASP_T_MGDICCOLUMN是否存在
+//     */
+//    private Boolean exitsDicColumn() {
+//        List<String> tableList = caffeineCache.asMap().get("tableList");
+//        if (!CollectionUtils.isEmpty(tableList) && tableList.contains("FASP_T_MGDICCOLUMN")) {
+//            return true;
+//        }
+//        tableList = new ArrayList<>();
+//        tableList.add("FASP_T_MGDICCOLUMN");
+//        caffeineCache.asMap().put("tableList", tableList);
+//        return false;
+//    }
 
     /**
      * 过滤FASP_T_DICCOLUMN分类(如项目库、基础库、预算库所注册的表)
@@ -317,8 +511,9 @@ public class SyncDicDSService implements IFaspClientScheduler {
                         /**
                          * 转换 ORACLE TIMESTAMP
                          */
-                        String dbversion = getStringValue(y.get("DBVERSION"));
-                        y.put("DBVERSION", dbversion);
+                        //使用typeHandler替换
+//                        String dbversion = getStringValue(y.get("DBVERSION"));
+//                        y.put("DBVERSION", dbversion);
                         return y;
                     }
             ).collect(Collectors.toList());
@@ -326,53 +521,6 @@ public class SyncDicDSService implements IFaspClientScheduler {
         return dsDatas;
     }
 
-    /**
-     * 检查FASP_T_DICDS是否存在 否则创建
-     */
-    private void checkDicds() {
-        if (exitsDicds()) {
-            return;
-        }
-        syncDicDSMapper.createDs();
-    }
-
-    /**
-     * 检查FASP_T_MGDICCOLUMN是否存在 否则创建
-     */
-    private void checkDicColumn() {
-        if (exitsDicColumn()) {
-            return;
-        }
-        syncDicDSMapper.createDicColumn();
-    }
-
-    /**
-     * 判断FASP_T_DICDS是否存在
-     */
-    private Boolean exitsDicds() {
-        List<String> tableList = caffeineCache.asMap().get("tableList");
-        if (!CollectionUtils.isEmpty(tableList) && tableList.contains("FASP_T_DICDS")) {
-            return true;
-        }
-        tableList = new ArrayList<>();
-        tableList.add("FASP_T_DICDS");
-        caffeineCache.asMap().put("tableList", tableList);
-        return false;
-    }
-
-    /**
-     * 判断FASP_T_MGDICCOLUMN是否存在
-     */
-    private Boolean exitsDicColumn() {
-        List<String> tableList = caffeineCache.asMap().get("tableList");
-        if (!CollectionUtils.isEmpty(tableList) && tableList.contains("FASP_T_MGDICCOLUMN")) {
-            return true;
-        }
-        tableList = new ArrayList<>();
-        tableList.add("FASP_T_MGDICCOLUMN");
-        caffeineCache.asMap().put("tableList", tableList);
-        return false;
-    }
 
     /**
      * 保存用户拥有的表 视图

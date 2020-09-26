@@ -6,7 +6,34 @@
     <update id="createTableDynamic">
         create table ${tablename}( ${sqlData})
     </update>
-    <select id="selectTableColumn" resultType="java.util.Map">
-        select dbcolumncode,datatype,datalength from FASP_T_MGDICCOLUMN where tablecode=#{tablename,jdbcType=VARCHAR}
-    </select>
+    <delete id="deleteData">
+            delete from ${tablename} where guid = #{guid,jdbcType=VARCHAR}
+            <choose>
+                <when test=" year != null and year != '' ">
+                    and year = #{year,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    and year is null
+                </otherwise>
+            </choose>
+            <choose>
+                <when test=" province != null and province != '' ">
+                    and province = #{province,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    and province is null
+                </otherwise>
+            </choose>
+        </delete>
+
+        <insert id="insertDataD">
+            insert into ${tablename} (${sql})
+            values(
+                ${values}
+            )
+        </insert>
+
+        <select id="queryTableMaxVersion" resultType="java.lang.String">
+		select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from ${tablename}
+	</select>
 </mapper>

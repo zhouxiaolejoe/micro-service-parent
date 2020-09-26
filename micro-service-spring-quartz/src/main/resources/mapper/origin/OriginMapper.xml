@@ -5,4 +5,8 @@
     <select id="queryTableDataByDBVersion" resultType="java.util.Map">
         select * from ${tablename} where dbversion>to_date(#{dbversion},'yyyymmddhh24miss') order by dbversion
     </select>
+
+     <select id="selectTableColumn" resultType="java.util.Map">
+        SELECT COLUMN_NAME "NAME",DATA_TYPE "TYPE",DATA_LENGTH "LENGTH" FROM USER_TAB_COLUMNS  WHERE TABLE_NAME = #{tablename,jdbcType=VARCHAR}
+    </select>
 </mapper>

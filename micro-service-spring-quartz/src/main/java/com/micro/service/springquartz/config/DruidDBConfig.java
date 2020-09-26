@@ -3,11 +3,14 @@ package com.micro.service.springquartz.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -35,7 +38,6 @@ import java.util.*;
 @EnableTransactionManagement
 public class DruidDBConfig {
     private final Logger log = LoggerFactory.getLogger(getClass());
-
     /**
      * adi数据库连接信息
      */
@@ -155,7 +157,8 @@ public class DruidDBConfig {
         sqlSessionFactoryBean.setDataSource(dynamicDataSource());
         //解决手动创建数据源后字段到bean属性名驼峰命名转换失效的问题
         sqlSessionFactoryBean.setConfiguration(configuration());
-
+        //设置自定义TypeHandler针对查询返回值中包含oracle.sql.timestamp 的List<Map<String,Object>> 转Java.sql.timestamp
+        sqlSessionFactoryBean.setTypeHandlers(new TypeHandler[]{new TimestampTypeHandler()});
         // 设置mybatis的主配置文件
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         // Resource mybatisConfigXml = resolver.getResource("classpath:mybatis/mybatis-config.xml");

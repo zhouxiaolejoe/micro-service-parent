@@ -5,6 +5,7 @@ import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.mapper.FaspTPubmenuMapper;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
 import com.micro.service.springquartz.mapper.target.SyncDicDSMapper;
+import com.micro.service.springquartz.mapper.target.SyncMenuMapper;
 import com.micro.service.springquartz.model.FaspTPubmenu;
 import com.micro.service.springquartz.service.DBChangeService;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,9 @@ public class MicroServiceSpringQuartzApplicationTests {
     OriginMapper originMapper;
     @Autowired
     SyncDicDSMapper syncDicDSMapper;
+
+    @Autowired
+    SyncMenuMapper syncMenuMapper;
 
     @Test
     public void contextLoads() {
@@ -120,4 +124,29 @@ public class MicroServiceSpringQuartzApplicationTests {
         }
     }
 
+
+
+    @SneakyThrows
+    @Test
+    public void contextLoads3() {
+        dbChangeService.changeDb("bas");
+        List<Map<String, Object>> maps = syncMenuMapper.selectAllByGuid("6ACFE90E112125AFD103F863EA90298C");
+        dbChangeService.changeDb("pm");
+        for (Map<String, Object> map : maps) {
+            Integer integer = syncMenuMapper.insertMenuData(map);
+        }
+
+
+    }
+
+
+    @SneakyThrows
+    @Test
+    public void contextLoads5() {
+        dbChangeService.changeDb("bas");
+        List<Map<String, Object>> maps = originMapper.selectTableColumn("FASP_T_PUPVD03001");
+        for (Map<String, Object> map : maps) {
+           log.info(map.toString());
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.micro.service.springquartz.mapper.target;
 
+import com.micro.service.springquartz.model.Dic3SyncDSPO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -57,4 +58,20 @@ public interface SyncDicDSMapper {
     List<String> queryTableList();
 
     List<String> queryViewList();
+
+    Integer createDic3syncdsTable();
+
+    List<Dic3SyncDSPO> querySyncElementsFromDS();
+
+    void insertSyncElements(Dic3SyncDSPO dic3SyncDSPO);
+
+    void deleteSyncElements();
+
+    List<Map<String, Object>> selectDicColumnData(@Param("tablecode") String tablecode);
+
+    void createTableDynamic(@Param("tablename") String tablename, @Param("sql") String sql);
+
+    void createElementcodeView(@Param("table")String table, @Param("view")String view);
+
+    void updateElementcodeView(@Param("tablecode")String tablecode, @Param("elementcode")String elementcode);
 }

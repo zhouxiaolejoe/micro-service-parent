@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micro.service.springquartz.mapper.target.SyncDicDEMapper">
+
+    <select id="queryDEMaxVersion" resultType="String">
+    	select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from fasp_t_dicde
+	</select>
+
+
+	<select id="exitsDeTable" resultType="java.lang.Integer" >
+		select count(*) from user_tables where table_name='FASP_T_DICDE'
+	</select>
+
+
+<!--	<select id="exitsDeTable"  resultType="java.lang.Integer" databaseId="gaussdb">-->
+<!--		select count(*) from sys.sys_tables where table_name='FASP_T_DICDE'-->
+<!--	</select>-->
+
+
+    <insert id="insertDE">
+		INSERT INTO FASP_T_DICDE (GUID,CODE,NAME,ELEMENTCODE,ALIAS,ENVIRONMENT,DATATYPE,FORMAT,RANGESRC,CSGUID,REMARK,STATUS,CREATETIME,STARTTIME,ENDTIME,PROVINCE,YEAR,VERSION,EXTENDGUID,TYPEGUID,CRC,ILLUSTRATION,ISGUID,ISNORMVERSION,DBVERSION)
+		values(
+			#{GUID                          ,jdbcType=VARCHAR},
+			#{CODE                          ,jdbcType=VARCHAR},
+			#{NAME                          ,jdbcType=VARCHAR},
+			#{ELEMENTCODE                   ,jdbcType=VARCHAR},
+			#{ALIAS                         ,jdbcType=VARCHAR},
+			#{ENVIRONMENT                   ,jdbcType=VARCHAR},
+			#{DATATYPE                      ,jdbcType=VARCHAR},
+			#{FORMAT                        ,jdbcType=VARCHAR},
+			#{RANGESRC                      ,jdbcType=VARCHAR},
+			#{CSGUID                        ,jdbcType=VARCHAR},
+			#{REMARK                        ,jdbcType=VARCHAR},
+			#{STATUS                        ,jdbcType=VARCHAR},
+			#{CREATETIME                    ,jdbcType=VARCHAR},
+			#{STARTTIME                     ,jdbcType=VARCHAR},
+			#{ENDTIME                       ,jdbcType=VARCHAR},
+			#{PROVINCE                      ,jdbcType=VARCHAR},
+			#{YEAR                          ,jdbcType=VARCHAR},
+			#{VERSION                       ,jdbcType=VARCHAR},
+			#{EXTENDGUID                    ,jdbcType=VARCHAR},
+			#{TYPEGUID                      ,jdbcType=VARCHAR},
+			#{CRC                           ,jdbcType=VARCHAR},
+			#{ILLUSTRATION                  ,jdbcType=VARCHAR},
+			#{ISGUID                        ,jdbcType=VARCHAR},
+			#{ISNORMVERSION                 ,jdbcType=VARCHAR},
+            #{DBVERSION,      jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
+
+		)
+	</insert>
+
+
+	<update id="createDeTable">
+        create table FASP_T_DICDE
+        (
+          guid          VARCHAR2(32) not null,
+          code          VARCHAR2(50),
+          name          VARCHAR2(100),
+          elementcode   VARCHAR2(100),
+          alias         VARCHAR2(100),
+          environment   VARCHAR2(1000),
+          datatype      VARCHAR2(10),
+          format        VARCHAR2(20),
+          rangesrc      VARCHAR2(1000),
+          csguid        VARCHAR2(32),
+          remark        VARCHAR2(1000),
+          status        CHAR(1),
+          createtime    VARCHAR2(17),
+          starttime     VARCHAR2(17),
+          endtime       VARCHAR2(17),
+          province      VARCHAR2(9),
+          year          CHAR(4),
+          version       NUMBER(9),
+          extendguid    VARCHAR2(32),
+          typeguid      VARCHAR2(32),
+          crc           VARCHAR2(32),
+          illustration  VARCHAR2(1000),
+          dbversion     TIMESTAMP(6),
+          isguid        VARCHAR2(1) default 0,
+          isnormversion CHAR(1) default 1
+        )
+	</update>
+
+	<delete id="deleteDE">
+		delete from fasp_t_dicde where guid = #{guid,jdbcType=VARCHAR}
+	</delete>
+
+    <insert id="batchInsertDicDE" parameterType="java.util.Map">
+        insert into fasp_t_dicde
+            (GUID,CODE,NAME,ELEMENTCODE,ALIAS,ENVIRONMENT,DATATYPE,FORMAT,RANGESRC,CSGUID,REMARK,STATUS,CREATETIME,STARTTIME,ENDTIME,PROVINCE,YEAR,VERSION,EXTENDGUID,TYPEGUID,CRC,ILLUSTRATION,ISGUID,ISNORMVERSION,DBVERSION)
+           SELECT A.* FROM(
+        <foreach collection="list" item="item" separator="union all">
+            select
+			#{item.GUID         ,jdbcType=VARCHAR},
+			#{item.CODE         ,jdbcType=VARCHAR},
+			#{item.NAME         ,jdbcType=VARCHAR},
+			#{item.ELEMENTCODE  ,jdbcType=VARCHAR},
+			#{item.ALIAS        ,jdbcType=VARCHAR},
+			#{item.ENVIRONMENT  ,jdbcType=VARCHAR},
+			#{item.DATATYPE     ,jdbcType=VARCHAR},
+			#{item.FORMAT       ,jdbcType=VARCHAR},
+			#{item.RANGESRC     ,jdbcType=VARCHAR},
+			#{item.CSGUID       ,jdbcType=VARCHAR},
+			#{item.REMARK       ,jdbcType=VARCHAR},
+			#{item.STATUS       ,jdbcType=VARCHAR},
+			#{item.CREATETIME   ,jdbcType=VARCHAR},
+			#{item.STARTTIME    ,jdbcType=VARCHAR},
+			#{item.ENDTIME      ,jdbcType=VARCHAR},
+			#{item.PROVINCE     ,jdbcType=VARCHAR},
+			#{item.YEAR         ,jdbcType=VARCHAR},
+			#{item.VERSION      ,jdbcType=VARCHAR},
+			#{item.EXTENDGUID   ,jdbcType=VARCHAR},
+			#{item.TYPEGUID     ,jdbcType=VARCHAR},
+			#{item.CRC          ,jdbcType=VARCHAR},
+			#{item.ILLUSTRATION ,jdbcType=VARCHAR},
+			#{item.ISGUID       ,jdbcType=VARCHAR},
+			#{item.ISNORMVERSION,jdbcType=VARCHAR},
+			#{item.DBVERSION,      jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
+                from DUAL
+        </foreach>
+            ) A
+    </insert>
+    <delete id="deleteAllData">
+		delete from ${tablename}
+	</delete>
+</mapper>

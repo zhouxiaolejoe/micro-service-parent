@@ -40,7 +40,7 @@
 			#{SALARYTYPEFLAG                        ,jdbcType=VARCHAR},
 			#{SPEACCTTYPEFLAg                       ,jdbcType=VARCHAR},
 			#{BGTTYPEFLAG                           ,jdbcType=VARCHAR},
-			to_timestamp(#{DBVERSION,      jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
+			#{DBVERSION,      jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
 		)
 	</insert>
     <insert id="batchInsertRoleTable">
@@ -74,7 +74,7 @@
                 #{item.SALARYTYPEFLAG                ,jdbcType=VARCHAR},
                 #{item.SPEACCTTYPEFLAG               ,jdbcType=VARCHAR},
                 #{item.BGTTYPEFLAG                   ,jdbcType=VARCHAR},
-                to_timestamp(#{item.DBVERSION,      jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
+                #{item.DBVERSION,      jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
                     FROM DUAL
             </foreach>
                 ) a

@@ -13,5 +13,8 @@ import java.util.Map;
  * @Version 1.0.0
  */
 public interface OriginMapper {
-    List<Map<String, Object>> queryTableDataByDBVersion(@Param("tablename") String tablename,@Param("dbversion") String dbversion);
+
+    List<Map<String, Object>> queryTableDataByDBVersion(@Param("tablename") String tablename, @Param("dbversion") String dbversion);
+
+    List<Map<String, Object>> selectTableColumn(@Param("tablename") String tablename);
 }

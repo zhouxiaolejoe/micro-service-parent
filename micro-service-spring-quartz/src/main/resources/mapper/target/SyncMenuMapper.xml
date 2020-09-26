@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micro.service.springquartz.mapper.target.SyncMenuMapper">
+
+    <select id="exitsMenuTable" resultType="java.lang.Integer">
+    	select count(*) from user_tables where table_name='FASP_T_PUBMENU'
+	</select>
+
+    <select id="queryMenuVersion" resultType="java.lang.String">
+		select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from fasp_t_pubmenu
+	</select>
+
+    <insert id="insertMenuData">
+		insert into FASP_T_PUBMENU(guid,levelno,isleaf,status,code,name,parentid,url,menuorder,remark,appsysid,province,year,appid,param1,param2,param3,param4,param5,ssoflag,admintype,alias,isptadmin,admdiv,dbversion)
+		values(
+			#{GUID                          ,jdbcType=VARCHAR},
+			#{LEVELNO                       ,jdbcType=INTEGER},
+			#{ISLEAF                        ,jdbcType=INTEGER},
+			#{STATUS                        ,jdbcType=VARCHAR},
+			#{CODE                          ,jdbcType=VARCHAR},
+			#{NAME                          ,jdbcType=VARCHAR},
+			#{PARENTID                      ,jdbcType=VARCHAR},
+			#{URL                           ,jdbcType=VARCHAR},
+			#{MENUORDER                     ,jdbcType=INTEGER},
+			#{REMARK                        ,jdbcType=VARCHAR},
+			#{APPSYSID                      ,jdbcType=INTEGER},
+			#{PROVINCE                      ,jdbcType=VARCHAR},
+			#{YEAR                          ,jdbcType=VARCHAR},
+			#{APPID                         ,jdbcType=VARCHAR},
+			#{PARAM1                        ,jdbcType=VARCHAR},
+			#{PARAM2                        ,jdbcType=VARCHAR},
+			#{PARAM3                        ,jdbcType=VARCHAR},
+			#{PARAM4                        ,jdbcType=VARCHAR},
+			#{PARAM5                        ,jdbcType=VARCHAR},
+			#{SSOFLAG                       ,jdbcType=VARCHAR},
+			#{ADMINTYPE                     ,jdbcType=INTEGER},
+			#{ALIAS                         ,jdbcType=VARCHAR},
+			#{ISPTADMIN                     ,jdbcType=VARCHAR},
+			#{ADMDIV                        ,jdbcType=VARCHAR},
+			#{DBVERSION                     ,jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
+		)
+	</insert>
+
+    <update id="createMenuTable">
+		create table FASP_T_PUBMENU
+		(
+		  GUID      VARCHAR2(50) not null,
+		  LEVELNO   NUMBER(1),
+		  ISLEAF    NUMBER(1),
+		  STATUS    CHAR(1),
+		  CODE      VARCHAR2(200),
+		  NAME      VARCHAR2(200),
+		  PARENTID  VARCHAR2(50),
+		  URL       VARCHAR2(1000),
+		  MENUORDER NUMBER(5),
+		  REMARK    VARCHAR2(255),
+		  DBVERSION TIMESTAMP(6),
+		  APPSYSID  NUMBER(4),
+		  PROVINCE  VARCHAR2(9),
+		  YEAR      CHAR(4),
+		  APPID     VARCHAR2(50),
+		  PARAM1    VARCHAR2(255),
+		  PARAM2    VARCHAR2(255),
+		  PARAM3    VARCHAR2(255),
+		  PARAM4    VARCHAR2(255),
+		  PARAM5    VARCHAR2(255),
+		  SSOFLAG   CHAR(1),
+		  ADMINTYPE NUMBER(1),
+		  ALIAS     VARCHAR2(100),
+		  ISPTADMIN CHAR(1),
+		  ADMDIV    VARCHAR2(50)
+		)
+	</update>
+    <insert id="batchInsertMenu" parameterType="java.util.Map">
+        INSERT INTO FASP_T_PUBMENU (GUID,LEVELNO,ISLEAF,STATUS,CODE,NAME,PARENTID,URL,MENUORDER,REMARK,APPSYSID,PROVINCE,YEAR,APPID,PARAM1,PARAM2,PARAM3,PARAM4,PARAM5,SSOFLAG,ADMINTYPE,ALIAS,ISPTADMIN,ADMDIV,DBVERSION)
+		 SELECT A.* FROM(
+		<foreach collection="list" item="item" separator="union all">
+		SELECT
+			#{item.GUID                          ,jdbcType=VARCHAR},
+			#{item.LEVELNO                       ,jdbcType=INTEGER},
+			#{item.ISLEAF                        ,jdbcType=INTEGER},
+			#{item.STATUS                        ,jdbcType=VARCHAR},
+			#{item.CODE                          ,jdbcType=VARCHAR},
+			#{item.NAME                          ,jdbcType=VARCHAR},
+			#{item.PARENTID                      ,jdbcType=VARCHAR},
+			#{item.URL                           ,jdbcType=VARCHAR},
+			#{item.MENUORDER                     ,jdbcType=INTEGER},
+			#{item.REMARK                        ,jdbcType=VARCHAR},
+			#{item.APPSYSID                      ,jdbcType=INTEGER},
+			#{item.PROVINCE                      ,jdbcType=VARCHAR},
+			#{item.YEAR                          ,jdbcType=VARCHAR},
+			#{item.APPID                         ,jdbcType=VARCHAR},
+			#{item.PARAM1                        ,jdbcType=VARCHAR},
+			#{item.PARAM2                        ,jdbcType=VARCHAR},
+			#{item.PARAM3                        ,jdbcType=VARCHAR},
+			#{item.PARAM4                        ,jdbcType=VARCHAR},
+			#{item.PARAM5                        ,jdbcType=VARCHAR},
+			#{item.SSOFLAG                       ,jdbcType=VARCHAR},
+			#{item.ADMINTYPE                     ,jdbcType=INTEGER},
+			#{item.ALIAS                         ,jdbcType=VARCHAR},
+			#{item.ISPTADMIN                     ,jdbcType=VARCHAR},
+			#{item.ADMDIV                        ,jdbcType=VARCHAR},
+			#{item.DBVERSION                     ,jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
+                from DUAL
+        </foreach>
+            ) A
+    </insert>
+
+    <delete id="deleteAllData">
+        delete from ${tablename}
+    </delete>
+    <delete id="deleteMenuData">
+		delete from FASP_T_PUBMENU where guid = #{guid,jdbcType=VARCHAR}
+		<choose>
+            <when test=" year != null and year != '' ">
+                and year = #{year,jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                and year is null
+            </otherwise>
+        </choose>
+        <choose>
+            <when test=" province != null and province != '' ">
+                and province = #{province,jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                and province is null
+            </otherwise>
+        </choose>
+	</delete>
+	<select id="selectAllByGuid" resultType="java.util.Map">
+        select * from FASP_T_PUBMENU where guid = #{guid,jdbcType=VARCHAR}
+    </select>
+</mapper>

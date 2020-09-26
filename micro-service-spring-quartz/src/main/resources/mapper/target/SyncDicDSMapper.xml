@@ -99,7 +99,7 @@
 			#{ISPUBLIC                              ,jdbcType=VARCHAR},
 			#{TRANSACTIONCACHE                      ,jdbcType=VARCHAR},
 			#{CODETYEP                              ,jdbcType=VARCHAR},
-			#{DBVERSION                             ,jdbcType=VARCHAR},
+			#{DBVERSION                             ,jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler},
 			#{IMPORTSTANDARD                        ,jdbcType=VARCHAR},
 			#{ISNORMVERSION                         ,jdbcType=VARCHAR}
 		)
@@ -129,7 +129,7 @@
 			#{HASTRIGGER                    ,jdbcType=INTEGER},
 			#{SYNCCLASSNAME                 ,jdbcType=VARCHAR},
 			#{STATUS                        ,jdbcType=VARCHAR},
-			to_timestamp(#{DBVERSION        ,jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
+			#{DBVERSION        ,jdbcType=VARCHAR,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
 		)
 	</insert>
 
@@ -155,7 +155,7 @@
 			#{VERSION              ,jdbcType=INTEGER},
 			#{NULLABLE             ,jdbcType=INTEGER},
 			#{DEFAULTVALUE         ,jdbcType=VARCHAR},
-			to_timestamp(#{DBVERSION,      jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
+			#{DBVERSION,      jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
 		)
 	</insert>
 
@@ -237,7 +237,7 @@
            IMPORTSTANDARD,ISNORMVERSION)
 		 SELECT a.* FROM(
         <foreach collection="list" item="item" index="index" separator="union all">
-            select
+        select
 			#{item.GUID,                        jdbcType=VARCHAR},
 			#{item.CODE,                        jdbcType=VARCHAR},
 			#{item.NAME,                        jdbcType=VARCHAR},
@@ -265,7 +265,7 @@
 			#{item.ISPUBLIC,                    jdbcType=VARCHAR},
 			#{item.TRANSACTIONCACHE,            jdbcType=VARCHAR},
 			#{item.CODETYEP,                    jdbcType=VARCHAR},
-			to_timestamp(#{item.DBVERSION,      jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF'),
+			#{item.DBVERSION,      jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler},
 			#{item.IMPORTSTANDARD,              jdbcType=VARCHAR},
 			#{item.ISNORMVERSION,               jdbcType=VARCHAR}
                 FROM DUAL
@@ -298,7 +298,7 @@
 			#{item.HASTRIGGER    ,jdbcType=INTEGER},
 			#{item.SYNCCLASSNAME ,jdbcType=VARCHAR},
 			#{item.STATUS        ,jdbcType=VARCHAR},
-			to_timestamp(#{item.DBVERSION,      jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
+			#{item.DBVERSION,      jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
                  from DUAL
         </foreach>
             ) a
@@ -327,7 +327,7 @@
 			#{item.VERSION      ,jdbcType=INTEGER},
 			#{item.NULLABLE     ,jdbcType=INTEGER},
 			#{item.DEFAULTVALUE ,jdbcType=VARCHAR},
-			to_timestamp(#{item.DBVERSION,      jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
+			#{item.DBVERSION,      jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
                 FROM DUAL
         </foreach>
             ) a
@@ -346,4 +346,52 @@
     <select id="queryViewList" resultType="java.lang.String">
         select view_name from user_views
     </select>
+
+    <update id="createDic3syncdsTable">
+        create table FASP_T_DIC3SYNCDS
+            (
+              ELEMENTCODE  VARCHAR2(100),
+              TABLENAME    VARCHAR2(50),
+              SYNCDATETIME VARCHAR2(50)
+            )
+    </update>
+
+    <select id="querySyncElementsFromDS" resultType="com.micro.service.springquartz.model.Dic3SyncDSPO">
+		select ELEMENTCODE,code as TABLENAME from FASP_T_DICds t
+		where t.elementcode not in (select elementcode from FASP_T_DIC3SYNCDS) and t.status in ('1','2')
+	</select>
+
+	<insert id="insertSyncElements">
+        insert into FASP_T_DIC3SYNCDS(elementcode,tablename,syncdatetime)
+        VALUES (
+            #{elementcode,jdbcType=VARCHAR}
+            ,#{tablename,jdbcType=VARCHAR}
+            ,'20100101000000'
+        )
+    </insert>
+
+    <delete id="deleteSyncElements">
+        delete from FASP_T_DIC3SYNCDS where elementcode not in (select elementcode from FASP_T_DICDS)
+    </delete>
+
+    <select id="selectDicColumnData" resultType="java.util.Map">
+        select dbcolumncode,datatype,datalength from FASP_T_MGDICCOLUMN where tablecode=#{tablecode,jdbcType=VARCHAR}
+    </select>
+
+    <update id="createTableDynamic">
+        create table ${tablename}
+            (
+               ${sql}
+            )
+    </update>
+
+    <update id="updateElementcodeView">
+        update fasp_t_dicds set tablecode=#{tablecode,jdbcType=VARCHAR} where ELEMENTCODE=#{elementcode ,jdbcType=VARCHAR}
+    </update>
+
+    <insert id="createElementcodeView">
+        create or replace view ${view} as
+        select * from ${table} t
+        where year = global_multyear_cz.Secu_f_GLOBAL_PARM('YEAR') and province = global_multyear_cz.Secu_f_GLOBAL_PARM('DIVID') and status !='3'
+    </insert>
 </mapper>

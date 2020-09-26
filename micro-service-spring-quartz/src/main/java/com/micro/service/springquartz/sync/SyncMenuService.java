@@ -4,13 +4,12 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.pagehelper.PageHelper;
 import com.micro.service.springquartz.config.TableContextHolder;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
-import com.micro.service.springquartz.mapper.target.SyncRoleMapper;
+import com.micro.service.springquartz.mapper.target.SyncMenuMapper;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.utils.SyncDataUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import sun.misc.BASE64Encoder;
@@ -24,43 +23,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.micro.service.springquartz.utils.MapUtils.toLowerMapKey;
-
 /**
- * 同步用户表内容
- * Created by wengy on 2019/11/20.
+ * @ClassName UserService
+ * @Description TODO
+ * @Author zhouxiaole
+ * @Date 2020/8/30 13:19
+ * @Version 1.0.0
  */
 @Service
 @Slf4j
 @AllArgsConstructor
-public class SyncRoleService implements IFaspClientScheduler {
+public class SyncMenuService implements IFaspClientScheduler {
 
-    OriginMapper originMapper;
-    DBChangeService changeService;
-    SyncRoleMapper syncRoleMapper;
+    SyncMenuMapper syncMenuMapper;
     Cache<String, List<String>> caffeineCache;
-    public static final String FASP_T_CAROLE = "FASP_T_CAROLE";
+    DBChangeService changeService;
+    OriginMapper originMapper;
+    public static final String FASP_T_PUBMENU = "FASP_T_PUBMENU";
 
     @Override
     public void start(String origin, String target) {
-        if (StringUtils.isEmpty(origin) || StringUtils.isEmpty(target)) {
-            return;
-        }
         try {
-            String version = getRoleVersion(target);
+            String version = getMenuVersion(target);
+            int page = 1;
             Integer syncCount;
-            Integer page = 1;
             Boolean isdelete = true;
             do {
+
                 /**
                  * 切换到源库
                  */
                 changeService.changeDb(origin);
                 PageHelper.startPage(page++, 1000);
-                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion(FASP_T_CAROLE, version);
-
+                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion(FASP_T_PUBMENU, version);
                 if (CollectionUtils.isEmpty(dsDatas)) {
-                    break;
+                    return;
                 }
 
                 /**
@@ -68,84 +65,81 @@ public class SyncRoleService implements IFaspClientScheduler {
                  */
                 changeService.changeDb(target);
                 //使用typeHandler替换
-//                dsDatas = getFilterRoleTable(dsDatas);
+//                dsDatas = getFilterMenu(dsDatas);
                 if (version.equals(SyncDataUtils.DEFAULT_DBVERSION)) {
-                    isdelete = saveBatchRoles(isdelete, dsDatas);
+                    /**
+                     * 首次同步清表批量写入
+                     */
+                    if (isdelete) {
+                        syncMenuMapper.deleteAllData(FASP_T_PUBMENU);
+                        isdelete = false;
+                    }
+                    Map<String, Object> param = new HashMap<>(1);
+                    param.put("list", dsDatas);
+                    syncMenuMapper.batchInsertMenu(param);
                 } else {
-                    for (Map<String, Object> role : dsDatas) {
-                        saveOneRole(role);
+                    for (Map<String, Object> menu : dsDatas) {
+                        syncMenuMapper.deleteMenuData(menu);
+                        syncMenuMapper.insertMenuData(menu);
                     }
                 }
                 syncCount = dsDatas.size();
-                log.info("TABLENAME :[ FASP_T_CAROLE ] DBVERSION :[" + version + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
-            }
-            while (1000 == syncCount);
+                log.info("TABLENAME :[ FASP_T_PUBMENU ] DBVERSION :[" + version + "  data size=" + (syncCount + 1000 * (page - 2)) + " ]");
+            } while (syncCount == 1000);
         } catch (Exception e) {
-            log.error("TABLENAME :[ FASP_T_CAROLE ] 数据同步失败 [ " + e + " ]");
+            log.error("TABLENAME :[ FASP_T_PUBMENU ] 数据同步失败 [ " + e + " ]");
         }
-
     }
 
-    private String getRoleVersion(String target) throws Exception {
+    private String getMenuVersion(String target) throws Exception {
         /**
          * 切换到目标库
          */
         changeService.changeDb(target);
-        checkRoleTable();
-        String version = syncRoleMapper.queryRoleVersion();
+        checkMenu();
+        String version = syncMenuMapper.queryMenuVersion();
         version = StringUtils.isEmpty(version) ? SyncDataUtils.DEFAULT_DBVERSION : version;
         return version;
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    void saveOneRole(Map<String, Object> role) {
-        syncRoleMapper.deleteRoleData(role);
-        syncRoleMapper.insertRoleData(role);
-    }
-
-    private Boolean saveBatchRoles(Boolean isdelete, List<Map<String, Object>> dsDatas) {
-        /**
-         * 首次同步清表批量写入
-         */
-        if (isdelete) {
-            syncRoleMapper.deleteAllData(FASP_T_CAROLE);
-            isdelete = false;
-        }
-        Map<String, Object> param = new HashMap<>(1);
-        param.put("list", dsDatas);
-        syncRoleMapper.batchInsertRoleTable(param);
-        return isdelete;
-    }
-
-    private void checkRoleTable() {
-        if (exitsRoleTable()) {
+    /**
+     * 检查FASP_T_PUBMENU是否存在 否则创建
+     */
+    private void checkMenu() {
+        if (exitsMenu()) {
             return;
         }
-        syncRoleMapper.createRoleTable();
+        syncMenuMapper.createMenuTable();
     }
 
-    private Boolean exitsRoleTable() {
+    /**
+     * 判断FASP_T_PUBMENU是否存在
+     */
+    private Boolean exitsMenu() {
         Map<String, List<String>> tableData = TableContextHolder.getTableData();
         Map<String, List<String>> map = new HashMap<>(1);
         List<String> tableList =null;
         if(!CollectionUtils.isEmpty(tableData)){
             tableList = tableData.get("tableList");
-            if (!CollectionUtils.isEmpty(tableList) && tableList.contains(FASP_T_CAROLE)) {
+            if (!CollectionUtils.isEmpty(tableList) && tableList.contains(FASP_T_PUBMENU)) {
                 return true;
             }
-            tableList.add(FASP_T_CAROLE);
+            tableList.add(FASP_T_PUBMENU);
             map.put("tableList", tableList);
             TableContextHolder.setTableData(map);
             return false;
         }
         tableList = new ArrayList<>();
-        tableList.add(FASP_T_CAROLE);
+        tableList.add(FASP_T_PUBMENU);
         map.put("tableList", tableList);
         TableContextHolder.setTableData(map);
         return false;
     }
 
-    private List<Map<String, Object>> getFilterRoleTable(List<Map<String, Object>> dsDatas) {
+    /**
+     * 转换日期
+     */
+    private List<Map<String, Object>> getFilterMenu(List<Map<String, Object>> dsDatas) {
         return dsDatas.stream().map(x -> {
             String dbversion = getStringValue(x.get("DBVERSION"));
             x.put("DBVERSION", dbversion);
@@ -172,8 +166,8 @@ public class SyncRoleService implements IFaspClientScheduler {
     private Timestamp getOracleTimestamp(Object value) {
         try {
             Class clz = value.getClass();
-            Method method = clz.getMethod("timestampValue", null);
-            return (Timestamp) method.invoke(value, null);
+            Method method = clz.getMethod("timestampValue", new Class[0]);
+            return (Timestamp) method.invoke(value, new Class[0]);
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;

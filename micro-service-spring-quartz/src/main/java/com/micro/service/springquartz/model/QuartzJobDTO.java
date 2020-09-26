@@ -28,11 +28,14 @@ public class QuartzJobDTO {
     private String triggerGroup;
     @ApiModelProperty(value = "任务描述")
     private String description;
-    @ApiModelProperty(value = "任务执行时间")
+    @ApiModelProperty(value = "任务执行时间",required = true)
     private String cronExpression;
-    @ApiModelProperty(value = "数据源")
+    @ApiModelProperty(value = "数据源",required = true)
     private String origin;
-    @ApiModelProperty(value = "目标数据源")
+    @ApiModelProperty(value = "目标数据源",required = true)
     private String target;
-
+    @ApiModelProperty(value = "表名")
+    private String tableName;
+    @ApiModelProperty(value = "同步类型1业务同步2单张表同步")
+    private Integer type;
 }

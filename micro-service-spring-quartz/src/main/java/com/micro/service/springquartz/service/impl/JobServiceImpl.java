@@ -1,6 +1,7 @@
 package com.micro.service.springquartz.service.impl;
 
 import com.micro.service.springquartz.job.MyJob;
+import com.micro.service.springquartz.job.TableJob;
 import com.micro.service.springquartz.mapper.QrtzJobDetailsMapper;
 import com.micro.service.springquartz.model.QrtzJobDetails;
 import com.micro.service.springquartz.model.QuartzJobDTO;
@@ -48,14 +49,24 @@ public class JobServiceImpl implements JobService {
         /**
          *  1.创建jobDetail
          */
-        JobDetail job = JobBuilder
-                .newJob(MyJob.class)
-                .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
-                .withDescription(quartzJobDTO.getDescription())
-                .build();
+        JobDetail job =null;
+        if(quartzJobDTO.getType()==1){
+            job = JobBuilder
+                    .newJob(MyJob.class)
+                    .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
+                    .withDescription(quartzJobDTO.getDescription())
+                    .build();
+        }else {
+            job = JobBuilder
+                    .newJob(TableJob.class)
+                    .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
+                    .withDescription(quartzJobDTO.getDescription())
+                    .build();
+        }
         JobDataMap map = job.getJobDataMap();
         map.put("origin", quartzJobDTO.getOrigin());
         map.put("target",quartzJobDTO.getTarget());
+        map.put("tableName",quartzJobDTO.getTableName());
 
         /**
          *  2.创建触发器
