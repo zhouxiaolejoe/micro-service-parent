@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.micro.service.springquartz.mapper.target.SyncRangeMapper">
     <select id="exitsView" resultType="java.lang.Integer" >
-		select count(*) from user_views where lower(view_name)=#{viewName}
+		select count(*) from user_views where upper(view_name)=#{viewName}
 	</select>
     <delete id="deleteView" >
 		DROP VIEW ${viewName}
@@ -12,26 +12,26 @@
 
 
     <select id="exitsTable" resultType="java.lang.Integer" >
-		select count(*) from user_tables where lower(table_name)=#{tableName}
+		select count(*) from user_tables where upper(table_name)=#{tableName}
 	</select>
 
 
     <insert id="insertData">
 		insert into ${tablename}(guid,code,name,superguid,levelno,isleaf,status,remark,pinyin,year,province,admdiv,dbversion)
 		values(
-			#{data.guid       ,jdbcType=VARCHAR},
-			#{data.code       ,jdbcType=VARCHAR},
-			#{data.name       ,jdbcType=VARCHAR},
-			#{data.superguid  ,jdbcType=VARCHAR},
-			#{data.levelno    ,jdbcType=INTEGER},
-			#{data.isleaf     ,jdbcType=INTEGER},
-			#{data.status     ,jdbcType=VARCHAR},
-			#{data.remark     ,jdbcType=VARCHAR},
-			#{data.pinyin     ,jdbcType=VARCHAR},
-			#{data.year       ,jdbcType=VARCHAR},
-			#{data.province   ,jdbcType=VARCHAR},
-			#{data.admdiv     ,jdbcType=VARCHAR},
-			to_date(#{data.dbversion,jdbcType=VARCHAR},'yyyymmddhh24miss')
+			#{data.GUID       ,jdbcType=VARCHAR},
+			#{data.CODE       ,jdbcType=VARCHAR},
+			#{data.NAME       ,jdbcType=VARCHAR},
+			#{data.SUPERGUID  ,jdbcType=VARCHAR},
+			#{data.LEVELNO    ,jdbcType=INTEGER},
+			#{data.ISLEAF     ,jdbcType=INTEGER},
+			#{data.STATUS     ,jdbcType=VARCHAR},
+			#{data.REMARK     ,jdbcType=VARCHAR},
+			#{data.PINYIN     ,jdbcType=VARCHAR},
+			#{data.YEAR       ,jdbcType=VARCHAR},
+			#{data.PROVINCE   ,jdbcType=VARCHAR},
+			#{data.ADMDIV     ,jdbcType=VARCHAR},
+			#{data.DBVERSION,jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
 		)
 	</insert>
 
@@ -67,18 +67,18 @@
 
 
     <delete id="deleteData">
-		delete from ${tablename} where guid = #{data.guid,jdbcType=VARCHAR}
+		delete from ${tablename} where guid = #{data.GUID,jdbcType=VARCHAR}
         <choose>
-            <when test=" data.year != null and data.year != '' ">
-                and year = #{data.year,jdbcType=VARCHAR}
+            <when test=" data.YEAR != null and data.YEAR != '' ">
+                and year = #{data.YEAR,jdbcType=VARCHAR}
             </when>
             <otherwise>
                 and year is null
             </otherwise>
         </choose>
         <choose>
-            <when test=" data.province != null and data.province != '' ">
-                and province = #{data.province,jdbcType=VARCHAR}
+            <when test=" data.PROVINCE != null and data.PROVINCE != '' ">
+                and province = #{data.PROVINCE,jdbcType=VARCHAR}
             </when>
             <otherwise>
                 and province is null
@@ -112,4 +112,47 @@
     <delete id="deleteAllData">
 		delete from ${tablename}
 	</delete>
+	 <select id="querySyncElements" resultType="com.micro.service.springquartz.model.Dic3SyncDSPO">
+        select ELEMENTCODE, TABLENAME, SYNCDATETIME from FASP_T_DIC3SYNCDS
+    </select>
+    <update id="updateSyncElementDateTime">
+        update FASP_T_DIC3SYNCDS set SYNCDATETIME=#{datetime,jdbcType=VARCHAR} where ELEMENTCODE=#{elementcode ,jdbcType=VARCHAR}
+    </update>
+    <update id="updateElementcodeView">
+        update fasp_t_dicds set tablecode=#{tablecode,jdbcType=VARCHAR} where ELEMENTCODE=#{elementcode ,jdbcType=VARCHAR}
+    </update>
+     <insert id="createElementcodeView">
+        create or replace view ${view} as
+        select * from ${table} t
+        where year = global_multyear_cz.Secu_f_GLOBAL_PARM('YEAR') and province = global_multyear_cz.Secu_f_GLOBAL_PARM('DIVID') and status !='3'
+    </insert>
+    <select id="queryElementcodeView" resultType="java.lang.String">
+        select tablecode from fasp_t_dicds t where elementcode=#{elementcode,jdbcType=VARCHAR}
+    </select>
+
+     <update id="createDic3syncdsTable">
+        create table FASP_T_DIC3SYNCDS
+            (
+              ELEMENTCODE  VARCHAR2(100),
+              TABLENAME    VARCHAR2(50),
+              SYNCDATETIME VARCHAR2(50)
+            )
+    </update>
+
+    <select id="querySyncElementsFromDS" resultType="com.micro.service.springquartz.model.Dic3SyncDSPO">
+		select ELEMENTCODE,code as TABLENAME,STATUS,VERSION from FASP_T_DICds t
+		where t.elementcode not in (select elementcode from FASP_T_DIC3SYNCDS) and t.status in ('1','2')
+	</select>
+
+	<delete id="deleteSyncElements">
+        delete from FASP_T_DIC3SYNCDS where elementcode not in (select elementcode from FASP_T_DICDS)
+    </delete>
+    <insert id="insertSyncElements">
+        insert into FASP_T_DIC3SYNCDS(elementcode,tablename,syncdatetime)
+        VALUES (
+            #{elementcode,jdbcType=VARCHAR}
+            ,#{tablename,jdbcType=VARCHAR}
+            ,'20100101000000'
+        )
+    </insert>
 </mapper>

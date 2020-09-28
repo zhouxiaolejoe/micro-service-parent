@@ -49,14 +49,14 @@ public class JobServiceImpl implements JobService {
         /**
          *  1.创建jobDetail
          */
-        JobDetail job =null;
-        if(quartzJobDTO.getType()==1){
+        JobDetail job = null;
+        if (quartzJobDTO.getType() == 1) {
             job = JobBuilder
                     .newJob(MyJob.class)
                     .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
                     .withDescription(quartzJobDTO.getDescription())
                     .build();
-        }else {
+        } else {
             job = JobBuilder
                     .newJob(TableJob.class)
                     .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
@@ -65,8 +65,8 @@ public class JobServiceImpl implements JobService {
         }
         JobDataMap map = job.getJobDataMap();
         map.put("origin", quartzJobDTO.getOrigin());
-        map.put("target",quartzJobDTO.getTarget());
-        map.put("tableName",quartzJobDTO.getTableName());
+        map.put("target", quartzJobDTO.getTarget());
+        map.put("tableName", quartzJobDTO.getTableName());
 
         /**
          *  2.创建触发器
@@ -75,7 +75,7 @@ public class JobServiceImpl implements JobService {
                 .newTrigger()
                 .withDescription(quartzJobDTO.getDescription())
 //                .startNow() // 设置立刻启动
-                .startAt(DateBuilder.futureDate(5, DateBuilder.IntervalUnit.SECOND))
+                .startAt(DateBuilder.futureDate(2, DateBuilder.IntervalUnit.SECOND))
                 .withIdentity(quartzJobDTO.getTriggerNmae(), quartzJobDTO.getTriggerGroup())
                 .withSchedule(CronScheduleBuilder
                         .cronSchedule(quartzJobDTO.getCronExpression())
@@ -121,8 +121,9 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public ResultBuilder jobStatus(String triggerName, String triggerGroup) throws SchedulerException {
-        TriggerKey triggerKey = TriggerKey.triggerKey(triggerName, triggerGroup);
+    public ResultBuilder jobStatus(String jobName, String jobGroup) throws SchedulerException {
+        JobKey jobkey = JobKey.jobKey(jobName, jobGroup);
+        TriggerKey triggerKey = scheduler.getTriggersOfJob(jobkey).get(0).getKey();
         Trigger.TriggerState triggerState = scheduler.getTriggerState(triggerKey);
         return ResultBuilder.success(triggerState);
     }

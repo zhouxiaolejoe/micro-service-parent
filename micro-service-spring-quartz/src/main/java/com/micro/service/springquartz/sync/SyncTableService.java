@@ -1,8 +1,8 @@
 package com.micro.service.springquartz.sync;
 
+import com.github.benmanes.caffeine.cache.Cache;
 import com.github.pagehelper.PageHelper;
 import com.google.common.base.Joiner;
-import com.micro.service.springquartz.config.TableContextHolder;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
 import com.micro.service.springquartz.mapper.target.SyncDicDSMapper;
 import com.micro.service.springquartz.mapper.target.TargetMapper;
@@ -10,7 +10,6 @@ import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.utils.SyncDataUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -33,14 +32,14 @@ public class SyncTableService implements SyncTableScheduler {
     TargetMapper targetMapper;
     DBChangeService changeService;
     SyncDicDSMapper syncDicDSMapper;
-    SqlSessionTemplate sqlSessionTemplate;
+    Cache<String, List<String>> caffeineCache;
     private static int count = 0;
 
     @Override
     public void syncTable(String origin, String tablename, String target) {
         try {
             tablename = tablename.toUpperCase();
-            saveUserTableView(target);
+            saveUserTableView(origin, tablename, target);
 
             /**
              * 切换到目标库
@@ -93,7 +92,7 @@ public class SyncTableService implements SyncTableScheduler {
     }
 
     private void checkTable(String origin, String tablename, String target) throws Exception {
-        if (exitsTable(tablename)) {
+        if (exitsTable(origin, tablename, target)) {
             return;
         }
         changeService.changeDb(origin);
@@ -101,47 +100,30 @@ public class SyncTableService implements SyncTableScheduler {
         createTableDynamic(tablename, sqlData, target);
     }
 
-    private Boolean exitsTable(String tablename) {
-        Map<String, List<String>> tableData = TableContextHolder.getTableData();
-        Map<String, List<String>> map = new HashMap<>(1);
-        List<String> tableList = null;
-        if (!CollectionUtils.isEmpty(tableData)) {
-            tableList = tableData.get("tableList");
-            if (!CollectionUtils.isEmpty(tableList) && tableList.contains(tablename)) {
-                return true;
-            }
-            tableList.add(tablename);
-            map.put("tableList", tableList);
-            TableContextHolder.setTableData(map);
-            return false;
+    private Boolean exitsTable(String origin, String tablename, String target) {
+        List<String> tableList = caffeineCache.asMap().get(origin + "_" + target + "_tableList_"+ tablename + "_");
+        if (!CollectionUtils.isEmpty(tableList) && tableList.contains(tablename)) {
+            return true;
         }
         tableList = new ArrayList<>();
         tableList.add(tablename);
-        map.put("tableList", tableList);
-        TableContextHolder.setTableData(map);
+        caffeineCache.asMap().put(origin + "_" + target + "_tableList_"+ tablename + "_", tableList);
         return false;
     }
 
     /**
      * 保存用户拥有的表 视图
      */
-    private void saveUserTableView(String target) {
-        int max = 10;
+    private void saveUserTableView(String origin, String tablename, String target) throws Exception {
+        int max = 1000;
         if (count >= max) {
             return;
         }
-        try {
-            changeService.changeDb(target);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        TableContextHolder.clearTableData();
+        changeService.changeDb(target);
         List<String> tableList = syncDicDSMapper.queryTableList();
         List<String> viewList = syncDicDSMapper.queryViewList();
-        Map<String, List<String>> map = new HashMap<>(2);
-        map.put("tableList", tableList);
-        map.put("viewList", viewList);
-        TableContextHolder.setTableData(map);
+        caffeineCache.asMap().put(origin + "_" + target + "_tableList_" + tablename + "_", tableList);
+        caffeineCache.asMap().put(origin + "_" + target + "_viewList_" + tablename + "_", viewList);
         count++;
     }
 
@@ -157,7 +139,8 @@ public class SyncTableService implements SyncTableScheduler {
             String sql = Joiner.on(",").join(treeMap.keySet());
             String values = creatValues(treeMap, sql);
             changeService.changeDb(target);
-            targetMapper.insertDataD(tablename, sql, values,data);
+            targetMapper.deleteData(tablename, data);
+            targetMapper.insertDataDynamic(tablename, sql, values, data);
         }
     }
 

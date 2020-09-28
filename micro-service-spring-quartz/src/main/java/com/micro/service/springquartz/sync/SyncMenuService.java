@@ -116,23 +116,27 @@ public class SyncMenuService implements IFaspClientScheduler {
      * 判断FASP_T_PUBMENU是否存在
      */
     private Boolean exitsMenu() {
-        Map<String, List<String>> tableData = TableContextHolder.getTableData();
-        Map<String, List<String>> map = new HashMap<>(1);
-        List<String> tableList =null;
-        if(!CollectionUtils.isEmpty(tableData)){
-            tableList = tableData.get("tableList");
-            if (!CollectionUtils.isEmpty(tableList) && tableList.contains(FASP_T_PUBMENU)) {
-                return true;
-            }
-            tableList.add(FASP_T_PUBMENU);
-            map.put("tableList", tableList);
-            TableContextHolder.setTableData(map);
-            return false;
+//        Map<String, List<String>> tableData = TableContextHolder.getTableData();
+//        Map<String, List<String>> map = new HashMap<>(1);
+//        List<String> tableList =null;
+//        if(!CollectionUtils.isEmpty(tableData)){
+//            tableList = tableData.get("tableList");
+//            if (!CollectionUtils.isEmpty(tableList) && tableList.contains(FASP_T_PUBMENU)) {
+//                return true;
+//            }
+//            tableList.add(FASP_T_PUBMENU);
+//            map.put("tableList", tableList);
+//            TableContextHolder.setTableData(map);
+//            return false;
+//        }
+//        tableList = new ArrayList<>();
+//        tableList.add(FASP_T_PUBMENU);
+//        map.put("tableList", tableList);
+//        TableContextHolder.setTableData(map);
+//        return false;
+        if (syncMenuMapper.exitsMenuTable()>0) {
+            return true;
         }
-        tableList = new ArrayList<>();
-        tableList.add(FASP_T_PUBMENU);
-        map.put("tableList", tableList);
-        TableContextHolder.setTableData(map);
         return false;
     }
 

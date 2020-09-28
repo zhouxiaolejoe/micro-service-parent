@@ -1,7 +1,9 @@
 package com.micro.service.springquartz.mapper.target;
 
+import com.micro.service.springquartz.model.Dic3SyncDSPO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,4 +30,23 @@ public interface SyncRangeMapper {
     boolean batchInsertData(Map<String, Object> map);
 
     boolean deleteAllData(@Param("tablename") String tablename);
+
+
+    List<Dic3SyncDSPO> querySyncElements();
+
+    void updateSyncElementDateTime(@Param("elementcode") String elementcode, @Param("datetime") String datetime);
+
+    List<String> queryElementcodeView(@Param("elementcode") String elementcode);
+
+    void createElementcodeView(@Param("table") String table, @Param("view") String view);
+
+    void updateElementcodeView(@Param("elementcode") String elementcode, @Param("tablecode") String tablecode);
+
+    void createDic3syncdsTable();
+
+    List<Dic3SyncDSPO> querySyncElementsFromDS();
+
+    void insertSyncElements(Dic3SyncDSPO pos);
+
+    void deleteSyncElements();
 }

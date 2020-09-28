@@ -46,7 +46,7 @@ public class TableJob extends QuartzJobBean {
                 try {
                     scheduler.syncTable(origin, tableName, target);
                 } catch (Exception e) {
-                    log.error("IFaspClientScheduler run error " + scheduler.getClass().getName(), e);
+                    log.error("SyncTableScheduler run error " + scheduler.getClass().getName(), e);
                     JobExecutionException e2 = new JobExecutionException(e);
                     e2.setRefireImmediately(true);
                 }

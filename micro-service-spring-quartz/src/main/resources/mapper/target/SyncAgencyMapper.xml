@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micro.service.springquartz.mapper.target.SyncAgencyMapper">
+
+	<select id="queryAgencyDsCodes" resultType="String">
+		select code from fasp_t_dicds where elementcode='AGENCY'
+	</select>
+
+    <select id="exitsAgencyTable" resultType="java.lang.Integer" >
+    select count(*) from user_tables where table_name=#{tablename,jdbcType=VARCHAR}
+	</select>
+
+
+    <select id="queryAgencyVersion" resultType="java.lang.String" >
+		select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from ${tablename}
+	</select>
+
+
+    <insert id="insertAgencyData">
+		insert into ${tablename} (admdiv,guid,isleaf,orgcode,levelno,remark,createtime,agencytype,orgspec,finintorg,zip,version,tel,superguid,intorg,fax
+		,code,ind,name,supdep,address,starttime,pinyin,fundsup,alias,endtime,agencylevel,status,year,province,canceltime,enable,paytypeflag,
+		salarytypeflag,speaccttypeflag,gltypeflag,bgttypeflag,istown,towncode,dwsxbs,fpcol1,fpcol2,fpcol3,fpcol4,fpcol5,aaorderno,isczagency,unifsoccredcode,leadername,dbversion)
+		values(
+			#{data.ADMDIV               ,jdbcType=VARCHAR},
+			#{data.GUID                 ,jdbcType=VARCHAR},
+			#{data.ISLEAF               ,jdbcType=INTEGER},
+			#{data.ORGCODE              ,jdbcType=VARCHAR},
+			#{data.LEVELNO              ,jdbcType=INTEGER},
+			#{data.REMARK               ,jdbcType=VARCHAR},
+			#{data.CREATETIME           ,jdbcType=VARCHAR},
+			#{data.AGENCYTYPE           ,jdbcType=VARCHAR},
+			#{data.ORGSPEC              ,jdbcType=VARCHAR},
+			#{data.FININTORG            ,jdbcType=VARCHAR},
+			#{data.ZIP                  ,jdbcType=VARCHAR},
+			#{data.VERSION              ,jdbcType=INTEGER},
+			#{data.TEL              	,jdbcType=VARCHAR},
+			#{data.SUPERGUID            ,jdbcType=VARCHAR},
+			#{data.INTORG               ,jdbcType=VARCHAR},
+			#{data.FAX                  ,jdbcType=VARCHAR},
+			#{data.CODE                 ,jdbcType=VARCHAR},
+			#{data.IND                  ,jdbcType=VARCHAR},
+			#{data.NAME                 ,jdbcType=VARCHAR},
+			#{data.SUPDEP               ,jdbcType=VARCHAR},
+			#{data.ADDRESS              ,jdbcType=VARCHAR},
+			#{data.STARTTIME            ,jdbcType=VARCHAR},
+			#{data.PINYIN               ,jdbcType=VARCHAR},
+			#{data.FUNDSUP              ,jdbcType=VARCHAR},
+			#{data.ALIAS                ,jdbcType=VARCHAR},
+			#{data.ENDTIME              ,jdbcType=VARCHAR},
+			#{data.AGENCYLEVEL          ,jdbcType=VARCHAR},
+			#{data.STATUS               ,jdbcType=VARCHAR},
+			#{data.YEAR                 ,jdbcType=VARCHAR},
+			#{data.PROVINCE             ,jdbcType=VARCHAR},
+			#{data.CANCELTIME           ,jdbcType=VARCHAR},
+			#{data.ENABLE               ,jdbcType=VARCHAR},
+			#{data.PAYTYPEFLAG          ,jdbcType=VARCHAR},
+			#{data.SALARYTYPEFLAG       ,jdbcType=VARCHAR},
+			#{data.SPEACCTTYPEFLAG      ,jdbcType=VARCHAR},
+			#{data.GLTYPEFLAG           ,jdbcType=VARCHAR},
+			#{data.BGTTYPEFLAG          ,jdbcType=VARCHAR},
+			#{data.ISTOWN               ,jdbcType=VARCHAR},
+			#{data.TOWNCODE             ,jdbcType=VARCHAR},
+			#{data.DWSXBS               ,jdbcType=VARCHAR},
+			#{data.FPCOL1               ,jdbcType=VARCHAR},
+			#{data.FPCOL2               ,jdbcType=VARCHAR},
+			#{data.FPCOL3               ,jdbcType=VARCHAR},
+			#{data.FPCOL4               ,jdbcType=VARCHAR},
+			#{data.FPCOL5               ,jdbcType=VARCHAR},
+			#{data.AAORDERNO            ,jdbcType=INTEGER},
+			#{data.ISCZAGENCY           ,jdbcType=VARCHAR},
+			#{data.UNIFSOCCREDCODE      ,jdbcType=VARCHAR},
+			#{data.LEADERNAME           ,jdbcType=VARCHAR},
+			#{data.DBVERSION    ,jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
+		)
+	</insert>
+
+
+    <update id="createAgencyTable" >
+		create table ${tablename}
+		(
+		  ADMDIV          VARCHAR2(50) ,
+		  GUID            VARCHAR2(50) not null,
+		  ISLEAF          NUMBER(1),
+		  ORGCODE         VARCHAR2(32),
+		  LEVELNO         NUMBER(1),
+		  REMARK          VARCHAR2(500),
+		  CREATETIME      VARCHAR2(17),
+		  AGENCYTYPE      VARCHAR2(32),
+		  ORGSPEC         VARCHAR2(32),
+		  FININTORG       VARCHAR2(32),
+		  ZIP             CHAR(6),
+		  VERSION         NUMBER(9),
+		  TEL             VARCHAR2(50),
+		  SUPERGUID       VARCHAR2(50),
+		  INTORG          VARCHAR2(50),
+		  FAX             VARCHAR2(50),
+		  CODE            VARCHAR2(50) not null,
+		  SRCGUID         VARCHAR2(50),
+		  IND             VARCHAR2(50),
+		  NAME            VARCHAR2(200) not null,
+		  SUPDEP          VARCHAR2(50),
+		  DESGUID         VARCHAR2(32),
+		  ADDRESS         VARCHAR2(500),
+		  SRCSCALE        NUMBER(18,4),
+		  STARTTIME       VARCHAR2(17),
+		  PINYIN          VARCHAR2(200),
+		  FUNDSUP         VARCHAR2(32),
+		  ALIAS           VARCHAR2(100),
+		  ENDTIME         VARCHAR2(17),
+		  AGENCYLEVEL     VARCHAR2(50),
+		  STATUS          CHAR(1),
+		  YEAR            CHAR(4) not null,
+		  PROVINCE        VARCHAR2(9) not null,
+		  DBVERSION       TIMESTAMP(6),
+		  CANCELTIME      VARCHAR2(17),
+		  ENABLE          CHAR(1),
+		  PAYTYPEFLAG     CHAR(1),
+		  SALARYTYPEFLAG  CHAR(1),
+		  SPEACCTTYPEFLAG CHAR(1),
+		  GLTYPEFLAG      CHAR(1),
+		  BGTTYPEFLAG     CHAR(1),
+		  ISTOWN          VARCHAR2(32),
+		  TOWNCODE        VARCHAR2(200),
+		  DWSXBS          VARCHAR2(50),
+		  FPCOL1          VARCHAR2(50),
+		  FPCOL2          VARCHAR2(50),
+		  FPCOL3          VARCHAR2(50),
+		  FPCOL4          VARCHAR2(200),
+		  FPCOL5          VARCHAR2(200),
+		  AAORDERNO       NUMBER(9),
+		  LEADERNAME	  VARCHAR2(100),
+		  UNIFSOCCREDCODE VARCHAR2(32),
+		  ISCZAGENCY      VARCHAR2(50)
+		)
+	</update>
+
+
+    <delete id="deleteAgencyData">
+		delete from ${tablename} where guid = #{data.GUID,jdbcType=VARCHAR}
+        <choose>
+            <when test=" data.YEAR != null and  data.YEAR != '' ">
+                and year = #{data.YEAR,jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                and year is null
+            </otherwise>
+        </choose>
+        <choose>
+            <when test=" data.PROVINCE != null and  data.PROVINCE != '' ">
+                and province = #{ data.PROVINCE,jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                and province is null
+            </otherwise>
+        </choose>
+	</delete>
+    <insert id="batchInsertAgency" parameterType="java.util.Map">
+
+         insert into ${tablename}
+            (ADMDIV,GUID,ISLEAF,ORGCODE,LEVELNO,REMARK,CREATETIME,AGENCYTYPE,ORGSPEC,FININTORG,ZIP,VERSION,TEL,SUPERGUID,INTORG,FAX
+		,CODE,IND,NAME,SUPDEP,ADDRESS,STARTTIME,PINYIN,FUNDSUP,ALIAS,ENDTIME,AGENCYLEVEL,STATUS,YEAR,PROVINCE,CANCELTIME,ENABLE,PAYTYPEFLAG,
+		SALARYTYPEFLAG,SPEACCTTYPEFLAG,GLTYPEFLAG,BGTTYPEFLAG,ISTOWN,TOWNCODE,DWSXBS,FPCOL1,FPCOL2,FPCOL3,FPCOL4,FPCOL5,AAORDERNO,ISCZAGENCY,UNIFSOCCREDCODE,LEADERNAME,DBVERSION)
+            select a.* from(
+        <foreach collection="list" item="item" separator="union all">
+            select
+			#{item.ADMDIV               ,jdbcType=VARCHAR},
+			#{item.GUID                 ,jdbcType=VARCHAR},
+			#{item.ISLEAF               ,jdbcType=INTEGER},
+			#{item.ORGCODE              ,jdbcType=VARCHAR},
+			#{item.LEVELNO              ,jdbcType=INTEGER},
+			#{item.REMARK               ,jdbcType=VARCHAR},
+			#{item.CREATETIME           ,jdbcType=VARCHAR},
+			#{item.AGENCYTYPE           ,jdbcType=VARCHAR},
+			#{item.ORGSPEC              ,jdbcType=VARCHAR},
+			#{item.FININTORG            ,jdbcType=VARCHAR},
+			#{item.ZIP                  ,jdbcType=VARCHAR},
+			#{item.VERSION              ,jdbcType=INTEGER},
+			#{item.TEL              	,jdbcType=VARCHAR},
+			#{item.SUPERGUID            ,jdbcType=VARCHAR},
+			#{item.INTORG               ,jdbcType=VARCHAR},
+			#{item.FAX                  ,jdbcType=VARCHAR},
+			#{item.CODE                 ,jdbcType=VARCHAR},
+			#{item.IND                  ,jdbcType=VARCHAR},
+			#{item.NAME                 ,jdbcType=VARCHAR},
+			#{item.SUPDEP               ,jdbcType=VARCHAR},
+			#{item.ADDRESS              ,jdbcType=VARCHAR},
+			#{item.STARTTIME            ,jdbcType=VARCHAR},
+			#{item.PINYIN               ,jdbcType=VARCHAR},
+			#{item.FUNDSUP              ,jdbcType=VARCHAR},
+			#{item.ALIAS                ,jdbcType=VARCHAR},
+			#{item.ENDTIME              ,jdbcType=VARCHAR},
+			#{item.AGENCYLEVEL          ,jdbcType=VARCHAR},
+			#{item.STATUS               ,jdbcType=VARCHAR},
+			#{item.YEAR                 ,jdbcType=VARCHAR},
+			#{item.PROVINCE             ,jdbcType=VARCHAR},
+			#{item.CANCELTIME           ,jdbcType=VARCHAR},
+			#{item.ENABLE               ,jdbcType=VARCHAR},
+			#{item.PAYTYPEFLAG          ,jdbcType=VARCHAR},
+			#{item.SALARYTYPEFLAG       ,jdbcType=VARCHAR},
+			#{item.SPEACCTTYPEFLAG      ,jdbcType=VARCHAR},
+			#{item.GLTYPEFLAG           ,jdbcType=VARCHAR},
+			#{item.BGTTYPEFLAG          ,jdbcType=VARCHAR},
+			#{item.ISTOWN               ,jdbcType=VARCHAR},
+			#{item.TOWNCODE             ,jdbcType=VARCHAR},
+			#{item.DWSXBS               ,jdbcType=VARCHAR},
+			#{item.FPCOL1               ,jdbcType=VARCHAR},
+			#{item.FPCOL2               ,jdbcType=VARCHAR},
+			#{item.FPCOL3               ,jdbcType=VARCHAR},
+			#{item.FPCOL4               ,jdbcType=VARCHAR},
+			#{item.FPCOL5               ,jdbcType=VARCHAR},
+			#{item.AAORDERNO            ,jdbcType=INTEGER},
+			#{item.ISCZAGENCY           ,jdbcType=VARCHAR},
+			#{item.UNIFSOCCREDCODE      ,jdbcType=VARCHAR},
+			#{item.LEADERNAME           ,jdbcType=VARCHAR},
+			to_date(#{item.DBVERSION    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+                from DUAL
+        </foreach>
+            ) a
+
+    </insert>
+    <delete id="deleteAllData">
+		delete from ${tablename}
+	</delete>
+</mapper>

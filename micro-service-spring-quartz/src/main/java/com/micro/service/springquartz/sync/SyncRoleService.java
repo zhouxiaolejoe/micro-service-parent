@@ -125,23 +125,26 @@ public class SyncRoleService implements IFaspClientScheduler {
     }
 
     private Boolean exitsRoleTable() {
-        Map<String, List<String>> tableData = TableContextHolder.getTableData();
-        Map<String, List<String>> map = new HashMap<>(1);
-        List<String> tableList =null;
-        if(!CollectionUtils.isEmpty(tableData)){
-            tableList = tableData.get("tableList");
-            if (!CollectionUtils.isEmpty(tableList) && tableList.contains(FASP_T_CAROLE)) {
-                return true;
-            }
-            tableList.add(FASP_T_CAROLE);
-            map.put("tableList", tableList);
-            TableContextHolder.setTableData(map);
-            return false;
+        if (syncRoleMapper.exitsRoleTable()>0) {
+            return true;
         }
-        tableList = new ArrayList<>();
-        tableList.add(FASP_T_CAROLE);
-        map.put("tableList", tableList);
-        TableContextHolder.setTableData(map);
+//        Map<String, List<String>> tableData = TableContextHolder.getTableData();
+//        Map<String, List<String>> map = new HashMap<>(1);
+//        List<String> tableList =null;
+//        if(!CollectionUtils.isEmpty(tableData)){
+//            tableList = tableData.get("tableList");
+//            if (!CollectionUtils.isEmpty(tableList) && tableList.contains(FASP_T_CAROLE)) {
+//                return true;
+//            }
+//            tableList.add(FASP_T_CAROLE);
+//            map.put("tableList", tableList);
+//            TableContextHolder.setTableData(map);
+//            return false;
+//        }
+//        tableList = new ArrayList<>();
+//        tableList.add(FASP_T_CAROLE);
+//        map.put("tableList", tableList);
+//        TableContextHolder.setTableData(map);
         return false;
     }
 

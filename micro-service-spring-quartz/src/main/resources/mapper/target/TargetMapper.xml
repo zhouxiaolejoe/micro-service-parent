@@ -7,33 +7,35 @@
         create table ${tablename}( ${sqlData})
     </update>
     <delete id="deleteData">
-            delete from ${tablename} where guid = #{guid,jdbcType=VARCHAR}
+            delete from ${tablename} where guid = #{data.GUID,jdbcType=VARCHAR}
             <choose>
-                <when test=" year != null and year != '' ">
-                    and year = #{year,jdbcType=VARCHAR}
+                <when test=" data.YEAR != null and data.YEAR != '' ">
+                    and year = #{data.YEAR,jdbcType=VARCHAR}
                 </when>
                 <otherwise>
                     and year is null
                 </otherwise>
             </choose>
             <choose>
-                <when test=" province != null and province != '' ">
-                    and province = #{province,jdbcType=VARCHAR}
+                <when test=" data.PROVINCE != null and data.PROVINCE != '' ">
+                    and province = #{data.PROVINCE,jdbcType=VARCHAR}
                 </when>
                 <otherwise>
                     and province is null
                 </otherwise>
             </choose>
-        </delete>
+    </delete>
+    <delete id="deleteDataByGuid">
+        delete from ${tablename} where guid = #{guid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insertDataDynamic">
+        insert into ${tablename} (${sql})
+        values(
+            ${values}
+        )
+    </insert>
 
-        <insert id="insertDataD">
-            insert into ${tablename} (${sql})
-            values(
-                ${values}
-            )
-        </insert>
-
-        <select id="queryTableMaxVersion" resultType="java.lang.String">
+    <select id="queryTableMaxVersion" resultType="java.lang.String">
 		select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from ${tablename}
 	</select>
 </mapper>

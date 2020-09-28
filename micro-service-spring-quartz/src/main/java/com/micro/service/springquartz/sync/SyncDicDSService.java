@@ -54,8 +54,37 @@ public class SyncDicDSService implements IFaspClientScheduler {
         syncDicTable(origin, target);
         syncDicColumns(origin, target);
         syncDicds(origin, target);
+        syncDic3Syncds(origin, target);
     }
-
+    private void syncDic3Syncds(String origin, String target) {
+        checkDic3syncdsTable(origin, target);
+        List<Dic3SyncDSPO> pos = syncRangeMapper.querySyncElementsFromDS();
+        for (Dic3SyncDSPO po : pos) {
+            po.setTablename("fasp_t_pup" + po.getTablename().toLowerCase().trim());
+            syncRangeMapper.insertSyncElements(po);
+        }
+        syncRangeMapper.deleteSyncElements();
+    }
+    Boolean existDic3syncdsTable(){
+        if(syncRangeMapper.exitsTable("FASP_T_DIC3SYNCDS")>0){
+            return true;
+        }
+        return false;
+//        List<String> tableList = caffeineCache.asMap().get("tableList");
+//        return CollectionUtils.isEmpty(tableList)?false:tableList.contains("FASP_T_DIC3SYNCDS");
+    }
+    private boolean checkDic3syncdsTable(String origin, String target) {
+        try {
+            if (!existDic3syncdsTable()) {
+                changeService.changeDb(target);
+                syncRangeMapper.createDic3syncdsTable();
+            }
+        } catch (Exception e) {
+            log.error("", e);
+            return false;
+        }
+        return true;
+    }
     /**
      * 同步FASP_T_DICDS数据
      */
@@ -190,7 +219,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
 
                 changeService.changeDb(origin);
                 PageHelper.startPage(page++, 1000);
-                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion(FASP_T_DICCOLUMN, version);
+                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion(FASP_T_MGDICCOLUMN, version);
                 if (CollectionUtils.isEmpty(dsDatas)) {
                     return;
                 }
@@ -227,7 +256,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
             do {
                 changeService.changeDb(origin);
                 PageHelper.startPage(page++, 1000);
-                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion(FASP_T_DICTABLE, version);
+                List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion(FASP_T_MGDICTABLE, version);
                 if (CollectionUtils.isEmpty(dsDatas)) {
                     return;
                 }
@@ -367,12 +396,6 @@ public class SyncDicDSService implements IFaspClientScheduler {
         return version;
     }
 
-    private void checkDic3syncdsTable() {
-        if (exitsTable(FASP_T_DIC3SYNCDS)) {
-            return;
-        }
-        syncDicDSMapper.createDic3syncdsTable();
-    }
 
     /**
      * 检查FASP_T_DICDS是否存在 否则创建
@@ -408,44 +431,52 @@ public class SyncDicDSService implements IFaspClientScheduler {
      * 判断表是否存在
      */
     private Boolean exitsTable(String tablename) {
-        Map<String, List<String>> tableData = TableContextHolder.getTableData();
-        Map<String, List<String>> map = new HashMap<>(1);
-        List<String> tableList = null;
-        if (!CollectionUtils.isEmpty(tableData)) {
-            tableList = tableData.get("tableList");
-            if (!CollectionUtils.isEmpty(tableList) && tableList.contains(tablename)) {
-                return true;
-            }
-            tableList.add(tablename);
-            map.put("tableList", tableList);
-            TableContextHolder.setTableData(map);
-            return false;
+//        Map<String, List<String>> tableData = TableContextHolder.getTableData();
+//        Map<String, List<String>> map = new HashMap<>(1);
+//        List<String> tableList = null;
+//        if (!CollectionUtils.isEmpty(tableData)) {
+//            tableList = tableData.get("tableList");
+//            if (!CollectionUtils.isEmpty(tableList) && tableList.contains(tablename)) {
+//                return true;
+//            }
+//            tableList.add(tablename);
+//            map.put("tableList", tableList);
+//            TableContextHolder.setTableData(map);
+//            return false;
+//        }
+//        tableList = new ArrayList<>();
+//        tableList.add(tablename);
+//        map.put("tableList", tableList);
+//        TableContextHolder.setTableData(map);
+//        return false;
+        if(syncRangeMapper.exitsTable(tablename)>0){
+            return true;
         }
-        tableList = new ArrayList<>();
-        tableList.add(tablename);
-        map.put("tableList", tableList);
-        TableContextHolder.setTableData(map);
         return false;
     }
 
     Boolean exitsView(String viewName) {
-        Map<String, List<String>> viewData = TableContextHolder.getTableData();
-        Map<String, List<String>> map = new HashMap<>(1);
-        List<String> viewList = null;
-        if (!CollectionUtils.isEmpty(viewList)) {
-            viewList = viewData.get("viewList");
-            if (!CollectionUtils.isEmpty(viewList) && viewList.contains(viewName)) {
-                return true;
-            }
-            viewList.add(viewName);
-            map.put("viewList", viewList);
-            TableContextHolder.setTableData(map);
-            return false;
+//        Map<String, List<String>> viewData = TableContextHolder.getTableData();
+//        Map<String, List<String>> map = new HashMap<>(1);
+//        List<String> viewList = null;
+//        if (!CollectionUtils.isEmpty(viewList)) {
+//            viewList = viewData.get("viewList");
+//            if (!CollectionUtils.isEmpty(viewList) && viewList.contains(viewName)) {
+//                return true;
+//            }
+//            viewList.add(viewName);
+//            map.put("viewList", viewList);
+//            TableContextHolder.setTableData(map);
+//            return false;
+//        }
+//        viewList = new ArrayList<>();
+//        viewList.add(viewName);
+//        map.put("viewList", viewList);
+//        TableContextHolder.setTableData(map);
+//        return false;
+        if(syncRangeMapper.exitsView(viewName)>0){
+            return true;
         }
-        viewList = new ArrayList<>();
-        viewList.add(viewName);
-        map.put("viewList", viewList);
-        TableContextHolder.setTableData(map);
         return false;
     }
 

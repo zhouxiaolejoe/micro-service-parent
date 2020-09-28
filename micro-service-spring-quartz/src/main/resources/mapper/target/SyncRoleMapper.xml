@@ -117,18 +117,18 @@
 
 
     <delete id="deleteRoleData">
-		delete from FASP_T_CAROLE where guid = #{guid,jdbcType=VARCHAR}
+		delete from FASP_T_CAROLE where guid = #{GUID,jdbcType=VARCHAR}
         <choose>
-            <when test=" year != null and year != '' ">
-                and year = #{year,jdbcType=VARCHAR}
+            <when test=" YEAR != null and YEAR != '' ">
+                and year = #{YEAR,jdbcType=VARCHAR}
             </when>
             <otherwise>
                 and year is null
             </otherwise>
         </choose>
         <choose>
-            <when test=" province != null and province != '' ">
-                and province = #{province,jdbcType=VARCHAR}
+            <when test=" PROVINCE != null and PROVINCE != '' ">
+                and province = #{PROVINCE,jdbcType=VARCHAR}
             </when>
             <otherwise>
                 and province is null

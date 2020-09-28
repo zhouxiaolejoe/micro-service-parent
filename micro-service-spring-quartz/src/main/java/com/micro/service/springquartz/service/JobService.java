@@ -21,7 +21,7 @@ public interface JobService {
 
     ResultBuilder removeJob(String jobName, String jobGroup) throws SchedulerException;
 
-    ResultBuilder jobStatus(String triggerName, String triggerGroup) throws SchedulerException;
+    ResultBuilder jobStatus(String jobName, String jobGroup) throws SchedulerException;
 
     ResultBuilder rescheduleJob(QuartzJobDTO quartzJobDTO) throws SchedulerException;
 }
