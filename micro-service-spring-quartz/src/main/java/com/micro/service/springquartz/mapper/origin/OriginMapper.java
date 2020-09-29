@@ -1,5 +1,7 @@
 package com.micro.service.springquartz.mapper.origin;
 
+import com.micro.service.springquartz.model.ClientApiRoleMenuRestDTO;
+import com.micro.service.springquartz.model.ClientApiRoleUserRestDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,4 +19,8 @@ public interface OriginMapper {
     List<Map<String, Object>> queryTableDataByDBVersion(@Param("tablename") String tablename, @Param("dbversion") String dbversion);
 
     List<Map<String, Object>> selectTableColumn(@Param("tablename") String tablename);
+
+    List<ClientApiRoleUserRestDTO> queryUserRolemapping(@Param("userguid") String userguid);
+
+    List<ClientApiRoleMenuRestDTO> queryRoleMenuMapping(@Param("menuguid") String menuguid);
 }

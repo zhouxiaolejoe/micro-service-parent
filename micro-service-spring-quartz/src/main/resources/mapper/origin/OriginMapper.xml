@@ -9,4 +9,12 @@
      <select id="selectTableColumn" resultType="java.util.Map">
         SELECT COLUMN_NAME "NAME",DATA_TYPE "TYPE",DATA_LENGTH "LENGTH" FROM USER_TAB_COLUMNS  WHERE TABLE_NAME = #{tablename,jdbcType=VARCHAR}
     </select>
+
+    <select id="queryUserRolemapping" resultType="com.micro.service.springquartz.model.ClientApiRoleUserRestDTO">
+     select GUID, USERGUID, ROLEGUID, PROVINCE, YEAR, to_char(DBVERSION,'yyyymmddhh24miss') VERSION from fasp_t_causerrole where userguid=#{userguid,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryRoleMenuMapping" resultType="com.micro.service.springquartz.model.ClientApiRoleMenuRestDTO">
+       SELECT GUID, MENUGUID, ROLEGUID, PROVINCE, YEAR, to_char(DBVERSION,'yyyymmddhh24miss') VERSION from fasp_t_carolemenu WHERE menuguid = #{menuguid}
+    </select>
 </mapper>

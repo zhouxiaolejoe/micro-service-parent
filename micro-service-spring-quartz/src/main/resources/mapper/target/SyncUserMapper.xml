@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micro.service.springquartz.mapper.target.SyncUserMapper">
+
+	<select id="exitsUserTable" resultType="java.lang.Integer" >
+    	select count(*) from user_tables where table_name='FASP_T_CAUSER'
+	</select>
+
+
+	<select id="exitsUserRoleTable" resultType="java.lang.Integer" >
+		select count(*) from user_tables where table_name='FASP_T_CAUSERROLE'
+	</select>
+
+
+	<select id="queryUserVersion" resultType="java.lang.String" >
+		select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from fasp_t_causer
+	</select>
+
+	<insert id="insertUserData">
+		insert into FASP_T_CAUSER(issys,guid,admintype,usertype,status,loginmode,code,name,createdate,updatedate,agency,logindate,idcode,phonenumber,email,division,remark,year,province,upagencyid,bank,admdiv,pinyin,ordernum,paytypeflag,salarytypeflag,speaccttypeflag,bgttypeflag,istown,ak,dbversion)
+		values(
+			#{ISSYS          ,jdbcType=INTEGER},
+			#{GUID           ,jdbcType=VARCHAR},
+			#{ADMINTYPE      ,jdbcType=INTEGER},
+			#{USERTYPE       ,jdbcType=INTEGER},
+			#{STATUS         ,jdbcType=VARCHAR},
+			#{LOGINMODE      ,jdbcType=INTEGER},
+			#{CODE           ,jdbcType=VARCHAR},
+			#{NAME           ,jdbcType=VARCHAR},
+			#{CREATEDATE     ,jdbcType=VARCHAR},
+			#{UPDATEDATE     ,jdbcType=VARCHAR},
+			#{AGENCY         ,jdbcType=VARCHAR},
+			#{LOGINDATE      ,jdbcType=VARCHAR},
+			#{IDCODE         ,jdbcType=VARCHAR},
+			#{PHONENUMBER    ,jdbcType=VARCHAR},
+			#{EMAIL          ,jdbcType=VARCHAR},
+			#{DIVISION       ,jdbcType=VARCHAR},
+			#{REMARK         ,jdbcType=VARCHAR},
+			#{YEAR           ,jdbcType=VARCHAR},
+			#{PROVINCE       ,jdbcType=VARCHAR},
+			#{UPAGENCYID     ,jdbcType=VARCHAR},
+			#{BANK           ,jdbcType=VARCHAR},
+			#{ADMDIV         ,jdbcType=VARCHAR},
+			#{PINYIN         ,jdbcType=VARCHAR},
+			#{ORDERNUM       ,jdbcType=INTEGER},
+			#{PAYTYPEFLAG    ,jdbcType=VARCHAR},
+			#{SALARYTYPEFLAG ,jdbcType=VARCHAR},
+			#{SPEACCTTYPEFLAG,jdbcType=VARCHAR},
+			#{BGTTYPEFLAG    ,jdbcType=VARCHAR},
+			#{ISTOWN         ,jdbcType=VARCHAR},
+			#{AK             ,jdbcType=VARCHAR},
+			#{DBVERSION      ,jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
+		)
+	</insert>
+
+
+	<update id="createUserTable" >
+		create table FASP_T_CAUSER
+		(
+		  ISSYS           NUMBER(1),
+		  GUID            VARCHAR2(50) not null,
+		  ADMINTYPE       NUMBER(1),
+		  USERTYPE        NUMBER(2),
+		  STATUS          CHAR(1),
+		  LOGINMODE       NUMBER(1),
+		  CODE            VARCHAR2(100),
+		  NAME            VARCHAR2(200),
+		  CREATEDATE      VARCHAR2(30),
+		  UPDATEDATE      VARCHAR2(30),
+		  OVERDUEDATE     VARCHAR2(30),
+		  PASSWORD        VARCHAR2(50),
+		  AGENCY          VARCHAR2(32),
+		  LOGINDATE       VARCHAR2(30),
+		  IDCODE          VARCHAR2(50),
+		  PHONENUMBER     VARCHAR2(100),
+		  EMAIL           VARCHAR2(100),
+		  DIVISION        VARCHAR2(50),
+		  REMARK          VARCHAR2(255),
+		  YEAR            CHAR(4),
+		  PROVINCE        VARCHAR2(20),
+		  PWOUTDATE       NUMBER(1),
+		  UPAGENCYID      VARCHAR2(50),
+		  DBVERSION       TIMESTAMP(6),
+		  BANK            VARCHAR2(32),
+		  ADMDIV          VARCHAR2(32),
+		  PINYIN          VARCHAR2(200),
+		  PWMODDATE       VARCHAR2(100),
+		  INITIALPASSWORD VARCHAR2(100),
+		  ORDERNUM        NUMBER(5),
+		  PAYTYPEFLAG     CHAR(1) default '1',
+		  SALARYTYPEFLAG  CHAR(1) default '1',
+		  SPEACCTTYPEFLAG CHAR(1) default '1',
+		  BGTTYPEFLAG     CHAR(1) default '1',
+		  ISTOWN          CHAR(1) default '0',
+		  AK              VARCHAR2(500)
+		)
+	</update>
+
+    <delete id="deleteUserData">
+		delete from FASP_T_CAUSER where guid = #{GUID,jdbcType=VARCHAR}
+        <choose>
+            <when test=" YEAR != null and YEAR != '' ">
+                and year = #{YEAR,jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                and year is null
+            </otherwise>
+        </choose>
+        <choose>
+            <when test=" PROVINCE != null and PROVINCE != '' ">
+                and province = #{PROVINCE,jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                and province is null
+            </otherwise>
+        </choose>
+	</delete>
+</mapper>

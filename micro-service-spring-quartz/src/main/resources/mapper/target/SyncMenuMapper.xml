@@ -38,7 +38,7 @@
 			#{ALIAS                         ,jdbcType=VARCHAR},
 			#{ISPTADMIN                     ,jdbcType=VARCHAR},
 			#{ADMDIV                        ,jdbcType=VARCHAR},
-			#{DBVERSION                     ,jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
+			#{DBVERSION    ,jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
 		)
 	</insert>
 

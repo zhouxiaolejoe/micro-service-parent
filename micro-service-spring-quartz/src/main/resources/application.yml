@@ -54,7 +54,13 @@ spring:
     jdbc:
       schema: classpath:org/quartz/impl/jdbcjobstore/tables_oracle.sql
       initialize-schema: never
+  main:
+    allow-bean-definition-overriding: true
 logging:
-  level.org.springframework.web: debug
+#  level.org.springframework.web: debug
 #  level.com.micro.service.springquartz.mapper: debug
   level.com.micro.service.springquartz.job: debug
+
+faspclient:
+  sync-start: true
+  fasp_server_id: http://119.3.156.206:7003

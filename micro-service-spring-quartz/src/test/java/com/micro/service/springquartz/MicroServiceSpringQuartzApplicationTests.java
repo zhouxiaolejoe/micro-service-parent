@@ -6,8 +6,11 @@ import com.micro.service.springquartz.mapper.FaspTPubmenuMapper;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
 import com.micro.service.springquartz.mapper.target.SyncDicDSMapper;
 import com.micro.service.springquartz.mapper.target.SyncMenuMapper;
+import com.micro.service.springquartz.model.ClientApiRoleMenuRestDTO;
+import com.micro.service.springquartz.model.ClientApiRoleUserRestDTO;
 import com.micro.service.springquartz.model.FaspTPubmenu;
 import com.micro.service.springquartz.service.DBChangeService;
+import com.sun.javafx.binding.StringFormatter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -148,5 +151,16 @@ public class MicroServiceSpringQuartzApplicationTests {
         for (Map<String, Object> map : maps) {
            log.info(map.toString());
         }
+    }
+
+
+    @SneakyThrows
+    @Test
+    public void contextLoads6() {
+        dbChangeService.changeDb("bas");
+        List<ClientApiRoleMenuRestDTO> clientApiRoleMenuRestDTOS = originMapper.queryRoleMenuMapping("077986F17DAB5E21E050007F010012CA");
+        List<ClientApiRoleUserRestDTO> clientApiRoleUserRestDTOS = originMapper.queryUserRolemapping("ADEC3390885DAB60E05308031323BD9E");
+        System.err.println(clientApiRoleMenuRestDTOS);
+        System.err.println(clientApiRoleUserRestDTOS);
     }
 }

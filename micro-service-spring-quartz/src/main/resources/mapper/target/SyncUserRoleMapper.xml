@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micro.service.springquartz.mapper.target.SyncUserRoleMapper">
+
+	<select id="exitsUserRoleTable" resultType="java.lang.Integer" >
+		select count(*) from user_tables where table_name='FASP_T_CAUSERROLE'
+	</select>
+
+
+    <select id="queryUserRoleVersion" resultType="java.lang.String" >
+		select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from fasp_t_causerrole
+	</select>
+  <delete id="deleteUserRoles">
+		delete from fasp_t_causerrole where userguid = #{userguid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertUserRole">
+		insert into fasp_t_causerrole (GUID, USERGUID, ROLEGUID, PROVINCE, YEAR, DBVERSION)
+		values (
+			#{guid          ,jdbcType=VARCHAR},
+			#{userguid          ,jdbcType=VARCHAR},
+			#{roleguid          ,jdbcType=VARCHAR},
+			#{province          ,jdbcType=VARCHAR},
+			#{year          ,jdbcType=VARCHAR},
+			to_timestamp(#{version    ,jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
+		)
+	</insert>
+
+	<update id="createUserRoleTable" >
+		create table FASP_T_CAUSERROLE
+		(
+		  GUID      VARCHAR2(50) not null,
+		  USERGUID  VARCHAR2(50),
+		  ROLEGUID  VARCHAR2(50),
+		  PROVINCE  VARCHAR2(9),
+		  YEAR      CHAR(4),
+		  DBVERSION TIMESTAMP(6)
+		)
+	</update>
+
+    <delete id="deleteUserRole">
+		delete from fasp_t_causerrole
+		<where>
+<!--            <choose>-->
+<!--                <when test=" userguid != null and userguid != '' ">-->
+<!--                    and userguid = #{userguid,jdbcType=VARCHAR}-->
+<!--                </when>-->
+<!--                <otherwise>-->
+<!--                    and year is null-->
+<!--                </otherwise>-->
+<!--            </choose>-->
+            <choose>
+                <when test=" roleguid != null and roleguid != '' ">
+                    and roleguid = #{roleguid,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    and roleguid is null
+                </otherwise>
+            </choose>
+            <choose>
+                <when test=" year != null and year != '' ">
+                    and year = #{year,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    and year is null
+                </otherwise>
+            </choose>
+            <choose>
+                <when test=" province != null and province != '' ">
+                    and province = #{province,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    and province is null
+                </otherwise>
+            </choose>
+        </where>
+	</delete>
+
+
+
+	<insert id="batchInsertUserRole" parameterType="java.util.Map">
+        insert into FASP_T_CAUSERROLE
+            (GUID, USERGUID, ROLEGUID, PROVINCE, YEAR, DBVERSION)
+            select a.* from(
+        <foreach collection="list" item="item" separator="union all">
+            select
+			#{item.GUID          ,jdbcType=VARCHAR},
+			#{item.USERGUID          ,jdbcType=VARCHAR},
+			#{item.ROLEGUID          ,jdbcType=VARCHAR},
+			#{item.PROVINCE          ,jdbcType=VARCHAR},
+			#{item.YEAR          ,jdbcType=VARCHAR},
+			to_timestamp(#{item.DBVERSION    ,jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI:SS:FF')
+                from DUAL
+        </foreach>
+            ) a
+    </insert>
+    <delete id="deleteAllData">
+		delete from ${tablename}
+	</delete>
+</mapper>

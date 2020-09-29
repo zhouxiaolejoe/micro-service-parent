@@ -530,10 +530,10 @@ public class SyncDicDSService implements IFaspClientScheduler {
                         if ("MOFDIV".equals(x.get("ELEMENTCODE"))) {
                             return false;
                         }
-                        if (!StringUtils.isEmpty(x.get("TYPEGUID"))) {
-                            return x.get("TYPEGUID").equals(businessType);
-                        }
-                        return false;
+//                        if (!StringUtils.isEmpty(x.get("TYPEGUID"))) {
+//                            return x.get("TYPEGUID").equals(businessType);
+//                        }
+                        return true;
                     }
             ).map(y -> {
                         if ("ADMDIV".equals(y.get("ELEMENTCODE"))) {

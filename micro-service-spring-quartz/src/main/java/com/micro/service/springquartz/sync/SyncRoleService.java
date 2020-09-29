@@ -2,10 +2,12 @@ package com.micro.service.springquartz.sync;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.pagehelper.PageHelper;
-import com.micro.service.springquartz.config.TableContextHolder;
+import com.micro.service.springquartz.clientapi.TableDBVersionClient;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
 import com.micro.service.springquartz.mapper.target.SyncRoleMapper;
+import com.micro.service.springquartz.model.RestClientResultDTO;
 import com.micro.service.springquartz.service.DBChangeService;
+import com.micro.service.springquartz.utils.FaspAuthenticateUtils;
 import com.micro.service.springquartz.utils.SyncDataUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +20,10 @@ import sun.misc.BASE64Encoder;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static com.micro.service.springquartz.utils.MapUtils.toLowerMapKey;
 
 /**
  * 同步用户表内容
@@ -39,6 +38,8 @@ public class SyncRoleService implements IFaspClientScheduler {
     DBChangeService changeService;
     SyncRoleMapper syncRoleMapper;
     Cache<String, List<String>> caffeineCache;
+    FaspAuthenticateUtils faspAuthenticateUtils;
+    TableDBVersionClient client;
     public static final String FASP_T_CAROLE = "FASP_T_CAROLE";
 
     @Override
@@ -51,6 +52,8 @@ public class SyncRoleService implements IFaspClientScheduler {
             Integer syncCount;
             Integer page = 1;
             Boolean isdelete = true;
+            RestClientResultDTO<List<Map<String, Object>>> rs = null;
+            String tokenid = faspAuthenticateUtils.getFaspToken();
             do {
                 /**
                  * 切换到源库
@@ -58,7 +61,6 @@ public class SyncRoleService implements IFaspClientScheduler {
                 changeService.changeDb(origin);
                 PageHelper.startPage(page++, 1000);
                 List<Map<String, Object>> dsDatas = originMapper.queryTableDataByDBVersion(FASP_T_CAROLE, version);
-
                 if (CollectionUtils.isEmpty(dsDatas)) {
                     break;
                 }
