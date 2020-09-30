@@ -33,5 +33,7 @@ public class QrtzTriggerDetails {
     private String priority;
     private String triggerType;
     private String triggerState;
+    private String cronExpression;
+    private String timeZoneId;
 
 }

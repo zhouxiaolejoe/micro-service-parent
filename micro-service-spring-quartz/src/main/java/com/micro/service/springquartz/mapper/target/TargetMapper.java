@@ -23,5 +23,9 @@ public interface TargetMapper {
     Integer insertDataDynamic(@Param("tablename") String tablename, @Param("sql") String sql,
                               @Param("values") String values, @Param("data") Map<String, Object> map);
 
+    Integer batchInsertDataDynamic(Map<String, Object> map);
+
     String queryTableMaxVersion(@Param("tablename") String tablename);
+
+    Boolean deleteAllData(@Param("tablename") String tablename);
 }

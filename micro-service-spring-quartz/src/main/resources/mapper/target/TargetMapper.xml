@@ -34,8 +34,22 @@
             ${values}
         )
     </insert>
+    <insert id="batchInsertDataDynamic">
+     insert into ${tablename} (${sql})
+      SELECT a.* FROM(
+      <foreach collection="datas" item="item" index="index" separator="union all">
+           select
+                ${values}
+                from dual
+      </foreach>
+        ) a
+    </insert>
 
     <select id="queryTableMaxVersion" resultType="java.lang.String">
 		select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from ${tablename}
 	</select>
+
+	<delete id="deleteAllData">
+		delete from ${tablename}
+	</delete>
 </mapper>

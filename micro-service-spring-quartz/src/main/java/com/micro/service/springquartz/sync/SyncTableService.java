@@ -3,6 +3,7 @@ package com.micro.service.springquartz.sync;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.pagehelper.PageHelper;
 import com.google.common.base.Joiner;
+import com.google.common.collect.Maps;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
 import com.micro.service.springquartz.mapper.target.SyncDicDSMapper;
 import com.micro.service.springquartz.mapper.target.TargetMapper;
@@ -10,11 +11,13 @@ import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.utils.SyncDataUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName SyncTableService
@@ -38,7 +41,7 @@ public class SyncTableService implements SyncTableScheduler {
     @Override
     public void syncTable(String origin, String tablename, String target) {
         try {
-            tablename = tablename.toUpperCase();
+            tablename = tablename.trim().toUpperCase();
             saveUserTableView(origin, tablename, target);
 
             /**
@@ -50,6 +53,7 @@ public class SyncTableService implements SyncTableScheduler {
             version = StringUtils.isEmpty(version) ? SyncDataUtils.DEFAULT_DBVERSION : version;
             int page = 1;
             Integer syncCount;
+            Boolean isdelete = true;
             do {
                 /**
                  * 切换到源库
@@ -60,11 +64,26 @@ public class SyncTableService implements SyncTableScheduler {
                 if (CollectionUtils.isEmpty(dsDatas)) {
                     return;
                 }
-                syncElementData(tablename, dsDatas, target);
+                if (version.equals(SyncDataUtils.DEFAULT_DBVERSION)) {
+                    isdelete = saveBatchTableTable(tablename, dsDatas, target, isdelete);
+                } else {
+                    syncElementData(tablename, dsDatas, target);
+                }
                 syncCount = dsDatas.size();
                 log.info("TABLENAME :[ " + tablename + " ] DBVERSION :[" + version + "  data size=" + (syncCount + 1000 * (page - 2)) + " ]");
             } while (syncCount == 1000);
         } catch (Exception e) {
+            if (e instanceof BadSqlGrammarException) {
+                if (!e.getCause().toString().contains("ORA-00942")) {
+                    return;
+                }
+                try {
+                    saveUserTableViewAlways(origin, tablename, target);
+                    return;
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
             log.error("TABLENAME :[ " + tablename + " ] 数据同步失败 [ " + e + " ]");
         }
     }
@@ -101,13 +120,13 @@ public class SyncTableService implements SyncTableScheduler {
     }
 
     private Boolean exitsTable(String origin, String tablename, String target) {
-        List<String> tableList = caffeineCache.asMap().get(origin + "_" + target + "_tableList_"+ tablename + "_");
+        List<String> tableList = caffeineCache.asMap().get(origin + "_" + target + "_tableList_" + tablename + "_");
         if (!CollectionUtils.isEmpty(tableList) && tableList.contains(tablename)) {
             return true;
         }
         tableList = new ArrayList<>();
         tableList.add(tablename);
-        caffeineCache.asMap().put(origin + "_" + target + "_tableList_"+ tablename + "_", tableList);
+        caffeineCache.asMap().put(origin + "_" + target + "_tableList_" + tablename + "_", tableList);
         return false;
     }
 
@@ -115,8 +134,8 @@ public class SyncTableService implements SyncTableScheduler {
      * 保存用户拥有的表 视图
      */
     private void saveUserTableView(String origin, String tablename, String target) throws Exception {
-        int max = 1000;
-        if (count >= max) {
+        List<String> result = caffeineCache.asMap().get(origin + "_" + target + "_tableList_" + tablename + "_");
+        if (!CollectionUtils.isEmpty(result)) {
             return;
         }
         changeService.changeDb(target);
@@ -124,7 +143,14 @@ public class SyncTableService implements SyncTableScheduler {
         List<String> viewList = syncDicDSMapper.queryViewList();
         caffeineCache.asMap().put(origin + "_" + target + "_tableList_" + tablename + "_", tableList);
         caffeineCache.asMap().put(origin + "_" + target + "_viewList_" + tablename + "_", viewList);
-        count++;
+    }
+
+    private void saveUserTableViewAlways(String origin, String tablename, String target) throws Exception {
+        changeService.changeDb(target);
+        List<String> tableList = syncDicDSMapper.queryTableList();
+        List<String> viewList = syncDicDSMapper.queryViewList();
+        caffeineCache.asMap().put(origin + "_" + target + "_tableList_" + tablename + "_", tableList);
+        caffeineCache.asMap().put(origin + "_" + target + "_viewList_" + tablename + "_", viewList);
     }
 
     public void syncElementData(String tablename, List<Map<String, Object>> datas, String target) throws Exception {
@@ -142,6 +168,48 @@ public class SyncTableService implements SyncTableScheduler {
             targetMapper.deleteData(tablename, data);
             targetMapper.insertDataDynamic(tablename, sql, values, data);
         }
+    }
+
+    private Boolean saveBatchTableTable(String tablename, List<Map<String, Object>> datas, String target, Boolean isdelete) throws Exception {
+        changeService.changeDb(target);
+        if (isdelete) {
+            targetMapper.deleteAllData(tablename);
+            isdelete = false;
+        }
+        datas.stream().forEach(x -> {
+            x.remove("ROW_ID");
+        });
+        Map<String, Object> treeMap = new TreeMap<>(String::compareTo);
+        treeMap.putAll(datas.get(0));
+        String sql = Joiner.on(",").join(treeMap.keySet());
+        String values = batchCreatValues(treeMap, sql);
+        Map<String, Object> param = Maps.newHashMap();
+        param.put("tablename", tablename);
+        param.put("sql", sql);
+        param.put("values", values);
+        param.put("datas", datas);
+        targetMapper.batchInsertDataDynamic(param);
+        return isdelete;
+    }
+
+    private String batchCreatValues(Map<String, Object> data, String sql) {
+        String[] columns = sql.split(",");
+        StringBuilder sb = new StringBuilder("");
+        for (int i = 0; i < columns.length; i++) {
+            String col = findKey(columns[i], data.keySet());
+            if ("DBVERSION".equalsIgnoreCase(col)) {
+                sb.append("#{item." + col + ",jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler},");
+                continue;
+            }
+            if ("LEVELNO".equalsIgnoreCase(col) || "ISLEAF".equalsIgnoreCase(col)) {
+                sb.append("#{item." + col + "   ,jdbcType=INTEGER},");
+            } else {
+                sb.append("#{item." + col + "   ,jdbcType=VARCHAR},");
+            }
+        }
+        String s = sb.toString();
+        return s.substring(0, s.length() - 1);
+
     }
 
     private String creatValues(Map<String, Object> data, String sql) {

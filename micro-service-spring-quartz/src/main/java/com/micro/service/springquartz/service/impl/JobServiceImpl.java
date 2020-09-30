@@ -41,6 +41,7 @@ public class JobServiceImpl implements JobService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        List<QrtzTriggerDetails> qrtzTriggerDetails = qrtzJobDetailsMapper.selectAll();
         return qrtzJobDetailsMapper.selectAll();
     }
 
