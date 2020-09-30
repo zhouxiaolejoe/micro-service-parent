@@ -2,6 +2,7 @@ package com.micro.service.springquartz.mapper;
 import java.util.List;
 
 import com.micro.service.springquartz.model.QrtzJobDetails;
+import com.micro.service.springquartz.model.QrtzTriggerDetails;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -24,7 +25,7 @@ public interface QrtzJobDetailsMapper {
 
     int updateByPrimaryKey(QrtzJobDetails record);
 
-    List<QrtzJobDetails> selectAll();
+    List<QrtzTriggerDetails> selectAll();
 
 
 }

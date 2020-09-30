@@ -86,7 +86,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
             druidDataSource.setMaxActive(20);
             druidDataSource.setMaxWait(60000);
             druidDataSource.setMinIdle(5);
-            String validationQuery = "select 1 from dual";
+//            String validationQuery = "select 1 from dual";
 //            if("mysql".equalsIgnoreCase(databasetype)) {
 //                driveClass = DBUtil.mysqldriver;
 //                validationQuery = "select 1";
@@ -103,9 +103,9 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 //                driveClass = DBUtil.sql2005driver;
 //                validationQuery = "select 1";
 //            }
-            druidDataSource.setTestOnBorrow(true);
-            druidDataSource.setTestWhileIdle(true);
-            druidDataSource.setValidationQuery(validationQuery);
+//            druidDataSource.setTestOnBorrow(true);
+//            druidDataSource.setTestWhileIdle(true);
+//            druidDataSource.setValidationQuery(validationQuery);
             druidDataSource.setFilters("stat");
             druidDataSource.setTimeBetweenEvictionRunsMillis(60000);
             druidDataSource.setMinEvictableIdleTimeMillis(180000);

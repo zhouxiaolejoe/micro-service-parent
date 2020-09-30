@@ -41,9 +41,13 @@ public class SyncDicDEService implements IFaspClientScheduler {
     DBChangeService changeService;
     OriginMapper originMapper;
     public static final String FASP_T_DICDE = "FASP_T_DICDE";
+
     @Override
     public void start(String origin, String target) {
-
+//        List<String> tableList = caffeineCache.asMap().get("tableList_" + target);
+//        log.warn("tableList_" + target + " : " + tableList);
+//        List<String> viewList = caffeineCache.asMap().get("viewList_" + target);
+//        log.warn("viewList_" + target + " : " + viewList);
         try {
             String version = getDicdeVersion(target);
             int page = 1;
@@ -93,6 +97,7 @@ public class SyncDicDEService implements IFaspClientScheduler {
         }
         syncDicDEMapper.createDeTable();
     }
+
     /**
      * 判断FASP_T_DICDE是否存在
      */
@@ -115,12 +120,11 @@ public class SyncDicDEService implements IFaspClientScheduler {
 //        map.put("tableList", tableList);
 //        TableContextHolder.setTableData(map);
 //        return false;
-        if (syncDicDEMapper.exitsDeTable()>0) {
+        if (syncDicDEMapper.exitsDeTable() > 0) {
             return true;
         }
         return false;
     }
-
 
 
     private void saveOneDicde(List<Map<String, Object>> dsDatas) {

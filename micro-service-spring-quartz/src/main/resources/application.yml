@@ -40,7 +40,7 @@ spring:
           jobStore:
             class: org.quartz.impl.jdbcjobstore.JobStoreTX
             driverDelegateClass: org.quartz.impl.jdbcjobstore.oracle.OracleDelegate
-            misfireThreshold: 15000
+            misfireThreshold: 150000
             isClustered: true
             useProperties: true
             tablePrefix: QRTZ_

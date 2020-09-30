@@ -56,6 +56,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
         syncDicds(origin, target);
         syncDic3Syncds(origin, target);
     }
+
     private void syncDic3Syncds(String origin, String target) {
         checkDic3syncdsTable(origin, target);
         List<Dic3SyncDSPO> pos = syncRangeMapper.querySyncElementsFromDS();
@@ -65,14 +66,16 @@ public class SyncDicDSService implements IFaspClientScheduler {
         }
         syncRangeMapper.deleteSyncElements();
     }
-    Boolean existDic3syncdsTable(){
-        if(syncRangeMapper.exitsTable("FASP_T_DIC3SYNCDS")>0){
+
+    Boolean existDic3syncdsTable() {
+        if (syncRangeMapper.exitsTable("FASP_T_DIC3SYNCDS") > 0) {
             return true;
         }
         return false;
 //        List<String> tableList = caffeineCache.asMap().get("tableList");
 //        return CollectionUtils.isEmpty(tableList)?false:tableList.contains("FASP_T_DIC3SYNCDS");
     }
+
     private boolean checkDic3syncdsTable(String origin, String target) {
         try {
             if (!existDic3syncdsTable()) {
@@ -85,6 +88,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
         }
         return true;
     }
+
     /**
      * 同步FASP_T_DICDS数据
      */
@@ -108,7 +112,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
                     return;
                 }
                 String businessType = DBContextHolder.getDataSource().getBusinesstype();
-                dsDatas = getFilterDicds(dsDatas, businessType);
+//                dsDatas = getFilterDicds(dsDatas, businessType);
 
                 /**
                  * 切换到目标库 写入数据
@@ -449,7 +453,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
 //        map.put("tableList", tableList);
 //        TableContextHolder.setTableData(map);
 //        return false;
-        if(syncRangeMapper.exitsTable(tablename)>0){
+        if (syncRangeMapper.exitsTable(tablename) > 0) {
             return true;
         }
         return false;
@@ -474,7 +478,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
 //        map.put("viewList", viewList);
 //        TableContextHolder.setTableData(map);
 //        return false;
-        if(syncRangeMapper.exitsView(viewName)>0){
+        if (syncRangeMapper.exitsView(viewName) > 0) {
             return true;
         }
         return false;
@@ -566,15 +570,10 @@ public class SyncDicDSService implements IFaspClientScheduler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        TableContextHolder.clearTableData();
         List<String> tableList = syncDicDSMapper.queryTableList();
         List<String> viewList = syncDicDSMapper.queryViewList();
-        Map<String, List<String>> map = new HashMap<>(2);
-        map.put("tableList", tableList);
-        map.put("viewList", viewList);
-        TableContextHolder.setTableData(map);
-        caffeineCache.asMap().put("tableList", tableList);
-        caffeineCache.asMap().put("viewList", viewList);
+        caffeineCache.asMap().put("tableList_" + target, tableList);
+        caffeineCache.asMap().put("viewList_" + target, viewList);
         count++;
 
     }

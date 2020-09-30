@@ -4,6 +4,7 @@ import com.micro.service.springquartz.job.MyJob;
 import com.micro.service.springquartz.job.TableJob;
 import com.micro.service.springquartz.mapper.QrtzJobDetailsMapper;
 import com.micro.service.springquartz.model.QrtzJobDetails;
+import com.micro.service.springquartz.model.QrtzTriggerDetails;
 import com.micro.service.springquartz.model.QuartzJobDTO;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.service.JobService;
@@ -34,7 +35,7 @@ public class JobServiceImpl implements JobService {
     Scheduler scheduler;
 
     @Override
-    public List<QrtzJobDetails> getJobList(QuartzJobDTO quartzJobDTO) {
+    public List<QrtzTriggerDetails> getJobList(QuartzJobDTO quartzJobDTO) {
         try {
             dbChangeService.changeDb("quartz");
         } catch (Exception e) {
@@ -79,8 +80,12 @@ public class JobServiceImpl implements JobService {
                 .withIdentity(quartzJobDTO.getTriggerNmae(), quartzJobDTO.getTriggerGroup())
                 .withSchedule(CronScheduleBuilder
                         .cronSchedule(quartzJobDTO.getCronExpression())
-                        .withMisfireHandlingInstructionDoNothing())
+                        .withMisfireHandlingInstructionFireAndProceed())
                 .build();
+        /**
+         * withMisfireHandlingInstructionFireAndProceed任务超时立即触发
+         * withMisfireHandlingInstructionDoNothing任务超时等下一次执行
+         */
         /**
          * 3.关联job 和 触发器
          */

@@ -80,10 +80,14 @@ public class DruidDBConfig {
         datasource.setPoolPreparedStatements(true);
         datasource.setMaxPoolPreparedStatementPerConnectionSize(20);
         datasource.setConnectionProperties("druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000");
-        datasource.setTestOnBorrow(true);
-        datasource.setTestWhileIdle(true);
-        String validationQuery = "select 1 from dual";
-        datasource.setValidationQuery(validationQuery);
+        /**
+         * 不检查连接
+         */
+//        datasource.setTestOnBorrow(false);
+//        datasource.setTestWhileIdle(false);
+//        datasource.setTestOnReturn(false);
+//        String validationQuery = "select 1 from dual";
+//        datasource.setValidationQuery(validationQuery);
         datasource.setFilters("stat,wall");
         datasource.setTimeBetweenEvictionRunsMillis(60000);
         datasource.setMinEvictableIdleTimeMillis(180000);

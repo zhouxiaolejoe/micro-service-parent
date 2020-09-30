@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface SecServiceClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/user/authenticate",
-        headers = {"Content-Type=application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public RestClientResultDTO<String> authenticate(
-        @RequestBody ClientUserAuthenticateDTO userAuthenticateDTO);
+            headers = {"Content-Type=application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    RestClientResultDTO<String> authenticate(
+            @RequestBody ClientUserAuthenticateDTO userAuthenticateDTO);
 
     @RequestMapping(value = "/tokenids/{tokenid}/exist", method = RequestMethod.GET)
-    public RestClientResultDTO<Boolean> checkTokenID(
-        @PathVariable("tokenid") String tokenid
+    RestClientResultDTO<Boolean> checkTokenID(
+            @PathVariable("tokenid") String tokenid
     );
 
 }

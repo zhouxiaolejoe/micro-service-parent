@@ -19,13 +19,13 @@ import java.util.List;
 public interface CaRoleClient {
 
     @GetMapping("/usermapping/users/{userguid}")
-    public RestClientResultDTO<List<ClientApiRoleUserRestDTO>> getRoleUserMapping(
-        @PathVariable("userguid") String userguid
+    RestClientResultDTO<List<ClientApiRoleUserRestDTO>> getRoleUserMapping(
+            @PathVariable("userguid") String userguid
     );
 
 
     @GetMapping("/menumapping/menus/{menuguid}")
-    public RestClientResultDTO<List<ClientApiRoleMenuRestDTO>> getRoleMenuMapping(
-        @PathVariable("menuguid") String menuguid
-    ) ;
+    RestClientResultDTO<List<ClientApiRoleMenuRestDTO>> getRoleMenuMapping(
+            @PathVariable("menuguid") String menuguid
+    );
 }
