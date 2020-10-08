@@ -186,6 +186,7 @@
         WHEN 'NORMAL' THEN '正常'
         WHEN 'PAUSED' THEN '暂停'
         WHEN 'WAITING' THEN '等待'
+        WHEN 'ACQUIRED' THEN '触发'
     END as trigger_state,
     t.job_class_name,q.description,q.priority,q.trigger_type,qct.cron_expression,qct.time_zone_id from QRTZ_JOB_DETAILS t
     left join QRTZ_TRIGGERS q on q.job_name = t.job_name and q.job_group = t.job_group

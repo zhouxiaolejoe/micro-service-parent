@@ -26,5 +26,7 @@ public interface SyncAgencyMapper {
 
     boolean batchInsertAgency(Map<String, Object> map);
 
+    boolean batchInsertAgencyString(Map<String, Object> map);
+
     boolean deleteAllData(@Param("tablename") String tablename);
 }

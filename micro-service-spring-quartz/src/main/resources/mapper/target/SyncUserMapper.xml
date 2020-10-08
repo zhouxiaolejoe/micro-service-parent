@@ -17,7 +17,43 @@
 		select to_char(max(dbversion),'yyyymmddhh24miss') as dbversion from fasp_t_causer
 	</select>
 
-	<insert id="insertUserData">
+	<insert id="insertUserDataString">
+		insert into FASP_T_CAUSER(issys,guid,admintype,usertype,status,loginmode,code,name,createdate,updatedate,agency,logindate,idcode,phonenumber,email,division,remark,year,province,upagencyid,bank,admdiv,pinyin,ordernum,paytypeflag,salarytypeflag,speaccttypeflag,bgttypeflag,istown,ak,dbversion)
+		values(
+			#{ISSYS          ,jdbcType=INTEGER},
+			#{GUID           ,jdbcType=VARCHAR},
+			#{ADMINTYPE      ,jdbcType=INTEGER},
+			#{USERTYPE       ,jdbcType=INTEGER},
+			#{STATUS         ,jdbcType=VARCHAR},
+			#{LOGINMODE      ,jdbcType=INTEGER},
+			#{CODE           ,jdbcType=VARCHAR},
+			#{NAME           ,jdbcType=VARCHAR},
+			#{CREATEDATE     ,jdbcType=VARCHAR},
+			#{UPDATEDATE     ,jdbcType=VARCHAR},
+			#{AGENCY         ,jdbcType=VARCHAR},
+			#{LOGINDATE      ,jdbcType=VARCHAR},
+			#{IDCODE         ,jdbcType=VARCHAR},
+			#{PHONENUMBER    ,jdbcType=VARCHAR},
+			#{EMAIL          ,jdbcType=VARCHAR},
+			#{DIVISION       ,jdbcType=VARCHAR},
+			#{REMARK         ,jdbcType=VARCHAR},
+			#{YEAR           ,jdbcType=VARCHAR},
+			#{PROVINCE       ,jdbcType=VARCHAR},
+			#{UPAGENCYID     ,jdbcType=VARCHAR},
+			#{BANK           ,jdbcType=VARCHAR},
+			#{ADMDIV         ,jdbcType=VARCHAR},
+			#{PINYIN         ,jdbcType=VARCHAR},
+			#{ORDERNUM       ,jdbcType=INTEGER},
+			#{PAYTYPEFLAG    ,jdbcType=VARCHAR},
+			#{SALARYTYPEFLAG ,jdbcType=VARCHAR},
+			#{SPEACCTTYPEFLAG,jdbcType=VARCHAR},
+			#{BGTTYPEFLAG    ,jdbcType=VARCHAR},
+			#{ISTOWN         ,jdbcType=VARCHAR},
+			#{AK             ,jdbcType=VARCHAR},
+			to_date(#{DBVERSION    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+		)
+	</insert>
+<insert id="insertUserData">
 		insert into FASP_T_CAUSER(issys,guid,admintype,usertype,status,loginmode,code,name,createdate,updatedate,agency,logindate,idcode,phonenumber,email,division,remark,year,province,upagencyid,bank,admdiv,pinyin,ordernum,paytypeflag,salarytypeflag,speaccttypeflag,bgttypeflag,istown,ak,dbversion)
 		values(
 			#{ISSYS          ,jdbcType=INTEGER},
@@ -53,7 +89,6 @@
 			#{DBVERSION      ,jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
 		)
 	</insert>
-
 
 	<update id="createUserTable" >
 		create table FASP_T_CAUSER

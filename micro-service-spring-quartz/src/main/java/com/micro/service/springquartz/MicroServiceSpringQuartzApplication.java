@@ -33,10 +33,10 @@ public class MicroServiceSpringQuartzApplication {
      * @Author ZhouXiaoLe
      * @Date  2019-07-30  14:20:24
      **/
-    @QuartzDataSource
-    @ConfigurationProperties("spring.quartz.properties.org.quartz.datasource")
-    @Bean
-    public DataSource myQuartzDataSource(){
-        return DataSourceBuilder.create().build();
-    }
+//    @QuartzDataSource
+//    @ConfigurationProperties("spring.quartz.properties.org.quartz.datasource")
+//    @Bean
+//    public DataSource myQuartzDataSource(){
+//        return DataSourceBuilder.create().build();
+//    }
 }

@@ -22,4 +22,5 @@ public interface SyncUserMapper {
     Integer deleteUserData(Map<String, Object> user);
 
     Integer insertUserData(Map<String, Object> user);
+    Integer insertUserDataString(Map<String, Object> user);
 }

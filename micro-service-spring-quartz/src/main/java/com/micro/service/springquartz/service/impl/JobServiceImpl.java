@@ -1,5 +1,6 @@
 package com.micro.service.springquartz.service.impl;
 
+import com.micro.service.springquartz.job.ApiJob;
 import com.micro.service.springquartz.job.MyJob;
 import com.micro.service.springquartz.job.TableJob;
 import com.micro.service.springquartz.mapper.QrtzJobDetailsMapper;
@@ -58,7 +59,13 @@ public class JobServiceImpl implements JobService {
                     .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
                     .withDescription(quartzJobDTO.getDescription())
                     .build();
-        } else {
+        } else if (quartzJobDTO.getType() == 2) {
+            job = JobBuilder
+                    .newJob(ApiJob.class)
+                    .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
+                    .withDescription(quartzJobDTO.getDescription())
+                    .build();
+        }else{
             job = JobBuilder
                     .newJob(TableJob.class)
                     .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
@@ -81,7 +88,7 @@ public class JobServiceImpl implements JobService {
                 .withIdentity(quartzJobDTO.getTriggerNmae(), quartzJobDTO.getTriggerGroup())
                 .withSchedule(CronScheduleBuilder
                         .cronSchedule(quartzJobDTO.getCronExpression())
-                        .withMisfireHandlingInstructionFireAndProceed())
+                        .withMisfireHandlingInstructionDoNothing())
                 .build();
         /**
          * withMisfireHandlingInstructionFireAndProceed任务超时立即触发

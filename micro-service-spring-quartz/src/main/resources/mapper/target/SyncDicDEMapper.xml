@@ -49,6 +49,36 @@
 
 		)
 	</insert>
+	<insert id="insertDEString">
+		INSERT INTO FASP_T_DICDE (GUID,CODE,NAME,ELEMENTCODE,ALIAS,ENVIRONMENT,DATATYPE,FORMAT,RANGESRC,CSGUID,REMARK,STATUS,CREATETIME,STARTTIME,ENDTIME,PROVINCE,YEAR,VERSION,EXTENDGUID,TYPEGUID,CRC,ILLUSTRATION,ISGUID,ISNORMVERSION,DBVERSION)
+		values(
+			#{GUID                          ,jdbcType=VARCHAR},
+			#{CODE                          ,jdbcType=VARCHAR},
+			#{NAME                          ,jdbcType=VARCHAR},
+			#{ELEMENTCODE                   ,jdbcType=VARCHAR},
+			#{ALIAS                         ,jdbcType=VARCHAR},
+			#{ENVIRONMENT                   ,jdbcType=VARCHAR},
+			#{DATATYPE                      ,jdbcType=VARCHAR},
+			#{FORMAT                        ,jdbcType=VARCHAR},
+			#{RANGESRC                      ,jdbcType=VARCHAR},
+			#{CSGUID                        ,jdbcType=VARCHAR},
+			#{REMARK                        ,jdbcType=VARCHAR},
+			#{STATUS                        ,jdbcType=VARCHAR},
+			#{CREATETIME                    ,jdbcType=VARCHAR},
+			#{STARTTIME                     ,jdbcType=VARCHAR},
+			#{ENDTIME                       ,jdbcType=VARCHAR},
+			#{PROVINCE                      ,jdbcType=VARCHAR},
+			#{YEAR                          ,jdbcType=VARCHAR},
+			#{VERSION                       ,jdbcType=VARCHAR},
+			#{EXTENDGUID                    ,jdbcType=VARCHAR},
+			#{TYPEGUID                      ,jdbcType=VARCHAR},
+			#{CRC                           ,jdbcType=VARCHAR},
+			#{ILLUSTRATION                  ,jdbcType=VARCHAR},
+			#{ISGUID                        ,jdbcType=VARCHAR},
+			#{ISNORMVERSION                 ,jdbcType=VARCHAR},
+            to_date(#{DBVERSION    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+		)
+	</insert>
 
 
 	<update id="createDeTable">
@@ -117,6 +147,41 @@
 			#{item.ISGUID       ,jdbcType=VARCHAR},
 			#{item.ISNORMVERSION,jdbcType=VARCHAR},
 			#{item.DBVERSION,      jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
+                from DUAL
+        </foreach>
+            ) A
+    </insert>
+    <insert id="batchInsertDicDEString" parameterType="java.util.Map">
+        insert into fasp_t_dicde
+            (GUID,CODE,NAME,ELEMENTCODE,ALIAS,ENVIRONMENT,DATATYPE,FORMAT,RANGESRC,CSGUID,REMARK,STATUS,CREATETIME,STARTTIME,ENDTIME,PROVINCE,YEAR,VERSION,EXTENDGUID,TYPEGUID,CRC,ILLUSTRATION,ISGUID,ISNORMVERSION,DBVERSION)
+           SELECT A.* FROM(
+        <foreach collection="list" item="item" separator="union all">
+            select
+			#{item.GUID         ,jdbcType=VARCHAR},
+			#{item.CODE         ,jdbcType=VARCHAR},
+			#{item.NAME         ,jdbcType=VARCHAR},
+			#{item.ELEMENTCODE  ,jdbcType=VARCHAR},
+			#{item.ALIAS        ,jdbcType=VARCHAR},
+			#{item.ENVIRONMENT  ,jdbcType=VARCHAR},
+			#{item.DATATYPE     ,jdbcType=VARCHAR},
+			#{item.FORMAT       ,jdbcType=VARCHAR},
+			#{item.RANGESRC     ,jdbcType=VARCHAR},
+			#{item.CSGUID       ,jdbcType=VARCHAR},
+			#{item.REMARK       ,jdbcType=VARCHAR},
+			#{item.STATUS       ,jdbcType=VARCHAR},
+			#{item.CREATETIME   ,jdbcType=VARCHAR},
+			#{item.STARTTIME    ,jdbcType=VARCHAR},
+			#{item.ENDTIME      ,jdbcType=VARCHAR},
+			#{item.PROVINCE     ,jdbcType=VARCHAR},
+			#{item.YEAR         ,jdbcType=VARCHAR},
+			#{item.VERSION      ,jdbcType=VARCHAR},
+			#{item.EXTENDGUID   ,jdbcType=VARCHAR},
+			#{item.TYPEGUID     ,jdbcType=VARCHAR},
+			#{item.CRC          ,jdbcType=VARCHAR},
+			#{item.ILLUSTRATION ,jdbcType=VARCHAR},
+			#{item.ISGUID       ,jdbcType=VARCHAR},
+			#{item.ISNORMVERSION,jdbcType=VARCHAR},
+			to_date(#{item.DBVERSION    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
                 from DUAL
         </foreach>
             ) A

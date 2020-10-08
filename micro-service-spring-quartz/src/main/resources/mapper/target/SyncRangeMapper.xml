@@ -34,6 +34,24 @@
 			#{data.DBVERSION,jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
 		)
 	</insert>
+	<insert id="insertDataString">
+		insert into ${tablename}(guid,code,name,superguid,levelno,isleaf,status,remark,pinyin,year,province,admdiv,dbversion)
+		values(
+			#{data.GUID       ,jdbcType=VARCHAR},
+			#{data.CODE       ,jdbcType=VARCHAR},
+			#{data.NAME       ,jdbcType=VARCHAR},
+			#{data.SUPERGUID  ,jdbcType=VARCHAR},
+			#{data.LEVELNO    ,jdbcType=INTEGER},
+			#{data.ISLEAF     ,jdbcType=INTEGER},
+			#{data.STATUS     ,jdbcType=VARCHAR},
+			#{data.REMARK     ,jdbcType=VARCHAR},
+			#{data.PINYIN     ,jdbcType=VARCHAR},
+			#{data.YEAR       ,jdbcType=VARCHAR},
+			#{data.PROVINCE   ,jdbcType=VARCHAR},
+			#{data.ADMDIV     ,jdbcType=VARCHAR},
+			to_date(#{data.DBVERSION    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+		)
+	</insert>
 
 
     <update id="createTable" >
@@ -117,6 +135,9 @@
     </select>
     <update id="updateSyncElementDateTime">
         update FASP_T_DIC3SYNCDS set SYNCDATETIME=#{datetime,jdbcType=VARCHAR} where ELEMENTCODE=#{elementcode ,jdbcType=VARCHAR}
+    </update>
+    <update id="updateSyncElementDateTimeByTableName">
+        update FASP_T_DIC3SYNCDS set SYNCDATETIME=#{datetime,jdbcType=VARCHAR} where ELEMENTCODE=#{elementcode ,jdbcType=VARCHAR} and tablename = #{tablename,jdbcType=VARCHAR}
     </update>
     <update id="updateElementcodeView">
         update fasp_t_dicds set tablecode=#{tablecode,jdbcType=VARCHAR} where ELEMENTCODE=#{elementcode ,jdbcType=VARCHAR}

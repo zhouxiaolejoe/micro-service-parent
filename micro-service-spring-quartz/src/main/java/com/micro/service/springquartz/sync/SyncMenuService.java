@@ -32,7 +32,7 @@ import java.util.Map;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class SyncMenuService implements IFaspClientScheduler {
+public class SyncMenuService implements SyncScheduler {
     SyncMenuMapper syncMenuMapper;
     SyncRoleMenuMapper syncRoleMenuMapper;
     TableDBVersionClient client;

@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class SyncRoleService implements IFaspClientScheduler {
+public class SyncRoleService implements SyncScheduler {
 
     OriginMapper originMapper;
     DBChangeService changeService;

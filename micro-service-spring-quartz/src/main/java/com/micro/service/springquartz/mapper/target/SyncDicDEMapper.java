@@ -19,11 +19,15 @@ public interface SyncDicDEMapper {
 
     void insertDE(Map<String, Object> data);
 
+    void insertDEString(Map<String, Object> data);
+
     void createDeTable();
 
     void deleteDE(@Param("guid") String guid);
 
     boolean batchInsertDicDE(Map<String, Object> map);
+
+    boolean batchInsertDicDEString(Map<String, Object> map);
 
     boolean deleteAllData(@Param("tablename") String tablename);
 }

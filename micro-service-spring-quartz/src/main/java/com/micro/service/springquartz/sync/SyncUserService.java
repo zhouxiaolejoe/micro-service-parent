@@ -22,8 +22,6 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Map;
 
-import static com.micro.service.springquartz.utils.MapUtils.toLowerMapKey;
-
 
 /**
  * @ClassName UserService
@@ -35,7 +33,7 @@ import static com.micro.service.springquartz.utils.MapUtils.toLowerMapKey;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class SyncUserService implements IFaspClientScheduler {
+public class SyncUserService implements SyncScheduler {
     SyncUserMapper syncUserMapper;
     FaspAuthenticateUtils faspAuthenticateUtils;
     TableDBVersionClient client;

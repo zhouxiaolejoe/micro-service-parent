@@ -23,6 +23,8 @@ public interface SyncRangeMapper {
 
     void insertData(Map<String, Object> data);
 
+    void insertDataString(Map<String, Object> data);
+
     void createTable(@Param("tableName") String tableName);
 
     void deleteData(Map<String, Object> data);
@@ -35,6 +37,9 @@ public interface SyncRangeMapper {
     List<Dic3SyncDSPO> querySyncElements();
 
     void updateSyncElementDateTime(@Param("elementcode") String elementcode, @Param("datetime") String datetime);
+    void updateSyncElementDateTimeByTableName(@Param("elementcode") String elementcode,
+                                   @Param("datetime") String datetime,
+                                   @Param("tablename") String tablename);
 
     List<String> queryElementcodeView(@Param("elementcode") String elementcode);
 

@@ -83,9 +83,9 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
             druidDataSource.setUsername(username);
             druidDataSource.setPassword(password);
             druidDataSource.setInitialSize(1);
-            druidDataSource.setMaxActive(20);
+            druidDataSource.setMinIdle(1);
+            druidDataSource.setMaxActive(1);
             druidDataSource.setMaxWait(60000);
-            druidDataSource.setMinIdle(5);
 //            String validationQuery = "select 1 from dual";
 //            if("mysql".equalsIgnoreCase(databasetype)) {
 //                driveClass = DBUtil.mysqldriver;

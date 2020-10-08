@@ -2,7 +2,6 @@ package com.micro.service.springquartz.sync;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.pagehelper.PageHelper;
-import com.micro.service.springquartz.config.TableContextHolder;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
 import com.micro.service.springquartz.mapper.target.SyncDicDEMapper;
 import com.micro.service.springquartz.service.DBChangeService;
@@ -17,7 +16,6 @@ import sun.misc.BASE64Encoder;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +32,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class SyncDicDEService implements IFaspClientScheduler {
+public class SyncDicDEService implements SyncScheduler {
 
     SyncDicDEMapper syncDicDEMapper;
     Cache<String, List<String>> caffeineCache;

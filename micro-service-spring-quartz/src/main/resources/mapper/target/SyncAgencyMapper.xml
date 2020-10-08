@@ -219,6 +219,70 @@
             ) a
 
     </insert>
+    <insert id="batchInsertAgencyString" parameterType="java.util.Map">
+
+         insert into ${tablename}
+            (ADMDIV,GUID,ISLEAF,ORGCODE,LEVELNO,REMARK,CREATETIME,AGENCYTYPE,ORGSPEC,FININTORG,ZIP,VERSION,TEL,SUPERGUID,INTORG,FAX
+		,CODE,IND,NAME,SUPDEP,ADDRESS,STARTTIME,PINYIN,FUNDSUP,ALIAS,ENDTIME,AGENCYLEVEL,STATUS,YEAR,PROVINCE,CANCELTIME,ENABLE,PAYTYPEFLAG,
+		SALARYTYPEFLAG,SPEACCTTYPEFLAG,GLTYPEFLAG,BGTTYPEFLAG,ISTOWN,TOWNCODE,DWSXBS,FPCOL1,FPCOL2,FPCOL3,FPCOL4,FPCOL5,AAORDERNO,ISCZAGENCY,UNIFSOCCREDCODE,LEADERNAME,DBVERSION)
+            select a.* from(
+        <foreach collection="list" item="item" separator="union all">
+            select
+			#{item.ADMDIV               ,jdbcType=VARCHAR},
+			#{item.GUID                 ,jdbcType=VARCHAR},
+			#{item.ISLEAF               ,jdbcType=INTEGER},
+			#{item.ORGCODE              ,jdbcType=VARCHAR},
+			#{item.LEVELNO              ,jdbcType=INTEGER},
+			#{item.REMARK               ,jdbcType=VARCHAR},
+			#{item.CREATETIME           ,jdbcType=VARCHAR},
+			#{item.AGENCYTYPE           ,jdbcType=VARCHAR},
+			#{item.ORGSPEC              ,jdbcType=VARCHAR},
+			#{item.FININTORG            ,jdbcType=VARCHAR},
+			#{item.ZIP                  ,jdbcType=VARCHAR},
+			#{item.VERSION              ,jdbcType=INTEGER},
+			#{item.TEL              	,jdbcType=VARCHAR},
+			#{item.SUPERGUID            ,jdbcType=VARCHAR},
+			#{item.INTORG               ,jdbcType=VARCHAR},
+			#{item.FAX                  ,jdbcType=VARCHAR},
+			#{item.CODE                 ,jdbcType=VARCHAR},
+			#{item.IND                  ,jdbcType=VARCHAR},
+			#{item.NAME                 ,jdbcType=VARCHAR},
+			#{item.SUPDEP               ,jdbcType=VARCHAR},
+			#{item.ADDRESS              ,jdbcType=VARCHAR},
+			#{item.STARTTIME            ,jdbcType=VARCHAR},
+			#{item.PINYIN               ,jdbcType=VARCHAR},
+			#{item.FUNDSUP              ,jdbcType=VARCHAR},
+			#{item.ALIAS                ,jdbcType=VARCHAR},
+			#{item.ENDTIME              ,jdbcType=VARCHAR},
+			#{item.AGENCYLEVEL          ,jdbcType=VARCHAR},
+			#{item.STATUS               ,jdbcType=VARCHAR},
+			#{item.YEAR                 ,jdbcType=VARCHAR},
+			#{item.PROVINCE             ,jdbcType=VARCHAR},
+			#{item.CANCELTIME           ,jdbcType=VARCHAR},
+			#{item.ENABLE               ,jdbcType=VARCHAR},
+			#{item.PAYTYPEFLAG          ,jdbcType=VARCHAR},
+			#{item.SALARYTYPEFLAG       ,jdbcType=VARCHAR},
+			#{item.SPEACCTTYPEFLAG      ,jdbcType=VARCHAR},
+			#{item.GLTYPEFLAG           ,jdbcType=VARCHAR},
+			#{item.BGTTYPEFLAG          ,jdbcType=VARCHAR},
+			#{item.ISTOWN               ,jdbcType=VARCHAR},
+			#{item.TOWNCODE             ,jdbcType=VARCHAR},
+			#{item.DWSXBS               ,jdbcType=VARCHAR},
+			#{item.FPCOL1               ,jdbcType=VARCHAR},
+			#{item.FPCOL2               ,jdbcType=VARCHAR},
+			#{item.FPCOL3               ,jdbcType=VARCHAR},
+			#{item.FPCOL4               ,jdbcType=VARCHAR},
+			#{item.FPCOL5               ,jdbcType=VARCHAR},
+			#{item.AAORDERNO            ,jdbcType=INTEGER},
+			#{item.ISCZAGENCY           ,jdbcType=VARCHAR},
+			#{item.UNIFSOCCREDCODE      ,jdbcType=VARCHAR},
+			#{item.LEADERNAME           ,jdbcType=VARCHAR},
+			to_date(#{item.DBVERSION    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+                from DUAL
+        </foreach>
+            ) a
+
+    </insert>
     <delete id="deleteAllData">
 		delete from ${tablename}
 	</delete>

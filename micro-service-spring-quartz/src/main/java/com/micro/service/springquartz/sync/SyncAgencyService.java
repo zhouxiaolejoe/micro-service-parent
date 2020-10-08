@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class SyncAgencyService implements IFaspClientScheduler {
+public class SyncAgencyService implements SyncScheduler {
     private static final String DEFAULT_DATE_TIME_FROMAT = "yyyyMMddHHmmss";
     SyncAgencyMapper syncAgencyMapper;
     Cache<String, List<String>> caffeineCache;

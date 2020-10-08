@@ -3,7 +3,6 @@ package com.micro.service.springquartz.sync;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.pagehelper.PageHelper;
-import com.micro.service.springquartz.config.TableContextHolder;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
 import com.micro.service.springquartz.mapper.target.SyncDicDSMapper;
 import com.micro.service.springquartz.mapper.target.SyncRangeMapper;
@@ -19,16 +18,12 @@ import org.springframework.util.StringUtils;
 import sun.misc.BASE64Encoder;
 
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-
-import static com.micro.service.springquartz.utils.MapUtils.toLowerMapKey;
-import static com.micro.service.springquartz.utils.SyncDataUtils.sortSyncDataByDBVersion;
 
 /**
  * @author zxl
@@ -37,7 +32,7 @@ import static com.micro.service.springquartz.utils.SyncDataUtils.sortSyncDataByD
 @Service
 @Slf4j
 @AllArgsConstructor
-public class SyncRangeService implements IFaspClientScheduler {
+public class SyncRangeService implements SyncScheduler {
     private static final String DEFAULT_DATE_TIME_FROMAT = "yyyyMMddHHmmss";
     DBChangeService changeService;
     OriginMapper originMapper;

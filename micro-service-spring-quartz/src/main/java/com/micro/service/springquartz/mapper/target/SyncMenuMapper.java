@@ -20,6 +20,7 @@ public interface SyncMenuMapper {
     void createMenuTable();
 
     Integer insertMenuData(Map<String, Object> menu);
+    Integer insertMenuDataString(Map<String, Object> menu);
 
     Integer deleteMenuData(Map<String, Object> menu);
 

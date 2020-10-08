@@ -31,9 +31,15 @@ public interface SyncDicDSMapper {
 
     Integer insertDS(Map<String, Object> data);
 
+    Integer insertDSString(Map<String, Object> data);
+
     Integer insertTable(Map<String, Object> data);
 
+    Integer insertTableString(Map<String, Object> data);
+
     Integer insertColumn(Map<String, Object> data);
+
+    Integer insertColumnString(Map<String, Object> data);
 
     Integer createDicTable();
 
@@ -45,13 +51,21 @@ public interface SyncDicDSMapper {
 
     Integer deleteColumn(@Param("tablecode") String tablecode, @Param("columncode") String columncode);
 
+    Integer deleteColumnByColumnId(@Param("columnid") String columnid);
+
     Integer tableExitsData(@Param("tablename") String tablename);
 
     boolean batchInsertDicds(Map<String, Object> map);
 
+    boolean batchInsertDicdsString(Map<String, Object> map);
+
     boolean batchInsertDicTable(Map<String, Object> map);
 
+    boolean batchInsertDicTableString(Map<String, Object> map);
+
     boolean batchInsertDicColumn(Map<String, Object> map);
+
+    boolean batchInsertDicColumnString(Map<String, Object> map);
 
     boolean deleteAllData(@Param("tablename") String tablename);
 
@@ -71,7 +85,9 @@ public interface SyncDicDSMapper {
 
     void createTableDynamic(@Param("tablename") String tablename, @Param("sql") String sql);
 
-    void createElementcodeView(@Param("table")String table, @Param("view")String view);
+    void createElementcodeView(@Param("table") String table, @Param("view") String view);
 
-    void updateElementcodeView(@Param("tablecode")String tablecode, @Param("elementcode")String elementcode);
+    void updateElementcodeView(@Param("tablecode") String tablecode, @Param("elementcode") String elementcode);
+
+    List<Dic3SyncDSPO> querySyncElementsFromDSByElementcodes(Map<String, Object> data);
 }
