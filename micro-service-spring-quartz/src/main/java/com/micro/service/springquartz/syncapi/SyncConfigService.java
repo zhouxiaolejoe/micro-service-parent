@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class SyncConfigService implements IFaspClientScheduler {
     CaffeineCacheService caffeineCacheService;
 
     @Override
-    public void start(String target) {
+    public void start(String origin, String target) {
         try {
             changeService.changeDb(target);
             if (!existDic3syncdsTable(target)) {
@@ -47,6 +48,11 @@ public class SyncConfigService implements IFaspClientScheduler {
             } else {
                 pos = querySyncElementsFromDSByElementcodes(syncCode.split(","));
             }
+
+            if (CollectionUtils.isEmpty(pos)) {
+                return;
+            }
+            log.info("TABLENAME :[ FASP_T_DIC3SYNCDS ] data size=" + (pos.size()) + " ]");
 
             insertSyncElements(pos);
             syncDicDSMapper.deleteSyncElements();

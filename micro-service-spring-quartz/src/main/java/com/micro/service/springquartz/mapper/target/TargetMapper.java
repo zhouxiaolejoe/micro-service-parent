@@ -13,6 +13,8 @@ import java.util.Map;
  * @Date 2020-09-23 14:46
  */
 public interface TargetMapper {
+    String queryTableVersion(@Param("tablename") String tablename);
+    List<Map<String, Object>> selectTableColumn(@Param("tablename") String tablename);
 
     Integer createTableDynamic(@Param("tablename") String tablename, @Param("sqlData") String sqlData);
 

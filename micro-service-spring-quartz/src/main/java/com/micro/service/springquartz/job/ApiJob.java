@@ -36,11 +36,13 @@ import java.util.TreeMap;
 @AllArgsConstructor
 public class ApiJob extends QuartzJobBean {
     ApplicationContext faspContext;
+    public static final String ORIGIN = "origin";
     public static final String TARGET = "target";
 
     @Override
     protected void executeInternal(JobExecutionContext context) {
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
+        String origin = jobDataMap.getString(ORIGIN);
         String target = jobDataMap.getString(TARGET);
         if (faspContext != null) {
             Map<String, IFaspClientScheduler> m = faspContext.getBeansOfType(IFaspClientScheduler.class);
@@ -48,7 +50,7 @@ public class ApiJob extends QuartzJobBean {
             treeMap.putAll(m);
             for (IFaspClientScheduler scheduler : treeMap.values()) {
                 try {
-                    scheduler.start(target);
+                    scheduler.start(origin,target);
                 } catch (Exception e) {
                     log.error("IFaspClientScheduler run error " + scheduler.getClass().getName(), e);
                     JobExecutionException e2 = new JobExecutionException(e);

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 
 /**
@@ -40,7 +41,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
     CaffeineCacheService caffeineCacheService;
 
     @Override
-    public void start(String target) {
+    public void start(String origin, String target) {
         /**
          * 查询数据源用户当前拥有的表和视图名
          */
@@ -82,6 +83,21 @@ public class SyncDicDSService implements IFaspClientScheduler {
                 if (CollectionUtils.isEmpty(dsDatas)) {
                     return;
                 }
+                dsDatas = dsDatas.stream().filter(
+                        x -> {
+                            if ("MOFDIV".equals(x.get("ELEMENTCODE"))) {
+                                return false;
+                            }
+                            return true;
+                        }
+                ).map(y -> {
+                            if ("ADMDIV".equals(y.get("ELEMENTCODE"))) {
+                                y.put("ELEMENTCODE", "MOFDIV");
+                            }
+                            return y;
+                        }
+                ).collect(Collectors.toList());
+
                 if (version.equals(SyncDataUtils.DEFAULT_DBVERSION)) {
                     /**
                      * 首次同步清表批量写入

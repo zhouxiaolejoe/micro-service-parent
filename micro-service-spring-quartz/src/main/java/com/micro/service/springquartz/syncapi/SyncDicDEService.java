@@ -39,7 +39,7 @@ public class SyncDicDEService implements IFaspClientScheduler {
     Cache<String, List<String>> caffeineCache;
 
     @Override
-    public void start(String target) {
+    public void start(String origin, String target) {
         try {
             changeService.changeDb(target);
             if (!exitsDeTable(target)) {

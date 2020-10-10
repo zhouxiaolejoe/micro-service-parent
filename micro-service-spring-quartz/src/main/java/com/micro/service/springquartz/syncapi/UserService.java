@@ -45,7 +45,7 @@ public class UserService implements IFaspClientScheduler {
     CaffeineCacheService caffeineCacheService;
 
     @Override
-    public void start(String target) {
+    public void start(String origin, String target) {
         try {
             changeService.changeDb(target);
             checkUserTable(target);

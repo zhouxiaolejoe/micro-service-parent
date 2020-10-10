@@ -40,7 +40,7 @@ import static com.micro.service.springquartz.utils.SyncDataUtils.sortSyncDataByD
 @Slf4j
 @AllArgsConstructor
 public class SyncAgencyService implements IFaspClientScheduler {
-
+    private static final String DEFAULT_DIC3SYNCDS_DATE = "20100101000000";
     FaspAuthenticateUtils faspAuthenticateUtils;
     TableDBVersionClient client;
     SyncAgencyMapper syncAgencyMapper;
@@ -51,28 +51,26 @@ public class SyncAgencyService implements IFaspClientScheduler {
     CaffeineCacheService caffeineCacheService;
 
     @Override
-    public void start(String target) {
+    public void start(String origin, String target) {
         try {
             changeService.changeDb(target);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String agencyCode = syncAgencyMapper.queryAgencyDsCodes();
-        if (StringUtils.isEmpty(agencyCode)) {
-            return;
-        }
-        String agencyTableName = "FASP_T_PUP" + agencyCode.toUpperCase();
+            String agencyCode = syncAgencyMapper.queryAgencyDsCodes();
+            if (StringUtils.isEmpty(agencyCode)) {
+                return;
+            }
+            String agencyTableName = "FASP_T_PUP" + agencyCode.toUpperCase();
 
-        checkAgencyTable(agencyTableName, target);
-        String agencyVersion = syncAgencyMapper.queryAgencyVersion(agencyTableName);
-        agencyVersion = StringUtils.isEmpty(agencyVersion) ? SyncDataUtils.DEFAULT_DBVERSION : agencyVersion;
-        Dic3SyncDSPO dic3SyncDSPO = new Dic3SyncDSPO();
-        dic3SyncDSPO.setElementcode("AGENCY");
-        dic3SyncDSPO.setTablename(agencyTableName);
-        dic3SyncDSPO.setSyncdatetime(agencyVersion);
-        checkTableVeiws(dic3SyncDSPO, target);
-        Integer syncCount = null;
-        try {
+            checkAgencyTable(agencyTableName, target);
+            String agencyVersion = syncAgencyMapper.queryAgencyVersion(agencyTableName);
+            agencyVersion = StringUtils.isEmpty(agencyVersion) ? SyncDataUtils.DEFAULT_DBVERSION : agencyVersion;
+            Dic3SyncDSPO dic3SyncDSPO = new Dic3SyncDSPO();
+            dic3SyncDSPO.setElementcode("AGENCY");
+            dic3SyncDSPO.setTablename(agencyTableName);
+            dic3SyncDSPO.setSyncdatetime(agencyVersion);
+            checkTableVeiws(dic3SyncDSPO, target);
+            Integer syncCount = null;
+
+
             String tokenid = faspAuthenticateUtils.getFaspToken();
             RestClientResultDTO<List<Map<String, Object>>> rs = null;
             int page = 1;
@@ -91,7 +89,7 @@ public class SyncAgencyService implements IFaspClientScheduler {
                 if (CollectionUtils.isEmpty(data)) {
                     break;
                 }
-                if (agencyVersion.equals(SyncDataUtils.DEFAULT_DBVERSION)) {
+                if (DEFAULT_DIC3SYNCDS_DATE.equals(agencyVersion)) {
                     /**
                      * 首次同步清表批量写入
                      */
@@ -163,10 +161,10 @@ public class SyncAgencyService implements IFaspClientScheduler {
         param.put("tablename", tablename);
         String dbversion = null;
         for (Map<String, Object> data : datas) {
-            param.put("data", toLowerMapKey(data));
-            dbversion = (String) data.get("dbversion");
+            param.put("data", data);
+            dbversion = (String) data.get("DBVERSION");
             syncAgencyMapper.deleteAgencyData(param);
-            syncAgencyMapper.insertAgencyData(param);
+            syncAgencyMapper.insertAgencyDataString(param);
         }
         return dbversion;
     }

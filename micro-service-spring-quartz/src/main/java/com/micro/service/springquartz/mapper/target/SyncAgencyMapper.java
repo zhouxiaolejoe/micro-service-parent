@@ -19,6 +19,7 @@ public interface SyncAgencyMapper {
     String queryAgencyVersion(@Param("tablename") String tablename);
 
     Integer insertAgencyData(Map<String, Object> agency);
+    Integer insertAgencyDataString(Map<String, Object> agency);
 
     void createAgencyTable(@Param("tablename") String tablename);
 

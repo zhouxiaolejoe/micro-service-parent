@@ -14,15 +14,21 @@ public interface JobService {
 
     ResultBuilder addJob(QuartzJobDTO quartzJobDTO) throws SchedulerException;
 
-    ResultBuilder triggerJob(String jobName, String jobGroup) throws SchedulerException;
+    ResultBuilder triggerJob(String jobName) throws SchedulerException;
 
-    ResultBuilder pauseJob(String jobName, String jobGroup) throws SchedulerException;
+    ResultBuilder pauseJob(String jobName) throws SchedulerException;
 
-    ResultBuilder resumeJob(String jobName, String jobGroup) throws SchedulerException;
+    ResultBuilder resumeJob(String jobName) throws SchedulerException;
 
-    ResultBuilder removeJob(String jobName, String jobGroup) throws SchedulerException;
+    ResultBuilder removeJob(String jobName) throws SchedulerException;
 
-    ResultBuilder jobStatus(String jobName, String jobGroup) throws SchedulerException;
+    ResultBuilder jobStatus(String jobName) throws SchedulerException;
 
     ResultBuilder rescheduleJob(QuartzJobDTO quartzJobDTO) throws SchedulerException;
+
+    ResultBuilder pauseJobAll() throws SchedulerException;
+
+    ResultBuilder removeJobAll() throws SchedulerException;
+
+    ResultBuilder resumeJobAll() throws SchedulerException;
 }

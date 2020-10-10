@@ -20,12 +20,12 @@ import lombok.*;
 public class QuartzJobDTO {
     @ApiModelProperty(value = "任务名称",required = true)
     private String jobName;
-    @ApiModelProperty(value = "任务分组",required = true)
-    private String jobGroup;
-    @ApiModelProperty(value = "触发器名称",required = true)
-    private String triggerNmae;
-    @ApiModelProperty(value = "触发器分组",required = true)
-    private String triggerGroup;
+//    @ApiModelProperty(value = "任务分组",required = true)
+//    private String jobGroup;
+//    @ApiModelProperty(value = "触发器名称",required = true)
+//    private String triggerNmae;
+//    @ApiModelProperty(value = "触发器分组",required = true)
+//    private String triggerGroup;
     @ApiModelProperty(value = "任务描述")
     private String description;
     @ApiModelProperty(value = "任务执行时间",required = true)
@@ -36,6 +36,6 @@ public class QuartzJobDTO {
     private String target;
     @ApiModelProperty(value = "表名")
     private String tableName;
-    @ApiModelProperty(value = "同步类型1业务同步2单张表同步")
+    @ApiModelProperty(value = "同步类型1业务同步2Api同步3单张表同步")
     private Integer type;
 }

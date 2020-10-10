@@ -24,7 +24,7 @@ import java.util.TreeMap;
 //禁止相同任务并发执行
 @DisallowConcurrentExecution
 @AllArgsConstructor
-public class MyJob extends QuartzJobBean {
+public class DSJob extends QuartzJobBean {
     public static final String ORIGIN = "origin";
     public static final String TARGET = "target";
     ApplicationContext faspContext;

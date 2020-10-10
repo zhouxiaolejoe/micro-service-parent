@@ -74,6 +74,63 @@
 			#{data.DBVERSION    ,jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler}
 		)
 	</insert>
+	<insert id="insertAgencyDataString">
+		insert into ${tablename} (admdiv,guid,isleaf,orgcode,levelno,remark,createtime,agencytype,orgspec,finintorg,zip,version,tel,superguid,intorg,fax
+		,code,ind,name,supdep,address,starttime,pinyin,fundsup,alias,endtime,agencylevel,status,year,province,canceltime,enable,paytypeflag,
+		salarytypeflag,speaccttypeflag,gltypeflag,bgttypeflag,istown,towncode,dwsxbs,fpcol1,fpcol2,fpcol3,fpcol4,fpcol5,aaorderno,isczagency,unifsoccredcode,leadername,dbversion)
+		values(
+			#{data.ADMDIV               ,jdbcType=VARCHAR},
+			#{data.GUID                 ,jdbcType=VARCHAR},
+			#{data.ISLEAF               ,jdbcType=INTEGER},
+			#{data.ORGCODE              ,jdbcType=VARCHAR},
+			#{data.LEVELNO              ,jdbcType=INTEGER},
+			#{data.REMARK               ,jdbcType=VARCHAR},
+			#{data.CREATETIME           ,jdbcType=VARCHAR},
+			#{data.AGENCYTYPE           ,jdbcType=VARCHAR},
+			#{data.ORGSPEC              ,jdbcType=VARCHAR},
+			#{data.FININTORG            ,jdbcType=VARCHAR},
+			#{data.ZIP                  ,jdbcType=VARCHAR},
+			#{data.VERSION              ,jdbcType=INTEGER},
+			#{data.TEL              	,jdbcType=VARCHAR},
+			#{data.SUPERGUID            ,jdbcType=VARCHAR},
+			#{data.INTORG               ,jdbcType=VARCHAR},
+			#{data.FAX                  ,jdbcType=VARCHAR},
+			#{data.CODE                 ,jdbcType=VARCHAR},
+			#{data.IND                  ,jdbcType=VARCHAR},
+			#{data.NAME                 ,jdbcType=VARCHAR},
+			#{data.SUPDEP               ,jdbcType=VARCHAR},
+			#{data.ADDRESS              ,jdbcType=VARCHAR},
+			#{data.STARTTIME            ,jdbcType=VARCHAR},
+			#{data.PINYIN               ,jdbcType=VARCHAR},
+			#{data.FUNDSUP              ,jdbcType=VARCHAR},
+			#{data.ALIAS                ,jdbcType=VARCHAR},
+			#{data.ENDTIME              ,jdbcType=VARCHAR},
+			#{data.AGENCYLEVEL          ,jdbcType=VARCHAR},
+			#{data.STATUS               ,jdbcType=VARCHAR},
+			#{data.YEAR                 ,jdbcType=VARCHAR},
+			#{data.PROVINCE             ,jdbcType=VARCHAR},
+			#{data.CANCELTIME           ,jdbcType=VARCHAR},
+			#{data.ENABLE               ,jdbcType=VARCHAR},
+			#{data.PAYTYPEFLAG          ,jdbcType=VARCHAR},
+			#{data.SALARYTYPEFLAG       ,jdbcType=VARCHAR},
+			#{data.SPEACCTTYPEFLAG      ,jdbcType=VARCHAR},
+			#{data.GLTYPEFLAG           ,jdbcType=VARCHAR},
+			#{data.BGTTYPEFLAG          ,jdbcType=VARCHAR},
+			#{data.ISTOWN               ,jdbcType=VARCHAR},
+			#{data.TOWNCODE             ,jdbcType=VARCHAR},
+			#{data.DWSXBS               ,jdbcType=VARCHAR},
+			#{data.FPCOL1               ,jdbcType=VARCHAR},
+			#{data.FPCOL2               ,jdbcType=VARCHAR},
+			#{data.FPCOL3               ,jdbcType=VARCHAR},
+			#{data.FPCOL4               ,jdbcType=VARCHAR},
+			#{data.FPCOL5               ,jdbcType=VARCHAR},
+			#{data.AAORDERNO            ,jdbcType=INTEGER},
+			#{data.ISCZAGENCY           ,jdbcType=VARCHAR},
+			#{data.UNIFSOCCREDCODE      ,jdbcType=VARCHAR},
+			#{data.LEADERNAME           ,jdbcType=VARCHAR},
+			to_date(#{data.DBVERSION    ,jdbcType=VARCHAR},'yyyymmddhh24miss')
+		)
+	</insert>
 
 
     <update id="createAgencyTable" >
@@ -220,7 +277,6 @@
 
     </insert>
     <insert id="batchInsertAgencyString" parameterType="java.util.Map">
-
          insert into ${tablename}
             (ADMDIV,GUID,ISLEAF,ORGCODE,LEVELNO,REMARK,CREATETIME,AGENCYTYPE,ORGSPEC,FININTORG,ZIP,VERSION,TEL,SUPERGUID,INTORG,FAX
 		,CODE,IND,NAME,SUPDEP,ADDRESS,STARTTIME,PINYIN,FUNDSUP,ALIAS,ENDTIME,AGENCYLEVEL,STATUS,YEAR,PROVINCE,CANCELTIME,ENABLE,PAYTYPEFLAG,

@@ -1,10 +1,9 @@
 package com.micro.service.springquartz.service.impl;
 
 import com.micro.service.springquartz.job.ApiJob;
-import com.micro.service.springquartz.job.MyJob;
+import com.micro.service.springquartz.job.DSJob;
 import com.micro.service.springquartz.job.TableJob;
 import com.micro.service.springquartz.mapper.QrtzJobDetailsMapper;
-import com.micro.service.springquartz.model.QrtzJobDetails;
 import com.micro.service.springquartz.model.QrtzTriggerDetails;
 import com.micro.service.springquartz.model.QuartzJobDTO;
 import com.micro.service.springquartz.service.DBChangeService;
@@ -42,8 +41,39 @@ public class JobServiceImpl implements JobService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<QrtzTriggerDetails> qrtzTriggerDetails = qrtzJobDetailsMapper.selectAll();
+
         return qrtzJobDetailsMapper.selectAll();
+    }
+
+    private JobDetail changJodPattern(QuartzJobDTO quartzJobDTO) {
+        JobDetail job = null;
+        switch (quartzJobDTO.getType()) {
+            case 1:
+                job = JobBuilder
+                        .newJob(DSJob.class)
+                        .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobName())
+                        .withDescription(quartzJobDTO.getDescription())
+                        .build();
+                break;
+            case 2:
+                job = JobBuilder
+                        .newJob(ApiJob.class)
+                        .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobName())
+                        .withDescription(quartzJobDTO.getDescription())
+                        .build();
+                break;
+            case 3:
+                job = JobBuilder
+                        .newJob(TableJob.class)
+                        .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobName())
+                        .withDescription(quartzJobDTO.getDescription())
+                        .build();
+                break;
+            default:
+                job = null;
+
+        }
+        return job;
     }
 
     @Override
@@ -52,26 +82,7 @@ public class JobServiceImpl implements JobService {
         /**
          *  1.创建jobDetail
          */
-        JobDetail job = null;
-        if (quartzJobDTO.getType() == 1) {
-            job = JobBuilder
-                    .newJob(MyJob.class)
-                    .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
-                    .withDescription(quartzJobDTO.getDescription())
-                    .build();
-        } else if (quartzJobDTO.getType() == 2) {
-            job = JobBuilder
-                    .newJob(ApiJob.class)
-                    .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
-                    .withDescription(quartzJobDTO.getDescription())
-                    .build();
-        }else{
-            job = JobBuilder
-                    .newJob(TableJob.class)
-                    .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobGroup())
-                    .withDescription(quartzJobDTO.getDescription())
-                    .build();
-        }
+        JobDetail job = changJodPattern(quartzJobDTO);
         JobDataMap map = job.getJobDataMap();
         map.put("origin", quartzJobDTO.getOrigin());
         map.put("target", quartzJobDTO.getTarget());
@@ -85,7 +96,7 @@ public class JobServiceImpl implements JobService {
                 .withDescription(quartzJobDTO.getDescription())
 //                .startNow() // 设置立刻启动
                 .startAt(DateBuilder.futureDate(2, DateBuilder.IntervalUnit.SECOND))
-                .withIdentity(quartzJobDTO.getTriggerNmae(), quartzJobDTO.getTriggerGroup())
+                .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobName())
                 .withSchedule(CronScheduleBuilder
                         .cronSchedule(quartzJobDTO.getCronExpression())
                         .withMisfireHandlingInstructionDoNothing())
@@ -102,40 +113,40 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public ResultBuilder triggerJob(String jobName, String jobGroup) throws SchedulerException {
-        scheduler.triggerJob(JobKey.jobKey(jobName, jobGroup));
+    public ResultBuilder triggerJob(String jobName) throws SchedulerException {
+        scheduler.triggerJob(JobKey.jobKey(jobName, jobName));
         return ResultBuilder.success();
     }
 
     @Override
-    public ResultBuilder pauseJob(String jobName, String jobGroup) throws SchedulerException {
-        scheduler.pauseJob(JobKey.jobKey(jobName, jobGroup));
+    public ResultBuilder pauseJob(String jobName) throws SchedulerException {
+        scheduler.pauseJob(JobKey.jobKey(jobName, jobName));
         return ResultBuilder.success();
     }
 
     @Override
-    public ResultBuilder resumeJob(String jobName, String jobGroup) throws SchedulerException {
-        scheduler.resumeJob(JobKey.jobKey(jobName, jobGroup));
+    public ResultBuilder resumeJob(String jobName) throws SchedulerException {
+        scheduler.resumeJob(JobKey.jobKey(jobName, jobName));
         return ResultBuilder.success();
     }
 
     @Override
-    public ResultBuilder removeJob(String jobName, String jobGroup) throws SchedulerException {
+    public ResultBuilder removeJob(String jobName) throws SchedulerException {
 
-        TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
+        TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobName);
 
         scheduler.pauseTrigger(triggerKey);
 
         scheduler.unscheduleJob(triggerKey);
 
-        scheduler.deleteJob(JobKey.jobKey(jobName, jobGroup));
+        scheduler.deleteJob(JobKey.jobKey(jobName, jobName));
 
         return ResultBuilder.success();
     }
 
     @Override
-    public ResultBuilder jobStatus(String jobName, String jobGroup) throws SchedulerException {
-        JobKey jobkey = JobKey.jobKey(jobName, jobGroup);
+    public ResultBuilder jobStatus(String jobName) throws SchedulerException {
+        JobKey jobkey = JobKey.jobKey(jobName, jobName);
         TriggerKey triggerKey = scheduler.getTriggersOfJob(jobkey).get(0).getKey();
         Trigger.TriggerState triggerState = scheduler.getTriggerState(triggerKey);
         return ResultBuilder.success(triggerState);
@@ -146,17 +157,63 @@ public class JobServiceImpl implements JobService {
         /**
          *  注意此处 TriggerKey 封装是触发器名称和触发器组
          */
-        TriggerKey triggerKey = TriggerKey.triggerKey(quartzJobDTO.getTriggerNmae(), quartzJobDTO.getTriggerGroup());
+        TriggerKey triggerKey = TriggerKey.triggerKey(quartzJobDTO.getJobName(), quartzJobDTO.getJobName());
         Trigger trigger = TriggerBuilder
                 .newTrigger()
                 .startAt(DateBuilder.futureDate(5, DateBuilder.IntervalUnit.SECOND))
                 .withDescription(quartzJobDTO.getDescription())
-                .withIdentity(quartzJobDTO.getTriggerNmae(), quartzJobDTO.getTriggerGroup())
+                .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobName())
                 .withSchedule(CronScheduleBuilder
                         .cronSchedule(quartzJobDTO.getCronExpression())
                         .withMisfireHandlingInstructionDoNothing())
                 .build();
         scheduler.rescheduleJob(triggerKey, trigger);
+        return ResultBuilder.success();
+    }
+
+    @Override
+    public ResultBuilder pauseJobAll() throws SchedulerException {
+        try {
+            dbChangeService.changeDb("quartz");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<QrtzTriggerDetails> qrtzTriggerDetails = qrtzJobDetailsMapper.selectAll();
+        for (QrtzTriggerDetails qg : qrtzTriggerDetails) {
+            scheduler.pauseJob(JobKey.jobKey(qg.getJobName(), qg.getJobName()));
+        }
+        return ResultBuilder.success();
+    }
+
+    @Override
+    public ResultBuilder resumeJobAll() throws SchedulerException {
+
+        try {
+            dbChangeService.changeDb("quartz");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<QrtzTriggerDetails> qrtzTriggerDetails = qrtzJobDetailsMapper.selectAll();
+        for (QrtzTriggerDetails qg : qrtzTriggerDetails) {
+            scheduler.resumeJob(JobKey.jobKey(qg.getJobName(), qg.getJobName()));
+        }
+        return ResultBuilder.success();
+    }
+
+    @Override
+    public ResultBuilder removeJobAll() throws SchedulerException {
+        try {
+            dbChangeService.changeDb("quartz");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<QrtzTriggerDetails> qrtzTriggerDetails = qrtzJobDetailsMapper.selectAll();
+        for (QrtzTriggerDetails qg : qrtzTriggerDetails) {
+            TriggerKey triggerKey = TriggerKey.triggerKey(qg.getJobName(), qg.getJobName());
+            scheduler.pauseTrigger(triggerKey);
+            scheduler.unscheduleJob(triggerKey);
+            scheduler.deleteJob(JobKey.jobKey(qg.getJobName(), qg.getJobName()));
+        }
         return ResultBuilder.success();
     }
 }
