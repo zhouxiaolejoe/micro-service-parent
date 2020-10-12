@@ -58,9 +58,6 @@ public class SyncRangeService implements IFaspClientScheduler {
             return;
         }
         for (Dic3SyncDSPO po : syncDSPOS) {
-            if (po.getTablename().equalsIgnoreCase("fasp_t_pupvd03002")) {
-                System.err.println(1);
-            }
             try {
                 String elementcode = po.getElementcode();
                 if (!StringUtils.isEmpty(elementcode) && !("AGENCY").equals(elementcode.toUpperCase())) {
@@ -74,6 +71,7 @@ public class SyncRangeService implements IFaspClientScheduler {
                 if (e instanceof BadSqlGrammarException) {
                     try {
                         if (e.getCause().toString().contains("ORA-00942")) {
+                            changeService.changeDb(target);
                             syncRangeMapper.updateSyncElementDateTimeByTableName(po.getElementcode(), DEFAULT_DIC3SYNCDS_DATE, po.getTablename());
                         }
                         caffeineCacheService.saveUserTableView(target);
@@ -91,10 +89,6 @@ public class SyncRangeService implements IFaspClientScheduler {
         if (tablename.length() > 30) {
             tablename = tablename.substring(0, 30);
         }
-
-        if (po.getTablename().equalsIgnoreCase("fasp_t_pupvc01004")) {
-            System.err.println("1");
-        }
         log.debug("check table [" + tablename + "] exits ");
         if (!exitsTable(tablename.trim().toUpperCase(), target)) {
             log.debug("create table " + tablename);
@@ -104,6 +98,7 @@ public class SyncRangeService implements IFaspClientScheduler {
                 if (CollectionUtils.isEmpty(sqlData)) {
                     return false;
                 }
+
                 createTableDynamic(tablename, sqlData, target);
 //                syncRangeMapper.createTable(tablename.trim());
             }
@@ -206,9 +201,6 @@ public class SyncRangeService implements IFaspClientScheduler {
         Integer syncCount = null;
         String tokenid = faspAuthenticateUtils.getFaspToken();
         RestClientResultDTO<List<Map<String, Object>>> rs = null;
-        if (po.getTablename().equalsIgnoreCase("fasp_t_pupvd10003")) {
-            System.err.println();
-        }
         int page = 1;
         Boolean isdelete = true;
         do {
@@ -234,7 +226,6 @@ public class SyncRangeService implements IFaspClientScheduler {
                 break;
             }
 
-
             String dbVersion = null;
             if (DEFAULT_DIC3SYNCDS_DATE.equals(version)) {
                 isdelete = saveBatchTableTable(po.getTablename(), data, target, isdelete);
@@ -245,7 +236,8 @@ public class SyncRangeService implements IFaspClientScheduler {
             if (dbVersion == null) {
                 dbVersion = version;
             }
-            updateSyncElementDateTime(po, dbVersion);
+
+            updateSyncElementDateTime(po, dbVersion, target);
             syncCount = data.size();
             log.info("TABLENAME :[ " + po.getTablename() + " ] DBVERSION :[" + po.getSyncdatetime() + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
         }
@@ -253,7 +245,7 @@ public class SyncRangeService implements IFaspClientScheduler {
         return syncCount;
     }
 
-    public void updateSyncElementDateTime(Dic3SyncDSPO po, String dbversion) throws Exception {
+    public void updateSyncElementDateTime(Dic3SyncDSPO po, String dbversion, String target) throws Exception {
         if (StringUtils.isEmpty(dbversion)) {
             return;
         }
@@ -264,32 +256,8 @@ public class SyncRangeService implements IFaspClientScheduler {
         } catch (Exception e) {
             return;
         }
-
-        Map<String, String> params = new HashMap<>();
-        params.put("datetime", dbversion);
-        params.put("elementcode", po.getElementcode());
+        changeService.changeDb(target);
         syncRangeMapper.updateSyncElementDateTimeByTableName(po.getElementcode(), dbversion, po.getTablename());
-    }
-
-    public String syncElementData(Dic3SyncDSPO po, List<Map<String, Object>> datas) {
-
-        if (CollectionUtils.isEmpty(datas)) {
-            return null;
-        }
-
-        // 按DBVersion排序
-        sortSyncDataByDBVersion(datas);
-        String tablename = po.getTablename();
-        Map param = new HashMap();
-        param.put("tablename", tablename);
-        String dbversion = null;
-        for (Map<String, Object> data : datas) {
-            param.put("data", data);
-            dbversion = (String) data.get("DBVERSION");
-            syncRangeMapper.deleteData(param);
-            syncRangeMapper.insertDataString(param);
-        }
-        return dbversion;
     }
 
     Boolean exitsView(String viewName, String target) {
@@ -313,6 +281,9 @@ public class SyncRangeService implements IFaspClientScheduler {
 
     public String syncElementData(String tablename, List<Map<String, Object>> datas, String target) throws Exception {
 
+        if ("fasp_t_pupvc01004".equalsIgnoreCase(tablename)) {
+            System.err.println();
+        }
         if (CollectionUtils.isEmpty(datas)) {
             return SyncDataUtils.DEFAULT_DBVERSION;
         }
@@ -324,6 +295,7 @@ public class SyncRangeService implements IFaspClientScheduler {
             String sql = Joiner.on(",").join(treeMap.keySet());
             String values = creatValues(treeMap, sql);
             dbversion = (String) data.get("DBVERSION");
+            changeService.changeDb(target);
             targetMapper.deleteData(tablename, data);
             targetMapper.insertDataDynamic(tablename, sql, values, data);
         }

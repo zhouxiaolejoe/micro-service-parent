@@ -25,10 +25,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class QrtzTriggerDetails {
     private String jobName;
-    private String jobGroup;
+//    private String jobGroup;
+//    private String triggerName;
+//    private String triggerGroup;
     private String description;
-    private String triggerName;
-    private String triggerGroup;
     private String jobClassName;
     private String priority;
     private String triggerType;

@@ -32,4 +32,5 @@
      <select id="get1" resultType="java.util.HashMap">
     	SELECT * FROM fasp_t_syncdatabase where isdelete =0 and issync =0
     </select>
+
 </mapper>

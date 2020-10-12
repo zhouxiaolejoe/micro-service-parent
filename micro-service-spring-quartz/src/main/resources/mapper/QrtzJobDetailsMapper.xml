@@ -164,11 +164,11 @@
 
   <resultMap id="TriggerResultMap" type="com.micro.service.springquartz.model.QrtzTriggerDetails">
     <id column="job_name" jdbcType="VARCHAR" property="jobName" />
-    <id column="job_group" jdbcType="VARCHAR" property="jobGroup" />
+<!--    <id column="job_group" jdbcType="VARCHAR" property="jobGroup" />-->
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="job_class_name" jdbcType="VARCHAR" property="jobClassName" />
-    <result column="trigger_name" jdbcType="VARCHAR" property="triggerName" />
-    <result column="trigger_group" jdbcType="VARCHAR" property="triggerGroup" />
+<!--    <result column="trigger_name" jdbcType="VARCHAR" property="triggerName" />-->
+<!--    <result column="trigger_group" jdbcType="VARCHAR" property="triggerGroup" />-->
     <result column="priority" jdbcType="VARCHAR" property="priority" />
     <result column="trigger_type" jdbcType="VARCHAR" property="triggerType" />
     <result column="trigger_state" jdbcType="BLOB" property="triggerState" />

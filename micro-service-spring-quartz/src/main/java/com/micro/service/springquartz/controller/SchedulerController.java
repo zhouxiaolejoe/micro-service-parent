@@ -82,7 +82,7 @@ public class SchedulerController {
     @PostMapping("/resumeJobAll")
     @ApiOperation(value = "恢复所有任务", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
     public ResultBuilder resumeJobAll() throws SchedulerException {
-        jobService.removeJobAll();
+        jobService.resumeJobAll();
         return ResultBuilder.success();
     }
 
@@ -108,10 +108,9 @@ public class SchedulerController {
         return ResultBuilder.success();
     }
     @PostMapping("/test1")
-    @ApiOperation(value = "重新编排任务", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
+    @ApiOperation(value = "测试", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
     public Object test() throws SchedulerException {
         List<Map<String,Object>> dataSourceInfos = dbChangeService.get1();
         return FastJsonUtils.getBeanToJson(dataSourceInfos);
     }
-
 }
