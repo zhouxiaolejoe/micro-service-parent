@@ -197,7 +197,8 @@ public class SyncTableService implements SyncTableScheduler {
         StringBuilder sb = new StringBuilder("");
         for (int i = 0; i < columns.length; i++) {
             String col = findKey(columns[i], data.keySet());
-            if ("DBVERSION".equalsIgnoreCase(col)) {
+            boolean flag = "DBVERSION".equalsIgnoreCase(col) || "CREATETIME".equalsIgnoreCase(col) || "UPDATETIME".equalsIgnoreCase(col);
+            if (flag) {
                 sb.append("#{item." + col + ",jdbcType=TIMESTAMP,typeHandler=com.micro.service.springquartz.mybatis.typehandler.TimestampTypeHandler},");
                 continue;
             }

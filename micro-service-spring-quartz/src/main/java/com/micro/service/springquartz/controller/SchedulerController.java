@@ -4,6 +4,7 @@ import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.QuartzJobDTO;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.service.JobService;
+import com.micro.service.springquartz.utils.FastJsonUtils;
 import com.micro.service.springquartz.utils.ResultBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName SchedulerController
@@ -107,9 +109,9 @@ public class SchedulerController {
     }
     @PostMapping("/test1")
     @ApiOperation(value = "重新编排任务", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
-    public ResultBuilder test(@RequestBody QuartzJobDTO quartzJobDTO) throws SchedulerException {
-        List<DataSourceInfo> dataSourceInfos = dbChangeService.get();
-        return ResultBuilder.success(dataSourceInfos);
+    public Object test() throws SchedulerException {
+        List<Map<String,Object>> dataSourceInfos = dbChangeService.get1();
+        return FastJsonUtils.getBeanToJson(dataSourceInfos);
     }
 
 }

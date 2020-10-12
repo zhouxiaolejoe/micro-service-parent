@@ -58,14 +58,14 @@ public class SyncRangeService implements IFaspClientScheduler {
             return;
         }
         for (Dic3SyncDSPO po : syncDSPOS) {
-            if(po.getTablename().equalsIgnoreCase("fasp_t_pupvd03002")){
+            if (po.getTablename().equalsIgnoreCase("fasp_t_pupvd03002")) {
                 System.err.println(1);
             }
             try {
                 String elementcode = po.getElementcode();
                 if (!StringUtils.isEmpty(elementcode) && !("AGENCY").equals(elementcode.toUpperCase())) {
-                    if(!checkTable(po, origin, target)){
-                        break;
+                    if (!checkTable(po, origin, target)) {
+                        continue;
                     }
                     syncElement(po, target);
                 }
@@ -92,13 +92,16 @@ public class SyncRangeService implements IFaspClientScheduler {
             tablename = tablename.substring(0, 30);
         }
 
+        if (po.getTablename().equalsIgnoreCase("fasp_t_pupvc01004")) {
+            System.err.println("1");
+        }
         log.debug("check table [" + tablename + "] exits ");
         if (!exitsTable(tablename.trim().toUpperCase(), target)) {
             log.debug("create table " + tablename);
             if (!exitsView(tablename.trim().toUpperCase(), target)) {
                 changeService.changeDb(origin);
                 List<Map<String, Object>> sqlData = originMapper.selectTableColumn(tablename.trim().toUpperCase());
-                if(CollectionUtils.isEmpty(sqlData)){
+                if (CollectionUtils.isEmpty(sqlData)) {
                     return false;
                 }
                 createTableDynamic(tablename, sqlData, target);
@@ -203,7 +206,9 @@ public class SyncRangeService implements IFaspClientScheduler {
         Integer syncCount = null;
         String tokenid = faspAuthenticateUtils.getFaspToken();
         RestClientResultDTO<List<Map<String, Object>>> rs = null;
-
+        if (po.getTablename().equalsIgnoreCase("fasp_t_pupvd10003")) {
+            System.err.println();
+        }
         int page = 1;
         Boolean isdelete = true;
         do {
@@ -228,9 +233,8 @@ public class SyncRangeService implements IFaspClientScheduler {
                 syncCount = 0;
                 break;
             }
-            if(po.getTablename().equalsIgnoreCase("fasp_t_pupvd03002")){
-                System.err.println(1);
-            }
+
+
             String dbVersion = null;
             if (DEFAULT_DIC3SYNCDS_DATE.equals(version)) {
                 isdelete = saveBatchTableTable(po.getTablename(), data, target, isdelete);

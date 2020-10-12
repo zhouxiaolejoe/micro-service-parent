@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author : JCccc
@@ -37,7 +38,10 @@ public class DBChangeServiceImpl implements DBChangeService {
     public List<DataSourceInfo> get() {
         return dataSourceMapper.get();
     }
-
+    @Override
+    public List<Map<String,Object>> get1() {
+        return dataSourceMapper.get1();
+    }
     @Override
     public boolean changeDb(String datasourceId) throws Exception {
 

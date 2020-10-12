@@ -63,3 +63,6 @@ logging:
 faspclient:
   sync-start: true
   fasp_server_id: http://122.112.202.68:30080
+mybatis:
+  configuration:
+    call-setters-on-nulls: true

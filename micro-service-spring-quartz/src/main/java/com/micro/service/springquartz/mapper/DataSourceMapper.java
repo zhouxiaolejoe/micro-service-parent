@@ -4,6 +4,7 @@ package com.micro.service.springquartz.mapper;
 import com.micro.service.springquartz.model.DataSourceInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author : JCccc
@@ -12,4 +13,5 @@ import java.util.List;
  **/
 public interface DataSourceMapper {
     List<DataSourceInfo> get();
+    List<Map<String,Object>> get1();
 }

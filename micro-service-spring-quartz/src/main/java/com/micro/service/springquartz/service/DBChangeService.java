@@ -4,6 +4,7 @@ package com.micro.service.springquartz.service;
 import com.micro.service.springquartz.model.DataSourceInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author : JCccc
@@ -14,7 +15,8 @@ import java.util.List;
 public interface DBChangeService {
  
     List<DataSourceInfo> get();
- 
+    List<Map<String,Object>> get1();
+
     boolean changeDb(String datasourceId) throws Exception;
  
 }
