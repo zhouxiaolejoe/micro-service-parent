@@ -1,3 +1,4 @@
+-- Create table
 create table FASP_T_SYNCDATABASE
 (
   datasourceid    VARCHAR2(50) not null,
@@ -17,4 +18,19 @@ create table FASP_T_SYNCDATABASE
   databasetype    NUMBER,
   guid            VARCHAR2(32) not null,
   issync          NUMBER
-)
+);
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table FASP_T_SYNCDATABASE
+  add constraint UK_DS_ID unique (DATASOURCEID)
+  using index 
+  tablespace SYSTEM
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );

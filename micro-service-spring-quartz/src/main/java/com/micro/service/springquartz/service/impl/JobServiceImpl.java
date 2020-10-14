@@ -29,7 +29,6 @@ import java.util.List;
 @AllArgsConstructor
 public class JobServiceImpl implements JobService {
 
-
     QrtzJobDetailsMapper qrtzJobDetailsMapper;
     DBChangeService dbChangeService;
     Scheduler scheduler;
@@ -37,7 +36,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public List<QrtzTriggerDetails> getJobList(QuartzJobDTO quartzJobDTO) {
         try {
-            dbChangeService.changeDb("quartz");
+            dbChangeService.changeDb("mainDataSource");
         } catch (Exception e) {
             e.printStackTrace();
         }

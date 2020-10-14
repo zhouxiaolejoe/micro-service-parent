@@ -149,7 +149,7 @@ public class DruidDBConfig {
          * 额外数据源配置 TargetDataSources
          * 默认数据源不注册
          */
-//        targetDataSources.put("mainDataSource", dataSource());
+        targetDataSources.put("mainDataSource", dataSource());
         dynamicDataSource.setTargetDataSources(targetDataSources);
         return dynamicDataSource;
     }

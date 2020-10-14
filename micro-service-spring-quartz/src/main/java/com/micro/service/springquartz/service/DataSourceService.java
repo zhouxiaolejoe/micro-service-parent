@@ -1,20 +1,19 @@
-package com.micro.service.springquartz.mapper;
-
+package com.micro.service.springquartz.service;
 
 import com.micro.service.springquartz.model.DataSourceInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * @Author : JCccc
- * @CreateTime : 2019/10/23
- * @Description :
- **/
-public interface DataSourceMapper {
+ * @Description
+ * @Project micro-service-parent
+ * @Package com.micro.service.springquartz.service
+ * @Author Administrator
+ * @Date 2020-10-13 15:29
+ */
+public interface DataSourceService {
     List<DataSourceInfo> get();
-    List<Map<String,Object>> get1();
     int insertDatasourceInfo(DataSourceInfo dataSourceInfo);
     int deleteDataSourceByDatasourceId(@Param("datasourceId")String datasourceId);
 }

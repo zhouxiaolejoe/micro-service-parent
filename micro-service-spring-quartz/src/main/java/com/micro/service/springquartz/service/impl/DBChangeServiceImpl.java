@@ -71,4 +71,9 @@ public class DBChangeServiceImpl implements DBChangeService {
 
     }
 
+    @Override
+    public boolean deleteDb(String datasourceId) throws Exception {
+       return dynamicDataSource.delDatasources(datasourceId);
+    }
+
 }

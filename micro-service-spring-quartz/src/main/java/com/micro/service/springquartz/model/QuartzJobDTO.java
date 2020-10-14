@@ -15,7 +15,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("com.hiynn.spring.quartz.DTO.QuartzJobDTO")
+@ApiModel("com.micro.service.springquartz.model.QuartzJobDTO")
 @Builder
 public class QuartzJobDTO {
     @ApiModelProperty(value = "任务名称",required = true)

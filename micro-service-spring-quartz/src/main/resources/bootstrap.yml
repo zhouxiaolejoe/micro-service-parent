@@ -70,5 +70,7 @@ feign:
   client:
     config:
       defult:
-        connect-timeout: 10000
-        read-timeout: 10000
+        connect-timeout: 50000
+        read-timeout: 50000
+server:
+  port: 19018

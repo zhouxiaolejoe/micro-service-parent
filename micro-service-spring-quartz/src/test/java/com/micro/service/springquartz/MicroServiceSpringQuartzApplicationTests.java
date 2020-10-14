@@ -8,6 +8,7 @@ import com.micro.service.springquartz.mapper.target.SyncDicDSMapper;
 import com.micro.service.springquartz.mapper.target.SyncMenuMapper;
 import com.micro.service.springquartz.model.ClientApiRoleMenuRestDTO;
 import com.micro.service.springquartz.model.ClientApiRoleUserRestDTO;
+import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.FaspTPubmenu;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.sun.javafx.binding.StringFormatter;
@@ -157,10 +158,21 @@ public class MicroServiceSpringQuartzApplicationTests {
     @SneakyThrows
     @Test
     public void contextLoads6() {
-        dbChangeService.changeDb("bas");
-        List<ClientApiRoleMenuRestDTO> clientApiRoleMenuRestDTOS = originMapper.queryRoleMenuMapping("077986F17DAB5E21E050007F010012CA");
-        List<ClientApiRoleUserRestDTO> clientApiRoleUserRestDTOS = originMapper.queryUserRolemapping("ADEC3390885DAB60E05308031323BD9E");
-        System.err.println(clientApiRoleMenuRestDTOS);
-        System.err.println(clientApiRoleUserRestDTOS);
+//        dbChangeService.changeDb("bas");
+//        List<ClientApiRoleMenuRestDTO> clientApiRoleMenuRestDTOS = originMapper.queryRoleMenuMapping("077986F17DAB5E21E050007F010012CA");
+//        List<ClientApiRoleUserRestDTO> clientApiRoleUserRestDTOS = originMapper.queryUserRolemapping("ADEC3390885DAB60E05308031323BD9E");
+//        System.err.println(clientApiRoleMenuRestDTOS);
+//        System.err.println(clientApiRoleUserRestDTOS);
+        dbChangeService.changeDb("quartz");
+//        DataSourceInfo dataSourceInfo = new DataSourceInfo();
+//        dataSourceInfo.setBusinesname("测试1");
+//        dataSourceInfo.setUrl("1");
+//        dataSourceInfo.setDatasourceId("2");
+//        dataSourceInfo.setUserName("1");
+//        dataSourceInfo.setPassWord("1");
+//        dataSourceMapper.insertDatasourceInfo(dataSourceInfo);
+        List<DataSourceInfo> dataSourceInfos = dataSourceMapper.get();
+//        dataSourceMapper.deleteDataSourceByDatasourceId("2");
+        System.err.println(dataSourceInfos);
     }
 }

@@ -1,8 +1,11 @@
 package com.micro.service.springquartz.controller;
 
+import com.alibaba.druid.support.spring.stat.SpringStatUtils;
+import com.micro.service.springquartz.model.DataSourceDTO;
 import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.QuartzJobDTO;
 import com.micro.service.springquartz.service.DBChangeService;
+import com.micro.service.springquartz.service.DataSourceService;
 import com.micro.service.springquartz.service.JobService;
 import com.micro.service.springquartz.utils.FastJsonUtils;
 import com.micro.service.springquartz.utils.ResultBuilder;
@@ -10,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.quartz.SchedulerException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +33,7 @@ import java.util.Map;
 public class SchedulerController {
     JobService jobService;
     DBChangeService dbChangeService;
-
+    DataSourceService dataSourceService;
 
     @GetMapping("/getJobList")
     @ApiOperation(value = "任务列表", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
@@ -107,10 +111,26 @@ public class SchedulerController {
         jobService.rescheduleJob(quartzJobDTO);
         return ResultBuilder.success();
     }
-    @PostMapping("/test1")
-    @ApiOperation(value = "测试", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
-    public Object test() throws SchedulerException {
-        List<Map<String,Object>> dataSourceInfos = dbChangeService.get1();
-        return FastJsonUtils.getBeanToJson(dataSourceInfos);
+    @GetMapping("/getDataSourceList")
+    @ApiOperation(value = "获取数据源列表", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
+    public ResultBuilder getDataSourceList() throws SchedulerException {
+        List<DataSourceInfo> dataSourceInfos = dataSourceService.get();
+        return ResultBuilder.success(dataSourceInfos);
+    }
+
+    @PostMapping("/insertDataSourceInfo")
+    @ApiOperation(value = "新增数据源", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
+    public ResultBuilder insertDataSourceInfo(@RequestBody DataSourceDTO dataSourceDTO) throws SchedulerException {
+        DataSourceInfo dataSourceInfo = new DataSourceInfo();
+        BeanUtils.copyProperties(dataSourceDTO,dataSourceInfo);
+        dataSourceService.insertDatasourceInfo(dataSourceInfo);
+        return ResultBuilder.success();
+    }
+
+    @DeleteMapping("/insertDataSourceInfo")
+    @ApiOperation(value = "删除数据源", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "DELETE")
+    public ResultBuilder deleteDataSourceInfo(@RequestParam("datasourceId") String datasourceId) throws SchedulerException {
+        dataSourceService.deleteDataSourceByDatasourceId(datasourceId);
+        return ResultBuilder.success();
     }
 }

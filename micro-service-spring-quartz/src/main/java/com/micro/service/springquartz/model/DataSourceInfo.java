@@ -19,6 +19,7 @@ public class DataSourceInfo {
     String publickey;
     String databasetype;
     String businesstype;
+    String businesname;
     Integer delete;
     Integer sync;
 }

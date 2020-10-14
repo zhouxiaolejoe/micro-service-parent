@@ -18,5 +18,6 @@ public interface DBChangeService {
     List<Map<String,Object>> get1();
 
     boolean changeDb(String datasourceId) throws Exception;
- 
+    boolean deleteDb(String datasourceId) throws Exception;
+
 }

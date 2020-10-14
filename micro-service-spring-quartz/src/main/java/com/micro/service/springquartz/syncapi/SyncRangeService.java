@@ -280,10 +280,6 @@ public class SyncRangeService implements IFaspClientScheduler {
 
 
     public String syncElementData(String tablename, List<Map<String, Object>> datas, String target) throws Exception {
-
-        if ("fasp_t_pupvc01004".equalsIgnoreCase(tablename)) {
-            System.err.println();
-        }
         if (CollectionUtils.isEmpty(datas)) {
             return SyncDataUtils.DEFAULT_DBVERSION;
         }

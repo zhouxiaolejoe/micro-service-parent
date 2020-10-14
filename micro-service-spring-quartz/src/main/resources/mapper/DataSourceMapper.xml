@@ -33,4 +33,30 @@
     	SELECT * FROM fasp_t_syncdatabase where isdelete =0 and issync =0
     </select>
 
+    <insert id="insertDatasourceInfo" parameterType="com.micro.service.springquartz.model.DataSourceDTO">
+    insert into fasp_t_syncdatabase (datasourceid,url, username, password,businessname, driverclassname,guid,
+    createtime,businesstype,createuser,updateuser,updatetime,isdelete,issync,dbversion,databasetype)
+    values(
+        #{datasourceId ,jdbcType=VARCHAR},
+        #{url ,jdbcType=VARCHAR},
+        #{userName ,jdbcType=VARCHAR},
+        #{passWord ,jdbcType=VARCHAR},
+        #{businesname ,jdbcType=VARCHAR},
+        'oracle.jdbc.OracleDriver',
+         sys_guid(),
+         sysdate,
+         '100100',
+         'sync',
+         'sync',
+         sysdate,
+         0,
+         0,
+         sysdate,
+         1
+    )
+    </insert>
+    <delete id="deleteDataSourceByDatasourceId">
+        delete from fasp_t_syncdatabase where datasourceId =#{datasourceId ,jdbcType=VARCHAR}
+    </delete>
+
 </mapper>
