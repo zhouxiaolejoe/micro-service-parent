@@ -26,7 +26,7 @@
         DATABASETYPE, ISSYNC
     </sql>
     <select id="get" resultType="com.micro.service.springquartz.model.DataSourceInfo">
-    	SELECT <include refid="Base_Column_List" /> FROM fasp_t_syncdatabase where isdelete =0 and issync =0
+    	SELECT <include refid="Base_Column_List" /> FROM fasp_t_syncdatabase where isdelete =0 and issync =0 order by createtime desc
     </select>
 
      <select id="get1" resultType="java.util.HashMap">
