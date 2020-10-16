@@ -3,7 +3,7 @@ create table FASP_T_SYNCDATABASE
 (
   datasourceid    VARCHAR2(50) not null,
   businesstype    VARCHAR2(50),
-  businessname    VARCHAR2(50),
+  businessname    VARCHAR2(150),
   url             VARCHAR2(500) not null,
   username        VARCHAR2(50) not null,
   password        VARCHAR2(50) not null,

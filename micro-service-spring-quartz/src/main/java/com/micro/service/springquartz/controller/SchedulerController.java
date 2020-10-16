@@ -10,6 +10,8 @@ import com.micro.service.springquartz.service.JobService;
 import com.micro.service.springquartz.utils.FastJsonUtils;
 import com.micro.service.springquartz.utils.ResultBuilder;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.quartz.SchedulerException;
@@ -37,15 +39,17 @@ public class SchedulerController {
 
     @GetMapping("/getJobList")
     @ApiOperation(value = "任务列表", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public ResultBuilder getJobList() {
-        return ResultBuilder.success(jobService.getJobList(null));
+    public Map<String, Object> getJobList(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
+        return jobService.getJobList(page, limit);
     }
 
     @PostMapping("/addJob")
     @ApiOperation(value = "新增任务", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
     public ResultBuilder addJob(@RequestBody QuartzJobDTO quartzJobDTO) throws SchedulerException {
-        jobService.addJob(quartzJobDTO);
-        return ResultBuilder.success();
+        if (quartzJobDTO.getOrigin().equalsIgnoreCase(quartzJobDTO.getTarget())) {
+            return ResultBuilder.fail(null, "源库与目标库相同");
+        }
+        return jobService.addJob(quartzJobDTO);
     }
 
     @GetMapping("/jobStatus")
@@ -108,29 +112,36 @@ public class SchedulerController {
     @PostMapping("/rescheduleJob")
     @ApiOperation(value = "重新编排任务", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
     public ResultBuilder rescheduleJob(@RequestBody QuartzJobDTO quartzJobDTO) throws SchedulerException {
+        if (quartzJobDTO.getOrigin().equalsIgnoreCase(quartzJobDTO.getTarget())) {
+            return ResultBuilder.fail(null, "源库与目标库相同");
+        }
         jobService.rescheduleJob(quartzJobDTO);
         return ResultBuilder.success();
     }
+
     @GetMapping("/getDataSourceList")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "page", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "limit", value = "limit", required = true, dataType = "Integer", paramType = "query")
+    })
     @ApiOperation(value = "获取数据源列表", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public ResultBuilder getDataSourceList() throws SchedulerException {
-        List<DataSourceInfo> dataSourceInfos = dataSourceService.get();
-        return ResultBuilder.success(dataSourceInfos);
+    public Map<String, Object> getDataSourceList(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws SchedulerException {
+        return dataSourceService.get(page, limit);
     }
 
     @PostMapping("/insertDataSourceInfo")
     @ApiOperation(value = "新增数据源", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
     public ResultBuilder insertDataSourceInfo(@RequestBody DataSourceDTO dataSourceDTO) throws SchedulerException {
         DataSourceInfo dataSourceInfo = new DataSourceInfo();
-        BeanUtils.copyProperties(dataSourceDTO,dataSourceInfo);
+        BeanUtils.copyProperties(dataSourceDTO, dataSourceInfo);
         dataSourceService.insertDatasourceInfo(dataSourceInfo);
         return ResultBuilder.success();
     }
 
-    @DeleteMapping("/insertDataSourceInfo")
-    @ApiOperation(value = "删除数据源", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "DELETE")
-    public ResultBuilder deleteDataSourceInfo(@RequestParam("datasourceId") String datasourceId) throws SchedulerException {
-        dataSourceService.deleteDataSourceByDatasourceId(datasourceId);
+    @DeleteMapping("/deleteDataSourceInfo")
+    @ApiOperation(value = "删除数据源", httpMethod = "DELETE")
+    public ResultBuilder deleteDataSourceInfo(@RequestParam("datasourceid") String datasourceid) throws SchedulerException {
+        dataSourceService.deleteDataSourceByDatasourceId(datasourceid);
         return ResultBuilder.success();
     }
 }

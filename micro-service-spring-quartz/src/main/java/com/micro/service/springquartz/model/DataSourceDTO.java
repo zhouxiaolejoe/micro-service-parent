@@ -19,13 +19,13 @@ import lombok.*;
 @Builder
 public class DataSourceDTO {
     @ApiModelProperty(value = "数据库唯一标识",required = true)
-    String datasourceId;
+    String datasourceid;
     @ApiModelProperty(value = "数据库唯URL",required = true)
     String url;
     @ApiModelProperty(value = "用户名",required = true)
-    String userName;
+    String username;
     @ApiModelProperty(value = "密码",required = true)
-    String passWord;
+    String password;
     @ApiModelProperty(value = "业务名称",required = true)
-    String businesname;
+    String businessname;
 }

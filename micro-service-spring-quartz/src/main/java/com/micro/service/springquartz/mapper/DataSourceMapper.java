@@ -14,7 +14,12 @@ import java.util.Map;
  **/
 public interface DataSourceMapper {
     List<DataSourceInfo> get();
-    List<Map<String,Object>> get1();
+
+    List<Map<String, Object>> get1();
+
+    List<DataSourceInfo> selectAllByDatasourceid(@Param("datasourceid") String datasourceid);
+
     int insertDatasourceInfo(DataSourceInfo dataSourceInfo);
-    int deleteDataSourceByDatasourceId(@Param("datasourceId")String datasourceId);
+
+    int deleteDataSourceByDatasourceId(@Param("datasourceId") String datasourceId);
 }

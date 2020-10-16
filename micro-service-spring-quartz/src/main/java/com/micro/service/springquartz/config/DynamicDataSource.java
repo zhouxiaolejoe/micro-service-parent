@@ -30,7 +30,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         String datasource = null;
         ThreadLocalDSInfo dataSourceInfo = DBContextHolder.getDataSource();
         if (!StringUtils.isEmpty(dataSourceInfo)) {
-            datasource = dataSourceInfo.getDatasourceId();
+            datasource = dataSourceInfo.getDatasourceid();
         }
         if (!StringUtils.isEmpty(datasource)) {
             Map<Object, Object> dynamicTargetDataSources2 = this.dynamicTargetDataSources;
@@ -117,7 +117,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
             this.dynamicTargetDataSources.put(key, druidDataSource);
             setTargetDataSources(this.dynamicTargetDataSources);
             super.afterPropertiesSet();
-            log.debug(key + "数据源初始化成功");
+            log.info(key + "数据源初始化成功");
             //log.debug(key+"数据源的概况："+druidDataSource.dump());
             return true;
         } catch (Exception e) {
@@ -135,6 +135,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
             Set<DruidDataSource> druidDataSourceInstances = DruidDataSourceStatManager.getDruidDataSourceInstances();
             for (DruidDataSource l : druidDataSourceInstances) {
                 if (datasourceid.equals(l.getName())) {
+                    log.info("删除数据源:[ " + datasourceid + " ]");
                     dynamicTargetDataSources2.remove(datasourceid);
                     DruidDataSourceStatManager.removeDataSource(l);
                     setTargetDataSources(dynamicTargetDataSources2);
@@ -210,7 +211,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     }
 
     public void createDataSourceWithCheck(DataSourceInfo dataSource) throws Exception {
-        String datasourceId = dataSource.getDatasourceId();
+        String datasourceId = dataSource.getDatasourceid();
         log.debug("正在检查数据源：" + datasourceId);
         Map<Object, Object> dynamicTargetDataSources2 = this.dynamicTargetDataSources;
         if (dynamicTargetDataSources2.containsKey(datasourceId)) {
@@ -258,11 +259,11 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     }
 
     private void createDataSource(DataSourceInfo dataSource) throws Exception {
-        String datasourceId = dataSource.getDatasourceId();
+        String datasourceId = dataSource.getDatasourceid();
         log.debug("准备创建数据源" + datasourceId);
         String databasetype = dataSource.getDatabasetype();
-        String username = dataSource.getUserName();
-        String password = dataSource.getPassWord();
+        String username = dataSource.getUsername();
+        String password = dataSource.getPassword();
         String url = dataSource.getUrl();
         String driveClass = dataSource.getDriverclassname();
 //        String driveClass = "oracle.jdbc.OracleDriver";

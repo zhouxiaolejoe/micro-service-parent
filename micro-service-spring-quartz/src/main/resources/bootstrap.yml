@@ -74,3 +74,5 @@ feign:
         read-timeout: 50000
 server:
   port: 19018
+  servlet:
+    context-path: /pushdata

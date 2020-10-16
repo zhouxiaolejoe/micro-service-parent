@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.Order;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -32,8 +33,12 @@ public class InitDataSource implements ApplicationListener<ContextRefreshedEvent
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         List<DataSourceInfo> dataSources = dataSourceMapper.get();
+        if (CollectionUtils.isEmpty(dataSources)){
+            log.info("当前数据源列表为空");
+            return;
+        }
         for (DataSourceInfo dataSource : dataSources) {
-            log.debug(String.format("初始化数据源,datasourceId是: [ %s ]", dataSource.getDatasourceId()));
+            log.debug(String.format("初始化数据源,datasourceId是: [ %s ]", dataSource.getDatasourceid()));
             try {
                 dynamicDataSource.createDataSourceWithCheck(dataSource);
             } catch (Exception e) {

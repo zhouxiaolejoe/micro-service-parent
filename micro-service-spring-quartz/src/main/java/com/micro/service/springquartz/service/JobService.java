@@ -7,10 +7,11 @@ import com.micro.service.springquartz.utils.ResultBuilder;
 import org.quartz.SchedulerException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface JobService {
 
-    List<QrtzTriggerDetails> getJobList(QuartzJobDTO quartzJobDTO);
+    Map<String, Object> getJobList(Integer pageNo, Integer pageSize);
 
     ResultBuilder addJob(QuartzJobDTO quartzJobDTO) throws SchedulerException;
 

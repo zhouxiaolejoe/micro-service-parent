@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class DBChangeServiceImpl implements DBChangeService {
         DBContextHolder.clearDataSource();
 
         List<DataSourceInfo> dataSourcesList = dataCaffeineCache.asMap().get("dataSourceInfos");
-        if (StringUtils.isEmpty(dataSourcesList)) {
+        if (CollectionUtils.isEmpty(dataSourcesList)) {
             /**
              * 注意新增删除更新缓存
              */
@@ -57,7 +58,7 @@ public class DBChangeServiceImpl implements DBChangeService {
             dataCaffeineCache.asMap().put("dataSourceInfos", dataSourcesList);
         }
         for (DataSourceInfo dataSource : dataSourcesList) {
-            if (dataSource.getDatasourceId().equals(datasourceId)) {
+            if (dataSource.getDatasourceid().equalsIgnoreCase(datasourceId)) {
                 //创建数据源连接&检查 若存在则不需重新创建
                 dynamicDataSource.createDataSourceWithCheck(dataSource);
                 //切换到该数据源

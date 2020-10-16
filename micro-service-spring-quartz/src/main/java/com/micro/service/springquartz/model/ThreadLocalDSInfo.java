@@ -13,6 +13,6 @@ import lombok.ToString;
 @Data
 @ToString
 public class ThreadLocalDSInfo {
-    String datasourceId;
+    String datasourceid;
     String businesstype;
 }

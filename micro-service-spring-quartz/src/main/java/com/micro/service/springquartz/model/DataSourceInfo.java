@@ -11,15 +11,19 @@ import lombok.ToString;
 @ToString
 public class DataSourceInfo {
     String guId;
-    String datasourceId;
+    String datasourceid;
     String driverclassname;
     String url;
-    String userName;
-    String passWord;
-    String publickey;
+    String username;
+    String password;
+//    String publickey;
     String databasetype;
     String businesstype;
-    String businesname;
+    String businessname;
     Integer delete;
-    Integer sync;
+    String createtime;
+    String createuser;
+    String updatetime;
+    String updateuser;
+//    Integer sync;
 }

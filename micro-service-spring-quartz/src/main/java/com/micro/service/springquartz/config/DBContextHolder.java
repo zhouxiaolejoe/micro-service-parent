@@ -21,7 +21,7 @@ public class DBContextHolder {
      */
     public static void setDataSource(ThreadLocalDSInfo dsInfo) {
         contextHolder.set(dsInfo);
-        log.debug("已切换到数据源:{}", dsInfo.getDatasourceId());
+        log.debug("已切换到数据源:{}", dsInfo.getDatasourceid());
     }
 
     /**

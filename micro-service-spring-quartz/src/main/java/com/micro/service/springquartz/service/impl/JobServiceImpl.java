@@ -3,7 +3,9 @@ package com.micro.service.springquartz.service.impl;
 import com.micro.service.springquartz.job.ApiJob;
 import com.micro.service.springquartz.job.DSJob;
 import com.micro.service.springquartz.job.TableJob;
+import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.mapper.QrtzJobDetailsMapper;
+import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.QrtzTriggerDetails;
 import com.micro.service.springquartz.model.QuartzJobDTO;
 import com.micro.service.springquartz.service.DBChangeService;
@@ -13,8 +15,16 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.io.InputStream;
+import java.sql.Blob;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -32,16 +42,79 @@ public class JobServiceImpl implements JobService {
     QrtzJobDetailsMapper qrtzJobDetailsMapper;
     DBChangeService dbChangeService;
     Scheduler scheduler;
+    DataSourceMapper dataSourceMapper;
+
+    public static String timeStamp2Date(String seconds, String format) {
+        if (seconds == null || seconds.isEmpty() || seconds.equals("null")) {
+            return "";
+        }
+        if (format == null || format.isEmpty()) {
+            format = "yyyy-MM-dd HH:mm:ss";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(new Date(Long.valueOf(seconds)));
+    }
+
+    public static String blobToString(Blob blob) {
+        String blobToStr = "";
+        if (blob != null) {
+            try {
+                InputStream inStream = blob.getBinaryStream();
+                long nLen = blob.length();
+                int nSize = (int) nLen;
+                byte[] data = new byte[nSize];
+                inStream.read(data);
+                inStream.close();
+                blobToStr = new String(data, "GBK");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return blobToStr;
+    }
 
     @Override
-    public List<QrtzTriggerDetails> getJobList(QuartzJobDTO quartzJobDTO) {
+    public Map<String, Object> getJobList(Integer pageNo, Integer pageSize) {
         try {
             dbChangeService.changeDb("mainDataSource");
         } catch (Exception e) {
             e.printStackTrace();
         }
+//        PageHelper.startPage(pageNo,pageSize);
+        List<QrtzTriggerDetails> qrtzTriggerDetails = qrtzJobDetailsMapper.selectAll();
+//        PageInfo<QrtzTriggerDetails> pageInfo = PageInfo.of(qrtzTriggerDetails);
 
-        return qrtzJobDetailsMapper.selectAll();
+
+        qrtzTriggerDetails = qrtzTriggerDetails.stream().filter(x -> {
+            x.setStartTime(timeStamp2Date(x.getStartTime(), null));
+            x.setPrevFireTime(timeStamp2Date(x.getPrevFireTime(), null));
+            x.setNextFireTime(timeStamp2Date(x.getNextFireTime(), null));
+            JobDetail jobDetail = null;
+            try {
+                jobDetail = scheduler.getJobDetail(JobKey.jobKey(x.getJobName(), x.getJobName()));
+            } catch (SchedulerException e) {
+                e.printStackTrace();
+            }
+            JobDataMap jobDataMap = jobDetail.getJobDataMap();
+            x.setOrigin((String) jobDataMap.get("origin"));
+            x.setTarget((String) jobDataMap.get("target"));
+
+            if(Integer.parseInt(x.getEndTime())==0){
+                x.setEndTime(null);
+            }
+            return true;
+        }).collect(Collectors.toList());
+
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", "1");
+        result.put("msg", "sucess");
+//        result.put("count",pageInfo.getTotal());
+        result.put("pageNO", pageNo);
+        result.put("pageSize", pageSize);
+//        result.put("total",pageInfo.getTotal());
+        result.put("data", qrtzTriggerDetails);
+        return result;
     }
 
     private JobDetail changJodPattern(QuartzJobDTO quartzJobDTO) {
@@ -77,6 +150,14 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public ResultBuilder addJob(QuartzJobDTO quartzJobDTO) throws SchedulerException {
+        List<DataSourceInfo> origin = dataSourceMapper.selectAllByDatasourceid(quartzJobDTO.getOrigin());
+        if (CollectionUtils.isEmpty(origin)) {
+            return ResultBuilder.fail(null,"源库不存在");
+        }
+        List<DataSourceInfo> target = dataSourceMapper.selectAllByDatasourceid(quartzJobDTO.getTarget());
+        if (CollectionUtils.isEmpty(target)) {
+            return ResultBuilder.fail(null,"目标库不存在");
+        }
 
         /**
          *  1.创建jobDetail

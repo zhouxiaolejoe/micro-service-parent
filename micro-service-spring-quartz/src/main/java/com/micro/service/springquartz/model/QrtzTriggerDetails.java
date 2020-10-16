@@ -6,6 +6,7 @@ package com.micro.service.springquartz.model;/**
  * @Date 2020-09-27 09:16
  */
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,15 +26,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class QrtzTriggerDetails {
     private String jobName;
-//    private String jobGroup;
-//    private String triggerName;
-//    private String triggerGroup;
-    private String description;
-    private String jobClassName;
-    private String priority;
-    private String triggerType;
     private String triggerState;
+    private byte[] jobData;
+    private String triggerType;
     private String cronExpression;
-    private String timeZoneId;
+    private String startTime;
+    private String prevFireTime;
+    private String nextFireTime;
+    private String endTime;
+    private String jobClassName;
+    private String description;
+    private String origin;
+    private String target;
 
 }
