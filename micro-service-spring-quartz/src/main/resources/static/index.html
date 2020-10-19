@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css">
+</head>
+<style>
+    #center{
+        width: 400px;
+        height: 400px;
+        /*background-color: aquamarine;*/
+        position: fixed;
+    }
+    #ds{
+        width: 400px;
+        height: 200px;
+        background: #01AAED;
+        line-height:200px;
+        text-align: center;
+        font-size: 50px;
+        border:1px ;
+    }
+    #job{
+        margin-top: 1px;
+        width: 400px;
+        height: 200px;
+        background: #01AAED;
+        line-height:200px;
+        text-align: center;
+        margin-left: 0px;
+        font-size: 50px;
+        border:1px ;
+    }
+</style>
+<body>
+<div id = "center">
+    <div id ="ds" onclick="shy()" class="layui-btn layui-btn-lg layui-btn-normal ">数据源</div>
+    <div id ="job" onclick="rw()" class="layui-btn layui-btn-lg layui-btn-normal " >任务</div>
+</div>
+<script src="layui/layui.js"></script>
+<script src="js/jquery-3.5.1.min.js"></script>
+<script>
+    window.onload=function(){
+        var a = document.getElementById("center");//获取div块对象
+        var Height=document.documentElement.clientHeight;//取得浏览器页面可视区域的宽度
+        var Width=document.documentElement.clientWidth;//取得浏览器页面可视区域的宽度
+        var gao1 = a.offsetHeight;//获取div块的高度值
+        var gao2 = a.offsetWidth;//获取div块的宽度值
+        var Sgao1= (Height - gao1)/2+"px";
+        var Sgao2= (Width - gao2)/2+"px";
+        a.style.top=Sgao1;
+        a.style.left=Sgao2;
+    }
+
+
+    function rw() {
+        window.location.href = 'http://localhost:19018/pushdata/job.html';
+    }
+
+    function shy() {
+        window.location.href = 'http://localhost:19018/pushdata/ds.html';
+    }
+</script>
+
+</body>
+
+</html>

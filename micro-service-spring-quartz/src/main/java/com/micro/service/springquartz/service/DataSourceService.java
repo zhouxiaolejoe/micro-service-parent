@@ -19,4 +19,6 @@ public interface DataSourceService {
     int insertDatasourceInfo(DataSourceInfo dataSourceInfo);
 
     int deleteDataSourceByDatasourceId(@Param("datasourceId") String datasourceId);
+
+    void testFreemarker();
 }

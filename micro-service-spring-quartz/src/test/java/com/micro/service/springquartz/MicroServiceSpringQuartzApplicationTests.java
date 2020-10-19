@@ -23,6 +23,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import sun.misc.BASE64Encoder;
 
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -90,14 +92,14 @@ public class MicroServiceSpringQuartzApplicationTests {
     public void contextLoads2() {
         dbChangeService.changeDb("bas");
         List<Map<String, Object>> lists = originMapper.queryTableDataByDBVersion("FASP_T_DICDS", DEFAULT_DBVERSION);
-        lists=lists.stream().filter(x->{
+        lists = lists.stream().filter(x -> {
             String dbversion = getStringValue(x.get("DBVERSION"));
-            x.put("DBVERSION",dbversion);
+            x.put("DBVERSION", dbversion);
             return true;
         }).collect(Collectors.toList());
         dbChangeService.changeDb("bgt");
         Map<String, Object> map = Maps.newHashMap();
-        map.put("list",lists);
+        map.put("list", lists);
         syncDicDSMapper.batchInsertDicds(map);
         log.info(lists.toString());
 //        while (true) {
@@ -106,28 +108,28 @@ public class MicroServiceSpringQuartzApplicationTests {
 
 
     private String getStringValue(Object obj) {
-        if(null == obj){
+        if (null == obj) {
             return "";
-        }else if(obj instanceof  byte[]){
-            return new BASE64Encoder().encode((byte[])obj);
-        }else if(obj instanceof oracle.sql.TIMESTAMP){
+        } else if (obj instanceof byte[]) {
+            return new BASE64Encoder().encode((byte[]) obj);
+        } else if (obj instanceof oracle.sql.TIMESTAMP) {
             Timestamp timestamp = getOracleTimestamp(obj);
             String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
             return time;
         }
         return obj.toString();
     }
-    private Timestamp getOracleTimestamp(Object value){
-        try{
+
+    private Timestamp getOracleTimestamp(Object value) {
+        try {
             Class clz = value.getClass();
-            Method method = clz.getMethod("timestampValue",null);
-            return (Timestamp)method.invoke(value,null);
-        }catch(Exception ex){
+            Method method = clz.getMethod("timestampValue", null);
+            return (Timestamp) method.invoke(value, null);
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
     }
-
 
 
     @SneakyThrows
@@ -150,7 +152,7 @@ public class MicroServiceSpringQuartzApplicationTests {
         dbChangeService.changeDb("bas");
         List<Map<String, Object>> maps = originMapper.selectTableColumn("FASP_T_PUPVD03001");
         for (Map<String, Object> map : maps) {
-           log.info(map.toString());
+            log.info(map.toString());
         }
     }
 
@@ -174,5 +176,10 @@ public class MicroServiceSpringQuartzApplicationTests {
         List<DataSourceInfo> dataSourceInfos = dataSourceMapper.get();
 //        dataSourceMapper.deleteDataSourceByDatasourceId("2");
         System.err.println(dataSourceInfos);
+    }
+
+    @Test
+    public void test10() {
+
     }
 }

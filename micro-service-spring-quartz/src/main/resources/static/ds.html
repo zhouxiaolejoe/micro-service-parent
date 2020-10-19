@@ -72,7 +72,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">密码</label>
         <div class="layui-input-block">
-          <input type="text" name="passWord" lay-verify="required" placeholder="请输入"
+          <input type="password" name="passWord" lay-verify="required" placeholder="请输入"
                  autocomplete="off" class="layui-input passWord">
         </div>
       </div>
@@ -127,7 +127,8 @@
             url: 'http://localhost:19018/pushdata/deleteDataSourceInfo',
             success: function (data) {
               layer.msg('删除成功');
-              // getTableData(page, 10);
+              $(".layui-layer-loading,.layui-layer-loading1").attr("style","display:none;");
+              getTableData(page, 10);
             },
             error: function (code) {
               parent.layer.msg('操作失败!', {
@@ -291,11 +292,7 @@
               field: 'username',
               title: '用户',
               sort: true
-            }, {
-              field: 'password',
-              title: '密码',
-              sort: true
-            }, {
+            },{
               field: 'driverclassname',
               title: '数据库驱动',
               sort: true

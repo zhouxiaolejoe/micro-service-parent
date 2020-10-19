@@ -54,7 +54,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">任务表达式</label>
             <div class="layui-input-block">
-                <input type="text" name="cronExpression" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入"
+                <input type="text" name="cronExpression" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="单位分钟"
                        autocomplete="off" class="layui-input cronExpression">
             </div>
         </div>
@@ -123,7 +123,7 @@
                     },
                     url: 'http://localhost:19018/pushdata/triggerJob',
                     success: function (data) {
-                        layer.msg('恢复成功');
+                        layer.msg('触发成功');
                         $(".layui-layer-loading,.layui-layer-loading1").attr("style","display:none;");
                         getTableData(page, 10);
                     },
@@ -283,11 +283,11 @@
                         data: JSON.stringify(param),
                         url: 'http://localhost:19018/pushdata/addJob',
                         success: function (data) {
-                            // if(data.code == 0){
-                            //     layer.msg(data.msg);
-                            // }else{
+                            if(data.code == 0){
+                                layer.msg(data.msg);
+                            }else{
                                 layer.msg('添加成功');
-                            // }
+                            }
                             getTableData(page, 10);
                             $('.layui-input').val('')
                             $('.layui-textarea').val('')

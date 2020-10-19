@@ -167,7 +167,13 @@ public class JobServiceImpl implements JobService {
         map.put("origin", quartzJobDTO.getOrigin());
         map.put("target", quartzJobDTO.getTarget());
         map.put("tableName", quartzJobDTO.getTableName());
-
+        String minute = quartzJobDTO.getCronExpression();
+        try {
+            int i = Integer.parseInt(minute);
+        } catch (NumberFormatException e) {
+            return ResultBuilder.fail(null,"请输入数字");
+        }
+        String cronExpression = "0 0/placeholder * * * ? ".replace("placeholder",minute);
         /**
          *  2.创建触发器
          */
@@ -178,7 +184,7 @@ public class JobServiceImpl implements JobService {
                 .startAt(DateBuilder.futureDate(2, DateBuilder.IntervalUnit.SECOND))
                 .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobName())
                 .withSchedule(CronScheduleBuilder
-                        .cronSchedule(quartzJobDTO.getCronExpression())
+                        .cronSchedule(cronExpression)
                         .withMisfireHandlingInstructionDoNothing())
                 .build();
         /**

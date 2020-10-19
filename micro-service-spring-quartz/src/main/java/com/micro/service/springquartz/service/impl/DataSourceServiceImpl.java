@@ -14,10 +14,17 @@ import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.service.DataSourceService;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateExceptionHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +86,36 @@ public class DataSourceServiceImpl implements DataSourceService {
         return flag;
     }
 
+    @Override
+    public void testFreemarker() {
+        try {
+            gen();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void gen() throws IOException, TemplateException {
+        String jobClassName ="Myjob";
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
+        cfg.setDirectoryForTemplateLoading(new File("D:\\zxl\\project\\micro-service-parent\\micro-service-spring-quartz\\src\\main\\resources\\templates"));
+        cfg.setDefaultEncoding("UTF-8");
+        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        Template temp = cfg.getTemplate("job.ftl");
+        Map<String, Object> root = new HashMap<String, Object>(5);
+        root.put("className", jobClassName);
+        File dir = new File("D:\\zxl\\project\\micro-service-parent\\micro-service-spring-quartz\\src\\main\\java\\com\\micro\\service\\springquartz\\job");
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        OutputStream fos = new FileOutputStream( new File(dir, jobClassName+".java"));
+        Writer out = new OutputStreamWriter(fos);
+        temp.process(root, out);
+        fos.flush();
+        fos.close();
+    }
     @Override
     public int deleteDataSourceByDatasourceId(String datasourceId) {
         int flag = 0;

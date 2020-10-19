@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.quartz.SchedulerException;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,7 @@ public class SchedulerController {
     JobService jobService;
     DBChangeService dbChangeService;
     DataSourceService dataSourceService;
+    ApplicationContext ctx;
 
     @GetMapping("/getJobList")
     @ApiOperation(value = "任务列表", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
@@ -142,6 +144,13 @@ public class SchedulerController {
     @ApiOperation(value = "删除数据源", httpMethod = "DELETE")
     public ResultBuilder deleteDataSourceInfo(@RequestParam("datasourceid") String datasourceid) throws SchedulerException {
         dataSourceService.deleteDataSourceByDatasourceId(datasourceid);
+        return ResultBuilder.success();
+    }
+
+    @GetMapping("/testFreemarker")
+    @ApiOperation(value = "testFreemarker", httpMethod = "GET")
+    public ResultBuilder testFreemarker(@RequestParam("datasourceid") String datasourceid) throws SchedulerException {
+        dataSourceService.testFreemarker();
         return ResultBuilder.success();
     }
 }
