@@ -19,17 +19,17 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.io.*;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName DataSourceServiceImpl
@@ -66,13 +66,17 @@ public class DataSourceServiceImpl implements DataSourceService {
         List<DataSourceInfo> dataSourceInfos = dataSourceMapper.get();
         PageInfo<DataSourceInfo> pageInfo = PageInfo.of(dataSourceInfos);
         Map<String, Object> result = new HashMap<>();
+        List<DataSourceInfo> list = pageInfo.getList().stream().map(x->{
+            x.setPassword(null);
+            return x;
+        }).collect(Collectors.toList());
         result.put("code", "1");
         result.put("msg", "sucess");
         result.put("count", pageInfo.getTotal());
         result.put("pageNO", pageNo);
         result.put("pageSize", pageSize);
         result.put("total", pageInfo.getTotal());
-        result.put("data", pageInfo.getList());
+        result.put("data", list);
         return result;
     }
 

@@ -28,4 +28,8 @@ public class DataSourceDTO {
     String password;
     @ApiModelProperty(value = "业务名称",required = true)
     String businessname;
+    @ApiModelProperty(value = "年度",required = false)
+    String province;
+    @ApiModelProperty(value = "区划",required = false)
+    String year;
 }

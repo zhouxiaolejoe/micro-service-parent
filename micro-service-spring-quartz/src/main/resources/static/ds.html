@@ -51,7 +51,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">数据源ID</label>
         <div class="layui-input-block">
-          <input type="text" name="datasourceid" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入"
+          <input type="text" name="datasourceid" lay-verify="required" placeholder=""
             autocomplete="off" class="layui-input datasourceid">
         </div>
       </div>
@@ -65,15 +65,32 @@
       <div class="layui-form-item">
         <label class="layui-form-label">用户</label>
         <div class="layui-input-block">
-          <input type="text" name="userName" lay-verify="required" placeholder="请输入"
+          <input type="text" name="userName" lay-verify="required" placeholder=""
                  autocomplete="off" class="layui-input userName">
         </div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">密码</label>
         <div class="layui-input-block">
-          <input type="password" name="passWord" lay-verify="required" placeholder="请输入"
+          <input type="password" name="passWord" lay-verify="required" placeholder=""
                  autocomplete="off" class="layui-input passWord">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">区划</label>
+        <div class="layui-input-block">
+          <input type="text" name="province" lay-verify="required" placeholder=""
+                 autocomplete="off" class="layui-input province">
+        </div>
+      </div>
+
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">年度</label>
+        <div class="layui-input-block">
+          <input type="text" name="year" lay-verify="required" placeholder=""
+                 autocomplete="off" class="layui-input year">
         </div>
       </div>
     </form>
@@ -157,7 +174,9 @@
               "datasourceid": $('.datasourceid').val(),
               "url": $('.url').val(),
               "username": $('.userName').val(),
-              "password": $('.passWord').val()
+              "password": $('.passWord').val(),
+              "province": $('.province').val(),
+              "year": $('.year').val()
             };
             // return
             $.ajax({
@@ -298,6 +317,16 @@
               sort: true
             },
             {
+              field: 'province',
+              title: '区划',
+              sort: true
+            },
+            {
+              field: 'year',
+              title: '年度',
+              sort: true
+            },
+            {
               field: 'createtime',
               title: '创建时间',
               sort: true
@@ -305,16 +334,6 @@
             {
               field: 'createuser',
               title: '创建人',
-              sort: true
-            },
-            {
-              field: 'updatetime',
-              title: '修改时间',
-              sort: true
-            },
-            {
-              field: 'updateuser',
-              title: '修改人',
               sort: true
             }
           ]

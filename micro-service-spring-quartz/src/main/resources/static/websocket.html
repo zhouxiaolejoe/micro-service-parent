@@ -22,7 +22,6 @@
 </body>
 <script>
     var stompClient = null;
-    // $(document).ready(function() {openSocket();});
     function openSocket() {
         if(stompClient==null){
             var socket = new SockJS('http://localhost:19018/pushdata/ws?token=kl');

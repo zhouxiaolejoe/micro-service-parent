@@ -1,5 +1,6 @@
 package com.micro.service.springquartz.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
@@ -26,4 +27,6 @@ public class DataSourceInfo {
     String updatetime;
     String updateuser;
 //    Integer sync;
+    String province;
+    String year;
 }

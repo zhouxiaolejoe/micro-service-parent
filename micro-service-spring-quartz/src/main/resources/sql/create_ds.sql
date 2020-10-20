@@ -17,7 +17,9 @@ create table FASP_T_SYNCDATABASE
   publickey       VARCHAR2(500),
   databasetype    NUMBER,
   guid            VARCHAR2(32) not null,
-  issync          NUMBER
+  issync          NUMBER,
+  province        VARCHAR2(32),
+  year            VARCHAR2(32)
 );
 -- Create/Recreate primary, unique and foreign key constraints 
 alter table FASP_T_SYNCDATABASE

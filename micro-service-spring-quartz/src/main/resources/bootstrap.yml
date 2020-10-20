@@ -76,3 +76,5 @@ server:
   port: 19018
   servlet:
     context-path: /pushdata
+log:
+  fileName: D:/var/logs/pushdata/log_all.log

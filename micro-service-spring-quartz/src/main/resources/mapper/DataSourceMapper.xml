@@ -19,13 +19,15 @@
         <result column="CREATEUSER" jdbcType="INTEGER" property="createuser"/>
         <result column="UPDATETIME" jdbcType="INTEGER" property="updatetime"/>
         <result column="UPDATEUSER" jdbcType="INTEGER" property="updateuser"/>
+        <result column="PROVINCE" jdbcType="INTEGER" property="province"/>
+        <result column="YEAR" jdbcType="INTEGER" property="year"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         GUID, DATASOURCEID, BUSINESSTYPE, BUSINESSNAME, URL, USERNAME, "PASSWORD", DRIVERCLASSNAME,
         CREATETIME, "CREATEUSER", UPDATETIME, UPDATEUSER, DBVERSION, ISDELETE, PUBLICKEY,
-        DATABASETYPE, ISSYNC
+        DATABASETYPE, ISSYNC,PROVINCE,"YEAR"
     </sql>
     <select id="get" resultMap="BaseResultMap">
     	SELECT <include refid="Base_Column_List" /> FROM fasp_t_syncdatabase where isdelete =0 and issync =0 order by createtime desc
@@ -36,9 +38,11 @@
     </select>
 
     <insert id="insertDatasourceInfo" parameterType="com.micro.service.springquartz.model.DataSourceDTO">
-    insert into fasp_t_syncdatabase (datasourceid,url, username, password,businessname, driverclassname,guid,
+    insert into fasp_t_syncdatabase (province,year,datasourceid,url, username, password,businessname, driverclassname,guid,
     createtime,businesstype,createuser,updateuser,updatetime,isdelete,issync,dbversion,databasetype)
     values(
+        #{province ,jdbcType=VARCHAR},
+        #{year ,jdbcType=VARCHAR},
         #{datasourceid ,jdbcType=VARCHAR},
         #{url ,jdbcType=VARCHAR},
         #{username ,jdbcType=VARCHAR},

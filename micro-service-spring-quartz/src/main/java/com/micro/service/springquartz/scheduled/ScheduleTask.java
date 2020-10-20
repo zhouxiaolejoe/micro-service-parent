@@ -31,12 +31,12 @@ public class ScheduleTask {
     ExecutorService syncExecutorService;
 
 
-    @Scheduled(fixedRate = 5000)
-    public void outputLogger() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String time = format.format(new Date());
-        log.info("测试日志输出" + time);
-    }
+//    @Scheduled(fixedRate = 1000)
+//    public void outputLogger() {
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//        String time = format.format(new Date());
+//        log.info("测试日志输出" + time);
+//    }
 
     /**
      * 推送日志到/topic/pullLogger
