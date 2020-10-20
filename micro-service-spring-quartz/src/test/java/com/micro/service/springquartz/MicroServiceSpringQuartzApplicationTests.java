@@ -25,6 +25,10 @@ import sun.misc.BASE64Encoder;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -180,6 +184,27 @@ public class MicroServiceSpringQuartzApplicationTests {
 
     @Test
     public void test10() {
-
+        File file = new File("D:\\var\\logs\\pushdata\\log_all.log");
+        BufferedReader reader = null;
+        StringBuffer sbf = new StringBuffer();
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String tempStr;
+            while ((tempStr = reader.readLine()) != null) {
+                sbf.append(tempStr);
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        System.out.println(sbf);
     }
 }

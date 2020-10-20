@@ -1,13 +1,11 @@
 package com.micro.service.springquartz.controller;
 
-import com.alibaba.druid.support.spring.stat.SpringStatUtils;
 import com.micro.service.springquartz.model.DataSourceDTO;
 import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.QuartzJobDTO;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.service.DataSourceService;
 import com.micro.service.springquartz.service.JobService;
-import com.micro.service.springquartz.utils.FastJsonUtils;
 import com.micro.service.springquartz.utils.ResultBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -20,7 +18,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -127,13 +124,13 @@ public class SchedulerController {
             @ApiImplicitParam(name = "limit", value = "limit", required = true, dataType = "Integer", paramType = "query")
     })
     @ApiOperation(value = "获取数据源列表", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public Map<String, Object> getDataSourceList(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws SchedulerException {
+    public Map<String, Object> getDataSourceList(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
         return dataSourceService.get(page, limit);
     }
 
     @PostMapping("/insertDataSourceInfo")
     @ApiOperation(value = "新增数据源", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
-    public ResultBuilder insertDataSourceInfo(@RequestBody DataSourceDTO dataSourceDTO) throws SchedulerException {
+    public ResultBuilder insertDataSourceInfo(@RequestBody DataSourceDTO dataSourceDTO) {
         DataSourceInfo dataSourceInfo = new DataSourceInfo();
         BeanUtils.copyProperties(dataSourceDTO, dataSourceInfo);
         dataSourceService.insertDatasourceInfo(dataSourceInfo);
@@ -142,15 +139,22 @@ public class SchedulerController {
 
     @DeleteMapping("/deleteDataSourceInfo")
     @ApiOperation(value = "删除数据源", httpMethod = "DELETE")
-    public ResultBuilder deleteDataSourceInfo(@RequestParam("datasourceid") String datasourceid) throws SchedulerException {
+    public ResultBuilder deleteDataSourceInfo(@RequestParam("datasourceid") String datasourceid) {
         dataSourceService.deleteDataSourceByDatasourceId(datasourceid);
         return ResultBuilder.success();
     }
 
     @GetMapping("/testFreemarker")
     @ApiOperation(value = "testFreemarker", httpMethod = "GET")
-    public ResultBuilder testFreemarker(@RequestParam("datasourceid") String datasourceid) throws SchedulerException {
+    public ResultBuilder testFreemarker(@RequestParam("datasourceid") String datasourceid) {
         dataSourceService.testFreemarker();
         return ResultBuilder.success();
+    }
+
+
+    @GetMapping("/readLogFile")
+    @ApiOperation(value = "readLogFile", httpMethod = "GET")
+    public ResultBuilder readLogFile() {
+        return dataSourceService.readLogFile();
     }
 }

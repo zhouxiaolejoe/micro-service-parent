@@ -33,9 +33,9 @@ public class ScheduleTask {
 
     @Scheduled(fixedRate = 5000)
     public void outputLogger() {
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//        String time = format.format(new Date());
-//        log.info("测试日志输出" + time);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String time = format.format(new Date());
+        log.info("测试日志输出" + time);
     }
 
     /**

@@ -6,16 +6,23 @@
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/sockjs.min.js"></script>
     <script src="js/stomp.min.js"></script>
+    <script src="layui/layui.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
 </head>
-<body>
-<button οnclick="openSocket()">开启日志</button><button οnclick="closeSocket()">关闭日志</button>
-<div id="log-container" style="height: 450px; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">
-    <div></div>
+<body style="overflow: hidden">
+<div>
+    <div class="layui-btn-group">
+        <button id ="openSocket" type="button" class="layui-btn" style="background: #1E9FFF">开启日志</button>
+        <button id ="closeSocket" type="button" class="layui-btn" style="background: #1E9FFF">关闭日志</button>
+    </div>
+    <div id="log-container" style="height: 90vh; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">
+        <div></div>
+    </div>
 </div>
 </body>
 <script>
     var stompClient = null;
-    $(document).ready(function() {openSocket();});
+    // $(document).ready(function() {openSocket();});
     function openSocket() {
         if(stompClient==null){
             var socket = new SockJS('http://localhost:19018/pushdata/ws?token=kl');
@@ -23,7 +30,7 @@
             stompClient.connect({token:"kl"}, function(frame) {
                 stompClient.subscribe('/topic/pullLogger', function(event) {
                     var content=JSON.parse(event.body);
-                    $("#log-container div").append(content.timestamp +" "+ content.level+" --- ["+ content.threadName+"] "+ content.className+"   :"+content.body).append("<br/>");
+                    $("#log-container div").append(content.timestamp +" "+"["+ content.threadName+"] "+ content.level+" "+ content.className+"   - "+content.body).append("<br/>");
                     $("#log-container").scrollTop($("#log-container div").height() - $("#log-container").height());
                 },{
                     token:"kltoen"
@@ -31,11 +38,33 @@
             });
         }
     }
-    function closeSocket() {
+
+    $("#openSocket").on('click', function () {
+        openSocket();
+    })
+
+    $("#closeSocket").on('click', function () {
         if (stompClient != null) {
             stompClient.disconnect();
             stompClient=null;
         }
+    })
+
+
+    window.onload=function(){
+        func1();
+    }
+    function func1(){
+        $.ajax({
+            type: 'get',
+            url: 'http://localhost:19018/pushdata/readLogFile',
+            success: function (data) {
+                $("#log-container div").append(data.result);
+            },
+            error: function (code) {
+                console.log(code+'接口错误');
+            }
+        });
     }
 </script>
 </body>
