@@ -98,6 +98,7 @@
   </div>
   <script src="layui/layui.js"></script>
   <script src="js/jquery-3.5.1.min.js"></script>
+  <script src="js/urlconfig.js"></script>
 
   <script>
     var table, layer, laydate, laytree, laypage, total, page, pageCout; //page 全局参数 当前设置页数  pageCout 全局参数 当前设置条数
@@ -141,7 +142,7 @@
             data: {
               "datasourceid": isStr
             },
-            url: 'http://localhost:19018/pushdata/deleteDataSourceInfo',
+            url: REQ_URL+'/pushdata/deleteDataSourceInfo',
             success: function (data) {
               layer.msg('删除成功');
               $(".layui-layer-loading,.layui-layer-loading1").attr("style","display:none;");
@@ -184,7 +185,7 @@
               dataType: 'json',
               contentType:'application/json;charset=UTF-8',
               data: JSON.stringify(param),
-              url: 'http://localhost:19018/pushdata/insertDataSourceInfo',
+              url: REQ_URL+'/pushdata/insertDataSourceInfo',
               success: function (data) {
                 layer.msg('添加成功');
                 getTableData(page, 10);
@@ -239,7 +240,7 @@
           page: pageNo,
           limit: pageSize
         },
-        url: 'http://localhost:19018/pushdata/getDataSourceList',
+        url: REQ_URL+'/pushdata/getDataSourceList',
         success: function (res) {
           page = res.pageNO;
           pageCout = res.pageSize;
