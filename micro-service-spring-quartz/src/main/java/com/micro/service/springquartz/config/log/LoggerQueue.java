@@ -1,4 +1,4 @@
-package com.micro.service.springquartz.model;
+package com.micro.service.springquartz.config.log;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

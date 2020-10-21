@@ -7,7 +7,7 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{100} - %msg%n</pattern>
             <charset>UTF-8</charset> <!-- 设置字符集 -->
         </encoder>
-        <filter class="com.micro.service.springquartz.config.LogFilter"></filter>
+        <filter class="com.micro.service.springquartz.config.log.LogFilter"></filter>
     </appender>
     <property name="log.path" value="/var/logs/pushdata"/>
     <!-- 时间滚动输出 level为 DEBUG 日志 -->

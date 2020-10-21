@@ -1,4 +1,4 @@
-package com.micro.service.springquartz.config;
+package com.micro.service.springquartz.config.log;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;

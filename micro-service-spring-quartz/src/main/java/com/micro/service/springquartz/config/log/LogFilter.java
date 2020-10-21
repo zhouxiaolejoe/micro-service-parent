@@ -1,14 +1,20 @@
-package com.micro.service.springquartz.config;
+package com.micro.service.springquartz.config.log;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.filter.Filter;
 import ch.qos.logback.core.spi.FilterReply;
-import com.micro.service.springquartz.model.LoggerMessage;
-import com.micro.service.springquartz.model.LoggerQueue;
 
 import java.text.DateFormat;
 import java.util.Date;
-
+/**
+* @Description  接受输出日志
+* @Method
+* @Param null
+* @return
+* @throws
+* @Author Administrator
+* @Date  2020-10-21  19:11:57
+**/
 public class LogFilter extends Filter<ILoggingEvent> {
 
     @Override

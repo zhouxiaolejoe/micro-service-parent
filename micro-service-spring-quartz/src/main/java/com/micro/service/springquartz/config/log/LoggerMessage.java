@@ -1,4 +1,4 @@
-package com.micro.service.springquartz.model;
+package com.micro.service.springquartz.config.log;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
