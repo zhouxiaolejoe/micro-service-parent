@@ -33,8 +33,8 @@
     	SELECT <include refid="Base_Column_List" /> FROM fasp_t_syncdatabase where isdelete =0 and issync =0 order by createtime desc
     </select>
 
-     <select id="get1" resultType="java.util.HashMap">
-    	SELECT * FROM fasp_t_syncdatabase where isdelete =0 and issync =0
+     <select id="getOne" resultMap="BaseResultMap">
+    	SELECT <include refid="Base_Column_List" /> FROM fasp_t_syncdatabase where isdelete =0 and issync =0 and datasourceid = #{datasourceid ,jdbcType=VARCHAR}
     </select>
 
     <insert id="insertDatasourceInfo" parameterType="com.micro.service.springquartz.model.DataSourceDTO">

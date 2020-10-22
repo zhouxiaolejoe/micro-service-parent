@@ -40,8 +40,8 @@ public class DBChangeServiceImpl implements DBChangeService {
         return dataSourceMapper.get();
     }
     @Override
-    public List<Map<String,Object>> get1() {
-        return dataSourceMapper.get1();
+    public DataSourceInfo getOne(String datasourceid) {
+        return dataSourceMapper.getOne(datasourceid);
     }
     @Override
     public boolean changeDb(String datasourceId) throws Exception {

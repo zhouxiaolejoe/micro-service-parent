@@ -4,9 +4,11 @@ package com.micro.service.springquartz.syncapi;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.micro.service.springquartz.clientapi.CaRoleClient;
 import com.micro.service.springquartz.clientapi.TableDBVersionClient;
+import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.mapper.target.SyncUserMapper;
 import com.micro.service.springquartz.mapper.target.SyncUserRoleMapper;
 import com.micro.service.springquartz.model.ClientApiRoleUserRestDTO;
+import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.RestClientResultDTO;
 import com.micro.service.springquartz.service.CaffeineCacheService;
 import com.micro.service.springquartz.service.DBChangeService;
@@ -43,10 +45,18 @@ public class UserService implements IFaspClientScheduler {
     DBChangeService changeService;
     Cache<String, List<String>> caffeineCache;
     CaffeineCacheService caffeineCacheService;
+    DataSourceMapper dataSourceMapper;
 
     @Override
     public void start(String origin, String target) {
         try {
+            /**
+             * 获取数据源年度区划
+             */
+//            DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
+//            String province = dataSourceInfo.getProvince();
+//            String year = dataSourceInfo.getYear();
+
             changeService.changeDb(target);
             checkUserTable(target);
             checkUserRoleTable(target);

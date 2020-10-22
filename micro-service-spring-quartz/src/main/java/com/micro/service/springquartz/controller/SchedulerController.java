@@ -146,7 +146,7 @@ public class SchedulerController {
 
     @GetMapping("/testFreemarker")
     @ApiOperation(value = "testFreemarker", httpMethod = "GET")
-    public ResultBuilder testFreemarker(@RequestParam("datasourceid") String datasourceid) {
+    public ResultBuilder testFreemarker() {
         dataSourceService.testFreemarker();
         return ResultBuilder.success();
     }

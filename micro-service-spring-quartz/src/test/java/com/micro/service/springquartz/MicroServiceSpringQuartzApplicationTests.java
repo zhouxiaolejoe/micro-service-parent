@@ -1,6 +1,8 @@
 package com.micro.service.springquartz;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
+import com.google.common.io.Files;
 import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.mapper.FaspTPubmenuMapper;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
@@ -12,6 +14,10 @@ import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.FaspTPubmenu;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.sun.javafx.binding.StringFormatter;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateExceptionHandler;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -20,18 +26,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.ResourceUtils;
 import sun.misc.BASE64Encoder;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -184,27 +192,51 @@ public class MicroServiceSpringQuartzApplicationTests {
 
     @Test
     public void test10() {
-        File file = new File("D:\\var\\logs\\pushdata\\log_all.log");
-        BufferedReader reader = null;
-        StringBuffer sbf = new StringBuffer();
-        try {
-            reader = new BufferedReader(new FileReader(file));
-            String tempStr;
-            while ((tempStr = reader.readLine()) != null) {
-                sbf.append(tempStr);
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
-        System.out.println(sbf);
+        String path = this.getClass().getResource("").getPath().substring(1);
+        System.out.println(path);
+
+        System.err.println(System.getProperty("user.dir"));
+
+    }
+
+    @Test
+    public void test11() throws Exception {
+//        String locationPath = ClassUtils.getDefaultClassLoader().getResource("").getPath().substring(1);
+//        System.err.println(locationPath);
+
+
+        gen();
+
+//        File file = new File();
+//        List<String> list = Files.readLines(file, Charsets.UTF_8);
+
+    }
+
+
+    public void gen() throws IOException, TemplateException {
+        String jobClassName = "Myjob";
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
+        /**
+         * 获取classpath下的模板
+         */
+        File fileTemplates = ResourceUtils.getFile("classpath:templates/");
+        System.err.println(fileTemplates);
+        cfg.setDirectoryForTemplateLoading(fileTemplates);
+        cfg.setDefaultEncoding("UTF-8");
+        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        Template temp = cfg.getTemplate("job.ftl");
+        Map<String, Object> root = new HashMap<String, Object>(5);
+        root.put("className", jobClassName);
+        File writePath = ResourceUtils.getFile("classpath:com\\micro\\service\\springquartz\\job");
+        String javaName = "\\" + jobClassName + ".java";
+        String path = writePath + javaName;
+        OutputStream fos = new FileOutputStream(path);
+        Writer out = new OutputStreamWriter(fos);
+        temp.process(root, out);
+        fos.flush();
+        fos.close();
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        int compilationResult = compiler.run(null, null, null, path);
+
     }
 }

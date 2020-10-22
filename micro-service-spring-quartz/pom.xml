@@ -135,67 +135,71 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
             <!--数据库文档-->
-            <plugin>
-                <groupId>cn.smallbun.screw</groupId>
-                <artifactId>screw-maven-plugin</artifactId>
-                <version>1.0.3</version>
-                <dependencies>
-                    <!-- HikariCP -->
-                    <dependency>
-                        <groupId>com.zaxxer</groupId>
-                        <artifactId>HikariCP</artifactId>
-                        <version>3.4.5</version>
-                    </dependency>
-                    <!--oracle driver-->
-                    <dependency>
-                        <groupId>com.oracle.ojdbc</groupId>
-                        <artifactId>ojdbc8</artifactId>
-                        <version>19.3.0.0</version>
-                    </dependency>
-                    <!--oracle i18n-->
-                    <dependency>
-                        <groupId>cn.easyproject</groupId>
-                        <artifactId>orai18n</artifactId>
-                        <version>12.1.0.2.0</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <!--username-->
-                    <username>guest1</username>
-                    <!--password-->
-                    <password>guest1</password>
-                    <!--driver-->
-                    <driverClassName>oracle.jdbc.OracleDriver</driverClassName>
-                    <!--jdbc url-->
-                    <jdbcUrl>jdbc:oracle:thin:@127.0.0.1:1521/xe</jdbcUrl>
-                    <!--生成文件类型-->
-                    <fileType>HTML</fileType>
-                    <!--文件输出目录-->
-                    <!--                    <fileOutputDir>/Users/Administrator</fileOutputDir>-->
-                    <!--打开文件输出目录-->
-                    <openOutputDir>false</openOutputDir>
-                    <!--生成模板-->
-                    <produceType>freemarker</produceType>
-                    <!--描述-->
-                    <description>数据库文档生成</description>
-                    <!--版本-->
-                    <version>${project.version}</version>
-                    <!--标题-->
-                    <title>数据库文档</title>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>cn.smallbun.screw</groupId>-->
+<!--                <artifactId>screw-maven-plugin</artifactId>-->
+<!--                <version>1.0.3</version>-->
+<!--                <dependencies>-->
+<!--                    &lt;!&ndash; HikariCP &ndash;&gt;-->
+<!--                    <dependency>-->
+<!--                        <groupId>com.zaxxer</groupId>-->
+<!--                        <artifactId>HikariCP</artifactId>-->
+<!--                        <version>3.4.5</version>-->
+<!--                    </dependency>-->
+<!--                    &lt;!&ndash;oracle driver&ndash;&gt;-->
+<!--                    <dependency>-->
+<!--                        <groupId>com.oracle.ojdbc</groupId>-->
+<!--                        <artifactId>ojdbc8</artifactId>-->
+<!--                        <version>19.3.0.0</version>-->
+<!--                    </dependency>-->
+<!--                    &lt;!&ndash;oracle i18n&ndash;&gt;-->
+<!--                    <dependency>-->
+<!--                        <groupId>cn.easyproject</groupId>-->
+<!--                        <artifactId>orai18n</artifactId>-->
+<!--                        <version>12.1.0.2.0</version>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
+<!--                <configuration>-->
+<!--                    &lt;!&ndash;username&ndash;&gt;-->
+<!--                    <username>guest1</username>-->
+<!--                    &lt;!&ndash;password&ndash;&gt;-->
+<!--                    <password>guest1</password>-->
+<!--                    &lt;!&ndash;driver&ndash;&gt;-->
+<!--                    <driverClassName>oracle.jdbc.OracleDriver</driverClassName>-->
+<!--                    &lt;!&ndash;jdbc url&ndash;&gt;-->
+<!--                    <jdbcUrl>jdbc:oracle:thin:@127.0.0.1:1521/xe</jdbcUrl>-->
+<!--                    &lt;!&ndash;生成文件类型&ndash;&gt;-->
+<!--                    <fileType>HTML</fileType>-->
+<!--                    &lt;!&ndash;文件输出目录&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <fileOutputDir>/Users/Administrator</fileOutputDir>&ndash;&gt;-->
+<!--                    &lt;!&ndash;打开文件输出目录&ndash;&gt;-->
+<!--                    <openOutputDir>false</openOutputDir>-->
+<!--                    &lt;!&ndash;生成模板&ndash;&gt;-->
+<!--                    <produceType>freemarker</produceType>-->
+<!--                    &lt;!&ndash;描述&ndash;&gt;-->
+<!--                    <description>数据库文档生成</description>-->
+<!--                    &lt;!&ndash;版本&ndash;&gt;-->
+<!--                    <version>${project.version}</version>-->
+<!--                    &lt;!&ndash;标题&ndash;&gt;-->
+<!--                    <title>数据库文档</title>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>compile</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>run</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

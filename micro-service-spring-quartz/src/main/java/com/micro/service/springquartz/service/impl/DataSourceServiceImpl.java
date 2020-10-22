@@ -1,4 +1,5 @@
-package com.micro.service.springquartz.service.impl;/**
+package com.micro.service.springquartz.service.impl;
+/**
  * @Description
  * @Project micro-service-parent
  * @Package com.micro.service.springquartz.service.impl
@@ -23,9 +24,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ResourceUtils;
 
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
 import java.io.*;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +69,7 @@ public class DataSourceServiceImpl implements DataSourceService {
         List<DataSourceInfo> dataSourceInfos = dataSourceMapper.get();
         PageInfo<DataSourceInfo> pageInfo = PageInfo.of(dataSourceInfos);
         Map<String, Object> result = new HashMap<>();
-        List<DataSourceInfo> list = pageInfo.getList().stream().map(x->{
+        List<DataSourceInfo> list = pageInfo.getList().stream().map(x -> {
             x.setPassword(null);
             return x;
         }).collect(Collectors.toList());
@@ -160,22 +163,47 @@ public class DataSourceServiceImpl implements DataSourceService {
     public void gen() throws IOException, TemplateException {
         String jobClassName = "Myjob";
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
-        cfg.setDirectoryForTemplateLoading(new File("D:\\zxl\\project\\micro-service-parent\\micro-service-spring-quartz\\src\\main\\resources\\templates"));
+        /**
+         * 获取classpath下的模板
+         */
+        File fileTemplates = ResourceUtils.getFile("classpath:templates/");
+        System.err.println(fileTemplates);
+        cfg.setDirectoryForTemplateLoading(fileTemplates);
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         Template temp = cfg.getTemplate("job.ftl");
         Map<String, Object> root = new HashMap<String, Object>(5);
         root.put("className", jobClassName);
-        File dir = new File("D:\\zxl\\project\\micro-service-parent\\micro-service-spring-quartz\\src\\main\\java\\com\\micro\\service\\springquartz\\job");
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        OutputStream fos = new FileOutputStream(new File(dir, jobClassName + ".java"));
+        File writePath = ResourceUtils.getFile("classpath:com\\micro\\service\\springquartz\\job");
+        String javaName = "\\" + jobClassName + ".java";
+        String path = writePath + javaName;
+        OutputStream fos = new FileOutputStream(path);
         Writer out = new OutputStreamWriter(fos);
         temp.process(root, out);
         fos.flush();
         fos.close();
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        int compilationResult = compiler.run(null, null, null, path);
+        /**
+         * 类路径
+         */
+//        String path = this.getClass().getResource("").getPath().substring(1);
+//        String path1 = path+"/job";
+//        try {
+//        JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
+//        int status = javac.run(null, null, null, "-d", path,"D:\\zxl\\project\\micro-service-parent\\micro-service-spring-quartz\\src\\main\\java\\com\\micro\\service\\springquartz\\job\\"+javaName);
+//        //动态执行
+//        Class clz = Class.forName("myjob");
+//        Object o = clz.newInstance();
+//        Method method = clz.getDeclaredMethod("sayHello");
+//        String result= (String)method.invoke(o);
+//        System.out.println(result);
+//    } catch (Exception e) {
+//
+//    }
+
     }
+
 
     @Override
     public int deleteDataSourceByDatasourceId(String datasourceId) {

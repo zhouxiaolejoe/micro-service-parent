@@ -15,7 +15,7 @@ import java.util.Map;
 public interface DataSourceMapper {
     List<DataSourceInfo> get();
 
-    List<Map<String, Object>> get1();
+    DataSourceInfo getOne(@Param("datasourceid")String datasourceid);
 
     List<DataSourceInfo> selectAllByDatasourceid(@Param("datasourceid") String datasourceid);
 

@@ -15,7 +15,7 @@ import java.util.Map;
 public interface DBChangeService {
  
     List<DataSourceInfo> get();
-    List<Map<String,Object>> get1();
+    DataSourceInfo getOne(String datasourceid);
 
     boolean changeDb(String datasourceId) throws Exception;
     boolean deleteDb(String datasourceId) throws Exception;
