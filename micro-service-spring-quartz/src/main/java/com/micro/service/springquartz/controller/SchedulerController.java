@@ -161,7 +161,6 @@ public class SchedulerController {
         return ResultBuilder.success();
     }
 
-
     @GetMapping("/readLogFile")
     @ApiOperation(value = "日志", httpMethod = "GET")
     public ResultBuilder readLogFile() {

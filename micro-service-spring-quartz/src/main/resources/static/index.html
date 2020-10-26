@@ -72,14 +72,20 @@
 
 
     function rw() {
-        window.location.href = REQ_URL+'/pushdata/job.html';
+        var tempwindow = window.open('_blank');
+        tempwindow.location = REQ_URL+'/pushdata/job.html';
+        // window.location.href = REQ_URL+'/pushdata/job.html';
     }
 
     function shy() {
-        window.location.href = REQ_URL+'/pushdata/ds.html';
+        var tempwindow = window.open('_blank');
+        tempwindow.location = REQ_URL+'/pushdata/ds.html';
+        // window.location.href = REQ_URL+'/pushdata/ds.html';
     }
     function log() {
-        window.location.href = REQ_URL+'/pushdata/websocket.html';
+        var tempwindow = window.open('_blank');
+        tempwindow.location = REQ_URL+'/pushdata/websocket.html';
+        // window.location.href = REQ_URL+'/pushdata/websocket.html';
     }
 </script>
 

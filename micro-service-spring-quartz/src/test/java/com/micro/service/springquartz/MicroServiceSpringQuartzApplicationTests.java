@@ -3,6 +3,7 @@ package com.micro.service.springquartz;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.io.Files;
+import com.micro.service.springquartz.job.DSJob;
 import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.mapper.FaspTPubmenuMapper;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
@@ -25,11 +26,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.FileCopyUtils;
@@ -44,10 +47,14 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 
 @SpringBootTest
@@ -67,6 +74,8 @@ public class MicroServiceSpringQuartzApplicationTests {
 
     @Autowired
     SyncMenuMapper syncMenuMapper;
+    @Autowired
+    Scheduler scheduler;
 
     @Test
     public void contextLoads() {
@@ -220,7 +229,7 @@ public class MicroServiceSpringQuartzApplicationTests {
         /**
          * 获取classpath下的模板
          */
-        cfg.setClassForTemplateLoading(this.getClass(),"/templates");
+        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         Template temp = cfg.getTemplate("test.ftl");
@@ -238,7 +247,7 @@ public class MicroServiceSpringQuartzApplicationTests {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         int compilationResult = compiler.run(null, null, null, path);
         try {
-            Class clz = Class.forName("com.micro.service.springquartz.job."+jobClassName);
+            Class clz = Class.forName("com.micro.service.springquartz.job." + jobClassName);
             Object o = clz.newInstance();
             Method method = clz.getDeclaredMethod("sayHello");
             String result = (String) method.invoke(o);
@@ -263,5 +272,34 @@ public class MicroServiceSpringQuartzApplicationTests {
 //        System.err.println(strings);
 
 
+    }
+
+
+    @Test
+    public void test12() {
+        JobDetail job = JobBuilder
+                .newJob(TestJob.class)
+                .withIdentity("test", "test")
+                .withDescription("测试")
+                .build();
+        SimpleTrigger trigger = newTrigger().withIdentity("trigger7", "group1")
+                .withSchedule(simpleSchedule()
+                        .withIntervalInSeconds(5)
+                        .withMisfireHandlingInstructionNextWithRemainingCount())
+                .build();
+        try {
+            this.scheduler.scheduleJob(job, trigger);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+}
+
+class TestJob extends QuartzJobBean {
+    @Override
+    protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        System.err.println(LocalDateTime.now());
     }
 }

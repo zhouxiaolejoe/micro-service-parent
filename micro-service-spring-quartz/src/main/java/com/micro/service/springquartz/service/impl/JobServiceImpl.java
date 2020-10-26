@@ -14,12 +14,14 @@ import com.micro.service.springquartz.utils.ResultBuilder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.io.InputStream;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -99,7 +101,7 @@ public class JobServiceImpl implements JobService {
             x.setOrigin((String) jobDataMap.get("origin"));
             x.setTarget((String) jobDataMap.get("target"));
 
-            if(Integer.parseInt(x.getEndTime())==0){
+            if (Integer.parseInt(x.getEndTime()) == 0) {
                 x.setEndTime(null);
             }
             return true;
@@ -118,45 +120,36 @@ public class JobServiceImpl implements JobService {
     }
 
     private JobDetail changJodPattern(QuartzJobDTO quartzJobDTO) {
-        JobDetail job = null;
+        JobBuilder jobBuilder;
         switch (quartzJobDTO.getType()) {
             case 1:
-                job = JobBuilder
-                        .newJob(DSJob.class)
-                        .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobName())
-                        .withDescription(quartzJobDTO.getDescription())
-                        .build();
+                jobBuilder = JobBuilder.newJob(DSJob.class);
                 break;
             case 2:
-                job = JobBuilder
-                        .newJob(ApiJob.class)
-                        .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobName())
-                        .withDescription(quartzJobDTO.getDescription())
-                        .build();
+                jobBuilder = JobBuilder.newJob(ApiJob.class);
                 break;
             case 3:
-                job = JobBuilder
-                        .newJob(TableJob.class)
-                        .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobName())
-                        .withDescription(quartzJobDTO.getDescription())
-                        .build();
+                jobBuilder = JobBuilder.newJob(TableJob.class);
                 break;
             default:
-                job = null;
+                jobBuilder = null;
 
         }
-        return job;
+        return jobBuilder
+                .withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobName())
+                .withDescription(quartzJobDTO.getDescription())
+                .build();
     }
 
     @Override
     public ResultBuilder addJob(QuartzJobDTO quartzJobDTO) throws SchedulerException {
         List<DataSourceInfo> origin = dataSourceMapper.selectAllByDatasourceid(quartzJobDTO.getOrigin());
         if (CollectionUtils.isEmpty(origin)) {
-            return ResultBuilder.fail(null,"源库不存在");
+            return ResultBuilder.fail(null, "源库不存在");
         }
         List<DataSourceInfo> target = dataSourceMapper.selectAllByDatasourceid(quartzJobDTO.getTarget());
         if (CollectionUtils.isEmpty(target)) {
-            return ResultBuilder.fail(null,"目标库不存在");
+            return ResultBuilder.fail(null, "目标库不存在");
         }
 
         /**
@@ -171,9 +164,9 @@ public class JobServiceImpl implements JobService {
         try {
             int i = Integer.parseInt(minute);
         } catch (NumberFormatException e) {
-            return ResultBuilder.fail(null,"请输入数字");
+            return ResultBuilder.fail(null, "请输入数字");
         }
-        String cronExpression = "0 0/placeholder * * * ? ".replace("placeholder",minute);
+        String cronExpression = "0 0/placeholder * * * ? ".replace("placeholder", minute);
         /**
          *  2.创建触发器
          */
