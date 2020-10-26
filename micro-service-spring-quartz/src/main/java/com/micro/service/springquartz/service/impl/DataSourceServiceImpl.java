@@ -10,7 +10,10 @@ package com.micro.service.springquartz.service.impl;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mchange.v2.beans.swing.TestBean;
 import com.micro.service.springquartz.config.DynamicDataSource;
+import com.micro.service.springquartz.config.MyClassLoader;
+import com.micro.service.springquartz.job.DSJob;
 import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.service.DBChangeService;
@@ -20,15 +23,27 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ResourceUtils;
 
 import javax.tools.JavaCompiler;
-import javax.tools.ToolProvider;
 import java.io.*;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +57,7 @@ import java.util.stream.Collectors;
  * @Version 1.0.0
  */
 @Service
+@Slf4j
 public class DataSourceServiceImpl implements DataSourceService {
     @Autowired
     DataSourceMapper dataSourceMapper;
@@ -51,7 +67,13 @@ public class DataSourceServiceImpl implements DataSourceService {
     DBChangeService changeService;
     @Autowired
     Cache<String, List<DataSourceInfo>> dataCaffeineCache;
+    @Autowired
+    Scheduler scheduler;
 
+    @Autowired
+    ApplicationContext applicationContext;
+
+    public static final String CREATE_CLASSPATH = "D:/var/logs/pushdata/soundcode/";
     /**
      * 获取日志文件生成位置
      */
@@ -105,12 +127,32 @@ public class DataSourceServiceImpl implements DataSourceService {
     }
 
     @Override
-    public void testFreemarker() {
+    public void testFreemarker(String jobClassName) throws IOException, TemplateException {
+        Class<?> jobClazz = gen(jobClassName);
+
+
+        boolean b = applicationContext.containsBean("com.micro.service.springquartz.job.MyJob");
+        System.err.println(b);
+        JobDetail job = JobBuilder
+                .newJob((Class<? extends Job>) jobClazz)
+                .withIdentity(jobClassName, jobClassName)
+                .withDescription(jobClassName)
+                .build();
+
+
+        String cronExpression = "0/5 * * * * ? ";
+        Trigger trigger = TriggerBuilder
+                .newTrigger()
+                .withDescription(jobClassName)
+                .startAt(DateBuilder.futureDate(2, DateBuilder.IntervalUnit.SECOND))
+                .withIdentity(jobClassName, jobClassName)
+                .withSchedule(CronScheduleBuilder
+                        .cronSchedule(cronExpression)
+                        .withMisfireHandlingInstructionDoNothing())
+                .build();
         try {
-            gen();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TemplateException e) {
+            this.scheduler.scheduleJob(job, trigger);
+        } catch (SchedulerException e) {
             e.printStackTrace();
         }
     }
@@ -129,7 +171,7 @@ public class DataSourceServiceImpl implements DataSourceService {
 
             reader = new BufferedReader(new FileReader(file));
             String tempStr;
-            int line = 500;
+            int line = 1000;
             if (lineNumber < line) {
                 while ((tempStr = reader.readLine()) != null) {
                     sbf.append(tempStr);
@@ -160,48 +202,102 @@ public class DataSourceServiceImpl implements DataSourceService {
         return ResultBuilder.success(sbf);
     }
 
-    public void gen() throws IOException, TemplateException {
-        String jobClassName = "Myjob";
+    public Class<?> gen(String jobClassName) {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
         /**
          * 获取classpath下的模板
          */
-        File fileTemplates = ResourceUtils.getFile("classpath:templates/");
-        System.err.println(fileTemplates);
-        cfg.setDirectoryForTemplateLoading(fileTemplates);
+        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        Template temp = cfg.getTemplate("job.ftl");
-        Map<String, Object> root = new HashMap<String, Object>(5);
+        JavaCompiler compiler = null;
+        OutputStream fos = null;
+        Writer out = null;
+        Map<String, Object> root = new HashMap<String, Object>(1);
         root.put("className", jobClassName);
-        File writePath = ResourceUtils.getFile("classpath:com\\micro\\service\\springquartz\\job");
-        String javaName = "\\" + jobClassName + ".java";
-        String path = writePath + javaName;
-        OutputStream fos = new FileOutputStream(path);
-        Writer out = new OutputStreamWriter(fos);
-        temp.process(root, out);
-        fos.flush();
-        fos.close();
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        int compilationResult = compiler.run(null, null, null, path);
-        /**
-         * 类路径
-         */
-//        String path = this.getClass().getResource("").getPath().substring(1);
-//        String path1 = path+"/job";
-//        try {
-//        JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
-//        int status = javac.run(null, null, null, "-d", path,"D:\\zxl\\project\\micro-service-parent\\micro-service-spring-quartz\\src\\main\\java\\com\\micro\\service\\springquartz\\job\\"+javaName);
-//        //动态执行
-//        Class clz = Class.forName("myjob");
-//        Object o = clz.newInstance();
-//        Method method = clz.getDeclaredMethod("sayHello");
-//        String result= (String)method.invoke(o);
-//        System.out.println(result);
-//    } catch (Exception e) {
-//
-//    }
+        String fileName = jobClassName + ".java";
+        String createFilePath = CREATE_CLASSPATH + fileName;
+        File file = null;
+        try {
+            Template temp = cfg.getTemplate("job.ftl");
+            file = existsFile(CREATE_CLASSPATH, fileName);
+            fos = new FileOutputStream(file);
+            out = new OutputStreamWriter(fos);
+            temp.process(root, out);
+            fos.flush();
+            compiler = getJavaCompiler();
+            compiler.run(null, null, null, createFilePath);
 
+            MyClassLoader myClassLoader = new MyClassLoader();
+            myClassLoader.setClassPath(CREATE_CLASSPATH + jobClassName + ".class");
+            String fullPathName = "com.micro.service.springquartz.job." + jobClassName;
+            Class<?> clazz = myClassLoader.loadClass(fullPathName);
+//            Object instance = clazz.newInstance();
+//            Method method = clazz.getMethod("sayHello");
+//            Object result = method.invoke(instance);
+            BeanDefinitionRegistry beanDefinitionRegistry = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
+            boolean beanDef = applicationContext.containsBean(fullPathName);
+            if (!beanDef) {
+                RootBeanDefinition beanDefinition = new RootBeanDefinition(clazz);
+                beanDefinitionRegistry.registerBeanDefinition(fullPathName, beanDefinition);
+            }
+            return clazz;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+//            file.delete();
+        }
+        return null;
+    }
+
+    public JavaCompiler getJavaCompiler() throws Exception {
+        String[] sz = fileName.split("/");
+        String basPath = fileName.replace(sz[sz.length - 1], "tool/");
+        ClassPathResource classPathResource = new ClassPathResource("lib/tools.jar");
+        InputStream inputStream = classPathResource.getInputStream();
+        Path filePath = FileSystems.getDefault().getPath(basPath + "tools.jar");
+        File file = filePath.toFile();
+        if (!file.exists()) {
+            String parent = file.getParent();
+            new File(parent).mkdir();
+            Files.createFile(filePath);
+        }
+        if (file.length() <= 0) {
+            FileUtils.copyInputStreamToFile(inputStream, file);
+        }
+        String p = file.getAbsolutePath();
+        URL[] urls = new URL[]{new URL("file:/" + p)};
+        URLClassLoader urlClassLoader = new URLClassLoader(urls, Thread.currentThread().getContextClassLoader());
+        Class<?> javacToolClass = urlClassLoader.loadClass("com.sun.tools.javac.api.JavacTool");
+        JavaCompiler compiler = javacToolClass.asSubclass(JavaCompiler.class).asSubclass(JavaCompiler.class).newInstance();
+        return compiler;
+    }
+
+    private File existsFile(String path, String fileName) throws IOException {
+        File path1 = new File(path);
+        File fileName1 = new File(path + fileName);
+        if (!path1.exists()) {
+            path1.mkdirs();
+        }
+
+        if (!fileName1.exists()) {
+            fileName1.createNewFile();
+        }
+        return fileName1;
     }
 
 
@@ -209,7 +305,6 @@ public class DataSourceServiceImpl implements DataSourceService {
     public int deleteDataSourceByDatasourceId(String datasourceId) {
         int flag = 0;
         try {
-
             changeService.changeDb("mainDataSource");
             flag = dataSourceMapper.deleteDataSourceByDatasourceId(datasourceId);
             List<DataSourceInfo> dataSourcesList = dataCaffeineCache.asMap().get("dataSourceInfos");

@@ -7,6 +7,7 @@ import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.service.DataSourceService;
 import com.micro.service.springquartz.service.JobService;
 import com.micro.service.springquartz.utils.ResultBuilder;
+import freemarker.template.TemplateException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,7 +18,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -145,15 +148,22 @@ public class SchedulerController {
     }
 
     @GetMapping("/testFreemarker")
+    @ApiIgnore
     @ApiOperation(value = "testFreemarker", httpMethod = "GET")
-    public ResultBuilder testFreemarker() {
-        dataSourceService.testFreemarker();
+    public ResultBuilder testFreemarker(@RequestParam("jobClassName") String jobClassName) {
+        try {
+            dataSourceService.testFreemarker(jobClassName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
         return ResultBuilder.success();
     }
 
 
     @GetMapping("/readLogFile")
-    @ApiOperation(value = "readLogFile", httpMethod = "GET")
+    @ApiOperation(value = "日志", httpMethod = "GET")
     public ResultBuilder readLogFile() {
         return dataSourceService.readLogFile();
     }

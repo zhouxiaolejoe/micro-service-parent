@@ -22,13 +22,17 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
 import sun.misc.BASE64Encoder;
 
@@ -37,6 +41,7 @@ import javax.tools.ToolProvider;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -201,35 +206,30 @@ public class MicroServiceSpringQuartzApplicationTests {
 
     @Test
     public void test11() throws Exception {
-//        String locationPath = ClassUtils.getDefaultClassLoader().getResource("").getPath().substring(1);
-//        System.err.println(locationPath);
-
-
-        gen();
-
-//        File file = new File();
-//        List<String> list = Files.readLines(file, Charsets.UTF_8);
-
+        String locationPath = ClassUtils.getDefaultClassLoader().getResource("").getPath().substring(1);
+        System.err.println(locationPath);
+        File file = ResourceUtils.getFile("classpath:templates/test.ftl");
+        List<String> list = Files.readLines(file, Charsets.UTF_8);
+        list.stream().forEach(x -> System.err.println(x));
     }
 
-
+    @Test
     public void gen() throws IOException, TemplateException {
         String jobClassName = "Myjob";
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
         /**
          * 获取classpath下的模板
          */
-        File fileTemplates = ResourceUtils.getFile("classpath:templates/");
-        System.err.println(fileTemplates);
-        cfg.setDirectoryForTemplateLoading(fileTemplates);
+        cfg.setClassForTemplateLoading(this.getClass(),"/templates");
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        Template temp = cfg.getTemplate("job.ftl");
+        Template temp = cfg.getTemplate("test.ftl");
         Map<String, Object> root = new HashMap<String, Object>(5);
         root.put("className", jobClassName);
-        File writePath = ResourceUtils.getFile("classpath:com\\micro\\service\\springquartz\\job");
+        File writePath = ResourceUtils.getFile("D:/var/logs/pushdata/");
         String javaName = "\\" + jobClassName + ".java";
         String path = writePath + javaName;
+        new File(path);
         OutputStream fos = new FileOutputStream(path);
         Writer out = new OutputStreamWriter(fos);
         temp.process(root, out);
@@ -237,6 +237,31 @@ public class MicroServiceSpringQuartzApplicationTests {
         fos.close();
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         int compilationResult = compiler.run(null, null, null, path);
+        try {
+            Class clz = Class.forName("com.micro.service.springquartz.job."+jobClassName);
+            Object o = clz.newInstance();
+            Method method = clz.getDeclaredMethod("sayHello");
+            String result = (String) method.invoke(o);
+            System.out.println(result);
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Test
+    public void gen2() throws IOException, TemplateException {
+        ClassPathResource classPathResource = new ClassPathResource("lib");
+        InputStream inputStream = classPathResource.getInputStream();
+        File somethingFile = File.createTempFile("tools", ".jar");
+        FileUtils.copyInputStreamToFile(inputStream, somethingFile);
+        System.err.println(somethingFile);
+//
+//
+//
+//        File fileDir = new File("src/main/resources/templates/test.ftl");
+//        List<String> strings = Files.readLines(fileDir, Charsets.UTF_8);
+//        System.err.println(strings);
+
 
     }
 }
