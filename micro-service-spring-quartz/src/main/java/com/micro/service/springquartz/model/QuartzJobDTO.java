@@ -7,7 +7,7 @@ import lombok.*;
 /**
  * @ClassName QuartzJobDTO
  * @Description TODO
- * @Author ZhouXiaoLe
+ * @Author zxl
  * @Date 2019/7/31 10:15
  * @Version 1.0.0
  */

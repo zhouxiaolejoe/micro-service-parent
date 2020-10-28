@@ -1,12 +1,5 @@
-package com.micro.service.springquartz.model;/**
- * @Description
- * @Project micro-service-parent
- * @Package com.micro.service.springquartz.model
- * @Author Administrator
- * @Date 2020-09-27 09:16
- */
+package com.micro.service.springquartz.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +8,7 @@ import lombok.NoArgsConstructor;
 /**
  * @ClassName QrtzTriggerDetails
  * @Description TODO
- * @Author Administrator
+ * @Author zxl
  * @Date 2020/9/27 9:16
  * @Version 1.0.0
  */

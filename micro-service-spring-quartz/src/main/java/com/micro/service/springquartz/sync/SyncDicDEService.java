@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 /**
  * @ClassName SyncDicDEService
  * @Description TODO
- * @Author Administrator
+ * @Author zxl
  * @Date 2020/9/24 14:38
  * @Version 1.0.0
  */

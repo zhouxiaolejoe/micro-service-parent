@@ -10,7 +10,7 @@ import java.util.Map;
  * @Description
  * @Project pushdata
  * @Package gov.mof.pushdata.fasp3client.dic3.sync.dao
- * @Author Administrator
+ * @Author zxl
  * @Date 2020-09-01 15:17
  */
 public interface SyncRangeMapper {

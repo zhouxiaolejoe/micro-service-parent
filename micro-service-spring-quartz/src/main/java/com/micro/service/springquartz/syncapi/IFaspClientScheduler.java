@@ -1,8 +1,10 @@
 package com.micro.service.springquartz.syncapi;
 
 /**
- * Created by wengy on 2019/11/21.
- */
+ * @Description
+ * @Author zxl
+ * @Date 2020-10-28  16:28:19
+ **/
 public interface IFaspClientScheduler {
     void start(String origin, String target);
 }

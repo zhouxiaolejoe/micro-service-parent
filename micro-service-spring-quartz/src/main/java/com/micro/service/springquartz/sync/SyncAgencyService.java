@@ -1,10 +1,4 @@
-package com.micro.service.springquartz.sync;/**
- * @Description
- * @Project micro-service-parent
- * @Package com.micro.service.springquartz.sync
- * @Author Administrator
- * @Date 2020-09-27 17:36
- */
+package com.micro.service.springquartz.sync;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.pagehelper.PageHelper;
@@ -34,7 +28,7 @@ import java.util.stream.Collectors;
 /**
  * @ClassName SyncAgencyService
  * @Description TODO
- * @Author Administrator
+ * @Author zxl
  * @Date 2020/9/27 17:36
  * @Version 1.0.0
  */

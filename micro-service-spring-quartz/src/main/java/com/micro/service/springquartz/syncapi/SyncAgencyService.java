@@ -34,7 +34,7 @@ import static com.micro.service.springquartz.utils.SyncDataUtils.sortSyncDataByD
 /**
  * @ClassName SyncAgencyService
  * @Description TODO
- * @Author Administrator
+ * @Author zxl
  * @Date 2020/9/1 14:14
  * @Version 1.0.0
  */

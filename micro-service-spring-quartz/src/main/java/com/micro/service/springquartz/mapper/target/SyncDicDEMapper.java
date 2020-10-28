@@ -8,7 +8,7 @@ import java.util.Map;
  * @Description
  * @Project pushdata
  * @Package gov.mof.pushdata.fasp3client.dic3.sync.dao
- * @Author Administrator
+ * @Author zxl
  * @Date 2020-09-01 14:27
  */
 public interface SyncDicDEMapper {

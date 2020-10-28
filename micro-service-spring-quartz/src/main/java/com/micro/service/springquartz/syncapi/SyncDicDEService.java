@@ -24,8 +24,10 @@ import java.util.concurrent.ConcurrentMap;
 
 
 /**
- * Created by wengy on 2019/11/20.
- */
+ * @Description
+ * @Author zxl
+ * @Date 2020-10-28  16:28:59
+ **/
 @Service("bSyncDicDEService")
 @Slf4j
 @AllArgsConstructor

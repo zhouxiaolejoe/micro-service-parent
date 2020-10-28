@@ -1,8 +1,10 @@
 package com.micro.service.springquartz.model;
 
 /**
- * Created by wengy on 2019/1/10.
- */
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:23:36
+**/
 public class RestClientResultDTO<T> {
     private boolean success;
     private T data;

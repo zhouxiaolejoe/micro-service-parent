@@ -26,9 +26,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author zxl
- * @date 2019/11/20
- */
+ * @Description
+ * @Author zxl
+ * @Date 2020-10-28  16:27:22
+ **/
 @Service
 @Slf4j
 @AllArgsConstructor
@@ -46,7 +47,7 @@ public class SyncRangeService implements SyncScheduler {
 //        log.info("TO START SYNC RANGE");
         try {
             changeService.changeDb(target);
-            saveUserTableView(origin,null,target);
+            saveUserTableView(origin, null, target);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -192,7 +193,7 @@ public class SyncRangeService implements SyncScheduler {
 //        return false;
 
 
-        if(syncRangeMapper.exitsTable(tablename.toUpperCase())>0){
+        if (syncRangeMapper.exitsTable(tablename.toUpperCase()) > 0) {
             return true;
         }
         return false;
@@ -208,7 +209,7 @@ public class SyncRangeService implements SyncScheduler {
 //        tableList.add(po.getTablename());
 //        caffeineCache.asMap().put(origin + "_" + target + "_viewList", tableList);
 //        return false;
-        if(syncRangeMapper.exitsView(po.getTablename().toUpperCase())>0){
+        if (syncRangeMapper.exitsView(po.getTablename().toUpperCase()) > 0) {
             return true;
         }
         return false;

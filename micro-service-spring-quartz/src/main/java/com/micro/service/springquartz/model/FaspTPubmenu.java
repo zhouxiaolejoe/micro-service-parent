@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  * @Description
  * @Project micro-service-parent
  * @Package com.micro.service.springquartz.model
- * @Author Administrator
+ * @Author zxl
  * @Date 2020-09-20 17:57
  */
 @Data

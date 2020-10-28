@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * @ClassName UserService
  * @Description TODO
- * @Author zhouxiaole
+ * @Author zxl
  * @Date 2020/8/30 13:19
  * @Version 1.0.0
  */
@@ -81,7 +81,7 @@ public class SyncMenuService implements SyncScheduler {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    void syncData(Map<String, Object> menu,String origin, String target) throws Exception {
+    void syncData(Map<String, Object> menu, String origin, String target) throws Exception {
         changeService.changeDb(target);
         syncMenuMapper.deleteMenuData(menu);
         syncMenuMapper.insertMenuData(menu);

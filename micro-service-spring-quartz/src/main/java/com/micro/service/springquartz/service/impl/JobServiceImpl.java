@@ -14,14 +14,12 @@ import com.micro.service.springquartz.utils.ResultBuilder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
-import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.io.InputStream;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +30,7 @@ import java.util.stream.Collectors;
 /**
  * @ClassName JobServiceImpl
  * @Description TODO
- * @Author ZhouXiaoLe
+ * @Author zxl
  * @Date 2019/7/31 10:10
  * @Version 1.0.0
  */

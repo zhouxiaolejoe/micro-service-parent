@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 /**
  * @ClassName SyncTableService
  * @Description TODO
- * @Author Administrator
+ * @Author zxl
  * @Date 2020/9/23 14:41
  * @Version 1.0.0
  */

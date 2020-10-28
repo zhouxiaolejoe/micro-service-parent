@@ -24,9 +24,9 @@ import java.util.concurrent.ConcurrentMap;
 
 
 /**
- * @Author : JCccc
- * @CreateTime : 2019/10/23
- * @Description :
+ * @Description
+ * @Author zxl
+ * @Date 2020-10-28  16:28:35
  **/
 @Service
 @Slf4j
@@ -58,10 +58,10 @@ public class RoleService implements IFaspClientScheduler {
             int page = 1;
 
             do {
-                if(StringUtils.isEmpty(province)&&StringUtils.isEmpty(year)){
+                if (StringUtils.isEmpty(province) && StringUtils.isEmpty(year)) {
                     rs = client.queryTableData1KByDBVersion("FASP_T_CAROLE", userVersion, page++, tokenid);
-                }else {
-                    rs = client.queryTableData1KByProvinceYearDBVersion(province,year,"FASP_T_CAROLE", userVersion, page++, tokenid);
+                } else {
+                    rs = client.queryTableData1KByProvinceYearDBVersion(province, year, "FASP_T_CAROLE", userVersion, page++, tokenid);
                 }
                 if (rs == null) {
                     break;

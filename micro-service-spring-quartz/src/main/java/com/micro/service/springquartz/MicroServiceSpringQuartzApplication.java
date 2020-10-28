@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Primary;
 import javax.sql.DataSource;
 
 /**
- * @author Administrator
+ * @author zxl
  */
 @SpringBootApplication
 @MapperScan(basePackages = {"com.micro.service.springquartz.mapper"})
@@ -30,7 +30,7 @@ public class MicroServiceSpringQuartzApplication {
      * @Description 配置quartz单独数据源
      * @Method dataSource
      * @return javax.sql.DataSource
-     * @Author ZhouXiaoLe
+     * @Author zxl
      * @Date  2019-07-30  14:20:24
      **/
 //    @QuartzDataSource

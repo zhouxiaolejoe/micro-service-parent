@@ -8,24 +8,19 @@ import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.ThreadLocalDSInfo;
 import com.micro.service.springquartz.service.DBChangeService;
-import javafx.scene.effect.Bloom;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * @Author : JCccc
- * @CreateTime : 2019/10/22
- * @Description :
- **/
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:25:04
+**/
 @Service
 @Slf4j
 @AllArgsConstructor

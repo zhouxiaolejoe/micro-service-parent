@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Author : JCccc
- * @CreateTime : 2019/10/23
- * @Description :
- **/
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:22:12
+**/
 public interface DataSourceMapper {
     List<DataSourceInfo> get();
 

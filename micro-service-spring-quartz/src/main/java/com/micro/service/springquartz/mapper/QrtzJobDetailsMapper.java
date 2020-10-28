@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
  * @Description
  * @Project micro-service-parent
  * @Package com.micro.service.springquartz.mapper
- * @Author Administrator
+ * @Author zxl
  * @Date 2020-09-20 16:11
  */
 public interface QrtzJobDetailsMapper {

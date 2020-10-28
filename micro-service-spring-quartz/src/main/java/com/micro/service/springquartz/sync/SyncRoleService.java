@@ -26,9 +26,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 同步用户表内容
- * Created by wengy on 2019/11/20.
- */
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:27:32
+**/
 @Service
 @Slf4j
 @AllArgsConstructor

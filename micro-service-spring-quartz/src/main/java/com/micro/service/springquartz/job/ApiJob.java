@@ -1,12 +1,5 @@
-package com.micro.service.springquartz.job;/**
- * @Description
- * @Project micro-service-parent
- * @Package com.micro.service.springquartz.job
- * @Author Administrator
- * @Date 2020-10-07 14:23
- */
+package com.micro.service.springquartz.job;
 
-import com.micro.service.springquartz.sync.SyncScheduler;
 import com.micro.service.springquartz.syncapi.IFaspClientScheduler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +17,7 @@ import java.util.TreeMap;
 /**
  * @ClassName ApiJob
  * @Description TODO
- * @Author Administrator
+ * @Author zxl
  * @Date 2020/10/7 14:23
  * @Version 1.0.0
  */
@@ -50,7 +43,7 @@ public class ApiJob extends QuartzJobBean {
             treeMap.putAll(m);
             for (IFaspClientScheduler scheduler : treeMap.values()) {
                 try {
-                    scheduler.start(origin,target);
+                    scheduler.start(origin, target);
                 } catch (Exception e) {
                     log.error("IFaspClientScheduler run error " + scheduler.getClass().getName(), e);
                     JobExecutionException e2 = new JobExecutionException(e);

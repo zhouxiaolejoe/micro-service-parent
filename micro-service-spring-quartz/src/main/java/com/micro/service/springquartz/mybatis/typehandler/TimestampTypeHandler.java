@@ -8,7 +8,11 @@ import sun.misc.BASE64Encoder;
 import java.lang.reflect.Method;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-
+/**
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:23:54
+**/
 public class TimestampTypeHandler implements TypeHandler<TIMESTAMP> {
     /**
      * 此typlehandler只针对新增

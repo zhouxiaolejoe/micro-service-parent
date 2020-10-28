@@ -8,7 +8,7 @@ import com.micro.service.springquartz.model.FaspTPubmenu;
  * @Description
  * @Project micro-service-parent
  * @Package com.micro.service.springquartz.mapper
- * @Author Administrator
+ * @Author zxl
  * @Date 2020-09-20 17:57
  */
 public interface FaspTPubmenuMapper {

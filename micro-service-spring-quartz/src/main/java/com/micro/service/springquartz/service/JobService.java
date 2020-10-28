@@ -1,12 +1,9 @@
 package com.micro.service.springquartz.service;
 
-import com.micro.service.springquartz.model.QrtzJobDetails;
-import com.micro.service.springquartz.model.QrtzTriggerDetails;
 import com.micro.service.springquartz.model.QuartzJobDTO;
 import com.micro.service.springquartz.utils.ResultBuilder;
 import org.quartz.SchedulerException;
 
-import java.util.List;
 import java.util.Map;
 
 public interface JobService {

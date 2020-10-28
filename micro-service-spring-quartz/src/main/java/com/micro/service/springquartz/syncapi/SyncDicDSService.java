@@ -25,8 +25,10 @@ import java.util.stream.Collectors;
 
 
 /**
- * Created by wengy on 2019/11/20.
- */
+ * @Description
+ * @Author zxl
+ * @Date 2020-10-28  16:29:09
+ **/
 @Slf4j
 @Service("aaSyncDicDSService")
 @AllArgsConstructor

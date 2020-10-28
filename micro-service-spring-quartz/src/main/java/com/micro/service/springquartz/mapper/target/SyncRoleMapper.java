@@ -8,7 +8,7 @@ import java.util.Map;
  * @Description
  * @Project syncdata
  * @Package gov.mof.pushdata.fasp3client.ca3.sync.dao.SyncRoleMapper
- * @Author zhouxiaole
+ * @Author zxl
  * @Date 2020-08-30 10:58
  */
 public interface SyncRoleMapper {

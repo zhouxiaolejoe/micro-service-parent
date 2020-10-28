@@ -21,15 +21,18 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
-
-import static com.micro.service.springquartz.utils.SyncDataUtils.sortSyncDataByDBVersion;
 
 
 /**
- * Created by wengy on 2019/11/20.
- */
+ * @Description
+ * @Author zxl
+ * @Date 2020-10-28  16:29:18
+ **/
 @Service("sSyncRangeService")
 @Slf4j
 @AllArgsConstructor
@@ -198,9 +201,9 @@ public class SyncRangeService implements IFaspClientScheduler {
     }
 
     private Integer syncElement(Dic3SyncDSPO po, String target) throws Exception {
-        String requestTableName = po.getTablename() ;
-        if("MOFDIV".equalsIgnoreCase(po.getElementcode())){
-            requestTableName ="fasp_t_pupvd08002";
+        String requestTableName = po.getTablename();
+        if ("MOFDIV".equalsIgnoreCase(po.getElementcode())) {
+            requestTableName = "fasp_t_pupvd08002";
         }
         Integer syncCount = null;
         String tokenid = faspAuthenticateUtils.getFaspToken();

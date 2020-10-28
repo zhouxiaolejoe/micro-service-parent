@@ -9,7 +9,7 @@ import java.util.Map;
  * @Description
  * @Project pushdata
  * @Package gov.mof.pushdata.fasp3client.ca3.sync.dao.SyncRoleMenuMapper
- * @Author Administrator
+ * @Author zxl
  * @Date 2020-09-01 13:13
  */
 public interface SyncRoleMenuMapper {

@@ -30,7 +30,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @ClassName UserService
  * @Description TODO
- * @Author zhouxiaole
+ * @Author zxl
  * @Date 2020/8/30 13:19
  * @Version 1.0.0
  */
@@ -67,10 +67,10 @@ public class MenuService implements IFaspClientScheduler {
             int page = 1;
 
             do {
-                if(StringUtils.isEmpty(province)&&StringUtils.isEmpty(year)){
+                if (StringUtils.isEmpty(province) && StringUtils.isEmpty(year)) {
                     rs = client.queryTableData1KByDBVersion("FASP_T_PUBMENU", userVersion, page++, tokenid);
-                }else {
-                    rs = client.queryTableData1KByProvinceYearDBVersion(province,year,"FASP_T_PUBMENU", userVersion, page++, tokenid);
+                } else {
+                    rs = client.queryTableData1KByProvinceYearDBVersion(province, year, "FASP_T_PUBMENU", userVersion, page++, tokenid);
                 }
                 if (rs == null) {
                     break;

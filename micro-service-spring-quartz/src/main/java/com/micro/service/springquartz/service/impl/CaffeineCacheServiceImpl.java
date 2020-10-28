@@ -1,10 +1,4 @@
-package com.micro.service.springquartz.service.impl;/**
- * @Description
- * @Project micro-service-parent
- * @Package com.micro.service.springquartz.service.impl
- * @Author Administrator
- * @Date 2020-10-07 16:34
- */
+package com.micro.service.springquartz.service.impl;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.micro.service.springquartz.mapper.target.SyncDicDSMapper;
@@ -21,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @ClassName CaffeineCacheServiceImpl
  * @Description TODO
- * @Author Administrator
+ * @Author zxl
  * @Date 2020/10/7 16:34
  * @Version 1.0.0
  */

@@ -4,8 +4,10 @@ import lombok.Data;
 import lombok.ToString;
 
 /**
- * Created by wengy on 2019/12/9.
- */
+ * @Description
+ * @Author zxl
+ * @Date  2020-10-28  16:22:30
+ **/
 @Data
 @ToString
 public class ClientApiRoleUserRestDTO {

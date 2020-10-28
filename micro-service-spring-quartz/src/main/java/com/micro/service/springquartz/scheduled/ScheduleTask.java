@@ -5,17 +5,14 @@ import com.micro.service.springquartz.config.log.LoggerQueue;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.ExecutorService;
 
 /**
  * @Description
- * @Author ZhouXiaoLe
+ * @Author zxl
  * @Date 2019/7/17  17:16
  * @Param
  * @return
@@ -27,13 +24,6 @@ public class ScheduleTask {
     private SimpMessageSendingOperations messagingTemplate;
     ExecutorService syncExecutorService;
 
-
-//    @Scheduled(fixedRate = 2000)
-//    public void outputLogger() {
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//        String time = format.format(new Date());
-//        log.info("测试日志输出" + time);
-//    }
 
     /**
      * 推送日志到/topic/pullLogger
