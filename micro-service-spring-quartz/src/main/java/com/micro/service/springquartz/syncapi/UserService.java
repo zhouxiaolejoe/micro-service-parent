@@ -53,9 +53,10 @@ public class UserService implements IFaspClientScheduler {
             /**
              * 获取数据源年度区划
              */
-//            DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
-//            String province = dataSourceInfo.getProvince();
-//            String year = dataSourceInfo.getYear();
+            changeService.changeDb("mainDataSource");
+            DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
+            String province = dataSourceInfo.getProvince();
+            String year = dataSourceInfo.getYear();
 
             changeService.changeDb(target);
             checkUserTable(target);
@@ -68,7 +69,11 @@ public class UserService implements IFaspClientScheduler {
             RestClientResultDTO<List<Map<String, Object>>> rs = null;
             int page = 1;
             do {
-                rs = client.queryTableData1KByDBVersion("FASP_T_CAUSER", userVersion, page++, tokenid);
+                if(StringUtils.isEmpty(province)&&StringUtils.isEmpty(year)){
+                    rs = client.queryTableData1KByDBVersion("FASP_T_CAUSER", userVersion, page++, tokenid);
+                }else {
+                    rs = client.queryTableData1KByProvinceYearDBVersion(province,year,"FASP_T_CAUSER", userVersion, page++, tokenid);
+                }
                 if (rs == null) {
                     break;
                 }

@@ -198,6 +198,10 @@ public class SyncRangeService implements IFaspClientScheduler {
     }
 
     private Integer syncElement(Dic3SyncDSPO po, String target) throws Exception {
+        String requestTableName = po.getTablename() ;
+        if("MOFDIV".equalsIgnoreCase(po.getElementcode())){
+            requestTableName ="fasp_t_pupvd08002";
+        }
         Integer syncCount = null;
         String tokenid = faspAuthenticateUtils.getFaspToken();
         RestClientResultDTO<List<Map<String, Object>>> rs = null;
@@ -212,7 +216,7 @@ public class SyncRangeService implements IFaspClientScheduler {
                 version = DEFAULT_DIC3SYNCDS_DATE;
             }
 
-            rs = client.queryTableData1KByDBVersion(po.getTablename(),
+            rs = client.queryTableData1KByDBVersion(requestTableName,
                     version, page++, tokenid);
             if (rs == null) {
                 syncCount = 0;

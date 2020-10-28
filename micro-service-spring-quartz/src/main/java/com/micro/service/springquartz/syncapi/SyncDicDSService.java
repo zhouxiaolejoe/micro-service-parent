@@ -93,6 +93,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
                 ).map(y -> {
                             if ("ADMDIV".equals(y.get("ELEMENTCODE"))) {
                                 y.put("ELEMENTCODE", "MOFDIV");
+                                y.put("CODE", "VD08001");
                             }
                             return y;
                         }
@@ -168,7 +169,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
                     syncDicDSMapper.batchInsertDicTableString(param);
                 } else {
                     for (Map<String, Object> data : dsDatas) {
-                        syncDicDSMapper.deleteTable(data.get("tablecode").toString());
+                        syncDicDSMapper.deleteTable(data.get("TABLECODE").toString());
                         syncDicDSMapper.insertTableString(data);
                     }
                 }
@@ -230,7 +231,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
                 } else {
                     for (Map<String, Object> data : dsDatas) {
                         syncDicDSMapper.deleteColumnByColumnId(data.get("COLUMNID").toString());
-                        syncDicDSMapper.insertColumn(data);
+                        syncDicDSMapper.insertColumnString(data);
                     }
                 }
                 syncCount = dsDatas.size();

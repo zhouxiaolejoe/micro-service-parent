@@ -44,25 +44,19 @@ spring:
             isClustered: true
             useProperties: true
             tablePrefix: QRTZ_
-    #          datasource:
-    #            username: quartz
-    #            password: quartz
-    #            jdbcUrl: jdbc:oracle:thin:@127.0.0.1:1521/xe
-    #            driver-class-name: oracle.jdbc.OracleDriver
-    #            validationQuery: select 1 from dual
-    #            type: com.alibaba.druid.pool.DruidDataSource
     jdbc:
       schema: classpath:org/quartz/impl/jdbcjobstore/tables_oracle.sql
       initialize-schema: never
   main:
     allow-bean-definition-overriding: true
-logging:
-  #  level.org.springframework.web: debug
+#logging:
+#  level.org.springframework.web: debug
 #  level.com.micro.service.springquartz.mapper: debug
-  level.com.micro.service.springquartz.job: debug
+#  level.com.micro.service.springquartz.job: debug
 faspclient:
   sync-start: true
-  fasp_server_id: http://122.112.202.68:30080
+  fasp_server_id: http://121.36.148.182:32719
+#  fasp_server_id: http://122.112.202.68:30080
 mybatis:
   configuration:
     call-setters-on-nulls: true

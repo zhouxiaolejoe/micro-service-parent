@@ -4,9 +4,11 @@ package com.micro.service.springquartz.syncapi;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.micro.service.springquartz.clientapi.CaRoleClient;
 import com.micro.service.springquartz.clientapi.TableDBVersionClient;
+import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.mapper.target.SyncMenuMapper;
 import com.micro.service.springquartz.mapper.target.SyncRoleMenuMapper;
 import com.micro.service.springquartz.model.ClientApiRoleMenuRestDTO;
+import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.RestClientResultDTO;
 import com.micro.service.springquartz.service.CaffeineCacheService;
 import com.micro.service.springquartz.service.DBChangeService;
@@ -44,10 +46,15 @@ public class MenuService implements IFaspClientScheduler {
     DBChangeService changeService;
     Cache<String, List<String>> caffeineCache;
     CaffeineCacheService caffeineCacheService;
+    DataSourceMapper dataSourceMapper;
 
     @Override
     public void start(String origin, String target) {
         try {
+            changeService.changeDb("mainDataSource");
+            DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
+            String province = dataSourceInfo.getProvince();
+            String year = dataSourceInfo.getYear();
             changeService.changeDb(target);
             checkMenuTable(target);
             checkMenuRoleTable(target);
@@ -60,7 +67,11 @@ public class MenuService implements IFaspClientScheduler {
             int page = 1;
 
             do {
-                rs = client.queryTableData1KByDBVersion("FASP_T_PUBMENU", userVersion, page++, tokenid);
+                if(StringUtils.isEmpty(province)&&StringUtils.isEmpty(year)){
+                    rs = client.queryTableData1KByDBVersion("FASP_T_PUBMENU", userVersion, page++, tokenid);
+                }else {
+                    rs = client.queryTableData1KByProvinceYearDBVersion(province,year,"FASP_T_PUBMENU", userVersion, page++, tokenid);
+                }
                 if (rs == null) {
                     break;
                 }

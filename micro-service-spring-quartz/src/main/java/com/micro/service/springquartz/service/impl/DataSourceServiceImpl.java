@@ -10,10 +10,8 @@ package com.micro.service.springquartz.service.impl;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mchange.v2.beans.swing.TestBean;
 import com.micro.service.springquartz.config.DynamicDataSource;
 import com.micro.service.springquartz.config.MyClassLoader;
-import com.micro.service.springquartz.job.DSJob;
 import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.service.DBChangeService;
@@ -34,11 +32,11 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 
 import javax.tools.JavaCompiler;
 import java.io.*;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.FileSystems;
@@ -73,7 +71,6 @@ public class DataSourceServiceImpl implements DataSourceService {
     @Autowired
     ApplicationContext applicationContext;
 
-    public static final String CREATE_CLASSPATH = "D:/var/logs/pushdata/soundcode/";
     /**
      * 获取日志文件生成位置
      */
@@ -129,8 +126,6 @@ public class DataSourceServiceImpl implements DataSourceService {
     @Override
     public void testFreemarker(String jobClassName) throws IOException, TemplateException {
         Class<?> jobClazz = gen(jobClassName);
-
-
         boolean b = applicationContext.containsBean("com.micro.service.springquartz.job.MyJob");
         System.err.println(b);
         JobDetail job = JobBuilder
@@ -204,6 +199,8 @@ public class DataSourceServiceImpl implements DataSourceService {
 
     public Class<?> gen(String jobClassName) {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
+        String[] sz = fileName.split("/");
+        String soundcode = fileName.replace(sz[sz.length - 1], "soundcode/");
         /**
          * 获取classpath下的模板
          */
@@ -216,11 +213,11 @@ public class DataSourceServiceImpl implements DataSourceService {
         Map<String, Object> root = new HashMap<String, Object>(1);
         root.put("className", jobClassName);
         String fileName = jobClassName + ".java";
-        String createFilePath = CREATE_CLASSPATH + fileName;
+        String createFilePath = soundcode + fileName;
         File file = null;
         try {
             Template temp = cfg.getTemplate("job.ftl");
-            file = existsFile(CREATE_CLASSPATH, fileName);
+            file = existsFile(soundcode, fileName);
             fos = new FileOutputStream(file);
             out = new OutputStreamWriter(fos);
             temp.process(root, out);
@@ -229,12 +226,9 @@ public class DataSourceServiceImpl implements DataSourceService {
             compiler.run(null, null, null, createFilePath);
 
             MyClassLoader myClassLoader = new MyClassLoader();
-            myClassLoader.setClassPath(CREATE_CLASSPATH + jobClassName + ".class");
+            myClassLoader.setClassPath(soundcode + jobClassName + ".class");
             String fullPathName = "com.micro.service.springquartz.job." + jobClassName;
-            Class<?> clazz = myClassLoader.loadClass(fullPathName);
-//            Object instance = clazz.newInstance();
-//            Method method = clazz.getMethod("sayHello");
-//            Object result = method.invoke(instance);
+            Class<?> clazz = ClassUtils.forName(fullPathName, myClassLoader);
             BeanDefinitionRegistry beanDefinitionRegistry = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
             boolean beanDef = applicationContext.containsBean(fullPathName);
             if (!beanDef) {

@@ -3,9 +3,11 @@ package com.micro.service.springquartz.syncapi;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.micro.service.springquartz.clientapi.TableDBVersionClient;
+import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.mapper.target.SyncAgencyMapper;
 import com.micro.service.springquartz.mapper.target.SyncDicDSMapper;
 import com.micro.service.springquartz.mapper.target.SyncRangeMapper;
+import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.Dic3SyncDSPO;
 import com.micro.service.springquartz.model.RestClientResultDTO;
 import com.micro.service.springquartz.service.CaffeineCacheService;
@@ -49,10 +51,15 @@ public class SyncAgencyService implements IFaspClientScheduler {
     DBChangeService changeService;
     Cache<String, List<String>> caffeineCache;
     CaffeineCacheService caffeineCacheService;
+    DataSourceMapper dataSourceMapper;
 
     @Override
     public void start(String origin, String target) {
         try {
+            changeService.changeDb("mainDataSource");
+            DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
+            String province = dataSourceInfo.getProvince();
+            String year = dataSourceInfo.getYear();
             changeService.changeDb(target);
             String agencyCode = syncAgencyMapper.queryAgencyDsCodes();
             if (StringUtils.isEmpty(agencyCode)) {
@@ -79,7 +86,11 @@ public class SyncAgencyService implements IFaspClientScheduler {
                 if (StringUtils.isEmpty(agencyVersion)) {
                     agencyVersion = SyncDataUtils.DEFAULT_DBVERSION;
                 }
-                rs = client.queryTableData1KByDBVersion(agencyTableName, agencyVersion, page++, tokenid);
+                if(StringUtils.isEmpty(province)&&StringUtils.isEmpty(year)){
+                    rs = client.queryTableData1KByDBVersion(agencyTableName, agencyVersion, page++, tokenid);
+                }else {
+                    rs = client.queryTableData1KByProvinceYearDBVersion(province,year,agencyTableName, agencyVersion, page++, tokenid);
+                }
                 if (rs == null) {
                     log.error("从服务端获取单位数据为空！");
                     break;
