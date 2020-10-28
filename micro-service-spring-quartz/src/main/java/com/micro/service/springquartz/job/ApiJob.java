@@ -30,7 +30,7 @@ import java.util.TreeMap;
  */
 
 @Slf4j
-@Component
+@Component//quartz使用反射可以自动注入
 //禁止相同任务并发执行
 @DisallowConcurrentExecution
 @AllArgsConstructor

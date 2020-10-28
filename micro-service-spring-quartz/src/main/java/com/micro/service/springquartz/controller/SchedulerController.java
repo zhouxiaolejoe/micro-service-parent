@@ -148,7 +148,7 @@ public class SchedulerController {
     }
 
     @GetMapping("/testFreemarker")
-//    @ApiIgnore
+    @ApiIgnore
     @ApiOperation(value = "testFreemarker", httpMethod = "GET")
     public ResultBuilder testFreemarker(@RequestParam("jobClassName") String jobClassName) {
         try {

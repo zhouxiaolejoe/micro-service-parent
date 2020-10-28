@@ -8,8 +8,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
 /**
- * Created by wengy on 2019/8/15.
- */
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:12:38
+**/
 @ConfigurationProperties(prefix = FaspClientSetting.FASPCLIENT_PREFIX, ignoreUnknownFields = true)
 //@Data
 public class FaspClientSetting implements EnvironmentAware {

@@ -16,8 +16,10 @@ import java.util.Set;
 
 
 /**
- * @author zxl
- */
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:16:03
+**/
 public class DynamicDataSource extends AbstractRoutingDataSource {
     private boolean debug = true;
     private final Logger log = LoggerFactory.getLogger(getClass());

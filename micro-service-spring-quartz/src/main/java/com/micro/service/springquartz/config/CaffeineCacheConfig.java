@@ -1,11 +1,4 @@
-package com.micro.service.springquartz.config;/**
- * @Description
- * @Project root
- * @Package gov.mof.pushdata.fasp3client.autoconfigure
- * @Author Administrator
- * @Date 2020-09-09 16:08
- */
-
+package com.micro.service.springquartz.config;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -18,12 +11,10 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * @ClassName GuavaCacheConfig
- * @Description TODO
- * @Author Administrator
- * @Date 2020/9/9 16:08
- * @Version 1.0.0
- */
+* @Description 缓存
+* @Author zxl
+* @Date  2020-10-28  16:14:49
+**/
 @Configuration
 public class CaffeineCacheConfig {
 

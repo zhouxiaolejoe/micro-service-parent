@@ -2,9 +2,15 @@ package com.micro.service.springquartz.config.log;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-
+/**
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:13:56
+**/
 public class LoggerQueue {
-    //队列大小
+    /**
+     * 队列大小
+     */
     public static final int QUEUE_MAX_SIZE = 10000;
     private static LoggerQueue alarmMessageQueue = new LoggerQueue();
     //阻塞队列

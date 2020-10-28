@@ -24,9 +24,17 @@ spring:
     useGlobalDataSourceStat: true
   quartz:
     job-store-type: jdbc
+    wait-for-jobs-to-complete-on-shutdown: true
     properties:
       org:
         quartz:
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.oracle.OracleDelegate
+            misfireThreshold: 150000
+            isClustered: true
+            useProperties: true
+            tablePrefix: QRTZ_
           threadPool:
             class: org.quartz.simpl.SimpleThreadPool
             threadCount: 10
@@ -37,13 +45,6 @@ spring:
             instanceId: AUTO
             idleWaitTime: 5000
             threadName: quartzScheduler
-          jobStore:
-            class: org.quartz.impl.jdbcjobstore.JobStoreTX
-            driverDelegateClass: org.quartz.impl.jdbcjobstore.oracle.OracleDelegate
-            misfireThreshold: 150000
-            isClustered: true
-            useProperties: true
-            tablePrefix: QRTZ_
     jdbc:
       schema: classpath:org/quartz/impl/jdbcjobstore/tables_oracle.sql
       initialize-schema: never

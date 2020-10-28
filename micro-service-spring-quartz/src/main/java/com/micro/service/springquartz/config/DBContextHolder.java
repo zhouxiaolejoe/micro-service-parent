@@ -4,11 +4,12 @@ import com.micro.service.springquartz.model.ThreadLocalDSInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
- * @Author : zxl
- * @CreateTime : 2019/10/22
- * @Description :
- **/
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:15:42
+**/
 public class DBContextHolder {
     private final static Logger log = LoggerFactory.getLogger(DBContextHolder.class);
     /**

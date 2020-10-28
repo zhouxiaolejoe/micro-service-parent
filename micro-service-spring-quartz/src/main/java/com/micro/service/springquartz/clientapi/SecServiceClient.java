@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Created by wengy on 2019/1/10.
- */
+* @Description 权限获取
+* @Author zxl
+* @Date  2020-10-28  16:05:06
+**/
 @FeignClient(name = "fasp3-common", url = FaspClientSetting.faspServer)
 @RequestMapping("/fasp/restapi/v1/sec")
 @Component

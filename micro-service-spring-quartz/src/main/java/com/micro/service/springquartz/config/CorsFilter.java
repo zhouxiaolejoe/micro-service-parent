@@ -6,13 +6,12 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 /**
- * @Description 解决web跨域问题
- * @Author ZhouXiaoLe
- * @Date 2019/7/18  9:57
- * @Param
- * @return
- **/
+* @Description 解决web跨域问题
+* @Author zxl
+* @Date  2020-10-28  16:15:13
+**/
 @Configuration
 public class CorsFilter implements Filter {
 

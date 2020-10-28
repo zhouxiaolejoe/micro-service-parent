@@ -4,8 +4,10 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Created by wengy on 2019/8/15.
- */
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:13:08
+**/
 @ConfigurationProperties(prefix = FaspDic3ClientSetting.FASPCLIENT_DIC3_PREFIX, ignoreUnknownFields = true)
 @Data
 public class FaspDic3ClientSetting {

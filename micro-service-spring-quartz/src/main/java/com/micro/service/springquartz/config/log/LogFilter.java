@@ -8,11 +8,7 @@ import java.text.DateFormat;
 import java.util.Date;
 /**
 * @Description  接受输出日志
-* @Method
-* @Param null
-* @return
-* @throws
-* @Author Administrator
+* @Author zxl
 * @Date  2020-10-21  19:11:57
 **/
 public class LogFilter extends Filter<ILoggingEvent> {

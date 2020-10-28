@@ -8,8 +8,10 @@ import org.springframework.scheduling.quartz.AdaptableJobFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * @author Administrator
- */
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:16:48
+**/
 @Component
 @AllArgsConstructor
 public class JobFactory extends AdaptableJobFactory {

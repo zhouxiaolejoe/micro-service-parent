@@ -1,8 +1,10 @@
 package com.micro.service.springquartz.config.fasp3client;
 
 /**
- * Created by wengy on 2019/10/22.
- */
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:09:34
+**/
 public class FaspClientException extends RuntimeException {
 
     public FaspClientException() {

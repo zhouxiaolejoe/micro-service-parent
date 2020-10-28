@@ -5,7 +5,6 @@ import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.model.DataSourceInfo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,12 +15,10 @@ import java.util.List;
 
 
 /**
- * @ClassName InitDataSource
- * @Description TODO
- * @Author zhouxiaole
- * @Date 2020/8/29 16:35
- * @Version 1.0.0
- */
+* @Description
+* @Author zxl
+* @Date  2020-10-28  16:16:31
+**/
 @Order(-1)
 @Configuration
 @Slf4j
