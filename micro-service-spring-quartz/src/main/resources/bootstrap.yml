@@ -22,6 +22,10 @@ spring:
     filters: stat,wall,log4j
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     useGlobalDataSourceStat: true
+    schema:
+      - classpath:sql/fasp_t_syncdatabase.sql
+      - classpath:sql/quartz_tables_oracle.sql
+    initialization-mode: never
   quartz:
     job-store-type: jdbc
     wait-for-jobs-to-complete-on-shutdown: true
@@ -46,7 +50,7 @@ spring:
             idleWaitTime: 5000
             threadName: quartzScheduler
     jdbc:
-      schema: classpath:org/quartz/impl/jdbcjobstore/tables_oracle.sql
+      schema: classpath:org/quartz/impl/jdbcjobstore/quartz_tables_oracle.sql
       initialize-schema: never
   main:
     allow-bean-definition-overriding: true
