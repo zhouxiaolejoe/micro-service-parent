@@ -1,26 +1,18 @@
 package com.micro.service.springquartz;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
-import com.google.common.io.Files;
-import com.micro.service.springquartz.job.DSJob;
 import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.mapper.FaspTPubmenuMapper;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
 import com.micro.service.springquartz.mapper.target.SyncDicDSMapper;
 import com.micro.service.springquartz.mapper.target.SyncMenuMapper;
-import com.micro.service.springquartz.model.ClientApiRoleMenuRestDTO;
-import com.micro.service.springquartz.model.ClientApiRoleUserRestDTO;
 import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.FaspTPubmenu;
 import com.micro.service.springquartz.service.DBChangeService;
-import com.sun.javafx.binding.StringFormatter;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -30,12 +22,8 @@ import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
 import sun.misc.BASE64Encoder;
 
@@ -43,8 +31,6 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.*;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -215,11 +201,11 @@ public class MicroServiceSpringQuartzApplicationTests {
 
     @Test
     public void test11() throws Exception {
-        String locationPath = ClassUtils.getDefaultClassLoader().getResource("").getPath().substring(1);
-        System.err.println(locationPath);
-        File file = ResourceUtils.getFile("classpath:templates/test.ftl");
-        List<String> list = Files.readLines(file, Charsets.UTF_8);
-        list.stream().forEach(x -> System.err.println(x));
+//        String locationPath = ClassUtils.getDefaultClassLoader().getResource("").getPath().substring(1);
+//        System.err.println(locationPath);
+//        File file = ResourceUtils.getFile("classpath:templates/test.ftl");
+//        List<String> list = Files.readLines(file, Charsets.UTF_8);
+//        list.stream().forEach(x -> System.err.println(x));
     }
 
     @Test
@@ -291,6 +277,19 @@ public class MicroServiceSpringQuartzApplicationTests {
             this.scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    @Test
+    public void test13() {
+        String url = "http://localhost:19018/";
+        try {
+            File file = new File("D:\\var\\logs\\pushdata\\url.txt");
+            PrintStream ps = new PrintStream(new FileOutputStream(file));
+            ps.println(url);// 往文件里写入字符串
+        } catch (IOException e) {
+            log.error("写入url文件失败" + e.getMessage());
         }
     }
 

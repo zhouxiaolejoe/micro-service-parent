@@ -51,10 +51,10 @@ public class MenuService implements IFaspClientScheduler {
     @Override
     public void start(String origin, String target) {
         try {
-            changeService.changeDb("mainDataSource");
-            DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
-            String province = dataSourceInfo.getProvince();
-            String year = dataSourceInfo.getYear();
+//            changeService.changeDb("mainDataSource");
+//            DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
+//            String province = dataSourceInfo.getProvince();
+//            String year = dataSourceInfo.getYear();
             changeService.changeDb(target);
             checkMenuTable(target);
             checkMenuRoleTable(target);
@@ -67,11 +67,11 @@ public class MenuService implements IFaspClientScheduler {
             int page = 1;
 
             do {
-                if (StringUtils.isEmpty(province) && StringUtils.isEmpty(year)) {
+//                if (StringUtils.isEmpty(province) && StringUtils.isEmpty(year)) {
                     rs = client.queryTableData1KByDBVersion("FASP_T_PUBMENU", userVersion, page++, tokenid);
-                } else {
-                    rs = client.queryTableData1KByProvinceYearDBVersion(province, year, "FASP_T_PUBMENU", userVersion, page++, tokenid);
-                }
+//                } else {
+//                    rs = client.queryTableData1KByProvinceYearDBVersion(province, year, "FASP_T_PUBMENU", userVersion, page++, tokenid);
+//                }
                 if (rs == null) {
                     break;
                 }

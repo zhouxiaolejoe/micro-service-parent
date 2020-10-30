@@ -17,6 +17,7 @@
     <properties>
         <java.version>1.8</java.version>
         <lib.dir>${project.basedir}/src/main/resources/lib</lib.dir>
+        <skipTests>true</skipTests>
     </properties>
 
     <dependencies>

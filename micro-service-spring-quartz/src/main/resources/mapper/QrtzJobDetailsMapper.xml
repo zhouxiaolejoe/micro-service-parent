@@ -174,11 +174,11 @@
     <result column="description" jdbcType="VARCHAR" property="description" />
   </resultMap>
   <select id="selectAll" resultMap="TriggerResultMap">
-     select    t.job_name,
+      select    t.job_name,
                q.trigger_state,
                t.job_data,
                q.trigger_type,
-               qct.cron_expression,
+               replace(replace(qct.cron_expression,'0 0/',''),'* * * ?','') ||'∑÷÷”' "cron_expression",
                q.start_time,
                q.next_fire_time,
                q.prev_fire_time,

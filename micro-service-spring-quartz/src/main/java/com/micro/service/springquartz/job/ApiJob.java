@@ -34,6 +34,7 @@ public class ApiJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext context) {
+        log.debug("Job Start!!!" );
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
         String origin = jobDataMap.getString(ORIGIN);
         String target = jobDataMap.getString(TARGET);

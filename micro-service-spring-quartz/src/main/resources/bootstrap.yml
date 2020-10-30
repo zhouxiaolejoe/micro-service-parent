@@ -2,7 +2,7 @@ spring:
   aop:
     proxy-target-class: true
   datasource:
-    url: jdbc:oracle:thin:@127.0.0.1:1521/xe
+    url: jdbc:oracle:thin:@192.168.24.45:1521/xe
     username: quartz
     password: quartz
     driverClassName: oracle.jdbc.OracleDriver
@@ -36,7 +36,7 @@ spring:
             class: org.quartz.impl.jdbcjobstore.JobStoreTX
             driverDelegateClass: org.quartz.impl.jdbcjobstore.oracle.OracleDelegate
             misfireThreshold: 150000
-            isClustered: true
+            isClustered: false
             useProperties: true
             tablePrefix: QRTZ_
           threadPool:
@@ -54,8 +54,10 @@ spring:
       initialize-schema: never
   main:
     allow-bean-definition-overriding: true
-#logging:
-#  level.org.springframework.web: debug
+logging:
+  level:
+    com.micro.service.springquartz.job: debug
+
 #  level.com.micro.service.springquartz.mapper: debug
 #  level.com.micro.service.springquartz.job: debug
 faspclient:
@@ -77,3 +79,5 @@ server:
     context-path: /pushdata
 log:
   fileName: D:/var/logs/pushdata/log_all.log
+#request:
+#  url: http://192.168.24.45:19018

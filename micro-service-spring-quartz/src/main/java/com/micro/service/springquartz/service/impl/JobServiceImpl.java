@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
+import static org.quartz.TriggerBuilder.newTrigger;
+
 
 /**
  * @ClassName JobServiceImpl
@@ -159,8 +162,9 @@ public class JobServiceImpl implements JobService {
         map.put("target", quartzJobDTO.getTarget());
         map.put("tableName", quartzJobDTO.getTableName());
         String minute = quartzJobDTO.getCronExpression();
+        int i = 1;
         try {
-            int i = Integer.parseInt(minute);
+            i = Integer.parseInt(minute);
         } catch (NumberFormatException e) {
             return ResultBuilder.fail(null, "请输入数字");
         }
@@ -178,6 +182,17 @@ public class JobServiceImpl implements JobService {
                         .cronSchedule(cronExpression)
                         .withMisfireHandlingInstructionDoNothing())
                 .build();
+
+
+//        SimpleTrigger trigger = newTrigger().withIdentity(quartzJobDTO.getJobName(), quartzJobDTO.getJobName())
+//                .withDescription(quartzJobDTO.getDescription())
+////                .startNow()
+//                .startAt(DateBuilder.futureDate(2, DateBuilder.IntervalUnit.SECOND))
+//                .withSchedule(simpleSchedule()
+//                .withIntervalInMinutes(i)
+//                .repeatForever()
+//                .withMisfireHandlingInstructionFireNow())
+//                .build();
         /**
          * withMisfireHandlingInstructionFireAndProceed任务超时立即触发
          * withMisfireHandlingInstructionDoNothing任务超时等下一次执行
