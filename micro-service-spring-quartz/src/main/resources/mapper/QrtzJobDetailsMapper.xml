@@ -178,7 +178,7 @@
                q.trigger_state,
                t.job_data,
                q.trigger_type,
-               replace(replace(qct.cron_expression,'0 0/',''),'* * * ?','') ||'∑÷÷”' "cron_expression",
+               replace(replace(qct.cron_expression,'0 0/',''),'* * * ?','') cron_expression,
                q.start_time,
                q.next_fire_time,
                q.prev_fire_time,

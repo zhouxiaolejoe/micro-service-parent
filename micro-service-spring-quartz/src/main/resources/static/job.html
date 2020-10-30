@@ -87,6 +87,7 @@
 <script src="js/urlconfig.js"></script>
 
 <script>
+    window.onload =getURL();
     var table, layer, laydate, laytree, laypage, total, page, pageCout; //page 全局参数 当前设置页数  pageCout 全局参数 当前设置条数
     layui.use(['table', 'layer', 'laytpl', 'laydate', 'tree', 'laypage'], function () {
         table = layui.table;
@@ -405,12 +406,8 @@
                     title: '任务状态',
                     sort: true
                 }, {
-                    field: 'triggerType',
-                    title: '任务类型',
-                    sort: true
-                }, {
                     field: 'cronExpression',
-                    title: '循环频率',
+                    title: '循环频率(分钟)',
                     sort: true
                 }, {
                     field: 'startTime',

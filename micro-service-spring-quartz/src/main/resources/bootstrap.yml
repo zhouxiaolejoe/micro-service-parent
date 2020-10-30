@@ -79,5 +79,5 @@ server:
     context-path: /pushdata
 log:
   fileName: D:/var/logs/pushdata/log_all.log
-#request:
-#  url: http://192.168.24.45:19018
+request:
+  url: http://192.168.24.45:19018
