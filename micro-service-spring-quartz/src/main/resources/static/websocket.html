@@ -50,12 +50,7 @@
             stompClient=null;
         }
     })
-
-
-    window.onload=function(){
-        func1();
-    }
-    function func1(){
+    window.onload= function(){
         $.ajax({
             type: 'get',
             url: REQ_URL+'/pushdata/readLogFile',
