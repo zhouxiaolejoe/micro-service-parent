@@ -2,13 +2,27 @@ package com.micro.service.springquartz.scheduled;
 
 import com.micro.service.springquartz.config.log.LoggerMessage;
 import com.micro.service.springquartz.config.log.LoggerQueue;
+import com.micro.service.springquartz.mapper.DataSourceMapper;
+import com.micro.service.springquartz.model.DataSourceInfo;
+import com.micro.service.springquartz.service.DBChangeService;
+import com.micro.service.springquartz.syncapi.IFaspClientScheduler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
+import java.util.stream.Collectors;
 
 /**
  * @Description
@@ -21,29 +35,76 @@ import java.util.concurrent.ExecutorService;
 @Slf4j
 @AllArgsConstructor
 public class ScheduleTask {
-    private SimpMessageSendingOperations messagingTemplate;
+//    private SimpMessageSendingOperations messagingTemplate;
     ExecutorService syncExecutorService;
+    DataSourceMapper dataSourceMapper;
+    DBChangeService dbChangeService;
+    ApplicationContext context;
+//    /**
+//     * 推送日志到/topic/pullLogger
+//     */
+//    @PostConstruct
+//    public void pushLogger() {
+//        syncExecutorService.submit(() -> {
+//            while (true) {
+//                try {
+//                    LoggerMessage log = LoggerQueue.getInstance().poll();
+//                    if (log != null) {
+//                        if (messagingTemplate != null) {
+//                            messagingTemplate.convertAndSend("/topic/pullLogger", log);
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    log.error("推送日志出错" + e.getMessage());
+//                    ;
+//                }
+//            }
+//        });
+//    }
 
+    @Scheduled(cron = "${synccron}")
+    public void syncRoleService() {
+        List<DataSourceInfo> dataSourcesList = dataSourceMapper.get();
+        if (dataSourcesList == null || CollectionUtils.isEmpty(dataSourcesList)) {
+            return;
+        }
+        dataSourcesList = dataSourcesList.stream().filter(x -> {
+            if (x.getDatasourceid().equals("mid")) {
+                return false;
+            }
+            return true;
+        }).collect(Collectors.toList());
 
-    /**
-     * 推送日志到/topic/pullLogger
-     */
-    @PostConstruct
-    public void pushLogger() {
-        syncExecutorService.submit(() -> {
-            while (true) {
+        CountDownLatch countDownLatch = new CountDownLatch(dataSourcesList.size());
+        for (DataSourceInfo dataSource : dataSourcesList) {
+            syncExecutorService.execute(() -> {
                 try {
-                    LoggerMessage log = LoggerQueue.getInstance().poll();
-                    if (log != null) {
-                        if (messagingTemplate != null) {
-                            messagingTemplate.convertAndSend("/topic/pullLogger", log);
+                    dbChangeService.changeDb(dataSource.getDatasourceid());
+                    if (context != null) {
+                        Map<String, IFaspClientScheduler> m = context.getBeansOfType(
+                                IFaspClientScheduler.class);
+                        Map<String, IFaspClientScheduler> treeMap = new TreeMap<>(String::compareTo);
+                        treeMap.putAll(m);
+                        for (IFaspClientScheduler scheduler : treeMap.values()) {
+                            try {
+                                scheduler.start("mid", dataSource.getDatasourceid());
+                            } catch (Exception e) {
+                                log.error("IFaspClientScheduler run error " + scheduler.getClass().getName(), e);
+                            }
                         }
                     }
                 } catch (Exception e) {
-                    log.error("推送日志出错" + e.getMessage());
-                    ;
+                    e.printStackTrace();
+                } finally {
+                    countDownLatch.countDown();
                 }
-            }
-        });
+            });
+        }
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.error("=========================SYNC SUCCESS=========================");
     }
 }

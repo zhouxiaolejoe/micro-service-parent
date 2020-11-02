@@ -81,3 +81,5 @@ log:
   fileName: D:/var/logs/pushdata/log_all.log
 request:
   url: http://192.168.24.45:19018
+
+synccron: 0 0/2 * * * ?

@@ -13,8 +13,8 @@
 <body style="overflow: hidden">
 <div>
     <div class="layui-btn-group">
-        <button id ="openSocket" type="button" class="layui-btn" style="background: #1E9FFF">开启日志</button>
-        <button id ="closeSocket" type="button" class="layui-btn" style="background: #1E9FFF">关闭日志</button>
+<!--        <button id ="openSocket" type="button" class="layui-btn" style="background: #1E9FFF">开启日志</button>-->
+<!--        <button id ="closeSocket" type="button" class="layui-btn" style="background: #1E9FFF">关闭日志</button>-->
     </div>
     <div id="log-container" style="height: 90vh; overflow-y: scroll; background: #333; color: #aaa; padding: 10px;">
         <div></div>
@@ -23,33 +23,36 @@
 </body>
 <script>
     window.onload =getURL();
-    var stompClient = null;
-    function openSocket() {
-        if(stompClient==null){
-            var socket = new SockJS(REQ_URL+'/pushdata/ws?token=kl');
-            stompClient = Stomp.over(socket);
-            stompClient.connect({token:"kl"}, function(frame) {
-                stompClient.subscribe('/topic/pullLogger', function(event) {
-                    var content=JSON.parse(event.body);
-                    $("#log-container div").append(content.timestamp +" "+"["+ content.threadName+"] "+ content.level+" "+ content.className+"   - "+content.body).append("<br/>");
-                    $("#log-container").scrollTop($("#log-container div").height() - $("#log-container").height());
-                },{
-                    token:"kltoen"
-                });
-            });
-        }
-    }
+    /**
+     * zuul不支持websocket
+     */
+    // var stompClient = null;
+    // function openSocket() {
+    //     if(stompClient==null){
+    //         var socket = new SockJS(REQ_URL+'/pushdata/ws?token=kl');
+    //         stompClient = Stomp.over(socket);
+    //         stompClient.connect({token:"kl"}, function(frame) {
+    //             stompClient.subscribe('/topic/pullLogger', function(event) {
+    //                 var content=JSON.parse(event.body);
+    //                 $("#log-container div").append(content.timestamp +" "+"["+ content.threadName+"] "+ content.level+" "+ content.className+"   - "+content.body).append("<br/>");
+    //                 $("#log-container").scrollTop($("#log-container div").height() - $("#log-container").height());
+    //             },{
+    //                 token:"kltoen"
+    //             });
+    //         });
+    //     }
+    // }
 
-    $("#openSocket").on('click', function () {
-        openSocket();
-    })
-
-    $("#closeSocket").on('click', function () {
-        if (stompClient != null) {
-            stompClient.disconnect();
-            stompClient=null;
-        }
-    })
+    // $("#openSocket").on('click', function () {
+    //     openSocket();
+    // })
+    //
+    // $("#closeSocket").on('click', function () {
+    //     if (stompClient != null) {
+    //         stompClient.disconnect();
+    //         stompClient=null;
+    //     }
+    // })
     window.onload= function(){
         $.ajax({
             type: 'get',

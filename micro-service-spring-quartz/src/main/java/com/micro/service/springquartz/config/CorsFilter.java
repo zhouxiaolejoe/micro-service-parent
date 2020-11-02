@@ -34,7 +34,7 @@ public class CorsFilter implements Filter {
         //允许的请求类型
         resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         //允许的请求头字段
-        resp.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
+        resp.setHeader("Access-Control-Allow-Headers", "*");
         chain.doFilter(request, response);
     }
 
