@@ -58,7 +58,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">数据库连接</label>
         <div class="layui-input-block">
-          <input type="text" name="url" lay-verify="required" placeholder="jdbc:oracle:thin:@127.0.0.1:1521/orcl"
+          <input type="text" name="url" lay-verify="required" value="jdbc:oracle:thin:@127.0.0.1:1521/orcl"
                  autocomplete="off" class="layui-input url">
         </div>
       </div>
@@ -80,7 +80,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">区划</label>
         <div class="layui-input-block">
-          <input type="text" name="province" lay-verify="required" placeholder=""
+          <input type="text" name="province" lay-verify="required" value="329900000"
                  autocomplete="off" class="layui-input province">
         </div>
       </div>
@@ -89,7 +89,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">年度</label>
         <div class="layui-input-block">
-          <input type="text" name="year" lay-verify="required" placeholder=""
+          <input id = "year" type="text" name="year" lay-verify="required"
                  autocomplete="off" class="layui-input year">
         </div>
       </div>
@@ -101,7 +101,11 @@
   <script src="js/urlconfig.js"></script>
 
   <script>
-    window.onload =getURL();
+    window.onload =function() {
+      getURL();
+      var year= doHandleYear();
+      document.getElementById("year").value=year+1;
+    }
     var table, layer, laydate, laytree, laypage, total, page, pageCout; //page 全局参数 当前设置页数  pageCout 全局参数 当前设置条数
     layui.use(['table', 'layer', 'laytpl', 'laydate', 'tree', 'laypage'], function () {
       table = layui.table;
@@ -392,6 +396,13 @@
         }
       })
 
+    }
+
+
+    function doHandleYear() {
+      var myDate = new Date();
+      var tYear = myDate.getFullYear();
+      return tYear;
     }
   </script>
 

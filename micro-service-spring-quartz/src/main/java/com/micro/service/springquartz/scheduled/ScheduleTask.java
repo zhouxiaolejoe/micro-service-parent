@@ -105,6 +105,6 @@ public class ScheduleTask {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        log.error("=========================SYNC SUCCESS=========================");
+//        log.error("=========================SYNC SUCCESS=========================");
     }
 }
