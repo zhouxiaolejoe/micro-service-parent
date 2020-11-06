@@ -87,7 +87,10 @@
 <script src="js/urlconfig.js"></script>
 
 <script>
-    window.onload =getURL();
+    window.onload =function () {
+        getURL();
+        // getDivision();
+    }
     var table, layer, laydate, laytree, laypage, total, page, pageCout; //page 全局参数 当前设置页数  pageCout 全局参数 当前设置条数
     layui.use(['table', 'layer', 'laytpl', 'laydate', 'tree', 'laypage'], function () {
         table = layui.table;
@@ -454,7 +457,7 @@
             data: {
                 year: 2021,
             },
-            url: 'http://192.168.24.97:8089/uportal/province',
+            url: 'http://119.3.156.206:7003/fasp3/dic3/basicdata/dataset/restapi/v1/dataset/1',
             success: function (res) {
                 console.log(res)
                 // 树型结构配置

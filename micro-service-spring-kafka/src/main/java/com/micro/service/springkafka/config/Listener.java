@@ -19,7 +19,7 @@ public class Listener {
     @Autowired
     KafkaTemplate kafkaTemplate;
 
-    @KafkaListener(id = "foo3", topics = {"topic3","topic2"})
+    @KafkaListener(groupId = "",id = "foo3", topics = {"topic3","topic2"})
     public void listen3(String data) {
         log.warn("topic3" + data);
     }

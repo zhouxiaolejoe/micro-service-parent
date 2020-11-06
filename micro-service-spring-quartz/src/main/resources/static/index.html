@@ -69,6 +69,7 @@
         a.style.top=Sgao1;
         a.style.left=Sgao2;
         getURL();
+        // getDivision();
     }
 
 
@@ -87,6 +88,33 @@
         var tempwindow = window.open('_blank');
         tempwindow.location = REQ_URL+'/pushdata/websocket.html';
         // window.location.href = REQ_URL+'/pushdata/websocket.html';
+    }
+
+
+
+    //获取区划数据
+    function getDivision() {
+        var param={
+            "usercode": "32_sys_admin",
+            "userpass": "8595d6443eeec147699633649de37c6a",
+            "validatecode": "12313",
+            "force": false
+        };
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            contentType:'application/json;charset=UTF-8',
+            data: JSON.stringify(param),
+            url: 'http://119.3.156.206:7003/fasp3/restapi/v1/sec/userlogin/faspadminlogin',
+            success: function (res) {
+                console.log(res)
+                // 树型结构配置
+            },
+            error: function (code) {
+
+                console.log(code)
+            }
+        })
     }
 </script>
 

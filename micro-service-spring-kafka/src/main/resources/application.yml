@@ -1,2 +1,5 @@
 server:
   port: 19017
+spring:
+  application:
+    name: micro-service-spring-kafka
