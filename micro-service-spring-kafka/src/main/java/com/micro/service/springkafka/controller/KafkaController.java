@@ -74,23 +74,3 @@ public class KafkaController {
         kafkaTemplate.send(topic,data);
     }
 }
-
-
-@RestController
-@RefreshScope
-class SampleController {
-    @Autowired
-    private NacosConfigManager nacosConfigManager;
-
-    @Value("${user.name}")
-    String userName;
-
-    @Value("${user.age:25}")
-    Integer age;
-
-    @RequestMapping("/user")
-    public String simple() {
-        return "Hello Nacos Config!" + "Hello " + userName + " " + age + " [UserConfig]: "
-                + "!" + nacosConfigManager.getConfigService();
-    }
-}

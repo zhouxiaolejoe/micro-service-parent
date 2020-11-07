@@ -12,7 +12,7 @@
 #  cloud:
 #    gateway:
 #      routes:
-#        - id: nacos-route
+#        - id: micro-service-spring-kafka
 #          uri: lb://micro-service-spring-kafka
 #          predicates:
 #            - Path=/micro-service-spring-kafka/**

@@ -91,6 +91,31 @@ public class DataBaseinfoServiceImpl implements DataBaseinfoService {
     }
 
     @Override
+    public DataBaseinfo testRedisJsonStore() {
+        DataBaseinfo dataBaseinfo;
+        if (!redisTemplate.hasKey("dataBaseinfo_Bean")) {
+            dataBaseinfo = dataBaseinfoMapper.selectByPrimaryKey(1);
+            redisTemplate.opsForValue().set("dataBaseinfo_Bean", dataBaseinfo);
+        }
+        Object result = redisTemplate.opsForValue().get("dataBaseinfo_Bean");
+        dataBaseinfo = FastJsonUtils.getJsonToBean(FastJsonUtils.getBeanToJson(result), DataBaseinfo.class);
+        return dataBaseinfo;
+    }
+
+    @Override
+    public DataBaseinfo testRedisBeanStore() {
+        DataBaseinfo dataBaseinfo;
+        if (!redisTemplate.hasKey("dataBaseinfo_Json")) {
+            dataBaseinfo = dataBaseinfoMapper.selectByPrimaryKey(1);
+            String beanToJson = FastJsonUtils.getBeanToJson(dataBaseinfo);
+            redisTemplate.opsForValue().set("dataBaseinfo_Json", beanToJson);
+        }
+        Object result = redisTemplate.opsForValue().get("dataBaseinfo_Json");
+        dataBaseinfo = FastJsonUtils.getJsonToBean(result.toString(), DataBaseinfo.class);
+        return dataBaseinfo;
+    }
+
+    @Override
     public int batchInsert(List<DataBaseinfo> list) {
         return dataBaseinfoMapper.batchInsert(list);
     }

@@ -4,8 +4,9 @@ import com.micro.service.springredis.MicroServiceSpringRedisApplicationTests;
 import com.micro.service.springredis.model.DataBaseinfo;
 import com.micro.service.tool.untils.FastJsonUtils;
 import lombok.extern.slf4j.Slf4j;
+
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 

@@ -36,6 +36,9 @@ public interface DataBaseinfoService {
 
     int batchInsert(List<DataBaseinfo> list);
 
-
     DataBaseinfo testRedisHashStore();
+
+    DataBaseinfo testRedisJsonStore();
+
+    DataBaseinfo testRedisBeanStore();
 }
