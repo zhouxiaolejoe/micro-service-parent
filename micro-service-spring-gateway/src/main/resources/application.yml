@@ -1,0 +1,18 @@
+#server:
+#  port: 19010
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+#  endpoint:
+#    health:
+#      show-details: always
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: nacos-route
+#          uri: lb://micro-service-spring-kafka
+#          predicates:
+#            - Path=/micro-service-spring-kafka/**

@@ -1,19 +1,35 @@
 package com.micro.service.springkafka.controller;
 
+import com.alibaba.cloud.nacos.NacosConfigManager;
+import com.alibaba.nacos.api.config.listener.Listener;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.startup.UserConfig;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.Executor;
 
 /**
  * @ClassName KafkaController
@@ -26,6 +42,7 @@ import java.util.Arrays;
 @Api(tags = "kafka测试")
 @Slf4j
 public class KafkaController {
+
     @Autowired
     KafkaAdmin admin;
     @Autowired
@@ -55,5 +72,25 @@ public class KafkaController {
     @ApiOperation(value = "发送数据", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
     public void testKafkaSendData(@RequestParam("topic")String topic,@RequestParam("data")String data){
         kafkaTemplate.send(topic,data);
+    }
+}
+
+
+@RestController
+@RefreshScope
+class SampleController {
+    @Autowired
+    private NacosConfigManager nacosConfigManager;
+
+    @Value("${user.name}")
+    String userName;
+
+    @Value("${user.age:25}")
+    Integer age;
+
+    @RequestMapping("/user")
+    public String simple() {
+        return "Hello Nacos Config!" + "Hello " + userName + " " + age + " [UserConfig]: "
+                + "!" + nacosConfigManager.getConfigService();
     }
 }

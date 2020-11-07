@@ -1,5 +1,16 @@
-server:
-  port: 19017
-spring:
-  application:
-    name: micro-service-spring-kafka
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+#  endpoint:
+#    health:
+#      show-details: always
+#user:
+#  name: james
+#  age: 17
+#  id: 1
+#server:
+#  port: 19016
+#  servlet:
+#    context-path: /micro-service-spring-kafka
