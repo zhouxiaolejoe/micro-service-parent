@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -31,10 +32,10 @@ public class DataBaseinfoController {
     * @Author zxl
     * @Date  2020-11-07  13:56:11
     **/
-    @GetMapping("/testRedisHashStore")
+    @GetMapping("/testRedisHashStore/{id}")
     @ApiOperation(value = "测试存储Hash数据", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public ResultBuilder testRedisHashStore() {
-        DataBaseinfo dataBaseinfo = dataBaseinfoService.testRedisHashStore();
+    public ResultBuilder testRedisHashStore(@PathVariable("id")Integer id) {
+        DataBaseinfo dataBaseinfo = dataBaseinfoService.testRedisHashStore(id);
         return ResultBuilder.success(dataBaseinfo);
     }
     /**
@@ -45,10 +46,10 @@ public class DataBaseinfoController {
     * @Author zxl
     * @Date  2020-11-07  14:24:19
     **/
-    @GetMapping("/testRedisHashStore")
+    @GetMapping("/testRedisJsonStore/{id}")
     @ApiOperation(value = "测试存储Json数据", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public ResultBuilder testRedisJsonStore() {
-        DataBaseinfo dataBaseinfo = dataBaseinfoService.testRedisJsonStore();
+    public ResultBuilder testRedisJsonStore(@PathVariable("id")Integer id) {
+        DataBaseinfo dataBaseinfo = dataBaseinfoService.testRedisJsonStore(id);
         return ResultBuilder.success(dataBaseinfo);
     }
     /**
@@ -59,10 +60,10 @@ public class DataBaseinfoController {
     * @Author zxl
     * @Date  2020-11-07  14:24:54
     **/
-    @GetMapping("/testRedisBeanStore")
+    @GetMapping("/testRedisBeanStore/{id}")
     @ApiOperation(value = "测试存储Bean数据", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public ResultBuilder testRedisBeanStore() {
-        DataBaseinfo dataBaseinfo = dataBaseinfoService.testRedisBeanStore();
+    public ResultBuilder testRedisBeanStore(@PathVariable("id")Integer id) {
+        DataBaseinfo dataBaseinfo = dataBaseinfoService.testRedisBeanStore(id);
         return ResultBuilder.success(dataBaseinfo);
     }
 }

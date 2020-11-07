@@ -79,9 +79,9 @@ public class DataBaseinfoServiceImpl implements DataBaseinfoService {
     }
 
     @Override
-    public DataBaseinfo testRedisHashStore() {
+    public DataBaseinfo testRedisHashStore(Integer id) {
         if (!redisTemplate.hasKey("dataBaseinfo_Hash")) {
-            DataBaseinfo dataBaseinfo = dataBaseinfoMapper.selectByPrimaryKey(1);
+            DataBaseinfo dataBaseinfo = dataBaseinfoMapper.selectByPrimaryKey(id);
             Map<Object, Object> beanToMap = FastJsonUtils.getBeanToMap(dataBaseinfo);
             redisTemplate.opsForHash().putAll("dataBaseinfo_Hash", beanToMap);
             return dataBaseinfo;
@@ -91,10 +91,10 @@ public class DataBaseinfoServiceImpl implements DataBaseinfoService {
     }
 
     @Override
-    public DataBaseinfo testRedisJsonStore() {
+    public DataBaseinfo testRedisJsonStore(Integer id) {
         DataBaseinfo dataBaseinfo;
         if (!redisTemplate.hasKey("dataBaseinfo_Bean")) {
-            dataBaseinfo = dataBaseinfoMapper.selectByPrimaryKey(1);
+            dataBaseinfo = dataBaseinfoMapper.selectByPrimaryKey(id);
             redisTemplate.opsForValue().set("dataBaseinfo_Bean", dataBaseinfo);
         }
         Object result = redisTemplate.opsForValue().get("dataBaseinfo_Bean");
@@ -103,10 +103,10 @@ public class DataBaseinfoServiceImpl implements DataBaseinfoService {
     }
 
     @Override
-    public DataBaseinfo testRedisBeanStore() {
+    public DataBaseinfo testRedisBeanStore(Integer id) {
         DataBaseinfo dataBaseinfo;
         if (!redisTemplate.hasKey("dataBaseinfo_Json")) {
-            dataBaseinfo = dataBaseinfoMapper.selectByPrimaryKey(1);
+            dataBaseinfo = dataBaseinfoMapper.selectByPrimaryKey(id);
             String beanToJson = FastJsonUtils.getBeanToJson(dataBaseinfo);
             redisTemplate.opsForValue().set("dataBaseinfo_Json", beanToJson);
         }

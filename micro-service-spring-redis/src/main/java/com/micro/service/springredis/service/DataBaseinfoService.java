@@ -3,6 +3,7 @@ package com.micro.service.springredis.service;
 import java.util.List;
 
 import com.micro.service.springredis.model.DataBaseinfo;
+import io.swagger.models.auth.In;
 
 /**
  * @Description
@@ -36,9 +37,9 @@ public interface DataBaseinfoService {
 
     int batchInsert(List<DataBaseinfo> list);
 
-    DataBaseinfo testRedisHashStore();
+    DataBaseinfo testRedisHashStore(Integer id);
 
-    DataBaseinfo testRedisJsonStore();
+    DataBaseinfo testRedisJsonStore(Integer id);
 
-    DataBaseinfo testRedisBeanStore();
+    DataBaseinfo testRedisBeanStore(Integer id);
 }

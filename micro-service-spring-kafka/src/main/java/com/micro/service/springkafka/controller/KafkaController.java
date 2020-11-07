@@ -2,6 +2,8 @@ package com.micro.service.springkafka.controller;
 
 import com.alibaba.cloud.nacos.NacosConfigManager;
 import com.alibaba.nacos.api.config.listener.Listener;
+import com.micro.service.tool.untils.FastJsonUtils;
+import com.micro.service.tool.untils.ResultBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -68,9 +67,10 @@ public class KafkaController {
      * @Author ZhouXiaoLe
      * @Date  2019-08-05  09:58:07
      **/
-    @GetMapping("/testKafkaSendData")
-    @ApiOperation(value = "发送数据", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public void testKafkaSendData(@RequestParam("topic")String topic,@RequestParam("data")String data){
-        kafkaTemplate.send(topic,data);
+    @PostMapping("/testKafkaSendData")
+    @ApiOperation(value = "发送数据", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
+    public ResultBuilder testKafkaSendData(@RequestParam("topic")String topic, @RequestBody Map data){
+        kafkaTemplate.send(topic, FastJsonUtils.getBeanToJson(data));
+        return ResultBuilder.success();
     }
 }
