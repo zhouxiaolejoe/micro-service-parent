@@ -34,7 +34,7 @@ public class DataBaseinfoController {
     **/
     @GetMapping("/testRedisHashStore/{id}")
     @ApiOperation(value = "测试存储Hash数据", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public ResultBuilder testRedisHashStore(@PathVariable("id")Integer id) {
+    public ResultBuilder<DataBaseinfo> testRedisHashStore(@PathVariable("id")Integer id) {
         DataBaseinfo dataBaseinfo = dataBaseinfoService.testRedisHashStore(id);
         return ResultBuilder.success(dataBaseinfo);
     }
@@ -48,7 +48,7 @@ public class DataBaseinfoController {
     **/
     @GetMapping("/testRedisJsonStore/{id}")
     @ApiOperation(value = "测试存储Json数据", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public ResultBuilder testRedisJsonStore(@PathVariable("id")Integer id) {
+    public ResultBuilder<DataBaseinfo> testRedisJsonStore(@PathVariable("id")Integer id) {
         DataBaseinfo dataBaseinfo = dataBaseinfoService.testRedisJsonStore(id);
         return ResultBuilder.success(dataBaseinfo);
     }
@@ -62,7 +62,7 @@ public class DataBaseinfoController {
     **/
     @GetMapping("/testRedisBeanStore/{id}")
     @ApiOperation(value = "测试存储Bean数据", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public ResultBuilder testRedisBeanStore(@PathVariable("id")Integer id) {
+    public ResultBuilder<DataBaseinfo> testRedisBeanStore(@PathVariable("id")Integer id) {
         DataBaseinfo dataBaseinfo = dataBaseinfoService.testRedisBeanStore(id);
         return ResultBuilder.success(dataBaseinfo);
     }

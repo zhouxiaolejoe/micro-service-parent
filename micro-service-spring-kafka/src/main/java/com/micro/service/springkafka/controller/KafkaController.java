@@ -2,6 +2,7 @@ package com.micro.service.springkafka.controller;
 
 import com.alibaba.cloud.nacos.NacosConfigManager;
 import com.alibaba.nacos.api.config.listener.Listener;
+import com.micro.service.springkafka.DataBaseinfo;
 import com.micro.service.tool.untils.FastJsonUtils;
 import com.micro.service.tool.untils.ResultBuilder;
 import io.swagger.annotations.Api;
@@ -69,7 +70,7 @@ public class KafkaController {
      **/
     @PostMapping("/testKafkaSendData")
     @ApiOperation(value = "发送数据", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
-    public ResultBuilder testKafkaSendData(@RequestParam("topic")String topic, @RequestBody Map data){
+    public ResultBuilder testKafkaSendData(@RequestParam("topic")String topic, @RequestBody DataBaseinfo data){
         kafkaTemplate.send(topic, FastJsonUtils.getBeanToJson(data));
         return ResultBuilder.success();
     }
