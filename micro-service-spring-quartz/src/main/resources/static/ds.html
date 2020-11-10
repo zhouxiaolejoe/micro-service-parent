@@ -93,6 +93,13 @@
                  autocomplete="off" class="layui-input year">
         </div>
       </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">服务id</label>
+        <div class="layui-input-block">
+          <input id = "serverid" type="text" name="serverid" lay-verify="required"
+                 autocomplete="off" class="layui-input serverid">
+        </div>
+      </div>
     </form>
 
   </div>
@@ -178,6 +185,7 @@
             var param = {
               "businessname":  $('.businessname').val(),
               "datasourceid": $('.datasourceid').val(),
+              "serverid": $('.serverid').val(),
               "url": $('.url').val(),
               "username": $('.userName').val(),
               "password": $('.passWord').val(),
@@ -340,6 +348,11 @@
             {
               field: 'createuser',
               title: '创建人',
+              sort: true
+            },
+            {
+              field: 'serverid',
+              title: '服务id',
               sort: true
             }
           ]

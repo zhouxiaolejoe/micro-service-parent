@@ -64,7 +64,8 @@ public class DataSourceServiceImpl implements DataSourceService {
 
     @Autowired
     ApplicationContext applicationContext;
-
+    @Value("${serverid}")
+    private String serverid;
     /**
      * 获取日志文件生成位置
      */
@@ -79,7 +80,7 @@ public class DataSourceServiceImpl implements DataSourceService {
             e.printStackTrace();
         }
         PageHelper.startPage(pageNo, pageSize);
-        List<DataSourceInfo> dataSourceInfos = dataSourceMapper.get();
+        List<DataSourceInfo> dataSourceInfos = dataSourceMapper.getServerId(serverid);
         PageInfo<DataSourceInfo> pageInfo = PageInfo.of(dataSourceInfos);
         Map<String, Object> result = new HashMap<>();
         List<DataSourceInfo> list = pageInfo.getList().stream().map(x -> {

@@ -31,4 +31,5 @@ public class DataSourceInfo {
 //    Integer sync;
     String province;
     String year;
+    String serverid;
 }

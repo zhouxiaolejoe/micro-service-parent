@@ -21,16 +21,23 @@
         <result column="UPDATEUSER" jdbcType="INTEGER" property="updateuser"/>
         <result column="PROVINCE" jdbcType="INTEGER" property="province"/>
         <result column="YEAR" jdbcType="INTEGER" property="year"/>
+        <result column="SERVERID" jdbcType="VARCHAR" property="serverid"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         GUID, DATASOURCEID, BUSINESSTYPE, BUSINESSNAME, URL, USERNAME, "PASSWORD", DRIVERCLASSNAME,
         CREATETIME, "CREATEUSER", UPDATETIME, UPDATEUSER, DBVERSION, ISDELETE, PUBLICKEY,
-        DATABASETYPE, ISSYNC,PROVINCE,"YEAR"
+        DATABASETYPE, ISSYNC,PROVINCE,"YEAR",SERVERID
     </sql>
     <select id="get" resultMap="BaseResultMap">
     	SELECT <include refid="Base_Column_List" /> FROM fasp_t_syncdatabase where isdelete =0 and issync =0 order by createtime desc
+    </select>
+    <select id="getServerId" resultMap="BaseResultMap">
+    	SELECT <include refid="Base_Column_List" /> FROM fasp_t_syncdatabase where isdelete =0 and issync =0 and serverid =#{serverid ,jdbcType=VARCHAR} order by createtime desc
+    </select>
+    <select id="getDatasourceId" resultMap="BaseResultMap">
+    	SELECT <include refid="Base_Column_List" /> FROM fasp_t_syncdatabase where isdelete =0 and issync =0 and datasourceid =#{datasourceid ,jdbcType=VARCHAR} order by createtime desc
     </select>
 
      <select id="getOne" resultMap="BaseResultMap">
@@ -38,9 +45,10 @@
     </select>
 
     <insert id="insertDatasourceInfo" parameterType="com.micro.service.springquartz.model.DataSourceDTO">
-    insert into fasp_t_syncdatabase (province,year,datasourceid,url, username, password,businessname, driverclassname,guid,
+    insert into fasp_t_syncdatabase (serverid,province,year,datasourceid,url, username, password,businessname, driverclassname,guid,
     createtime,businesstype,createuser,updateuser,updatetime,isdelete,issync,dbversion,databasetype)
     values(
+        #{serverid ,jdbcType=VARCHAR},
         #{province ,jdbcType=VARCHAR},
         #{year ,jdbcType=VARCHAR},
         #{datasourceid ,jdbcType=VARCHAR},

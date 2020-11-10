@@ -4,9 +4,11 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import com.micro.service.springquartz.clientapi.TableDBVersionClient;
+import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.mapper.origin.OriginMapper;
 import com.micro.service.springquartz.mapper.target.SyncRangeMapper;
 import com.micro.service.springquartz.mapper.target.TargetMapper;
+import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.model.Dic3SyncDSPO;
 import com.micro.service.springquartz.model.RestClientResultDTO;
 import com.micro.service.springquartz.service.CaffeineCacheService;
@@ -48,6 +50,7 @@ public class SyncRangeService implements IFaspClientScheduler {
     FaspAuthenticateUtils faspAuthenticateUtils;
     Cache<String, List<String>> caffeineCache;
     CaffeineCacheService caffeineCacheService;
+    DataSourceMapper dataSourceMapper;
 
     @Override
     public void start(String origin, String target) {
@@ -101,7 +104,7 @@ public class SyncRangeService implements IFaspClientScheduler {
                 if (CollectionUtils.isEmpty(sqlData)) {
                     return false;
                 }
-
+                changeService.changeDb(target);
                 createTableDynamic(tablename, sqlData, target);
 //                syncRangeMapper.createTable(tablename.trim());
             }
@@ -201,6 +204,15 @@ public class SyncRangeService implements IFaspClientScheduler {
     }
 
     private Integer syncElement(Dic3SyncDSPO po, String target) throws Exception {
+
+        /**
+         * 获取数据源年度区划
+         */
+        changeService.changeDb("mainDataSource");
+        DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
+        String province = dataSourceInfo.getProvince();
+        String year = dataSourceInfo.getYear();
+
         String requestTableName = po.getTablename();
         if ("MOFDIV".equalsIgnoreCase(po.getElementcode())) {
             requestTableName = "fasp_t_pupvd08002";
@@ -219,8 +231,12 @@ public class SyncRangeService implements IFaspClientScheduler {
                 version = DEFAULT_DIC3SYNCDS_DATE;
             }
 
-            rs = client.queryTableData1KByDBVersion(requestTableName,
-                    version, page++, tokenid);
+            if(StringUtils.isEmpty(province)&&StringUtils.isEmpty(year)){
+                rs = client.queryTableData1KByDBVersion(requestTableName, version, page++, tokenid);
+            }else {
+                rs = client.queryTableData1KByProvinceYearDBVersion(province,year,requestTableName, version, page++, tokenid);
+
+            }
             if (rs == null) {
                 syncCount = 0;
                 break;

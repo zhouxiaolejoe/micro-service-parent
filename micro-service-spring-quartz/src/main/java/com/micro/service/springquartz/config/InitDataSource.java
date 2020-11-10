@@ -5,6 +5,8 @@ import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.model.DataSourceInfo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -15,22 +17,29 @@ import java.util.List;
 
 
 /**
-* @Description
-* @Author zxl
-* @Date  2020-10-28  16:16:31
-**/
+ * @Description
+ * @Author zxl
+ * @Date 2020-10-28  16:16:31
+ **/
 @Order(-1)
 @Configuration
 @Slf4j
-@AllArgsConstructor
 public class InitDataSource implements ApplicationListener<ContextRefreshedEvent> {
+    @Autowired
     DynamicDataSource dynamicDataSource;
+    @Autowired
     DataSourceMapper dataSourceMapper;
+    @Value("${serverid}")
+    private String serverid;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        List<DataSourceInfo> dataSources = dataSourceMapper.get();
-        if (CollectionUtils.isEmpty(dataSources)){
+        List<DataSourceInfo> dataSources = dataSourceMapper.getServerId(serverid);
+        List<DataSourceInfo> mid = dataSourceMapper.getDatasourceId("mid");
+        if (!CollectionUtils.isEmpty(mid)) {
+            dataSources.addAll(mid);
+        }
+        if (CollectionUtils.isEmpty(dataSources)) {
             log.info("当前数据源列表为空");
             return;
         }

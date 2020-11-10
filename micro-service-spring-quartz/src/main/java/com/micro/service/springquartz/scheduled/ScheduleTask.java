@@ -1,22 +1,17 @@
 package com.micro.service.springquartz.scheduled;
 
-import com.micro.service.springquartz.config.log.LoggerMessage;
-import com.micro.service.springquartz.config.log.LoggerQueue;
 import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.syncapi.IFaspClientScheduler;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -33,13 +28,18 @@ import java.util.stream.Collectors;
  **/
 @Component
 @Slf4j
-@AllArgsConstructor
 public class ScheduleTask {
-//    private SimpMessageSendingOperations messagingTemplate;
+    //    private SimpMessageSendingOperations messagingTemplate;
+    @Autowired
     ExecutorService syncExecutorService;
+    @Autowired
     DataSourceMapper dataSourceMapper;
+    @Autowired
     DBChangeService dbChangeService;
+    @Autowired
     ApplicationContext context;
+    @Value("${serverid}")
+    private String serverid;
 //    /**
 //     * 推送日志到/topic/pullLogger
 //     */
@@ -64,7 +64,7 @@ public class ScheduleTask {
 
     @Scheduled(cron = "${synccron}")
     public void syncRoleService() {
-        List<DataSourceInfo> dataSourcesList = dataSourceMapper.get();
+        List<DataSourceInfo> dataSourcesList = dataSourceMapper.getServerId(serverid);
         if (dataSourcesList == null || CollectionUtils.isEmpty(dataSourcesList)) {
             return;
         }

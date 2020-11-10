@@ -32,4 +32,6 @@ public class DataSourceDTO {
     String province;
     @ApiModelProperty(value = "区划",required = false)
     String year;
+    @ApiModelProperty(value = "服务id",required = false)
+    String serverid;
 }
