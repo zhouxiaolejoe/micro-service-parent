@@ -2,6 +2,7 @@ package com.micro.service.springquartz.tree;
 
 import com.alibaba.fastjson.JSON;
 import com.micro.service.springquartz.utils.Catalog;
+import com.micro.service.springquartz.utils.JsonLogUtils;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class TestTree {
         list.add(catalog);
 
         List<Catalog> tree = getTree(list, "id");
-        System.out.println(JSON.toJSONString(tree));
+        JsonLogUtils.println(JSON.toJSONString(tree));
     }
     protected String randomUUID() {
         return UUID.randomUUID().toString().replace("-", "");
