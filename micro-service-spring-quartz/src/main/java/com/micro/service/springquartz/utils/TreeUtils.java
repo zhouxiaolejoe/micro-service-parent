@@ -88,9 +88,12 @@ public class TreeUtils {
                 childList.add(t);
             }
         }
-        if (!childList.isEmpty()) {
+        /**
+         * 子树为空也保留字段
+         */
+//        if (!childList.isEmpty()) {
             FieldUtils.writeDeclaredField(parent, childrenFieldName, childList, true);
-        }
+//        }
         return childList;
     }
 }

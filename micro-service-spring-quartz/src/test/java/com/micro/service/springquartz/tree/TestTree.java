@@ -68,7 +68,12 @@ public class TestTree {
         catalog.setId(flowId7);
         catalog.setName("name7");
         catalog.setParentId(flowId5);
+        catalog = new Catalog();
 
+        String flowId8 = randomUUID();
+        catalog.setId(flowId8);
+        catalog.setName("name8");
+        catalog.setParentId(flowId3);
 
         list.add(catalog);
 
