@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micro.service.springquartz.mapper.TableStructureMapper">
+    <update id="addTableColumn" parameterType="com.micro.service.springquartz.model.ColumnInfo">
+        alter table ${tableName}
+            add(${columnName} ${columnType}
+            <if test="columnLength != null and columnLength != ''">
+                ${columnLength}
+            </if>
+            <if test="defaulValue != null and defaulValue != ''">
+               default ${defaulValue}
+            </if>
+             <if test="empty != null and empty != ''">
+               ${empty}
+            </if>
+            )
+    </update>
+    <update id="modifyTableColumn" parameterType="com.micro.service.springquartz.model.ColumnInfo">
+        alter table ${tableName}
+            modify(${columnName} ${columnType}
+             <if test="columnLength != null and columnLength != ''">
+                ${columnLength}
+            </if>
+            <if test="defaulValue != null and defaulValue != ''">
+               default ${defaulValue}
+            </if>
+             <if test="empty != null and empty != ''">
+               ${empty}
+            </if>
+            )
+    </update>
+
+    <update id="dropTableColumn" parameterType="com.micro.service.springquartz.model.ColumnInfo">
+        alter table ${tableName} drop column ${columnName}
+    </update>
+    <update id="renameTableColumn" parameterType="com.micro.service.springquartz.model.ColumnInfo">
+        alter table ${tableName} rename column ${columnName} to ${newColumnName}
+    </update>
+
+
+    <update id="addIndexes" parameterType="com.micro.service.springquartz.model.IndexesInfo">
+        CREATE INDEX ${indexName} ON ${tableName} (
+            <foreach collection="index" item="item" separator=",">
+                ${item}
+            </foreach>
+       )
+    </update>
+
+    <update id="deleteIndexes" parameterType="com.micro.service.springquartz.model.IndexesInfo">
+        drop INDEX ${indexName}
+    </update>
+
+    <select id="seleteIndexesColumn" resultType="java.util.Map" >
+        select * from user_ind_columns where index_name = #{indexName,jdbcType=VARCHAR}
+    </select>
+
+   <select id="seleteTableIndexes" resultType="java.util.Map" >
+        select * from user_indexes where table_name = #{tableName,jdbcType=VARCHAR}
+   </select>
+   <update id="renameIndexesName" parameterType="com.micro.service.springquartz.model.IndexesInfo">
+        alter index ${indexName} rename to ${newIndexName}
+   </update>
+    <update id="createTableDynamic">
+        create table ${tablename}( ${sqlData})
+    </update>
+
+    <select id="isExistIndexes" resultType="java.lang.Boolean">
+        select count(*) from user_indexes where index_name=#{indexName,jdbcType=VARCHAR}
+    </select>
+</mapper>

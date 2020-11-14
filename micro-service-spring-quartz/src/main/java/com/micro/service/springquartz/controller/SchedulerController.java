@@ -6,7 +6,9 @@ import com.micro.service.springquartz.model.QuartzJobDTO;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.service.DataSourceService;
 import com.micro.service.springquartz.service.JobService;
+import com.micro.service.springquartz.utils.Catalog;
 import com.micro.service.springquartz.utils.ResultBuilder;
+import com.micro.service.springquartz.utils.TreeUtils;
 import freemarker.template.TemplateException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -21,7 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @ClassName SchedulerController
@@ -166,4 +171,88 @@ public class SchedulerController {
     public ResultBuilder readLogFile() {
         return dataSourceService.readLogFile();
     }
+
+
+    @GetMapping("/tree")
+    @ApiOperation(value = "tree", httpMethod = "GET")
+    public ResultBuilder getTree() {
+
+        List<Catalog> list = new ArrayList<>();
+
+        Catalog catalog = new Catalog();
+        String flowId = randomUUID();
+        catalog.setId(flowId);
+        catalog.setName("name1");
+        list.add(catalog);
+
+        catalog = new Catalog();
+        String flowId2 = randomUUID();
+        catalog.setId(flowId2);
+        catalog.setName("name2");
+        catalog.setParentId(flowId);
+        list.add(catalog);
+
+        catalog = new Catalog();
+        String flowId3 = randomUUID();
+        catalog.setId(flowId3);
+        catalog.setName("name3");
+        catalog.setParentId(flowId);
+        list.add(catalog);
+
+        catalog = new Catalog();
+        String flowId4 = randomUUID();
+        catalog.setId(flowId4);
+        catalog.setName("name4");
+        catalog.setParentId(flowId);
+        list.add(catalog);
+
+        catalog = new Catalog();
+        String flowId5 = randomUUID();
+        catalog.setId(flowId5);
+        catalog.setName("name5");
+        catalog.setParentId(flowId2);
+        list.add(catalog);
+
+        catalog = new Catalog();
+        String flowId6 = randomUUID();
+        catalog.setId(flowId6);
+        catalog.setName("name6");
+        catalog.setParentId(flowId2);
+        list.add(catalog);
+
+        catalog = new Catalog();
+        String flowId7 = randomUUID();
+        catalog.setId(flowId7);
+        catalog.setName("name7");
+        catalog.setParentId(flowId5);
+        list.add(catalog);
+
+        catalog = new Catalog();
+        String flowId8 = randomUUID();
+        catalog.setId(flowId8);
+        catalog.setName("name8");
+        catalog.setParentId(flowId3);
+        list.add(catalog);
+
+        catalog = new Catalog();
+        String flowId9 = randomUUID();
+        catalog.setId(flowId9);
+        catalog.setName("name9");
+        catalog.setParentId(flowId5);
+        list.add(catalog);
+
+
+        List<Catalog> tree = null;
+        try {
+           tree = TreeUtils.getTree(list, "id");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResultBuilder.success(tree);
+    }
+
+    protected String randomUUID() {
+        return UUID.randomUUID().toString().replace("-", "");
+    }
+
 }

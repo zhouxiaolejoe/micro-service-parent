@@ -1,15 +1,17 @@
 package com.micro.service.springquartz.tree;
 
 import com.alibaba.fastjson.JSON;
+
+import com.micro.service.springquartz.enu.TypeEnum;
 import com.micro.service.springquartz.utils.Catalog;
 import com.micro.service.springquartz.utils.JsonLogUtils;
+import com.micro.service.springquartz.utils.TreeUtils;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.micro.service.springquartz.utils.TreeUtils.getTree;
 
 /**
  * @ClassName TestTree
@@ -22,6 +24,7 @@ public class TestTree {
 
     @Test
     public void contextLoads() throws Exception {
+
         List<Catalog> list = new ArrayList<>();
 
         Catalog catalog = new Catalog();
@@ -63,25 +66,46 @@ public class TestTree {
         catalog.setId(flowId6);
         catalog.setName("name6");
         catalog.setParentId(flowId2);
+        list.add(catalog);
 
         catalog = new Catalog();
         String flowId7 = randomUUID();
         catalog.setId(flowId7);
         catalog.setName("name7");
         catalog.setParentId(flowId5);
-        catalog = new Catalog();
+        list.add(catalog);
 
+        catalog = new Catalog();
         String flowId8 = randomUUID();
         catalog.setId(flowId8);
         catalog.setName("name8");
-        catalog.setParentId(flowId3);
-
+        catalog.setParentId(flowId7);
         list.add(catalog);
 
-        List<Catalog> tree = getTree(list, "id");
+
+        String flowId9 = randomUUID();
+        catalog.setId(flowId9);
+        catalog.setName("name9");
+        catalog.setParentId(flowId8);
+        list.add(catalog);
+
+
+        List<Catalog> tree = null;
+        try {
+            tree = TreeUtils.getTree(list, "id");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         JsonLogUtils.println(JSON.toJSONString(tree));
     }
+
     protected String randomUUID() {
         return UUID.randomUUID().toString().replace("-", "");
+    }
+
+
+    @Test
+    public void contextLoads1() {
+        System.err.println(TypeEnum.VARCHAR.getName());
     }
 }
