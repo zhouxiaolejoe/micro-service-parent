@@ -80,7 +80,7 @@ public class DataSourceServiceImpl implements DataSourceService {
             e.printStackTrace();
         }
         PageHelper.startPage(pageNo, pageSize);
-        List<DataSourceInfo> dataSourceInfos = dataSourceMapper.getServerId(serverid);
+        List<DataSourceInfo> dataSourceInfos = dataSourceMapper.get();
         PageInfo<DataSourceInfo> pageInfo = PageInfo.of(dataSourceInfos);
         Map<String, Object> result = new HashMap<>();
         List<DataSourceInfo> list = pageInfo.getList().stream().map(x -> {

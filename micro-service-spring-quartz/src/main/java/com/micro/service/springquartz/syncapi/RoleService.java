@@ -80,12 +80,12 @@ public class RoleService implements IFaspClientScheduler {
             while (1000 == syncCount);
 
         } catch (Exception e) {
-            log.info("TABLENAME :[ FASP_T_CAROLE ] INFO :[" + e.getCause() + "]");
+            log.info("TARGET:" + target + " TABLENAME :[ FASP_T_CAROLE ] INFO :[" + e.getCause() + "]");
             if (e instanceof BadSqlGrammarException) {
                 try {
                     caffeineCacheService.saveUserTableView(target);
                 } catch (Exception exception) {
-                    log.error("TABLENAME :[ FASP_T_CAROLE ] ERROR :[" + exception.getCause() + "]");
+                    log.error("TARGET:" + target + " TABLENAME :[ FASP_T_CAROLE ] ERROR :[" + exception.getCause() + "]");
                 }
             }
         }

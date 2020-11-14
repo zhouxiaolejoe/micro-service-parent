@@ -122,12 +122,12 @@ public class SyncDicDSService implements IFaspClientScheduler {
                 log.info("TABLENAME :[ FASP_T_DICDS ] DBVERSION :[" + version + "  data size=" + (syncCount + 1000 * (page - 2)) + " ]");
             } while (1000 == syncCount);
         } catch (Exception e) {
-            log.info("TABLENAME :[ FASP_T_DICDS ] INFO :[" + e.getCause() + "]");
+            log.info("TARGET:" + target + "TABLENAME :[ FASP_T_DICDS ] INFO :[" + e.getCause() + "]");
             if (e instanceof BadSqlGrammarException) {
                 try {
                     caffeineCacheService.saveUserTableView(target);
                 } catch (Exception exception) {
-                    log.error("TABLENAME :[ FASP_T_DICDS ] ERROR :[" + exception.getCause() + "]");
+                    log.error("TARGET:" + target + "TABLENAME :[ FASP_T_DICDS ] ERROR :[" + exception.getCause() + "]");
                 }
             }
         }
@@ -179,12 +179,12 @@ public class SyncDicDSService implements IFaspClientScheduler {
                 log.info("TABLENAME :[ FASP_T_MGDICTABLE ] DBVERSION :[" + version + "  data size=" + (syncCount + 1000 * (page - 2)) + " ]");
             } while (1000 == syncCount);
         } catch (Exception e) {
-            log.info("TABLENAME :[ FASP_T_MGDICTABLE ] ERROR :[" + e.getCause() + "]");
+            log.info("TARGET:" + target + "TABLENAME :[ FASP_T_MGDICTABLE ] ERROR :[" + e.getCause() + "]");
             if (e instanceof BadSqlGrammarException) {
                 try {
                     caffeineCacheService.saveUserTableView(target);
                 } catch (Exception exception) {
-                    log.error("TABLENAME :[ FASP_T_MGDICTABLE ] ERROR :[" + exception.getCause() + "]");
+                    log.error("TARGET:" + target + "TABLENAME :[ FASP_T_MGDICTABLE ] ERROR :[" + exception.getCause() + "]");
                 }
             }
 
@@ -241,12 +241,12 @@ public class SyncDicDSService implements IFaspClientScheduler {
             }
             while (1000 == syncCount);
         } catch (Throwable e) {
-            log.info("TABLENAME :[ FASP_T_MGDICCOLUMN ] ERROR :[" + e.getCause() + "]");
+            log.info("TARGET:" + target + " TABLENAME :[ FASP_T_MGDICCOLUMN ] ERROR :[" + e.getCause() + "]");
             if (e instanceof BadSqlGrammarException) {
                 try {
                     caffeineCacheService.saveUserTableView(target);
                 } catch (Exception exception) {
-                    log.error("TABLENAME :[ FASP_T_MGDICCOLUMN ] ERROR :[" + exception.getCause() + "]");
+                    log.error("TARGET:" + target + " TABLENAME :[ FASP_T_MGDICCOLUMN ] ERROR :[" + exception.getCause() + "]");
                 }
             }
 

@@ -60,12 +60,12 @@ public class SyncConfigService implements IFaspClientScheduler {
             syncDicDSMapper.deleteSyncElements();
 
         } catch (Throwable e) {
-            log.info("TABLENAME :[ FASP_T_DIC3SYNCDS ] INFO :[" + e.getCause() + "]");
+            log.info("TARGET:" + target + " TABLENAME :[ FASP_T_DIC3SYNCDS ] INFO :[" + e.getCause() + "]");
             if (e instanceof BadSqlGrammarException) {
                 try {
                     caffeineCacheService.saveUserTableView(target);
                 } catch (Exception exception) {
-                    log.error("TABLENAME :[ FASP_T_DIC3SYNCDS ] ERROR :[" + exception.getCause() + "]");
+                    log.error("TARGET:" + target + " TABLENAME :[ FASP_T_DIC3SYNCDS ] ERROR :[" + exception.getCause() + "]");
                 }
             }
         }

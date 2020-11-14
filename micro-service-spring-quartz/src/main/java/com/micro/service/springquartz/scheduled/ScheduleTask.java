@@ -4,6 +4,7 @@ import com.micro.service.springquartz.mapper.DataSourceMapper;
 import com.micro.service.springquartz.model.DataSourceInfo;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.syncapi.IFaspClientScheduler;
+import com.micro.service.springquartz.utils.FastJsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,6 +64,7 @@ public class ScheduleTask {
 //    }
 
     @Scheduled(cron = "${synccron}")
+//    @Scheduled(fixedDelay = 120000)
     public void syncRoleService() {
         List<DataSourceInfo> dataSourcesList = dataSourceMapper.getServerId(serverid);
         if (dataSourcesList == null || CollectionUtils.isEmpty(dataSourcesList)) {
@@ -75,6 +77,8 @@ public class ScheduleTask {
             return true;
         }).collect(Collectors.toList());
 
+
+        log.info("数据源信息: [ " + FastJsonUtils.getBeanToJson(dataSourcesList) + " ]");
         CountDownLatch countDownLatch = new CountDownLatch(dataSourcesList.size());
         for (DataSourceInfo dataSource : dataSourcesList) {
             syncExecutorService.execute(() -> {

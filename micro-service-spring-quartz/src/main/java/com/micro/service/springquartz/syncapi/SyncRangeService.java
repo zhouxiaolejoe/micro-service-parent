@@ -54,6 +54,7 @@ public class SyncRangeService implements IFaspClientScheduler {
 
     @Override
     public void start(String origin, String target) {
+        log.info("同步基础数据：" + origin + "---" + target);
         try {
             changeService.changeDb(target);
         } catch (Exception e) {
@@ -73,7 +74,7 @@ public class SyncRangeService implements IFaspClientScheduler {
                     syncElement(po, target);
                 }
             } catch (Exception e) {
-                log.info("TABLENAME :[ " + po.getTablename() + " ] INFO :[" + e.getCause() + "]");
+                log.info("TARGET:" + target + " TABLENAME :[ " + po.getTablename() + " ] INFO :[" + e.getCause() + "]");
                 if (e instanceof BadSqlGrammarException) {
                     try {
                         if (e.getCause().toString().contains("ORA-00942")) {
@@ -82,7 +83,7 @@ public class SyncRangeService implements IFaspClientScheduler {
                         }
                         caffeineCacheService.saveUserTableView(target);
                     } catch (Exception exception) {
-                        log.error("TABLENAME :[ " + po.getTablename() + " ] ERROR :[" + exception.getCause() + "]");
+                        log.error("TARGET:" + target + " TABLENAME :[ " + po.getTablename() + " ] ERROR :[" + exception.getCause() + "]");
                     }
                 }
 
@@ -99,7 +100,8 @@ public class SyncRangeService implements IFaspClientScheduler {
         if (!exitsTable(tablename.trim().toUpperCase(), target)) {
             log.debug("create table " + tablename);
             if (!exitsView(tablename.trim().toUpperCase(), target)) {
-                changeService.changeDb(origin);
+                changeService.changeDb("mid");
+//                changeService.changeDb("mainDataSource");
                 List<Map<String, Object>> sqlData = originMapper.selectTableColumn(tablename.trim().toUpperCase());
                 if (CollectionUtils.isEmpty(sqlData)) {
                     return false;
@@ -231,10 +233,10 @@ public class SyncRangeService implements IFaspClientScheduler {
                 version = DEFAULT_DIC3SYNCDS_DATE;
             }
 
-            if(StringUtils.isEmpty(province)&&StringUtils.isEmpty(year)){
+            if (StringUtils.isEmpty(province) && StringUtils.isEmpty(year)) {
                 rs = client.queryTableData1KByDBVersion(requestTableName, version, page++, tokenid);
-            }else {
-                rs = client.queryTableData1KByProvinceYearDBVersion(province,year,requestTableName, version, page++, tokenid);
+            } else {
+                rs = client.queryTableData1KByProvinceYearDBVersion(province, year, requestTableName, version, page++, tokenid);
 
             }
             if (rs == null) {
