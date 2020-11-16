@@ -48,25 +48,26 @@ public class JsonLogUtils {
             if (value.toString().startsWith("{")) {
                 JSONObject object = new JSONObject(value.toString());
                 if (object == null || object.length() == 0) {
-                    outp(key + ":  {}", count);
+                    outp("\"" + key + "\"" + ":  {}", count);
                 } else {
-                    outp(key + ":  ", count);
+                    outp("\"" + key + "\"" + ":  ", count);
                     setJSONObjectLog(new JSONObject(value.toString()), count + 1);
                 }
             } else if (value.toString().startsWith("[")) {
                 JSONArray array = new JSONArray(value.toString());
                 if (array == null || array.length() == 0) {
-                    outp(key + ":  []", count);
+                    outp("\"" + key + "\"" + ":  []", count);
                 } else {
-                    outp(key + ":  ", count);
+                    outp("\"" + key + "\"" + ":  ", count);
                     setJSONArrayLog(new JSONArray(value.toString()), count + 1);
                 }
             } else {
-                if (value instanceof String) {
-                    outp(key + ":  " + "\"" + value + "\"" + " ,", count);
-                } else {
-                    outp(key + ":  " + value + " ,", count);
-                }
+                outp("\"" + key + "\"" + ": " + "\"" + value + "\"" + ",", count);
+//                if (value instanceof String) {
+//                    outp("\"" + key + "\"" + ": " + "\"" + value + "\"" + ",", count);
+//                } else {
+//                    outp(key + ": " + value + ",", count);
+//                }
             }
         }
         outp("}", count - 1);
@@ -92,7 +93,7 @@ public class JsonLogUtils {
                 JSONObject jsonobject = new JSONObject(string);
                 setJSONObjectLog(jsonobject, count);
             } else {
-                outp(string + " ,", count);
+                outp(string + ",", count);
             }
         }
         outp("]", count - 1);

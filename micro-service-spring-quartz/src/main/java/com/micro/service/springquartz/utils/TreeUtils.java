@@ -25,7 +25,8 @@ public class TreeUtils {
      * @return 组装后的集合
      */
     public static <T> List<T> getTree(List<T> originalList, String keyName) throws Exception {
-        String parentFieldName = "parentId";
+//        String parentFieldName = "parentId";
+        String parentFieldName = "superguid";
         String childrenFieldName = "children";
 
         // 获取根节点，即找出父节点为空的对象

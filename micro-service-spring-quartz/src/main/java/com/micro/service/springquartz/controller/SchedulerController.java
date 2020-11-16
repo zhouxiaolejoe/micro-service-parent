@@ -1,7 +1,9 @@
 package com.micro.service.springquartz.controller;
 
+import com.micro.service.springquartz.mapper.FaspTDicdstypeMapper;
 import com.micro.service.springquartz.model.DataSourceDTO;
 import com.micro.service.springquartz.model.DataSourceInfo;
+import com.micro.service.springquartz.model.FaspTDicdstype;
 import com.micro.service.springquartz.model.QuartzJobDTO;
 import com.micro.service.springquartz.service.DBChangeService;
 import com.micro.service.springquartz.service.DataSourceService;
@@ -17,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.quartz.SchedulerException;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +46,7 @@ public class SchedulerController {
     DBChangeService dbChangeService;
     DataSourceService dataSourceService;
     ApplicationContext ctx;
+    FaspTDicdstypeMapper dicdstypeMapper;
 
     @GetMapping("/getJobList")
     @ApiOperation(value = "任务列表", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
@@ -176,75 +180,9 @@ public class SchedulerController {
     @GetMapping("/tree")
     @ApiOperation(value = "tree", httpMethod = "GET")
     public ResultBuilder getTree() {
-
-        List<Catalog> list = new ArrayList<>();
-
-        Catalog catalog = new Catalog();
-        String flowId = randomUUID();
-        catalog.setId(flowId);
-        catalog.setName("name1");
-        list.add(catalog);
-
-        catalog = new Catalog();
-        String flowId2 = randomUUID();
-        catalog.setId(flowId2);
-        catalog.setName("name2");
-        catalog.setParentId(flowId);
-        list.add(catalog);
-
-        catalog = new Catalog();
-        String flowId3 = randomUUID();
-        catalog.setId(flowId3);
-        catalog.setName("name3");
-        catalog.setParentId(flowId);
-        list.add(catalog);
-
-        catalog = new Catalog();
-        String flowId4 = randomUUID();
-        catalog.setId(flowId4);
-        catalog.setName("name4");
-        catalog.setParentId(flowId);
-        list.add(catalog);
-
-        catalog = new Catalog();
-        String flowId5 = randomUUID();
-        catalog.setId(flowId5);
-        catalog.setName("name5");
-        catalog.setParentId(flowId2);
-        list.add(catalog);
-
-        catalog = new Catalog();
-        String flowId6 = randomUUID();
-        catalog.setId(flowId6);
-        catalog.setName("name6");
-        catalog.setParentId(flowId2);
-        list.add(catalog);
-
-        catalog = new Catalog();
-        String flowId7 = randomUUID();
-        catalog.setId(flowId7);
-        catalog.setName("name7");
-        catalog.setParentId(flowId5);
-        list.add(catalog);
-
-        catalog = new Catalog();
-        String flowId8 = randomUUID();
-        catalog.setId(flowId8);
-        catalog.setName("name8");
-        catalog.setParentId(flowId3);
-        list.add(catalog);
-
-        catalog = new Catalog();
-        String flowId9 = randomUUID();
-        catalog.setId(flowId9);
-        catalog.setName("name9");
-        catalog.setParentId(flowId5);
-        list.add(catalog);
-
-
-        List<Catalog> tree = null;
+        List<FaspTDicdstype> tree = null;
         try {
-           tree = TreeUtils.getTree(list, "id");
+            tree = TreeUtils.getTree(dicdstypeMapper.selectAll(), "guid");
         } catch (Exception e) {
             e.printStackTrace();
         }
