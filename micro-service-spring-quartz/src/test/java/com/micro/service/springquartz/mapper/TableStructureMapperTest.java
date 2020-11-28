@@ -4,7 +4,6 @@ import com.micro.service.springquartz.model.ColumnInfo;
 import com.micro.service.springquartz.model.IndexesInfo;
 import com.micro.service.springquartz.utils.FastJsonUtils;
 import com.micro.service.springquartz.utils.JsonLogUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * @Description
