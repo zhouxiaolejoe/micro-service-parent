@@ -2,7 +2,7 @@ spring:
   aop:
     proxy-target-class: true
   datasource:
-    url: jdbc:oracle:thin:@192.168.24.45:1521/xe
+    url: jdbc:oracle:thin:@192.168.24.130:1521/xe
     username: quartz
     password: quartz
     driverClassName: oracle.jdbc.OracleDriver
@@ -57,7 +57,8 @@ spring:
 logging:
   level:
     com.micro.service.springquartz.job: debug
-    com.micro.service.springquartz.mapper: debug
+#    com.micro.service.springquartz.syncapi: debug
+#    com.micro.service.springquartz.scheduled: debug
 #  level.com.micro.service.springquartz.job: debug
 faspclient:
   sync-start: true
@@ -75,11 +76,11 @@ feign:
 server:
   port: 19018
   servlet:
-    context-path: /pushdata
+    context-path: /pushdata3
 log:
   fileName: D:/var/logs/pushdata/log_all.log
 request:
-  url: http://192.168.24.45:19018
+  url: http://192.168.24.130:19018
 
 synccron: 0 0/2 * * * ?
 serverid: 2

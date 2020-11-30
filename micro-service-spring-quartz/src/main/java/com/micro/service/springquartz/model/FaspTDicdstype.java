@@ -18,18 +18,19 @@ import java.util.List;
  */
 @Data
 @ToString
-//@JsonIgnoreProperties(value = {"createtime","createuser","dbversion",})
+@JsonIgnoreProperties(value = {"createtime","createuser","dbversion",})
 public class FaspTDicdstype {
+
     private String guid;
 
     private String name;
-    @JsonIgnore
+
     private String createtime;
-    @JsonIgnore
+
     private String createuser;
 
     private String superguid;
-    @JsonIgnore
+
     private Date dbversion;
 
     private List<?> children;

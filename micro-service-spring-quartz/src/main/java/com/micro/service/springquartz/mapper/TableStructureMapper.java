@@ -127,5 +127,4 @@ public interface TableStructureMapper {
     * @Date  2020-11-14  15:56:00
     **/
     Integer createTableDynamic(@Param("tablename") String tablename, @Param("sqlData") String sqlData);
-
 }

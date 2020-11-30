@@ -56,7 +56,7 @@
     window.onload= function(){
         $.ajax({
             type: 'get',
-            url: REQ_URL+'/pushdata/readLogFile',
+            url: REQ_URL+BASE_URL+'/readLogFile',
             success: function (data) {
                 $("#log-container div").append(data.result);
             },

@@ -60,6 +60,7 @@ public class SyncAgencyService implements IFaspClientScheduler {
             DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
             String province = dataSourceInfo.getProvince();
             String year = dataSourceInfo.getYear();
+
             changeService.changeDb(target);
             String agencyCode = syncAgencyMapper.queryAgencyDsCodes();
             if (StringUtils.isEmpty(agencyCode)) {
@@ -86,10 +87,12 @@ public class SyncAgencyService implements IFaspClientScheduler {
                 if (StringUtils.isEmpty(agencyVersion)) {
                     agencyVersion = SyncDataUtils.DEFAULT_DBVERSION;
                 }
-                if(StringUtils.isEmpty(province)&&StringUtils.isEmpty(year)){
+                if (StringUtils.isEmpty(province) && StringUtils.isEmpty(year)) {
                     rs = client.queryTableData1KByDBVersion(agencyTableName, agencyVersion, page++, tokenid);
-                }else {
-                    rs = client.queryTableData1KByProvinceYearDBVersion(province,year,agencyTableName, agencyVersion, page++, tokenid);
+                    log.debug("TABLENAME: " + agencyTableName + " PROVINCE: " + province + " YEAR: " + year + " 单位数据不分区划: " + rs);
+                } else {
+                    rs = client.queryTableData1KByProvinceYearDBVersion(province, year, agencyTableName, agencyVersion, page++, tokenid);
+                    log.debug("TABLENAME: " + agencyTableName + " PROVINCE: " + province + " YEAR: " + year + " 单位数据: " + rs);
                 }
                 if (rs == null) {
                     log.error("从服务端获取单位数据为空！");
@@ -117,7 +120,7 @@ public class SyncAgencyService implements IFaspClientScheduler {
                 }
 
                 syncCount = data.size();
-                log.info("TABLENAME :[ " + agencyTableName + " ] DBVERSION :[" + agencyVersion + "] DATA: [ " + (syncCount + 1000 * (page - 2)) + " ]");
+                log.info("PROVINCE: " + province + " YEAR: " + year + " TABLENAME :[ " + agencyTableName + " ] DBVERSION :[" + agencyVersion + "] DATA: [ " + (syncCount + 1000 * (page - 2)) + " ]");
             }
             while (1000 == syncCount);
 
@@ -154,7 +157,6 @@ public class SyncAgencyService implements IFaspClientScheduler {
             view = view.substring(0, 30);
         }
 
-        log.debug("create or replace view " + view + " from tablename " + tablename);
         if (exitsView(view.trim().toLowerCase(), target)) {
             syncRangeMapper.createElementcodeView(tablename, view);
             syncRangeMapper.updateElementcodeView(po.getElementcode(), view);

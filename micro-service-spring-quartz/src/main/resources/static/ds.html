@@ -154,7 +154,7 @@
             data: {
               "datasourceid": isStr
             },
-            url: REQ_URL+'/pushdata/deleteDataSourceInfo',
+            url: REQ_URL+BASE_URL+'/deleteDataSourceInfo',
             success: function (data) {
               layer.msg('删除成功');
               $(".layui-layer-loading,.layui-layer-loading1").attr("style","display:none;");
@@ -198,7 +198,7 @@
               dataType: 'json',
               contentType:'application/json;charset=UTF-8',
               data: JSON.stringify(param),
-              url: REQ_URL+'/pushdata/insertDataSourceInfo',
+              url: REQ_URL+BASE_URL+'/insertDataSourceInfo',
               success: function (data) {
                 layer.msg('添加成功');
                 getTableData(page, 10);
@@ -253,7 +253,7 @@
           page: pageNo,
           limit: pageSize
         },
-        url: REQ_URL+'/pushdata/getDataSourceList',
+        url: REQ_URL+BASE_URL+'/getDataSourceList',
         success: function (res) {
           page = res.pageNO;
           pageCout = res.pageSize;

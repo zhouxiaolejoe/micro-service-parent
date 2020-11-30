@@ -51,10 +51,13 @@ public class MenuService implements IFaspClientScheduler {
     @Override
     public void start(String origin, String target) {
         try {
-//            changeService.changeDb("mainDataSource");
-//            DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
-//            String province = dataSourceInfo.getProvince();
-//            String year = dataSourceInfo.getYear();
+            changeService.changeDb("mainDataSource");
+            DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
+            String province = dataSourceInfo.getProvince();
+            String year = dataSourceInfo.getYear();
+
+
+
             changeService.changeDb(target);
             checkMenuTable(target);
             checkMenuRoleTable(target);
@@ -67,11 +70,13 @@ public class MenuService implements IFaspClientScheduler {
             int page = 1;
 
             do {
-//                if (StringUtils.isEmpty(province) && StringUtils.isEmpty(year)) {
+                if (StringUtils.isEmpty(province) && StringUtils.isEmpty(year)) {
                     rs = client.queryTableData1KByDBVersion("FASP_T_PUBMENU", userVersion, page++, tokenid);
-//                } else {
-//                    rs = client.queryTableData1KByProvinceYearDBVersion(province, year, "FASP_T_PUBMENU", userVersion, page++, tokenid);
-//                }
+                    log.debug("TABLENAME: FASP_T_PUBMENU" + " PROVINCE: " + province + " YEAR: " + year + " 用户菜单不分区划: " + rs);
+                } else {
+                    rs = client.queryTableData1KByProvinceYearDBVersion(province, year, "FASP_T_PUBMENU", userVersion, page++, tokenid);
+                    log.debug("TABLENAME: FASP_T_PUBMENU" + " PROVINCE: " + province + " YEAR: " + year + " 用户菜单: " + rs);
+                }
                 if (rs == null) {
                     break;
                 }
@@ -87,7 +92,7 @@ public class MenuService implements IFaspClientScheduler {
                     syncMenuRoleMapper((String) menu.get("GUID"));
                 }
                 syncCount = datas.size();
-                log.info("TABLENAME :[ FASP_T_PUBMENU ] DBVERSION :[" + userVersion + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
+                log.info("PROVINCE: " + province + " YEAR: " + year + " TABLENAME :[ FASP_T_PUBMENU ] DBVERSION :[" + userVersion + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
             }
             while (1000 == syncCount);
         } catch (Exception e) {

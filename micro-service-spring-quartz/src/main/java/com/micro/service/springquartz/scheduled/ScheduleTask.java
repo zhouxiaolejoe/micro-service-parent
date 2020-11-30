@@ -41,27 +41,6 @@ public class ScheduleTask {
     ApplicationContext context;
     @Value("${serverid}")
     private String serverid;
-//    /**
-//     * 推送日志到/topic/pullLogger
-//     */
-//    @PostConstruct
-//    public void pushLogger() {
-//        syncExecutorService.submit(() -> {
-//            while (true) {
-//                try {
-//                    LoggerMessage log = LoggerQueue.getInstance().poll();
-//                    if (log != null) {
-//                        if (messagingTemplate != null) {
-//                            messagingTemplate.convertAndSend("/topic/pullLogger", log);
-//                        }
-//                    }
-//                } catch (Exception e) {
-//                    log.error("推送日志出错" + e.getMessage());
-//                    ;
-//                }
-//            }
-//        });
-//    }
 
     @Scheduled(cron = "${synccron}")
 //    @Scheduled(fixedDelay = 120000)
@@ -76,9 +55,7 @@ public class ScheduleTask {
             }
             return true;
         }).collect(Collectors.toList());
-
-
-        log.info("数据源信息: [ " + FastJsonUtils.getBeanToJson(dataSourcesList) + " ]");
+        log.debug("数据源信息: [ " + FastJsonUtils.getBeanToJson(dataSourcesList) + " ]");
         CountDownLatch countDownLatch = new CountDownLatch(dataSourcesList.size());
         for (DataSourceInfo dataSource : dataSourcesList) {
             syncExecutorService.execute(() -> {

@@ -54,7 +54,6 @@ public class SyncRangeService implements IFaspClientScheduler {
 
     @Override
     public void start(String origin, String target) {
-        log.info("同步基础数据：" + origin + "---" + target);
         try {
             changeService.changeDb(target);
         } catch (Exception e) {
@@ -147,7 +146,6 @@ public class SyncRangeService implements IFaspClientScheduler {
         if (view.length() > 30) {
             view = view.substring(0, 30);
         }
-        log.debug("create or replace view " + view + " from tablename " + tablename);
         if (!exitsView(view.trim().toUpperCase(), target)) {
             syncRangeMapper.createElementcodeView(tablename, view);
             syncRangeMapper.updateElementcodeView(po.getElementcode(), view);
@@ -214,7 +212,6 @@ public class SyncRangeService implements IFaspClientScheduler {
         DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
         String province = dataSourceInfo.getProvince();
         String year = dataSourceInfo.getYear();
-
         String requestTableName = po.getTablename();
         if ("MOFDIV".equalsIgnoreCase(po.getElementcode())) {
             requestTableName = "fasp_t_pupvd08002";
@@ -235,10 +232,12 @@ public class SyncRangeService implements IFaspClientScheduler {
 
             if (StringUtils.isEmpty(province) && StringUtils.isEmpty(year)) {
                 rs = client.queryTableData1KByDBVersion(requestTableName, version, page++, tokenid);
+                log.debug("TABLENAME: " + requestTableName + " PROVINCE: " + province + " YEAR: " + year + " 基础数据不分区划: " + rs);
             } else {
                 rs = client.queryTableData1KByProvinceYearDBVersion(province, year, requestTableName, version, page++, tokenid);
-
+                log.debug("TABLENAME: " + requestTableName + " PROVINCE: " + province + " YEAR: " + year + " 基础数据: " + rs);
             }
+
             if (rs == null) {
                 syncCount = 0;
                 break;
@@ -264,7 +263,7 @@ public class SyncRangeService implements IFaspClientScheduler {
 
             updateSyncElementDateTime(po, dbVersion, target);
             syncCount = data.size();
-            log.info("TABLENAME :[ " + po.getTablename() + " ] DBVERSION :[" + po.getSyncdatetime() + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
+            log.info("PROVINCE: " + province + " YEAR: " + year + " TABLENAME :[ " + po.getTablename() + " ] DBVERSION :[" + po.getSyncdatetime() + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
         }
         while (1000 == syncCount);
         return syncCount;

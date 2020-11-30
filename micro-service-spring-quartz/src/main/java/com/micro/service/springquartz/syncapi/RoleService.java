@@ -60,8 +60,10 @@ public class RoleService implements IFaspClientScheduler {
             do {
                 if (StringUtils.isEmpty(province) && StringUtils.isEmpty(year)) {
                     rs = client.queryTableData1KByDBVersion("FASP_T_CAROLE", userVersion, page++, tokenid);
+                    log.debug("TABLENAME: FASP_T_CAROLE" + " PROVINCE: " + province + " YEAR: " + year + " 用户角色不分区划: " + rs);
                 } else {
                     rs = client.queryTableData1KByProvinceYearDBVersion(province, year, "FASP_T_CAROLE", userVersion, page++, tokenid);
+                    log.debug("TABLENAME: FASP_T_CAROLE" + " PROVINCE: " + province + " YEAR: " + year + " 用户角色: " + rs);
                 }
                 if (rs == null) {
                     break;
@@ -75,7 +77,7 @@ public class RoleService implements IFaspClientScheduler {
                     syncData(role);
                 }
                 syncCount = datas.size();
-                log.info("TABLENAME :[ FASP_T_CAROLE ] DBVERSION :[" + userVersion + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
+                log.info("PROVINCE: " + province + " YEAR: " + year + " TABLENAME :[ FASP_T_CAROLE ] DBVERSION :[" + userVersion + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
             }
             while (1000 == syncCount);
 

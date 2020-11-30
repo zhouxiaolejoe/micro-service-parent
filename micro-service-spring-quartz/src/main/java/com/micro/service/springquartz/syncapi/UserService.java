@@ -57,7 +57,6 @@ public class UserService implements IFaspClientScheduler {
             DataSourceInfo dataSourceInfo = dataSourceMapper.getOne(target);
             String province = dataSourceInfo.getProvince();
             String year = dataSourceInfo.getYear();
-
             changeService.changeDb(target);
             checkUserTable(target);
             checkUserRoleTable(target);
@@ -69,10 +68,12 @@ public class UserService implements IFaspClientScheduler {
             RestClientResultDTO<List<Map<String, Object>>> rs = null;
             int page = 1;
             do {
-                if(StringUtils.isEmpty(province)&&StringUtils.isEmpty(year)){
+                if (StringUtils.isEmpty(province) && StringUtils.isEmpty(year)) {
                     rs = client.queryTableData1KByDBVersion("FASP_T_CAUSER", userVersion, page++, tokenid);
-                }else {
-                    rs = client.queryTableData1KByProvinceYearDBVersion(province,year,"FASP_T_CAUSER", userVersion, page++, tokenid);
+                    log.debug("TABLENAME: FASP_T_CAUSER" + " PROVINCE: " + province + " YEAR: " + year + " 用户数据不分区划: " + rs);
+                } else {
+                    rs = client.queryTableData1KByProvinceYearDBVersion(province, year, "FASP_T_CAUSER", userVersion, page++, tokenid);
+                    log.debug("TABLENAME: FASP_T_CAUSER" + " PROVINCE: " + province + " YEAR: " + year + " 用户数据: " + rs);
                 }
                 if (rs == null) {
                     break;
@@ -89,7 +90,7 @@ public class UserService implements IFaspClientScheduler {
                     syncUserRoleMapper((String) user.get("GUID"));
                 }
                 syncCount = datas.size();
-                log.info("TABLENAME :[ FASP_T_CAUSER ] DBVERSION :[" + userVersion + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
+                log.info("PROVINCE: " + province + " YEAR: " + year + " TABLENAME :[ FASP_T_CAUSER ] DBVERSION :[" + userVersion + "] DATA SIZE: [ " + (syncCount + 1000 * (page - 2)) + " ]");
             }
             while (1000 == syncCount);
         } catch (Exception e) {
