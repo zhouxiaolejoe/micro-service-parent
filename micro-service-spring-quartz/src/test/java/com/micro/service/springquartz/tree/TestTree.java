@@ -6,7 +6,6 @@ import com.micro.service.springquartz.enu.TypeEnum;
 import com.micro.service.springquartz.mapper.FaspTDicdstypeMapper;
 import com.micro.service.springquartz.model.FaspTDicdstype;
 import com.micro.service.springquartz.utils.Catalog;
-import com.micro.service.springquartz.utils.JsonLogUtils;
 import com.micro.service.springquartz.utils.TreeUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
