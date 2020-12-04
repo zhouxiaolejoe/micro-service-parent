@@ -3,7 +3,7 @@ package com.micro.service.springquartz.mapper;
 import com.micro.service.springquartz.model.ColumnInfo;
 import com.micro.service.springquartz.model.IndexesInfo;
 import com.micro.service.springquartz.utils.FastJsonUtils;
-import com.micro.service.springquartz.utils.JsonLogUtils;
+import com.micro.service.tool.untils.JsonLogUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

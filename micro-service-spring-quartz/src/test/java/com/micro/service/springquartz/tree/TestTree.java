@@ -5,8 +5,11 @@ import com.alibaba.fastjson.JSON;
 import com.micro.service.springquartz.enu.TypeEnum;
 import com.micro.service.springquartz.mapper.FaspTDicdstypeMapper;
 import com.micro.service.springquartz.model.FaspTDicdstype;
+import com.micro.service.springquartz.utils.BeanCopierUtil;
 import com.micro.service.springquartz.utils.Catalog;
-import com.micro.service.springquartz.utils.TreeUtils;
+import com.micro.service.tool.untils.TreeUtils;
+import lombok.Builder;
+import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -28,12 +31,12 @@ import java.util.UUID;
  * @Version 1.0.0
  */
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
+//@SpringBootTest
+//@RunWith(SpringRunner.class)
 @Slf4j
 public class TestTree {
-    @Autowired
-    FaspTDicdstypeMapper dicdstypeMapper;
+//    @Autowired
+//    FaspTDicdstypeMapper dicdstypeMapper;
 
     @Test
     public void contextLoads() throws Exception {
@@ -124,10 +127,33 @@ public class TestTree {
     }
 
 
-    @SneakyThrows
+//    @SneakyThrows
+//    @Test
+//    public void contextLoads2() {
+//        List<FaspTDicdstype> tree = TreeUtils.getTree(dicdstypeMapper.selectAll(), "guid");
+//        log.info(JSON.toJSONString(tree));
+//    }
+
     @Test
-    public void contextLoads2() {
-        List<FaspTDicdstype> tree = TreeUtils.getTree(dicdstypeMapper.selectAll(), "guid");
-        log.info(JSON.toJSONString(tree));
+    public void contextLoads3() {
+        A a = A.builder().username("hie").password("123").build();
+
+        B b = B.builder().build();
+
+        BeanCopierUtil.copy(a,b);
+        System.err.println(b);
     }
+}
+
+@Data
+@Builder
+class A{
+    private String username;
+    private String password;
+}
+@Data
+@Builder
+class B{
+    private String username;
+    private String password;
 }
