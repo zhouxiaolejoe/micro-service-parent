@@ -5,8 +5,12 @@ import com.micro.service.springredis.model.DataBaseTwo;
 import com.micro.service.tool.until.*;
 import com.micro.service.tool.until.api.ResultBuilder;
 import com.micro.service.tool.until.beancopy.BeanCopierUtil;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,7 +45,7 @@ public class BeanCopyTest {
 
     @Test
     public void test1() {
-        String s = "http://localhost:19017/micro-service-spring-redis/micro-service-spring-redis/testPage";
+        String s = "http://localhost:19017/micro-service-spring-redis/testPage";
         String encode = Base64Util.encodeUrlSafe(s);
         System.err.println(encode);
         String decode = Base64Util.decodeUrlSafe(encode);
@@ -61,5 +65,11 @@ public class BeanCopyTest {
         map.put("id", "1");
         String s = OkHttpUtil.get(url, map);
         JsonLogUtils.print(s);
+    }
+
+    @SneakyThrows
+    @Test
+    public void test4() {
+
     }
 }

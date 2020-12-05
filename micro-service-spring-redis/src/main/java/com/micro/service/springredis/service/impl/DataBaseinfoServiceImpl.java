@@ -96,11 +96,11 @@ public class DataBaseinfoServiceImpl implements DataBaseinfoService {
     @Override
     public DataBaseinfo testRedisJsonStore(Integer id) {
         DataBaseinfo dataBaseinfo;
-        if (!redisTemplate.hasKey("dataBaseinfo_Bean_"+id)) {
+        if (!redisTemplate.hasKey("dataBaseinfo_Json_"+id)) {
             dataBaseinfo = dataBaseinfoMapper.selectByPrimaryKey(id);
-            redisTemplate.opsForValue().set("dataBaseinfo_Bean_"+id, dataBaseinfo);
+            redisTemplate.opsForValue().set("dataBaseinfo_Json_"+id, dataBaseinfo);
         }
-        Object result = redisTemplate.opsForValue().get("dataBaseinfo_Bean_"+id);
+        Object result = redisTemplate.opsForValue().get("dataBaseinfo_Json_"+id);
         dataBaseinfo = FastJsonUtils.getJsonToBean(FastJsonUtils.getBeanToJson(result), DataBaseinfo.class);
         return dataBaseinfo;
     }
@@ -108,12 +108,12 @@ public class DataBaseinfoServiceImpl implements DataBaseinfoService {
     @Override
     public DataBaseinfo testRedisBeanStore(Integer id) {
         DataBaseinfo dataBaseinfo;
-        if (!redisTemplate.hasKey("dataBaseinfo_Json_"+id)) {
+        if (!redisTemplate.hasKey("dataBaseinfo_Bean_"+id)) {
             dataBaseinfo = dataBaseinfoMapper.selectByPrimaryKey(id);
             String beanToJson = FastJsonUtils.getBeanToJson(dataBaseinfo);
-            redisTemplate.opsForValue().set("dataBaseinfo_Json_"+id, beanToJson);
+            redisTemplate.opsForValue().set("dataBaseinfo_Bean_"+id, beanToJson);
         }
-        Object result = redisTemplate.opsForValue().get("dataBaseinfo_Json_"+id);
+        Object result = redisTemplate.opsForValue().get("dataBaseinfo_Bean_"+id);
         dataBaseinfo = FastJsonUtils.getJsonToBean(result.toString(), DataBaseinfo.class);
         return dataBaseinfo;
     }
