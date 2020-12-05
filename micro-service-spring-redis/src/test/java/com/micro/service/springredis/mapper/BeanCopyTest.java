@@ -4,8 +4,7 @@ import com.micro.service.springredis.model.DataBaseOne;
 import com.micro.service.springredis.model.DataBaseTwo;
 import com.micro.service.tool.untils.FastJsonUtils;
 import com.micro.service.tool.untils.JsonLogUtils;
-import com.micro.service.tool.untils.beans.BeanCopierUtil;
-import org.intellij.lang.annotations.Language;
+import com.micro.service.tool.untils.beancopy.BeanCopierUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

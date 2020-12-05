@@ -1,4 +1,4 @@
-package com.micro.service.tool.untils.beans;
+package com.micro.service.tool.untils.beancopy;
 
 import java.lang.annotation.*;
 

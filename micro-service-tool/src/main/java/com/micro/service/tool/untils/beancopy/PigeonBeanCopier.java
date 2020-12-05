@@ -15,7 +15,7 @@
  *  Author: DreamLu 卢春梦 (596392912@qq.com)
  */
 
-package com.micro.service.tool.untils.beans;
+package com.micro.service.tool.untils.beancopy;
 
 
 import org.springframework.asm.ClassVisitor;
