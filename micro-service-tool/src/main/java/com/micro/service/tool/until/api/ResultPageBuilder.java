@@ -1,4 +1,4 @@
-package com.micro.service.tool.until;
+package com.micro.service.tool.until.api;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiModelProperty;
@@ -58,20 +58,8 @@ public class ResultPageBuilder<T> {
         return success(null);
     }
 
-    private static <T> ResultPageBuilder<T> fail(PageInfo<T> pageInfo) {
-        return resultBuilder(CODE_FAIL, MSG_FAIL, pageInfo);
-    }
-
     public static <T> ResultPageBuilder<T> fail() {
         return resultBuilder(CODE_FAIL, MSG_FAIL, null);
-    }
-
-    private static <T> ResultPageBuilder<T> fail(PageInfo<T> pageInfo, String msg) {
-        return resultBuilder(CODE_FAIL, msg, pageInfo);
-    }
-
-    private static <T> ResultPageBuilder<T> fail(int code, PageInfo<T> pageInfo, String msg) {
-        return resultBuilder(code, msg, pageInfo);
     }
 
     @Getter

@@ -3,8 +3,7 @@ package com.micro.service.springredis.service;
 import java.util.List;
 
 import com.micro.service.springredis.model.DataBaseinfo;
-import com.micro.service.tool.until.ResultPageBuilder;
-import io.swagger.models.auth.In;
+import com.micro.service.tool.until.api.ResultPageBuilder;
 
 /**
  * @Description

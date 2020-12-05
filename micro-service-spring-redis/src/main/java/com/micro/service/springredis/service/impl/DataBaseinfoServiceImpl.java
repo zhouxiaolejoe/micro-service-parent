@@ -3,7 +3,7 @@ package com.micro.service.springredis.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.micro.service.tool.until.FastJsonUtils;
-import com.micro.service.tool.until.ResultPageBuilder;
+import com.micro.service.tool.until.api.ResultPageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

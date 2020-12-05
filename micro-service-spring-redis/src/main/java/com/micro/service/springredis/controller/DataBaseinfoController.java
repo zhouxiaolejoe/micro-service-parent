@@ -2,8 +2,8 @@ package com.micro.service.springredis.controller;
 
 import com.micro.service.springredis.model.DataBaseinfo;
 import com.micro.service.springredis.service.DataBaseinfoService;
-import com.micro.service.tool.until.ResultBuilder;
-import com.micro.service.tool.until.ResultPageBuilder;
+import com.micro.service.tool.until.api.ResultBuilder;
+import com.micro.service.tool.until.api.ResultPageBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,9 +61,9 @@ public class DataBaseinfoController {
      * @Author zxl
      * @Date  2020-11-07  14:24:54
      **/
-    @GetMapping("/testRedisBeanStore/{id}")
+    @GetMapping("/testRedisBeanStore")
     @ApiOperation(value = "测试存储Bean数据", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public ResultBuilder<DataBaseinfo> testRedisBeanStore(@PathVariable("id")Integer id) {
+    public ResultBuilder<DataBaseinfo> testRedisBeanStore(@RequestParam("id")Integer id) {
         DataBaseinfo dataBaseinfo = dataBaseinfoService.testRedisBeanStore(id);
         return ResultBuilder.success(dataBaseinfo);
     }

@@ -2,7 +2,7 @@ package com.micro.service.springkafka.controller;
 
 import com.micro.service.springkafka.DataBaseinfo;
 import com.micro.service.tool.until.FastJsonUtils;
-import com.micro.service.tool.until.ResultBuilder;
+import com.micro.service.tool.until.api.ResultBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
