@@ -1,6 +1,6 @@
 package com.micro.service.springredis.model;
 
-import com.micro.service.tool.untils.beancopy.CopyProperty;
+import com.micro.service.tool.until.beancopy.CopyProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

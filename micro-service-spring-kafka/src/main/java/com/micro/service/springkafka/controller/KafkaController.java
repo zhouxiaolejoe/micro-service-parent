@@ -1,35 +1,20 @@
 package com.micro.service.springkafka.controller;
 
-import com.alibaba.cloud.nacos.NacosConfigManager;
-import com.alibaba.nacos.api.config.listener.Listener;
 import com.micro.service.springkafka.DataBaseinfo;
-import com.micro.service.tool.untils.FastJsonUtils;
-import com.micro.service.tool.untils.ResultBuilder;
+import com.micro.service.tool.until.FastJsonUtils;
+import com.micro.service.tool.until.ResultBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.startup.UserConfig;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.Executor;
 
 /**
  * @ClassName KafkaController

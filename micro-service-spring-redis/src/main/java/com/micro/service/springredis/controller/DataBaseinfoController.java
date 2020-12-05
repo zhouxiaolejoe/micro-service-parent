@@ -2,7 +2,7 @@ package com.micro.service.springredis.controller;
 
 import com.micro.service.springredis.model.DataBaseinfo;
 import com.micro.service.springredis.service.DataBaseinfoService;
-import com.micro.service.tool.untils.ResultBuilder;
+import com.micro.service.tool.until.ResultBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,20 +3,13 @@ package com.micro.service.springquartz.tree;
 import com.alibaba.fastjson.JSON;
 
 import com.micro.service.springquartz.enu.TypeEnum;
-import com.micro.service.springquartz.mapper.FaspTDicdstypeMapper;
-import com.micro.service.springquartz.model.FaspTDicdstype;
 import com.micro.service.springquartz.utils.BeanCopierUtil;
 import com.micro.service.springquartz.utils.Catalog;
-import com.micro.service.tool.untils.TreeUtils;
+import com.micro.service.tool.until.TreeUtils;
 import lombok.Builder;
 import lombok.Data;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;

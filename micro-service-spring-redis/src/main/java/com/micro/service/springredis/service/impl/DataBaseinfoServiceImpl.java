@@ -1,6 +1,6 @@
 package com.micro.service.springredis.service.impl;
 
-import com.micro.service.tool.untils.FastJsonUtils;
+import com.micro.service.tool.until.FastJsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

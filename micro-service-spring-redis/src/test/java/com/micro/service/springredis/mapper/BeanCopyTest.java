@@ -2,9 +2,10 @@ package com.micro.service.springredis.mapper;
 
 import com.micro.service.springredis.model.DataBaseOne;
 import com.micro.service.springredis.model.DataBaseTwo;
-import com.micro.service.tool.untils.FastJsonUtils;
-import com.micro.service.tool.untils.JsonLogUtils;
-import com.micro.service.tool.untils.beancopy.BeanCopierUtil;
+import com.micro.service.tool.until.FastJsonUtils;
+import com.micro.service.tool.until.JsonLogUtils;
+import com.micro.service.tool.until.ResultBuilder;
+import com.micro.service.tool.until.beancopy.BeanCopierUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class BeanCopyTest {
                 .list(Arrays.asList("1","3","5"))
                 .dataBaseTwos(Arrays.asList(dataBaseTwo1))
                 .build();
-        JsonLogUtils.print(FastJsonUtils.getBeanToJson(dataBaseOne1));
+        JsonLogUtils.print(FastJsonUtils.getBeanToJson(ResultBuilder.success(dataBaseOne1)));
 
     }
 }

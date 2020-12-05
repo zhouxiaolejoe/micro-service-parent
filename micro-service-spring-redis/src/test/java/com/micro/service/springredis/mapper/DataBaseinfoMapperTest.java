@@ -2,7 +2,7 @@ package com.micro.service.springredis.mapper;
 
 import com.micro.service.springredis.MicroServiceSpringRedisApplicationTests;
 import com.micro.service.springredis.model.DataBaseinfo;
-import com.micro.service.tool.untils.FastJsonUtils;
+import com.micro.service.tool.until.FastJsonUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import org.junit.Assert;
