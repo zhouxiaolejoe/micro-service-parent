@@ -38,18 +38,18 @@ import java.util.Map;
  * spring cglib 魔改
  * @author
  */
-public  class BladeBeanCopier {
-	private static final BladeBeanCopier.BeanCopierKey KEY_FACTORY = (BladeBeanCopier.BeanCopierKey)KeyFactory.create(BladeBeanCopier.BeanCopierKey.class);
+public  class PigeonBeanCopier {
+	private static final PigeonBeanCopier.BeanCopierKey KEY_FACTORY = (PigeonBeanCopier.BeanCopierKey)KeyFactory.create(PigeonBeanCopier.BeanCopierKey.class);
 	private static final Type CONVERTER = TypeUtils.parseType("org.springframework.cglib.core.Converter");
-	private static final Type BEAN_COPIER = TypeUtils.parseType(BladeBeanCopier.class.getName());
+	private static final Type BEAN_COPIER = TypeUtils.parseType(PigeonBeanCopier.class.getName());
 	private static final Signature COPY = new Signature("copy", Type.VOID_TYPE, new Type[]{Constants.TYPE_OBJECT, Constants.TYPE_OBJECT, CONVERTER});
 	private static final Signature CONVERT = TypeUtils.parseSignature("Object convert(Object, Class, Object)");
 
-	public static BladeBeanCopier create(Class source, Class target, boolean useConverter) {
-		return BladeBeanCopier.create(source, target, useConverter, false);
+	public static PigeonBeanCopier create(Class source, Class target, boolean useConverter) {
+		return PigeonBeanCopier.create(source, target, useConverter, false);
 	}
 
-	public static BladeBeanCopier create(Class source, Class target, boolean useConverter, boolean nonNull) {
+	public static PigeonBeanCopier create(Class source, Class target, boolean useConverter, boolean nonNull) {
 		Generator gen = new Generator();
 			gen.setSource(source);
 			gen.setTarget(target);
@@ -62,7 +62,7 @@ public  class BladeBeanCopier {
 	public void copy(Object from, Object to, Converter converter) {}
 
 	public static class Generator extends AbstractClassGenerator {
-		private static final Source SOURCE = new Source(BladeBeanCopier.class.getName());
+		private static final Source SOURCE = new Source(PigeonBeanCopier.class.getName());
 		private Class source;
 		private Class target;
 		private boolean useConverter;
@@ -105,12 +105,12 @@ public  class BladeBeanCopier {
 		}
 
 		@Override
-		public BladeBeanCopier create(Object key) {
-			return (BladeBeanCopier) super.create(key);
+		public PigeonBeanCopier create(Object key) {
+			return (PigeonBeanCopier) super.create(key);
 		}
-		public BladeBeanCopier create() {
-			Object key = BladeBeanCopier.KEY_FACTORY.newInstance(this.source.getName(), this.target.getName(), this.useConverter);
-			return (BladeBeanCopier)super.create(key);
+		public PigeonBeanCopier create() {
+			Object key = PigeonBeanCopier.KEY_FACTORY.newInstance(this.source.getName(), this.target.getName(), this.useConverter);
+			return (PigeonBeanCopier)super.create(key);
 		}
 		@Override
 		public void generateClass(ClassVisitor v) {

@@ -9,7 +9,7 @@ public class BeanCopierUtil {
     /**
      * BeanCopier的缓存
      */
-    static final ConcurrentHashMap<String, BladeBeanCopier> BEAN_COPIER_CACHE = new ConcurrentHashMap<>();
+    static final ConcurrentHashMap<String, PigeonBeanCopier> BEAN_COPIER_CACHE = new ConcurrentHashMap<>();
 
     /**
      * BeanCopier的copy
@@ -19,11 +19,11 @@ public class BeanCopierUtil {
      */
     public static void copy(Object source, Object target) {
         String key = genKey(source.getClass(), target.getClass());
-        BladeBeanCopier beanCopier;
+        PigeonBeanCopier beanCopier;
         if (BEAN_COPIER_CACHE.containsKey(key)) {
             beanCopier = BEAN_COPIER_CACHE.get(key);
         } else {
-            beanCopier = BladeBeanCopier.create(source.getClass(), target.getClass(), false);
+            beanCopier = PigeonBeanCopier.create(source.getClass(), target.getClass(), false);
             BEAN_COPIER_CACHE.put(key, beanCopier);
         }
         beanCopier.copy(source, target, null);

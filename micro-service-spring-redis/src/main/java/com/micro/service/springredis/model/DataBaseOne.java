@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName DataBaseOne
@@ -25,4 +26,6 @@ import java.util.Date;
 public class DataBaseOne {
     private String username;
     private String password;
+    private List<String> list;
+    private List<DataBaseTwo> dataBaseTwos;
 }

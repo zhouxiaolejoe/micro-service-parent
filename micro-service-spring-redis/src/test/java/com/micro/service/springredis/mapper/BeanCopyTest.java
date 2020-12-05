@@ -2,9 +2,13 @@ package com.micro.service.springredis.mapper;
 
 import com.micro.service.springredis.model.DataBaseOne;
 import com.micro.service.springredis.model.DataBaseTwo;
+import com.micro.service.tool.untils.FastJsonUtils;
+import com.micro.service.tool.untils.JsonLogUtils;
 import com.micro.service.tool.untils.beans.BeanCopierUtil;
-import com.micro.service.tool.untils.beans.BladeBeanCopier;
+import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 /**
  * @ClassName BeanCopyTest
@@ -19,7 +23,16 @@ public class BeanCopyTest {
         DataBaseOne dataBaseOne = DataBaseOne.builder().username("joe").password("123").build();
         DataBaseTwo dataBaseTwo = DataBaseTwo.builder().build();
         BeanCopierUtil.copy(dataBaseOne,dataBaseTwo);
-        System.err.println(dataBaseTwo);
+        JsonLogUtils.print(FastJsonUtils.getBeanToJson(dataBaseTwo));
+
+        DataBaseTwo dataBaseTwo1 = DataBaseTwo.builder().name("joe").pwd("123").build();
+        DataBaseOne dataBaseOne1 = DataBaseOne.builder()
+                .username("joe")
+                .password("123")
+                .list(Arrays.asList("1","3","5"))
+                .dataBaseTwos(Arrays.asList(dataBaseTwo1))
+                .build();
+        JsonLogUtils.print(FastJsonUtils.getBeanToJson(dataBaseOne1));
 
     }
 }
