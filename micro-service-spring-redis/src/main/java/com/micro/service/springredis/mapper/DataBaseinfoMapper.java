@@ -33,4 +33,8 @@ public interface DataBaseinfoMapper {
     int updateBatchSelective(List<DataBaseinfo> list);
 
     int batchInsert(@Param("list") List<DataBaseinfo> list);
+
+    List<DataBaseinfo> selectAll();
+
+
 }

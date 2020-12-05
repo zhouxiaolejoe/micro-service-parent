@@ -1,6 +1,9 @@
 package com.micro.service.springredis.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.micro.service.tool.until.FastJsonUtils;
+import com.micro.service.tool.until.ResultPageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -113,6 +116,13 @@ public class DataBaseinfoServiceImpl implements DataBaseinfoService {
         Object result = redisTemplate.opsForValue().get("dataBaseinfo_Json_"+id);
         dataBaseinfo = FastJsonUtils.getJsonToBean(result.toString(), DataBaseinfo.class);
         return dataBaseinfo;
+    }
+
+    @Override
+    public ResultPageBuilder testPage(Integer page,Integer pageSize) {
+        PageHelper.startPage(page,pageSize);
+        List<DataBaseinfo> dataBaseinfos = dataBaseinfoMapper.selectAll();
+        return ResultPageBuilder.success(PageInfo.of(dataBaseinfos));
     }
 
     @Override

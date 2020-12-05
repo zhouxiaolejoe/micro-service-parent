@@ -3,6 +3,7 @@ package com.micro.service.springredis.service;
 import java.util.List;
 
 import com.micro.service.springredis.model.DataBaseinfo;
+import com.micro.service.tool.until.ResultPageBuilder;
 import io.swagger.models.auth.In;
 
 /**
@@ -42,4 +43,6 @@ public interface DataBaseinfoService {
     DataBaseinfo testRedisJsonStore(Integer id);
 
     DataBaseinfo testRedisBeanStore(Integer id);
+
+    ResultPageBuilder testPage(Integer page,Integer pageSize);
 }
