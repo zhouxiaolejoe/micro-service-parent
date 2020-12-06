@@ -5,6 +5,7 @@ import com.micro.service.springredis.model.DataBaseTwo;
 import com.micro.service.tool.until.*;
 import com.micro.service.tool.until.api.ResultBuilder;
 import com.micro.service.tool.until.beancopy.BeanCopierUtil;
+import com.wf.captcha.utils.CaptchaUtil;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
