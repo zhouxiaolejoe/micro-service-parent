@@ -101,13 +101,13 @@ public class TableStructureMapperTest {
     @Test
     public void seleteIndexesColumn() {
         List<Map<String, Object>> guidAdmdiv = tableStructureMapper.seleteIndexesColumn("GUID_ADMDIV");
-        JsonLogUtils.println(FastJsonUtils.getBeanToJson(guidAdmdiv));
+        JsonLogUtils.print(FastJsonUtils.getBeanToJson(guidAdmdiv));
     }
 
     @Test
     public void seleteTableIndexes() {
         List<Map<String, Object>> faspTCarole = tableStructureMapper.seleteTableIndexes("FASP_T_CAROLE");
-        JsonLogUtils.println(FastJsonUtils.getBeanToJson(faspTCarole));
+        JsonLogUtils.print(FastJsonUtils.getBeanToJson(faspTCarole));
     }
 
     @Test
