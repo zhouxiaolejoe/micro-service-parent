@@ -36,7 +36,6 @@ begin
         )';
     END IF;
     --迁移原先码表数据 
-  
     SELECT COUNT(*)
       INTO J
       FROM USER_TABLES T
