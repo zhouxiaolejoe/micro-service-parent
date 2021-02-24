@@ -2,7 +2,7 @@ declare
   J integer;
   I integer;
   cursor t_tables is
-    select * from ele_catalog where ele_catalog_code = 'VD99999';
+    select * from ele_catalog where ele_catalog_code in ('VD88888','VD99999');
 begin
   for t_row in t_tables loop
     --如果财政部规范表不存在创建通用表结构
@@ -11,6 +11,7 @@ begin
       FROM USER_TABLES T
      WHERE T.TABLE_NAME = t_row.ele_source;
     IF I < 1 THEN 
+      dbms_output.put_line(t_row.ele_source);
       execute immediate '
        create table ' || t_row.ele_source || '
         ( 
@@ -31,8 +32,9 @@ begin
           create_time      DATE,
           update_time      DATE,
           start_date       DATE,
-          end_date         DATE,
-          '||case when t_row.ele_source <> 'ELE_UNION' then 'admdiv           VARCHAR2(50)' end ||')';
+          '||case when t_row.ele_source <> 'ELE_UNION' then 'admdiv           VARCHAR2(50),' end ||'
+          end_date         DATE
+          )';
     END IF;
     --迁移原先码表数据 
     SELECT COUNT(*)
@@ -41,7 +43,7 @@ begin
      WHERE T.TABLE_NAME = 'FASP_T_PUP' || t_row.ele_catalog_code;
     IF J > 0 THEN
        execute immediate '
-        insert into ELE_' || t_row.ele_catalog_code || '('
+        insert into ' || t_row.ele_source || '('
          ||case when t_row.ele_source <> 'ELE_UNION' then 'admdiv,' end ||
          'ele_catalog_id,
          ele_catalog_code,
@@ -104,9 +106,10 @@ begin
     if i < 1 then
     execute immediate '
     insert all
+    '||case when t_row.ele_source <> 'ELE_UNION' then '
       into ele_diccolumn_2021 (COL_ID, ELE_SOURCE, ELEMENT_CODE, ELEMENT_NAME, ELEMENT_EL_CODE, ELEMENT_DATATYPE, ELEMENT_DATALENGTH, ELEMENT_DATATYPE_FORMAT, ELE_CATALOG_ID, REMARK, SOURCETEXT, ISSHOW, ISUSES, CREATE_TIME, UPDATE_TIME, END_DATE, YEAR, PROVINCE, DEFAULTVALUE, COMPEL_OR_CHOICE, ELEMENT_ID, ACTUAL_DATATYPE, IS_VIEW, IS_EDIT, IS_KEY, PHYSICS_FIELD)
       values ('''||sys_guid()||''', ''' || t_row.ele_catalog_code || ''', ''AD00001'', ''区划id'', ''ADMDIV'', ''GBString'', ''50'', ''oracle'', ''32002kttmPxx'', null, ''1'', ''1'', ''1'', to_date(to_char(sysdate, ''yyyyMMddHH24:mm:ss''),''yyyy/MM/dd HH24:mi:ss''), to_date(to_char(sysdate, ''yyyyMMddHH24:mm:ss''),''yyyy/MM/dd HH24:mi:ss''), to_date(to_char(sysdate, ''yyyyMMdd''), ''yyyy/MM/dd''), ''2021'', ''109900000'', null, ''0'', ''24BE6B39D77F4EF090ACA84553666311'', ''varchar2'', ''1'', ''1'', ''0'', ''ADMDIV'')
-
+     'end ||'
       into ele_diccolumn_2021 (COL_ID, ELE_SOURCE, ELEMENT_CODE, ELEMENT_NAME, ELEMENT_EL_CODE, ELEMENT_DATATYPE, ELEMENT_DATALENGTH, ELEMENT_DATATYPE_FORMAT, ELE_CATALOG_ID, REMARK, SOURCETEXT, ISSHOW, ISUSES, CREATE_TIME, UPDATE_TIME, END_DATE, YEAR, PROVINCE, DEFAULTVALUE, COMPEL_OR_CHOICE, ELEMENT_ID, ACTUAL_DATATYPE, IS_VIEW, IS_EDIT, IS_KEY, PHYSICS_FIELD)
       values ('''||sys_guid()||''', ''' || t_row.ele_catalog_code || ''', ''BE00001'', ''目录主键'', ''ELECATALOGID'', ''String'', ''38'', ''oracle'', ''32002kttmPxx'', null, ''1'', ''1'', ''1'', to_date(to_char(sysdate, ''yyyyMMddHH24:mm:ss''),''yyyy/MM/dd HH24:mi:ss''), to_date(to_char(sysdate, ''yyyyMMddHH24:mm:ss''),''yyyy/MM/dd HH24:mi:ss''), to_date(to_char(sysdate, ''yyyyMMdd''), ''yyyy/MM/dd''), ''2021'', ''109900000'', null, ''0'', ''00001'', ''varchar2'', ''1'', ''1'', ''0'', ''ELE_CATALOG_ID'')
 
@@ -154,10 +157,11 @@ begin
 
       into ele_diccolumn_2021 (COL_ID, ELE_SOURCE, ELEMENT_CODE, ELEMENT_NAME, ELEMENT_EL_CODE, ELEMENT_DATATYPE, ELEMENT_DATALENGTH, ELEMENT_DATATYPE_FORMAT, ELE_CATALOG_ID, REMARK, SOURCETEXT, ISSHOW, ISUSES, CREATE_TIME, UPDATE_TIME, END_DATE, YEAR, PROVINCE, DEFAULTVALUE, COMPEL_OR_CHOICE, ELEMENT_ID, ACTUAL_DATATYPE, IS_VIEW, IS_EDIT, IS_KEY, PHYSICS_FIELD)
       values ('''||sys_guid()||''', ''' || t_row.ele_catalog_code || ''', ''BE00036'', ''创建时间'', ''CREATETIME'', ''DateTime'', null, ''oracle'', ''32002kttmPxx'', null, ''1'', ''1'', ''1'', to_date(to_char(sysdate, ''yyyyMMddHH24:mm:ss''),''yyyy/MM/dd HH24:mi:ss''), to_date(to_char(sysdate, ''yyyyMMddHH24:mm:ss''),''yyyy/MM/dd HH24:mi:ss''), to_date(to_char(sysdate, ''yyyyMMdd''), ''yyyy/MM/dd''), ''2021'', ''109900000'', null, ''0'', ''00036'', ''Date'', ''1'', ''1'', ''0'', ''CREATE_TIME'')
-
+      '
+      ||case when t_row.ele_source <> 'ELE_UNION' then '
       into ele_diccolumn_2021 (COL_ID, ELE_SOURCE, ELEMENT_CODE, ELEMENT_NAME, ELEMENT_EL_CODE, ELEMENT_DATATYPE, ELEMENT_DATALENGTH, ELEMENT_DATATYPE_FORMAT, ELE_CATALOG_ID, REMARK, SOURCETEXT, ISSHOW, ISUSES, CREATE_TIME, UPDATE_TIME, END_DATE, YEAR, PROVINCE, DEFAULTVALUE, COMPEL_OR_CHOICE, ELEMENT_ID, ACTUAL_DATATYPE, IS_VIEW, IS_EDIT, IS_KEY, PHYSICS_FIELD)
       values ('''||sys_guid()||''', ''' || t_row.ele_catalog_code || ''', ''REM0001'', ''备注'', ''REMARK'', ''GBString'', ''200'', ''oracle'', ''32002kttmPxx'', null, ''1'', ''1'', ''1'', to_date(to_char(sysdate, ''yyyyMMddHH24:mm:ss''),''yyyy/MM/dd HH24:mi:ss''), to_date(to_char(sysdate, ''yyyyMMddHH24:mm:ss''),''yyyy/MM/dd HH24:mi:ss''), to_date(to_char(sysdate, ''yyyyMMdd''), ''yyyy/MM/dd''), ''2021'', ''109900000'', null, ''0'', ''D82ACDAAEA5D4AD3AB5401042EA44890'', ''varchar2'', ''1'', ''1'', ''0'', ''REMARK'')
-
+     'end ||'
       into ele_diccolumn_2021 (COL_ID, ELE_SOURCE, ELEMENT_CODE, ELEMENT_NAME, ELEMENT_EL_CODE, ELEMENT_DATATYPE, ELEMENT_DATALENGTH, ELEMENT_DATATYPE_FORMAT, ELE_CATALOG_ID, REMARK, SOURCETEXT, ISSHOW, ISUSES, CREATE_TIME, UPDATE_TIME, END_DATE, YEAR, PROVINCE, DEFAULTVALUE, COMPEL_OR_CHOICE, ELEMENT_ID, ACTUAL_DATATYPE, IS_VIEW, IS_EDIT, IS_KEY, PHYSICS_FIELD)
       values ('''||sys_guid()||''', ''' || t_row.ele_catalog_code || ''', ''BE00001'', ''目录编码'', ''ELECATALOGCODE'', ''String'', ''38'', ''oracle'', ''32002kttmPxx'', null, ''1'', ''1'', ''1'', to_date(to_char(sysdate, ''yyyyMMddHH24:mm:ss''),''yyyy/MM/dd HH24:mi:ss''), to_date(to_char(sysdate, ''yyyyMMddHH24:mm:ss''),''yyyy/MM/dd HH24:mi:ss''), to_date(to_char(sysdate, ''yyyyMMdd''), ''yyyy/MM/dd''), ''2021'', ''109900000'', null, ''0'', ''00001'', ''varchar2'', ''1'', ''1'', ''0'', ''ELE_CATALOG_CODE'')       
       select * from dual';
