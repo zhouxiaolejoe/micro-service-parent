@@ -61,7 +61,7 @@ insert into ele_element
          '1' typeguid,
          (select t.actual_code
             from ele_datatype_enum t
-           where t.rule_code = f.datatype) actual_datatype,
+           where lower(t.rule_code) = lower(f.datatype)) actual_datatype,
          elementcode physics_field,
          substr(replace(f.rangesrc, '"', ''), 0, 7) ele_catalog_code,
          rangesrc
@@ -96,7 +96,7 @@ insert into ele_catalog
          code,
          name,
          province,
-         tablecode,
+         'ELE_'||code,
          '1' ele_extend_type,
          '1' ele_manage_type,
          to_date(to_char(sysdate, 'yyyyMMdd'), 'yyyy/MM/dd'),
