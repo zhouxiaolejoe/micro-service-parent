@@ -44,7 +44,7 @@ insert into ele_element
            when status = '3' then
             '2'
          end IS_ENABLED,
-         to_date(to_char(sysdate, 'yyyyMMddHH24:mm:ss'),
+         to_date(to_char(sysdate, 'yyyyMMddHH24:mi:ss'),
                  'yyyy/MM/dd HH24:mi:ss'),
          case
            when status = '1' then
@@ -54,7 +54,7 @@ insert into ele_element
            when status = '3' then
             '1'
          end IS_DELETED,
-         to_date(to_char(sysdate, 'yyyyMMddHH24:mm:ss'),
+         to_date(to_char(sysdate, 'yyyyMMddHH24:mi:ss'),
                  'yyyy/MM/dd HH24:mi:ss'),
          province,
          year,
@@ -109,7 +109,7 @@ insert into ele_catalog
            when status = '3' then
             '2'
          end IS_ENABLED,
-         to_date(to_char(sysdate, 'yyyyMMddHH24:mm:ss'),
+         to_date(to_char(sysdate, 'yyyyMMddHH24:mi:ss'),
                  'yyyy/MM/dd HH24:mi:ss'),
          '1' is_standard,
          case
@@ -120,7 +120,7 @@ insert into ele_catalog
            when status = '3' then
             '1'
          end IS_DELETED,
-         to_date(to_char(sysdate, 'yyyyMMddHH24:mm:ss'),
+         to_date(to_char(sysdate, 'yyyyMMddHH24:mi:ss'),
                  'yyyy/MM/dd HH24:mi:ss'),
          '1' hq_type,
          year,
@@ -163,9 +163,9 @@ insert into ele_dictable
    REMARK,
    '1' ISSHOW,
    '1' ISUSES,
-    to_date(to_char(sysdate, 'yyyyMMddHH24:mm:ss'),
+    to_date(to_char(sysdate, 'yyyyMMddHH24:mi:ss'),
                  'yyyy/MM/dd HH24:mi:ss'),
-    to_date(to_char(sysdate, 'yyyyMMddHH24:mm:ss'),
+    to_date(to_char(sysdate, 'yyyyMMddHH24:mi:ss'),
                  'yyyy/MM/dd HH24:mi:ss'),   
     to_date(to_char(sysdate, 'yyyyMMdd'), 'yyyy/MM/dd'),    
     NVL(YEAR,'2021'),
