@@ -123,7 +123,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
             } while (1000 == syncCount);
         } catch (Exception e) {
             log.info("TARGET:" + target + "TABLENAME :[ FASP_T_DICDS ] INFO :[" + e.getCause() + "]");
-            if (e instanceof BadSqlGrammarException) {
+            if (e instanceof Exception) {
                 try {
                     caffeineCacheService.saveUserTableView(target);
                 } catch (Exception exception) {
@@ -180,7 +180,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
             } while (1000 == syncCount);
         } catch (Exception e) {
             log.info("TARGET:" + target + "TABLENAME :[ FASP_T_MGDICTABLE ] ERROR :[" + e.getCause() + "]");
-            if (e instanceof BadSqlGrammarException) {
+            if (e instanceof Exception) {
                 try {
                     caffeineCacheService.saveUserTableView(target);
                 } catch (Exception exception) {
@@ -242,7 +242,7 @@ public class SyncDicDSService implements IFaspClientScheduler {
             while (1000 == syncCount);
         } catch (Throwable e) {
             log.info("TARGET:" + target + " TABLENAME :[ FASP_T_MGDICCOLUMN ] ERROR :[" + e.getCause() + "]");
-            if (e instanceof BadSqlGrammarException) {
+            if (e instanceof Exception) {
                 try {
                     caffeineCacheService.saveUserTableView(target);
                 } catch (Exception exception) {

@@ -11,7 +11,7 @@ import com.github.pagehelper.PageHelper;
 import com.micro.service.mybatisplus.MicroServiceMybatisPlusApplicationTests;
 import com.micro.service.mybatisplus.model.DataBaseinfo;
 import com.micro.service.mybatisplus.model.User100w;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
@@ -31,25 +31,20 @@ public class DataBaseinfoMapperTest extends MicroServiceMybatisPlusApplicationTe
     DataBaseinfoMapper dataBaseinfoMapper;
     @Autowired
     User100wMapper user100wMapper;
-    @Test
     public void updateBatch() {
         DataBaseinfo dataBaseinfo = dataBaseinfoMapper.selectById("1");
         System.err.println(dataBaseinfo);
     }
 
-    @Test
     public void batchInsert() {
     }
 
-    @Test
     public void insertOrUpdate() {
     }
 
-    @Test
     public void insertOrUpdateSelective() {
     }
 
-    @Test
     public void test01(){
         Map<String, Object> map = new HashMap<>();
         map.put("first_name", "李");

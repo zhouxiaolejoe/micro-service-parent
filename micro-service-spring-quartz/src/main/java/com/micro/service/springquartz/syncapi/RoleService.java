@@ -83,7 +83,7 @@ public class RoleService implements IFaspClientScheduler {
 
         } catch (Exception e) {
             log.info("TARGET:" + target + " TABLENAME :[ FASP_T_CAROLE ] INFO :[" + e.getCause() + "]");
-            if (e instanceof BadSqlGrammarException) {
+            if (e instanceof Exception) {
                 try {
                     caffeineCacheService.saveUserTableView(target);
                 } catch (Exception exception) {

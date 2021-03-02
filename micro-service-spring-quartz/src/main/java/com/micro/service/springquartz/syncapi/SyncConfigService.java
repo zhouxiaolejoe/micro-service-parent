@@ -61,7 +61,7 @@ public class SyncConfigService implements IFaspClientScheduler {
 
         } catch (Throwable e) {
             log.info("TARGET:" + target + " TABLENAME :[ FASP_T_DIC3SYNCDS ] INFO :[" + e.getCause() + "]");
-            if (e instanceof BadSqlGrammarException) {
+            if (e instanceof Exception) {
                 try {
                     caffeineCacheService.saveUserTableView(target);
                 } catch (Exception exception) {

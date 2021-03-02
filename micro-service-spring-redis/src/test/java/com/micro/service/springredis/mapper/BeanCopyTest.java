@@ -71,6 +71,22 @@ public class BeanCopyTest {
     @SneakyThrows
     @Test
     public void test4() {
+        String indexName = "PK_VD1000_ELE_ID_ELE_CODE_ELE_NAME";
+        String indexNameStr = indexName.toString();
+        if(indexName.length()>30){
+            indexNameStr= indexNameStr.substring(0,30);
+            String suffix = indexNameStr.substring(indexNameStr.length() - 1);
+            if ("_".equals(suffix)){
+                indexNameStr=indexNameStr.substring(0,indexNameStr.length()-1);
+            }
 
+        }
+        System.err.println(indexNameStr);
+
+        String tableName = "PM_FG3123_LOG";
+
+        String substring = tableName.substring(tableName.length() - 4);
+
+        System.err.println(substring);
     }
 }

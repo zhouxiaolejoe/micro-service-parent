@@ -49,12 +49,8 @@ public class ScheduleTask {
         if (dataSourcesList == null || CollectionUtils.isEmpty(dataSourcesList)) {
             return;
         }
-        dataSourcesList = dataSourcesList.stream().filter(x -> {
-            if (x.getDatasourceid().equals("mid")) {
-                return false;
-            }
-            return true;
-        }).collect(Collectors.toList());
+        dataSourcesList = dataSourcesList.stream().filter(x -> !x.getDatasourceid().equals("mid")).collect(Collectors.toList());
+
         log.debug("数据源信息: [ " + FastJsonUtils.getBeanToJson(dataSourcesList) + " ]");
         CountDownLatch countDownLatch = new CountDownLatch(dataSourcesList.size());
         for (DataSourceInfo dataSource : dataSourcesList) {

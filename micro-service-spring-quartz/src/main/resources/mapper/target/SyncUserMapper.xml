@@ -18,7 +18,7 @@
 	</select>
 
 	<insert id="insertUserDataString">
-		insert into FASP_T_CAUSER(issys,guid,admintype,usertype,status,loginmode,code,name,createdate,updatedate,agency,logindate,idcode,phonenumber,email,division,remark,year,province,upagencyid,bank,admdiv,pinyin,ordernum,paytypeflag,salarytypeflag,speaccttypeflag,bgttypeflag,istown,ak,dbversion)
+		insert into FASP_T_CAUSER_SS(issys,guid,admintype,usertype,status,loginmode,code,name,createdate,updatedate,agency,logindate,idcode,phonenumber,email,division,remark,year,province,upagencyid,bank,admdiv,pinyin,ordernum,paytypeflag,salarytypeflag,speaccttypeflag,bgttypeflag,istown,ak,dbversion)
 		values(
 			#{ISSYS          ,jdbcType=INTEGER},
 			#{GUID           ,jdbcType=VARCHAR},
@@ -133,7 +133,7 @@
 	</update>
 
     <delete id="deleteUserData">
-		delete from FASP_T_CAUSER where guid = #{GUID,jdbcType=VARCHAR}
+		delete from FASP_T_CAUSER_SS where guid = #{GUID,jdbcType=VARCHAR}
         <choose>
             <when test=" YEAR != null and YEAR != '' ">
                 and year = #{YEAR,jdbcType=VARCHAR}

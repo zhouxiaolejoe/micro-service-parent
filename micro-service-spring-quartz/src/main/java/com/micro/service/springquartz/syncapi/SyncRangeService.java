@@ -74,7 +74,7 @@ public class SyncRangeService implements IFaspClientScheduler {
                 }
             } catch (Exception e) {
                 log.info("TARGET:" + target + " TABLENAME :[ " + po.getTablename() + " ] INFO :[" + e.getCause() + "]");
-                if (e instanceof BadSqlGrammarException) {
+                if (e instanceof Exception) {
                     try {
                         if (e.getCause().toString().contains("ORA-00942")) {
                             changeService.changeDb(target);

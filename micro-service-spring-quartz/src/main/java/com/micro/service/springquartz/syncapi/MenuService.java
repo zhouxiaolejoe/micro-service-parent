@@ -97,7 +97,7 @@ public class MenuService implements IFaspClientScheduler {
             while (1000 == syncCount);
         } catch (Exception e) {
             log.info("TARGET:" + target + " TABLENAME :[ FASP_T_PUBMENU ] INFO :[" + e.getCause() + "]");
-            if (e instanceof BadSqlGrammarException) {
+            if (e instanceof Exception) {
                 try {
                     caffeineCacheService.saveUserTableView(target);
                 } catch (Exception exception) {

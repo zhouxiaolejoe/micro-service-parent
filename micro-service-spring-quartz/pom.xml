@@ -49,26 +49,26 @@
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-swagger2</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-swagger-ui</artifactId>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>com.github.xiaoymin</groupId>-->
-<!--            <artifactId>swagger-bootstrap-ui</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>2.0.8</version>
+            <artifactId>swagger-bootstrap-ui</artifactId>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>com.github.xiaoymin</groupId>-->
+<!--            <artifactId>knife4j-spring-boot-starter</artifactId>-->
+<!--            <version>2.0.8</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
@@ -213,13 +213,13 @@
 <!--                </dependencies>-->
 <!--                <configuration>-->
 <!--                    &lt;!&ndash;username&ndash;&gt;-->
-<!--                    <username>mid_32dev</username>-->
+<!--                    <username>tom</username>-->
 <!--                    &lt;!&ndash;password&ndash;&gt;-->
-<!--                    <password>mid_32dev</password>-->
+<!--                    <password>tom</password>-->
 <!--                    &lt;!&ndash;driver&ndash;&gt;-->
 <!--                    <driverClassName>oracle.jdbc.OracleDriver</driverClassName>-->
 <!--                    &lt;!&ndash;jdbc url&ndash;&gt;-->
-<!--                    <jdbcUrl>jdbc:oracle:thin:@124.70.156.65:1521/orcl</jdbcUrl>-->
+<!--                    <jdbcUrl>jdbc:oracle:thin:@192.168.24.130:1521/xe</jdbcUrl>-->
 <!--                    &lt;!&ndash;生成文件类型&ndash;&gt;-->
 <!--                    <fileType>MD</fileType>-->
 <!--                    &lt;!&ndash;文件输出目录&ndash;&gt;-->
@@ -234,6 +234,18 @@
 <!--                    <version>${project.version}</version>-->
 <!--                    &lt;!&ndash;标题&ndash;&gt;-->
 <!--                    <title>数据库文档</title>-->
+<!--&lt;!&ndash;                    <tablePrefix>QRTZ_</tablePrefix>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <designatedTableName>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tableName>ELE_CATALOG</tableName>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tableName>ELE_CATALOG_TYPE</tableName>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tableName>ELE_DICTABLE</tableName>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tableName>ELE_DICCOLUMN</tableName>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tableName>ELE_COLS_STRUCTURE</tableName>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tableName>ELE_DATATYPE_ENUM</tableName>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tableName>ELE_ELEMENT</tableName>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tableName>ELE_ELEMENT_TYPE</tableName>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </designatedTableName>&ndash;&gt;-->
+
 <!--                </configuration>-->
 <!--                <executions>-->
 <!--                    <execution>-->

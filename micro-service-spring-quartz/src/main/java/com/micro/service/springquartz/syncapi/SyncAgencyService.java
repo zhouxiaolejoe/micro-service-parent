@@ -126,7 +126,7 @@ public class SyncAgencyService implements IFaspClientScheduler {
 
         } catch (Throwable e) {
             log.info("TARGET:" + target + " TABLENAME :[ FASP_T_PUPVD00010 ] INFO :[" + e.getCause() + "]");
-            if (e instanceof BadSqlGrammarException) {
+            if (e instanceof Exception) {
                 try {
                     caffeineCacheService.saveUserTableView(target);
                 } catch (Exception exception) {

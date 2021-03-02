@@ -2,9 +2,12 @@ spring:
   aop:
     proxy-target-class: true
   datasource:
-    url: jdbc:oracle:thin:@192.168.24.130:1521/xe
-    username: quartz
-    password: quartz
+    url: jdbc:oracle:thin:@124.70.156.65:1521/orcl
+    username: mid_32dev
+    password: mid_32dev
+#    url: jdbc:oracle:thin:@124.71.200.108:15211/ysythdb
+#    username: MID_4200
+#    password: MID_4200
     driverClassName: oracle.jdbc.OracleDriver
     type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 1
@@ -62,7 +65,8 @@ logging:
 #  level.com.micro.service.springquartz.job: debug
 faspclient:
   sync-start: true
-  fasp_server_id: http://121.36.148.182:32719
+  fasp_server_id: http://121.37.177.226
+#  fasp_server_id: http://121.36.148.182:32719
 #  fasp_server_id: http://122.112.202.68:30080
 mybatis:
   configuration:
@@ -80,7 +84,7 @@ server:
 log:
   fileName: D:/var/logs/pushdata/log_all.log
 request:
-  url: http://192.168.24.130:19018
+  url: http://121.37.177.226
 
-synccron: 0 0/2 * * * ?
+synccron: 0 0/1 * * * ?
 serverid: 2
