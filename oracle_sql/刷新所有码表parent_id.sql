@@ -1,4 +1,4 @@
---1.åˆ·æ–°æ‰€æœ‰ç è¡¨parent_id ä¸º0
+--1.Ë¢ÐÂËùÓÐÂë±íparent_id Îª0
 declare
   J integer;
   I integer;
@@ -17,13 +17,11 @@ begin
          IF I > 0 then 
            execute immediate 'update '||t_row.ele_source || ' set parent_id =''0'' where parent_id =''#''';
          end if ;
-      END IF;
-      
-      IF 'ELE_UNION' = t_row.ele_source THEN
+      ELSE
          execute immediate 'select count(1) from '|| t_row.ele_source ||' where ele_catalog_id = '''|| t_row.ele_catalog_id ||'''and  parent_id =''#''' into H;
          IF H > 0 then
            execute immediate 'update '||t_row.ele_source || ' set parent_id =''0'' where ele_catalog_id = '''|| t_row.ele_catalog_id ||''' and parent_id =''#''';
-         end if ;
+         end if ;   
       END IF;
     END IF;
   end loop;
