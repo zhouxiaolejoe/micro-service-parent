@@ -2,7 +2,7 @@ declare
   J integer;
   I integer;
   cursor t_tables is
-    select * from ele_catalog t where t.catalog_type='1';
+    select * from ele_catalog t where t.ele_catalog_code not in  (select ele_catalog_code from ele_catalog_0517 );
 begin
   for t_row in t_tables loop
     --如果财政部规范表不存在创建通用表结构
@@ -42,6 +42,7 @@ begin
       FROM USER_TABLES T
      WHERE T.TABLE_NAME = 'FASP_T_PUP' || t_row.ele_catalog_code;
     IF J > 0 THEN
+       dbms_output.put_line(t_row.ele_catalog_code);
        execute immediate '
         insert into ' || t_row.ele_source || '('
          ||case when t_row.ele_source <> 'ELE_UNION' then 'admdiv,' end ||
@@ -98,12 +99,13 @@ begin
               '||case when t_row.ele_source <> 'ELE_UNION' then 'remark,' end ||
           'to_date(to_char(sysdate, ''yyyyMMddHH24:mi:ss''),
                        ''yyyy/MM/dd HH24:mi:ss'')
-          from FASP_T_PUP'|| t_row.ele_catalog_code||' where year =''2021'' and province=''870000000''';
+          from FASP_T_PUP'|| t_row.ele_catalog_code||' where year =''2021'' and province=''329900000''';
           commit;
     END IF;
     --注册码表列结构信息
-    select count(*) into i from ele_diccolumn t where t.ele_source = t_row.ele_catalog_code;
+    select count(*) into i from ele_diccolumn t where t.ele_source = t_row.ele_source;
     if i < 1 then
+      dbms_output.put_line(t_row.ele_source);
     execute immediate '
     insert all
     '||case when t_row.ele_source <> 'ELE_UNION' then '

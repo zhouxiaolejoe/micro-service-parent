@@ -1,0 +1,38 @@
+
+select '代码集主键' "ELE_ID",
+       '代码集代码' "ELE_CODE",
+       '代码集名称' "ELE_NAME",
+       '目录主键' "ELE_CATALOG_ID",
+       '财政区划代码' "MOF_DIV_CODE",
+       '父节点ID' "PARENT_ID",
+       '级次' "LEVEL_NO",
+       '是否末级' "IS_LEAF",
+       '启用日期' "START_DATE",
+       '停用日期' "END_DATE",
+       '是否启用' "IS_ENABLED",
+       '更新时间' "UPDATE_TIME",
+       '是否删除' "IS_DELETED",
+       '是否标准' "IS_STANDARD",
+       '创建时间' "CREATE_TIME",
+       '年' "FISCAL_YEAR",
+       '目录编码' "ELE_CATALOG_CODE"
+  from dual
+union all
+select to_char(ELE_ID),
+to_char(ELE_CODE),
+to_char(ELE_NAME),
+to_char(ELE_CATALOG_ID),
+to_char(MOF_DIV_CODE),
+to_char(PARENT_ID),
+to_char(LEVEL_NO),
+to_char(IS_LEAF),
+to_char(START_DATE),
+to_char(END_DATE),
+to_char(IS_ENABLED),
+to_char(UPDATE_TIME),
+to_char(IS_DELETED),
+to_char(IS_STANDARD),
+to_char(CREATE_TIME),
+to_char(FISCAL_YEAR),
+to_char(ELE_CATALOG_CODE)
+  from ele_union;

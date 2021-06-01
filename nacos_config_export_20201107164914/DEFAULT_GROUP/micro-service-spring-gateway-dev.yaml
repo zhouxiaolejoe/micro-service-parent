@@ -1,0 +1,22 @@
+server:
+  port: 19010
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: micro-service-spring-kafka
+          uri: lb://micro-service-spring-kafka
+          predicates:
+            - Path=/micro-service-spring-kafka/**
+        - id: micro-service-spring-redis
+          uri: lb://micro-service-spring-redis
+          predicates:
+            - Path=/micro-service-spring-redis/**

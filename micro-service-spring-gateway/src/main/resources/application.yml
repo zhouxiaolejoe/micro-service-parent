@@ -1,18 +1,46 @@
-#server:
-#  port: 19010
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: '*'
-#  endpoint:
-#    health:
-#      show-details: always
-#spring:
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: micro-service-spring-kafka
-#          uri: lb://micro-service-spring-kafka
-#          predicates:
-#            - Path=/micro-service-spring-kafka/**
+
+server:
+  port: 9000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: middleground-commondata
+          uri: lb://middleground-commondata
+          predicates:
+            - Path=/fasp3/restapi/v1/dic3/**,/fasp/dic3/basicdata/restapi/**,/fasp3/dic3/basicdata/**,/basicdata/restapi/v1/dic/**
+        - id: middleground-authentication
+          uri: lb://middleground-authentication
+          predicates:
+            - Path=/fasp3/restapi/v1/web/**,/fasp3/restapi/v1/sec/userlogin/**,/fasp3/restapi/v1/sec/users/**
+        - id: middleground-authoritycenter
+          uri: lb://middleground-authoritycenter
+          predicates:
+            - Path=/fasp3/restapi/v1/ca/funauth/**,/fasp3/restapi/v1/ca/role/**,/fasp3/restapi/v1/ca/authorize/**,/fasp/restapi/v1/masterdata/**,/fasp3/restapi/v1/ca/funauth/**
+        - id: middleground-functioncenter
+          uri: lb://middleground-functioncenter
+          predicates:
+            - Path=/fasp3/restapi/v1/ca/menu/**,/fasp3/restapi/v1/function/**,/fasp/restapi/v1/function/**
+        - id: middleground-usercenter
+          uri: lb://middleground-usercenter
+          predicates:
+            - Path=/fasp/restapi/v1/ca/**,/fasp3/dic3/organize/restapi/v1/**
+        - id: middleground-web
+          uri: lb://middleground-web
+          predicates:
+            - Path=/fasp/**,/fasp3/**
+#logging:
+#  level:
+#    root: debug

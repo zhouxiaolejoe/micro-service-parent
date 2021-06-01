@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.micro.service.springquartz.utils.SyncDataUtils.sortSyncDataByDBVersion;
+
 /**
  * @Description
  * @Author zxl
@@ -78,7 +80,7 @@ public class SyncRangeService implements SyncScheduler {
             return oracleTimestamp1.compareTo(oracleTimestamp2);
         }).collect(Collectors.toList());
         // 按DBVersion排序
-//        sortSyncDataByDBVersion(datas);
+        sortSyncDataByDBVersion(datas);
         String tablename = po.getTablename().toUpperCase();
         Map param = new HashMap();
         param.put("tablename", tablename);

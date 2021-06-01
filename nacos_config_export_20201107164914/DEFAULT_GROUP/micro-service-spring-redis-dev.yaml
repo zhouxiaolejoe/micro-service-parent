@@ -1,0 +1,64 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+user:
+  name: james
+  age: 17
+  id: 1
+server:
+  port: 19017
+  servlet:
+    context-path: /micro-service-spring-redis
+spring:
+  aop:
+    proxy-target-class: true
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/test?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    username: joe
+    password: joe
+    driverClassName: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall,log4j
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    useGlobalDataSourceStat: true
+  redis:
+    port: 6379
+    # password: 123456
+    host: 127.0.0.1
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+  application:
+    name: micro-service-spring-redis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml          #mybatis mapper.xml文件位置
+  #  type-aliases-package:                                #配置别名包路径 (在mybatis配置文件中指定)
+  config-location: classpath:mybatis-config.xml         #配置mybatis配置文件
+  check-config-location: true
+#  configuration:
+
+logging:
+  level.org.springframework.web: debug                 #配置指定包使用debug日志
+  level.com.micro.service.springredis.mapper: debug
+#  config: classpath:logback-spring.xml                  #配置日志配置文件位置
+#  path: /var/logs/dynamic_db                           #配置日志存放位置(由logback-spring.xml文件内配置)
