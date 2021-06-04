@@ -34,34 +34,51 @@ import java.time.Duration;
 @Configuration
 public class RedisConfig {
     /**
+     * Jackson2JsonRedisSerializer 序列化和反序列化效率高
+     */
+
+    private StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+    private Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+    /**
      * @return org.springframework.cache.CacheManager
      * @Description 缓存功能序列化 K - V 序列化
      * @Author ZhouXiaoLe
      * @Date 2019/7/18  16:47
      * @Param [redisConnectionFactory]
      **/
-    /** Jackson2JsonRedisSerializer 序列化和反序列化效率高 */
-    private StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-    private Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
     @Bean("customCacheManager")
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         ObjectMapper om = new ObjectMapper();
-        //POJO无public的属性或方法时，不报错
+        /**
+         * POJO无public的属性或方法时，不报错
+         */
         om.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        // null值字段不显示
+        /**
+         * null值字段不显示
+         */
 //        om.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        // 序列化JSON串时，在值上打印出对象类型
-        //om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        // 替换上方 过期的enableDefaultTyping
+        /**
+         * 序列化JSON串时，在值上打印出对象类型
+         */
+//        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        /**
+         * 替换上方 过期的enableDefaultTyping
+         */
 //        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance ,ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY);
 
-        // 解决jackson2无法反序列化LocalDateTime的问题
-        //om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        //om.registerModule(new ZxlJavaTimeModule());
-        // 配置序列化（解决乱码的问题）
+        /**
+         * 解决jackson2无法反序列化LocalDateTime的问题
+         */
+//        om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//        om.registerModule(new ZxlJavaTimeModule());
+        /**
+         * 配置序列化（解决乱码的问题）
+         */
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                // 默认 30天过期
+                /**
+                 * 默认 30天过期
+                 */
                 .entryTtl(Duration.ofDays(30))
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
