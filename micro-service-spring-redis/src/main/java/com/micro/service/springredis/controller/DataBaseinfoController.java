@@ -14,10 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -110,50 +107,37 @@ public class DataBaseinfoController {
      * @Date 2020-11-07  14:24:54
      **/
     @GetMapping("/testDataBase")
-    @ApiOperation(value = "数据源测试", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
+    @ApiOperation(value = "脚本多库数据源测试", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
     public ResultBuilder testDataBase(@RequestParam("sql")String sql) {
-//        DbConfig dbConfig = new DbConfig();
-//        dbConfig.setUrl("jdbc:oracle:thin:@127.0.0.1:1521/helowin");
-//        dbConfig.setUser("bas_test");
-//        dbConfig.setPass("bas_3200");
-//        dbConfig.setMaxWait(60);
-//        dbConfig.setMinIdle(10);
-//        dbConfig.setInitialSize(1);
-//        dbConfig.setMaxActive(300);
-//        dbConfig.setDriver("oracle.jdbc.driver.OracleDriver");
-//        PooledDataSource pooledDataSource = new PooledDataSource(dbConfig);
-        SimpleDataSource basSimpleDataSource = new SimpleDataSource("jdbc:oracle:thin:@127.0.0.1:1521/helowin","bas_test","bas_3200","oracle.jdbc.driver.OracleDriver");
-        List<Entity> faspTDbinfo = null;
-        try {
-            Db.use(basSimpleDataSource).execute(sql);
-            /**
-             * 新增
-             */
-//            Db.use(ds).insert(Entity.create("fasp_t_dbinfo")
-//                    .set("guid", "2"));
-            /**
-             * 查询
-             */
-            try {
-                basSimpleDataSource.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            SimpleDataSource bgtSimpleDataSource = new SimpleDataSource("jdbc:oracle:thin:@127.0.0.1:1521/helowin","bgt_test","bgt_3200","oracle.jdbc.driver.OracleDriver");
-            Db.use(bgtSimpleDataSource).execute(sql);
-            try {
-                bgtSimpleDataSource.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//            faspTDbinfo = Db.use(ds).findAll("fasp_t_dbinfo");
-            //faspTDbinfo =Db.use(ds).find(Arrays.asList("USERNAME", "PASSWORD"), Entity.create("fasp_t_dbinfo").set("guid", "2"), EntityListHandler.create());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return ResultBuilder.success(faspTDbinfo);
+        dataBaseinfoService.testDataBase(sql);
+        return ResultBuilder.success();
     }
 
+    @GetMapping("/cache")
+    @ApiOperation(value = "测试注解缓存添加", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
+    public ResultBuilder testCacheAdd(@RequestParam("guid")Integer guid) {
+        return ResultBuilder.success(dataBaseinfoService.selectByPrimaryKey(guid));
+    }
+
+    @DeleteMapping("/cache")
+    @ApiOperation(value = "测试注解缓存删除", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "DELETE")
+    public ResultBuilder testCacheDelete(@RequestParam("guid")Integer guid) {
+        dataBaseinfoService.deleteByPrimaryKey(guid);
+        return ResultBuilder.success();
+    }
+
+    @PutMapping("/cache")
+    @ApiOperation(value = "测试注解缓存更新", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "PUT")
+    public ResultBuilder testCacheUpdate(@RequestBody DataBaseinfo dataBaseinfo) {
+        dataBaseinfoService.updateByPrimaryKey(dataBaseinfo);
+        return ResultBuilder.success();
+    }
+
+    @PostMapping("/cache")
+    @ApiOperation(value = "测试注解缓存新增", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "POST")
+    public ResultBuilder testCacheAdd(@RequestBody DataBaseinfo dataBaseinfo) {
+        dataBaseinfoService.insert(dataBaseinfo);
+        return ResultBuilder.success();
+    }
 }
 

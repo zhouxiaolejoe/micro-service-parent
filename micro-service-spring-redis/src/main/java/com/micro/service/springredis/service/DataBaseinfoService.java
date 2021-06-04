@@ -3,6 +3,7 @@ package com.micro.service.springredis.service;
 import java.util.List;
 
 import com.micro.service.springredis.model.DataBaseinfo;
+import com.micro.service.tool.until.api.ResultBuilder;
 import com.micro.service.tool.until.api.ResultPageBuilder;
 
 /**
@@ -17,7 +18,7 @@ public interface DataBaseinfoService {
 
     int deleteByPrimaryKey(Integer guid);
 
-    int insert(DataBaseinfo record);
+    DataBaseinfo insert(DataBaseinfo record);
 
     int insertOrUpdate(DataBaseinfo record);
 
@@ -29,7 +30,7 @@ public interface DataBaseinfoService {
 
     int updateByPrimaryKeySelective(DataBaseinfo record);
 
-    int updateByPrimaryKey(DataBaseinfo record);
+    DataBaseinfo updateByPrimaryKey(DataBaseinfo record);
 
     int updateBatch(List<DataBaseinfo> list);
 
@@ -44,4 +45,6 @@ public interface DataBaseinfoService {
     DataBaseinfo testRedisBeanStore(Integer id);
 
     ResultPageBuilder testPage(Integer page,Integer pageSize);
+
+    ResultBuilder testDataBase(String sql);
 }
