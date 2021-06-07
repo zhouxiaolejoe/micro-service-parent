@@ -1,14 +1,12 @@
 package com.micro.service.springredis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -21,7 +19,6 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import java.lang.reflect.Method;
 import java.time.Duration;
 
 /**
@@ -36,9 +33,10 @@ public class RedisConfig {
     /**
      * Jackson2JsonRedisSerializer 序列化和反序列化效率高
      */
-
     private StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
     private Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+
+
     /**
      * @return org.springframework.cache.CacheManager
      * @Description 缓存功能序列化 K - V 序列化
@@ -46,7 +44,7 @@ public class RedisConfig {
      * @Date 2019/7/18  16:47
      * @Param [redisConnectionFactory]
      **/
-    @Bean("customCacheManager")
+    @Bean
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         ObjectMapper om = new ObjectMapper();
         /**
@@ -65,13 +63,14 @@ public class RedisConfig {
         /**
          * 替换上方 过期的enableDefaultTyping
          */
-//        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance ,ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY);
+        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY);
 
         /**
          * 解决jackson2无法反序列化LocalDateTime的问题
          */
 //        om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 //        om.registerModule(new ZxlJavaTimeModule());
+        jackson2JsonRedisSerializer.setObjectMapper(om);
         /**
          * 配置序列化（解决乱码的问题）
          */
@@ -83,7 +82,6 @@ public class RedisConfig {
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
                 .disableCachingNullValues();
-        jackson2JsonRedisSerializer.setObjectMapper(om);
 
         RedisCacheManager cacheManager = RedisCacheManager
                 .builder(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory))
@@ -100,22 +98,17 @@ public class RedisConfig {
      **/
     @Bean
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
-        StringRedisTemplate template = new StringRedisTemplate(factory);
-        RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
+        StringRedisTemplate redisTemplate = new StringRedisTemplate(factory);
+        ObjectMapper om = new ObjectMapper();
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY);
+        jackson2JsonRedisSerializer.setObjectMapper(om);
+
         redisTemplate.setKeySerializer(stringRedisSerializer);
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
-        redisTemplate.setConnectionFactory(factory);
         redisTemplate.afterPropertiesSet();
-        return template;
-    }
-    @Bean(name = "myGenerator")
-    public KeyGenerator myGenerator() {
-        return (target, method, params) -> {
-            StringBuilder sb = new StringBuilder();
-            sb.append(params[0].toString());
-            return sb.toString();
-        };
+        return redisTemplate;
     }
 }
