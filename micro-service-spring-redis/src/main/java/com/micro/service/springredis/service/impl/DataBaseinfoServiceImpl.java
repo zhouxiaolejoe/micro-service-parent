@@ -6,6 +6,7 @@ import cn.hutool.db.ds.simple.SimpleDataSource;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.micro.service.tool.until.FastJsonUtils;
+import com.micro.service.tool.until.JsonLogUtils;
 import com.micro.service.tool.until.api.ResultBuilder;
 import com.micro.service.tool.until.api.ResultPageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +110,7 @@ public class DataBaseinfoServiceImpl implements DataBaseinfoService {
             return dataBaseinfo;
         }
         Map<String, String> dataBaseinfoHash = redisTemplate.opsForHash().entries("dataBaseinfo_Hash_" + id);
+        JsonLogUtils.print(FastJsonUtils.getBeanToJson(dataBaseinfoHash));
         return FastJsonUtils.getMapToBean(dataBaseinfoHash, DataBaseinfo.class);
     }
 

@@ -53,6 +53,8 @@ public class JsonLogUtils {
     }
 
     public static void print(String resString) {
-        logger.info(responseFormat("\n"+resString));
+        if (logger.isInfoEnabled()){
+            logger.info(responseFormat("\n"+resString));
+        }
     }
 }
