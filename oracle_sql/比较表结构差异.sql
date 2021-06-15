@@ -1,18 +1,18 @@
 (select column_name
           from user_tab_columns
-         where table_name = 'T_A'
+         where table_name = 'ELE_UNION'
         minus
         select column_name
           from user_tab_columns
-         where table_name = 'T_B')
+         where table_name = 'ELE_VD09001')
 union 
 (select column_name
          from user_tab_columns
-        where table_name = 'T_B'
+        where table_name = 'ELE_VD09001'
        minus
        select column_name
          from user_tab_columns
-        where table_name = 'T_A');
+        where table_name = 'ELE_UNION');
 /* 2.比较表数据 */
 (select *
           from t_A
