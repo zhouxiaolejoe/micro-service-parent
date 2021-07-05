@@ -1,4 +1,4 @@
-package com.micro.service.gateway.config;
+package com.micro.service.gateway.swagger.config;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;

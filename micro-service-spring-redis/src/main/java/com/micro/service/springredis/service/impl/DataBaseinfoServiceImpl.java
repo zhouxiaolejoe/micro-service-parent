@@ -105,6 +105,9 @@ public class DataBaseinfoServiceImpl implements DataBaseinfoService {
     public DataBaseinfo testRedisHashStore(Integer id) {
         if (!redisTemplate.hasKey("dataBaseinfo_Hash_" + id)) {
             DataBaseinfo dataBaseinfo = dataBaseinfoMapper.selectByPrimaryKey(id);
+            if (dataBaseinfo==null) {
+                return null;
+            }
             Map<Object, Object> beanToMap = FastJsonUtils.getBeanToMap(dataBaseinfo);
             redisTemplate.opsForHash().putAll("dataBaseinfo_Hash_" + id, beanToMap);
             return dataBaseinfo;

@@ -110,13 +110,7 @@ select t.ele_code as guid,
        1 as IS_STANDARD
   from ele_vd00010 t
  where t.is_Enabled =1 and t.IS_DELETED =2 
- and  t.mof_div_code in( SELECT ele_code
-     FROM (select * from ELE_VD08001 where fiscal_year=global_multyear_cz.Secu_f_GLOBAL_PARM('YEAR'))
-     CONNECT BY PRIOR PARENT_ID = ELE_ID
-     START WITH ELE_ID = (SELECT ELE_ID
-                        FROM ELE_VD08001
-                       WHERE ELE_CODE = global_multyear_cz.Secu_f_GLOBAL_PARM('DIVID')
-                         AND FISCAL_YEAR = global_multyear_cz.Secu_f_GLOBAL_PARM('YEAR')))
+ and  t.mof_div_code = global_multyear_cz.Secu_f_GLOBAL_PARM('DIVID')
    and t.fiscal_year = global_multyear_cz.Secu_f_GLOBAL_PARM('YEAR')
 ]';
 
@@ -248,13 +242,7 @@ select t.ADMDIV,
    and t.parent_id = t1.ele_id(+)
    and t.mof_div_code = t1.mof_div_code(+)
    and t.fiscal_year = t1.fiscal_year(+)
-   and  t.mof_div_code in( SELECT ele_code
-     FROM (select * from ELE_VD08001 where fiscal_year=global_multyear_cz.Secu_f_GLOBAL_PARM('YEAR'))
-     CONNECT BY PRIOR PARENT_ID = ELE_ID
-     START WITH ELE_ID = (SELECT ELE_ID
-                        FROM ELE_VD08001
-                       WHERE ELE_CODE = global_multyear_cz.Secu_f_GLOBAL_PARM('DIVID')
-                         AND FISCAL_YEAR = global_multyear_cz.Secu_f_GLOBAL_PARM('YEAR')))
+   and  t.mof_div_code = global_multyear_cz.Secu_f_GLOBAL_PARM('DIVID')
    and t.fiscal_year = global_multyear_cz.Secu_f_GLOBAL_PARM('YEAR')
 ]';
 

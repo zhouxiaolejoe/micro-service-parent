@@ -13,6 +13,7 @@ import com.micro.service.tool.until.api.ResultPageBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,6 @@ import java.util.List;
 @RestController
 @Api(tags = "redis测试")
 public class DataBaseinfoController {
-
     @Autowired
     DataBaseinfoService dataBaseinfoService;
 
@@ -108,20 +108,20 @@ public class DataBaseinfoController {
      **/
     @GetMapping("/testDataBase")
     @ApiOperation(value = "脚本多库数据源测试", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public ResultBuilder testDataBase(@RequestParam("sql")String sql) {
+    public ResultBuilder testDataBase(@RequestParam("sql") String sql) {
         dataBaseinfoService.testDataBase(sql);
         return ResultBuilder.success();
     }
 
     @GetMapping("/cache")
     @ApiOperation(value = "测试注解缓存添加", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "GET")
-    public ResultBuilder testCacheAdd(@RequestParam("guid")Integer guid) {
+    public ResultBuilder testCacheAdd(@RequestParam("guid") Integer guid) {
         return ResultBuilder.success(dataBaseinfoService.selectByPrimaryKey(guid));
     }
 
     @DeleteMapping("/cache")
     @ApiOperation(value = "测试注解缓存删除", produces = MediaType.APPLICATION_JSON_VALUE, httpMethod = "DELETE")
-    public ResultBuilder testCacheDelete(@RequestParam("guid")Integer guid) {
+    public ResultBuilder testCacheDelete(@RequestParam("guid") Integer guid) {
         dataBaseinfoService.deleteByPrimaryKey(guid);
         return ResultBuilder.success();
     }

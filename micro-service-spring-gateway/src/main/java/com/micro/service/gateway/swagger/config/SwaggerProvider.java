@@ -1,4 +1,4 @@
-package com.micro.service.gateway.config;
+package com.micro.service.gateway.swagger.config;
 
 import lombok.AllArgsConstructor;
 import org.springframework.cloud.gateway.config.GatewayProperties;
