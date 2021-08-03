@@ -1,0 +1,16 @@
+test:
+  city:
+    name: 南京
+    nol: 1
+  school:
+    address: 南京三牌楼
+    name: 三牌楼小学
+    nol: 1
+  hobbies: 王者荣耀,LOL
+  name: 周周
+  name-cn: zhouzhou
+  name-en: joe
+  sex-enum: man
+  single: false
+server:
+  port: 8090
