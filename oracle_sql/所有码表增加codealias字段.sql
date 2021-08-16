@@ -12,7 +12,7 @@ begin
      values (''DAD3F6ABDECC481F898F56C019260B75'', ''BE90001'', ''基础要素別名'', ''codealias'', ''String'', ''20'', ''oracle'', null, null, null, to_date(''21-07-2021'', ''dd-mm-yyyy''), to_date(''21-07-2021'', ''dd-mm-yyyy''), ''1'', to_date(''21-07-2021 11:24:48'', ''dd-mm-yyyy hh24:mi:ss''), ''2'', to_date(''21-07-2021 11:18:51'', ''dd-mm-yyyy hh24:mi:ss''), ''109900000'', ''2022'', ''C9CA953BBAEB40C8A791AF7E396B5DB4'', ''VARCHAR2'', ''codealias'', null, null)';
   END IF;
   for t_row in t_tables loop
-    --增加物理表ELE_CATALOG_CODE
+    --增加物理表CODEALIAS
    select count(1) INTO J from user_tables where table_name=t_row.ele_source;
    IF J > 0 THEN
      select count(1) INTO I from user_tab_columns where column_name like '%CODEALIAS%' and table_name = t_row.ele_source;
@@ -21,7 +21,7 @@ begin
       execute immediate 'alter table '|| t_row.ele_source ||' add CODEALIAS VARCHAR2(20)';
      END IF;
    END IF;
-   --增加列注册表ELE_CATALOG_CODE
+   --增加列注册表CODEALIAS
    select count(1) INTO H from ele_diccolumn t where t.ele_source=t_row.ele_source and t.element_el_code like '%CODEALIAS%';
    IF H < 1 THEN
      execute immediate '

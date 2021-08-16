@@ -1,5 +1,9 @@
 package com.micro.service.springredis.mapper;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNode;
+import cn.hutool.core.lang.tree.TreeUtil;
 import com.micro.service.springredis.model.DataBaseOne;
 import com.micro.service.springredis.model.DataBaseTwo;
 import com.micro.service.tool.until.*;
@@ -12,10 +16,7 @@ import org.junit.jupiter.api.Test;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName BeanCopyTest
@@ -55,7 +56,7 @@ public class BeanCopyTest {
 
     @Test
     public void test2() {
-        String url = "http://localhost:19017/micro-service-spring-redis/testRedisHashStore/1";
+        String url = "http://10.65.246.202/fasp/restapi/v1/sec/tokenids/CFCEDB24EC5CD782947CE1F6EED2438Eye9XfxPf/userinfo";
         String s = OkHttpUtil.get(url, null);
         JsonLogUtils.print(s);
     }
@@ -66,6 +67,19 @@ public class BeanCopyTest {
         map.put("id", "1");
         String s = OkHttpUtil.get(url, map);
         JsonLogUtils.print(s);
+    }
+    @Test
+    public void test5() {
+        // 构建node列表
+        List<TreeNode<String>> nodeList = CollUtil.newArrayList();
+        nodeList.add(new TreeNode<>("1", "0", "系统管理", 5));
+        nodeList.add(new TreeNode<>("11", "1", "用户管理", 222222));
+        nodeList.add(new TreeNode<>("111", "11", "用户添加", 0));
+        nodeList.add(new TreeNode<>("2", "0", "店铺管理", 1));
+        nodeList.add(new TreeNode<>("21", "2", "商品管理", 44));
+        nodeList.add(new TreeNode<>("221", "2", "商品管理2", 2));
+        List<Tree<String>> treeList = TreeUtil.build(nodeList, "0");
+        JsonLogUtils.print(FastJsonUtils.getBeanToJson(treeList));
     }
 
     @SneakyThrows

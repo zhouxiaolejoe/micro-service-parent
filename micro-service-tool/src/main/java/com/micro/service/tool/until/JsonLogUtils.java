@@ -52,9 +52,10 @@ public class JsonLogUtils {
         return levelStr.toString();
     }
 
-    public static void print(String resString) {
+    public static boolean print(String resString) {
         if (logger.isInfoEnabled()){
             logger.info(responseFormat("\n"+resString));
         }
+        return false;
     }
 }

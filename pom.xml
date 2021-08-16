@@ -23,6 +23,7 @@
         <module>micro-service-spring-websocket</module>
         <module>micro-service-spring-gateway</module>
         <module>micro-service-project-test</module>
+        <module>micro-service-spring-activity</module>
         <!--        <module>micro-service-netty</module>-->
     </modules>
     <properties>
@@ -252,7 +253,11 @@
                 <artifactId>spring-context-support</artifactId>
                 <version>5.1.8.RELEASE</version>
             </dependency>
-
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>5.6.3</version>
+            </dependency>
             <!--SpringCloud Start-->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
@@ -286,6 +291,12 @@
                 <artifactId>knife4j-spring-boot-starter</artifactId>
                 <version>2.0.9</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/p6spy/p6spy -->
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>3.9.1</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -306,7 +317,6 @@
     <build>
         <plugins>
             <plugin>
-                <defaultGoal>compile</defaultGoal>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.3.7.RELEASE</version>
