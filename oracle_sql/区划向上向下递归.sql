@@ -1,9 +1,9 @@
 --向上递归
 SELECT ele_code,ele_name
-  FROM (select * from ELE_VD08002 where fiscal_year = '2021')
+  FROM (select * from ELE_VD08001 where fiscal_year = '2021')
 CONNECT BY PRIOR PARENT_ID = ELE_ID
  START WITH ELE_ID = (SELECT ELE_ID
-                        FROM ELE_VD08002
+                        FROM ELE_VD08001
                        WHERE ELE_CODE = '320582000'
                          AND FISCAL_YEAR = '2021');
 --向下递归                        

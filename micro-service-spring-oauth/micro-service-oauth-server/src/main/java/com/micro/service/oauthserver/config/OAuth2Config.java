@@ -32,14 +32,17 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private TokenStore redisTokenStore;
+
 //    @Autowired
-//    private TokenStore redisTokenStore;
+//    private TokenStore jdbcTokenStore;
 
     @Autowired
     private DataSource dataSource;
 
-    @Autowired
-    private TokenStore jwtTokenStore;
+//    @Autowired
+//    private TokenStore jwtTokenStore;
 
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
@@ -50,64 +53,62 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         /**
-         * 普通 jwt 模式
-         */
-//         endpoints.tokenStore(jwtTokenStore)
-//                .accessTokenConverter(jwtAccessTokenConverter)
-//                .userDetailsService(kiteUserDetailsService)
-//                /**
-//                 * 支持 password 模式
-//                 */
-//                .authenticationManager(authenticationManager);
-
-        /**
-         * jwt 增强模式
+         * jwt
          */
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         List<TokenEnhancer> enhancerList = new ArrayList<>();
         enhancerList.add(jwtTokenEnhancer);
         enhancerList.add(jwtAccessTokenConverter);
         enhancerChain.setTokenEnhancers(enhancerList);
-        endpoints.tokenStore(jwtTokenStore)
+        endpoints
+                /**
+                 * token储存方式
+                 */
+                .tokenStore(redisTokenStore)
+                /**
+                 * 用户详细信息服务
+                 */
                 .userDetailsService(kiteUserDetailsService)
                 /**
-                 * 支持 password 模式
+                 * 身份验证管理器
                  */
                 .authenticationManager(authenticationManager)
+                /**
+                 * 令牌增强
+                 */
                 .tokenEnhancer(enhancerChain)
-                .accessTokenConverter(jwtAccessTokenConverter);
-
-        /**
-         * redis token 方式
-         */
-//        endpoints.authenticationManager(authenticationManager)
-//                .tokenStore(redisTokenStore)
-//                .userDetailsService(kiteUserDetailsService);
-
+                /**
+                 * accessTokenConverter
+                 */
+                .accessTokenConverter(jwtAccessTokenConverter)
+                /**
+                 * 是否重用RefreshTokens
+                 */
+                .reuseRefreshTokens(true)
+        ;
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        /**
+         * 客户端数据从数据库中获取
+         */
         clients.jdbc(dataSource);
-
-//        clients.inMemory()
-//                .withClient("order-client")
-//                .secret(passwordEncoder.encode("order-secret-8888"))
-//                .authorizedGrantTypes("refresh_token", "authorization_code", "password")
-//                .accessTokenValiditySeconds(3600)
-//                .scopes("all")
-//                .and()
-//                .withClient("user-client")
-//                .secret(passwordEncoder.encode("user-secret-8888"))
-//                .authorizedGrantTypes("refresh_token", "authorization_code", "password")
-//                .accessTokenValiditySeconds(3600)
-//                .scopes("all");
     }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        /**
+         * 允许客户端表单身份验证
+         */
         security.allowFormAuthenticationForClients();
-        security.checkTokenAccess("isAuthenticated()");
+        /**
+         * 检查令牌访问
+         */
+        security.checkTokenAccess("permitAll()");
+        /**
+         * 令牌密钥访问
+         */
         security.tokenKeyAccess("isAuthenticated()");
     }
 }

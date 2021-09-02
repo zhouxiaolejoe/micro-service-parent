@@ -18,5 +18,8 @@
     </properties>
     <modules>
         <module>micro-service-oauth-server</module>
+        <module>micro-service-oauth-order</module>
+        <module>micro-service-oauth-user</module>
+        <module>micro-service-oauth-authorization</module>
     </modules>
 </project>

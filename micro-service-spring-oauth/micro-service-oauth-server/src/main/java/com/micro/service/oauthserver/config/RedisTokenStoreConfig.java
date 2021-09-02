@@ -5,7 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+
+import javax.sql.DataSource;
 
 /**
  * RedisTokenStoreConfig
@@ -18,9 +21,18 @@ public class RedisTokenStoreConfig {
 
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
+    @Autowired
+    private DataSource dataSource;
 
     @Bean
-    public TokenStore redisTokenStore (){
-        return new RedisTokenStore(redisConnectionFactory);
+    public TokenStore redisTokenStore() {
+        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
+//        redisTokenStore.setAuthenticationKeyGenerator(new MyAuthenticationKeyGenerator());
+        return redisTokenStore;
+    }
+
+    @Bean
+    public TokenStore jdbcTokenStore() {
+        return new JdbcTokenStore(dataSource);
     }
 }
