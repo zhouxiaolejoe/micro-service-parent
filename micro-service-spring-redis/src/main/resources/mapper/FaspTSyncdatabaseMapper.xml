@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.micro.service.springredis.mapper.FaspTSyncdatabaseMapper">
+  <resultMap id="BaseResultMap" type="com.micro.service.springredis.model.FaspTSyncdatabase">
+    <!--@mbg.generated-->
+    <!--@Table FASP_T_SYNCDATABASE-->
+    <result column="DATASOURCEID" jdbcType="VARCHAR" property="DATASOURCEID" />
+    <result column="BUSINESSTYPE" jdbcType="VARCHAR" property="BUSINESSTYPE" />
+    <result column="BUSINESSNAME" jdbcType="VARCHAR" property="BUSINESSNAME" />
+    <result column="URL" jdbcType="VARCHAR" property="URL" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="USERNAME" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="PASSWORD" />
+    <result column="DRIVERCLASSNAME" jdbcType="VARCHAR" property="DRIVERCLASSNAME" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="CREATETIME" />
+    <result column="CREATEUSER" jdbcType="VARCHAR" property="CREATEUSER" />
+    <result column="UPDATETIME" jdbcType="TIMESTAMP" property="UPDATETIME" />
+    <result column="UPDATEUSER" jdbcType="VARCHAR" property="UPDATEUSER" />
+    <result column="DBVERSION" jdbcType="TIMESTAMP" property="DBVERSION" />
+    <result column="ISDELETE" jdbcType="DECIMAL" property="ISDELETE" />
+    <result column="PUBLICKEY" jdbcType="VARCHAR" property="PUBLICKEY" />
+    <result column="DATABASETYPE" jdbcType="DECIMAL" property="DATABASETYPE" />
+    <result column="GUID" jdbcType="VARCHAR" property="GUID" />
+    <result column="ISSYNC" jdbcType="DECIMAL" property="ISSYNC" />
+    <result column="PROVINCE" jdbcType="VARCHAR" property="PROVINCE" />
+    <result column="YEAR" jdbcType="VARCHAR" property="YEAR" />
+    <result column="SERVERID" jdbcType="VARCHAR" property="SERVERID" />
+    <result column="SRCPROVINCE" jdbcType="VARCHAR" property="SRCPROVINCE" />
+    <result column="SRCYEAR" jdbcType="VARCHAR" property="SRCYEAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    DATASOURCEID, BUSINESSTYPE, BUSINESSNAME, URL, USERNAME, "PASSWORD", DRIVERCLASSNAME, 
+    CREATETIME, "CREATEUSER", UPDATETIME, UPDATEUSER, DBVERSION, ISDELETE, PUBLICKEY, 
+    DATABASETYPE, GUID, ISSYNC, PROVINCE, "YEAR", SERVERID, SRCPROVINCE, SRCYEAR
+  </sql>
+  <insert id="insert" parameterType="com.micro.service.springredis.model.FaspTSyncdatabase">
+    <!--@mbg.generated-->
+    insert into FASP_T_SYNCDATABASE (DATASOURCEID, BUSINESSTYPE, BUSINESSNAME, 
+      URL, USERNAME, "PASSWORD", 
+      DRIVERCLASSNAME, CREATETIME, "CREATEUSER", 
+      UPDATETIME, UPDATEUSER, DBVERSION, 
+      ISDELETE, PUBLICKEY, DATABASETYPE, 
+      GUID, ISSYNC, PROVINCE, 
+      "YEAR", SERVERID, SRCPROVINCE, 
+      SRCYEAR)
+    values (#{DATASOURCEID,jdbcType=VARCHAR}, #{BUSINESSTYPE,jdbcType=VARCHAR}, #{BUSINESSNAME,jdbcType=VARCHAR}, 
+      #{URL,jdbcType=VARCHAR}, #{USERNAME,jdbcType=VARCHAR}, #{PASSWORD,jdbcType=VARCHAR}, 
+      #{DRIVERCLASSNAME,jdbcType=VARCHAR}, #{CREATETIME,jdbcType=TIMESTAMP}, #{CREATEUSER,jdbcType=VARCHAR}, 
+      #{UPDATETIME,jdbcType=TIMESTAMP}, #{UPDATEUSER,jdbcType=VARCHAR}, #{DBVERSION,jdbcType=TIMESTAMP}, 
+      #{ISDELETE,jdbcType=DECIMAL}, #{PUBLICKEY,jdbcType=VARCHAR}, #{DATABASETYPE,jdbcType=DECIMAL}, 
+      #{GUID,jdbcType=VARCHAR}, #{ISSYNC,jdbcType=DECIMAL}, #{PROVINCE,jdbcType=VARCHAR}, 
+      #{YEAR,jdbcType=VARCHAR}, #{SERVERID,jdbcType=VARCHAR}, #{SRCPROVINCE,jdbcType=VARCHAR}, 
+      #{SRCYEAR,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.micro.service.springredis.model.FaspTSyncdatabase">
+    <!--@mbg.generated-->
+    insert into FASP_T_SYNCDATABASE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="DATASOURCEID != null">
+        DATASOURCEID,
+      </if>
+      <if test="BUSINESSTYPE != null">
+        BUSINESSTYPE,
+      </if>
+      <if test="BUSINESSNAME != null">
+        BUSINESSNAME,
+      </if>
+      <if test="URL != null">
+        URL,
+      </if>
+      <if test="USERNAME != null">
+        USERNAME,
+      </if>
+      <if test="PASSWORD != null">
+        "PASSWORD",
+      </if>
+      <if test="DRIVERCLASSNAME != null">
+        DRIVERCLASSNAME,
+      </if>
+      <if test="CREATETIME != null">
+        CREATETIME,
+      </if>
+      <if test="CREATEUSER != null">
+        "CREATEUSER",
+      </if>
+      <if test="UPDATETIME != null">
+        UPDATETIME,
+      </if>
+      <if test="UPDATEUSER != null">
+        UPDATEUSER,
+      </if>
+      <if test="DBVERSION != null">
+        DBVERSION,
+      </if>
+      <if test="ISDELETE != null">
+        ISDELETE,
+      </if>
+      <if test="PUBLICKEY != null">
+        PUBLICKEY,
+      </if>
+      <if test="DATABASETYPE != null">
+        DATABASETYPE,
+      </if>
+      <if test="GUID != null">
+        GUID,
+      </if>
+      <if test="ISSYNC != null">
+        ISSYNC,
+      </if>
+      <if test="PROVINCE != null">
+        PROVINCE,
+      </if>
+      <if test="YEAR != null">
+        "YEAR",
+      </if>
+      <if test="SERVERID != null">
+        SERVERID,
+      </if>
+      <if test="SRCPROVINCE != null">
+        SRCPROVINCE,
+      </if>
+      <if test="SRCYEAR != null">
+        SRCYEAR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="DATASOURCEID != null">
+        #{DATASOURCEID,jdbcType=VARCHAR},
+      </if>
+      <if test="BUSINESSTYPE != null">
+        #{BUSINESSTYPE,jdbcType=VARCHAR},
+      </if>
+      <if test="BUSINESSNAME != null">
+        #{BUSINESSNAME,jdbcType=VARCHAR},
+      </if>
+      <if test="URL != null">
+        #{URL,jdbcType=VARCHAR},
+      </if>
+      <if test="USERNAME != null">
+        #{USERNAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PASSWORD != null">
+        #{PASSWORD,jdbcType=VARCHAR},
+      </if>
+      <if test="DRIVERCLASSNAME != null">
+        #{DRIVERCLASSNAME,jdbcType=VARCHAR},
+      </if>
+      <if test="CREATETIME != null">
+        #{CREATETIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="CREATEUSER != null">
+        #{CREATEUSER,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATETIME != null">
+        #{UPDATETIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="UPDATEUSER != null">
+        #{UPDATEUSER,jdbcType=VARCHAR},
+      </if>
+      <if test="DBVERSION != null">
+        #{DBVERSION,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ISDELETE != null">
+        #{ISDELETE,jdbcType=DECIMAL},
+      </if>
+      <if test="PUBLICKEY != null">
+        #{PUBLICKEY,jdbcType=VARCHAR},
+      </if>
+      <if test="DATABASETYPE != null">
+        #{DATABASETYPE,jdbcType=DECIMAL},
+      </if>
+      <if test="GUID != null">
+        #{GUID,jdbcType=VARCHAR},
+      </if>
+      <if test="ISSYNC != null">
+        #{ISSYNC,jdbcType=DECIMAL},
+      </if>
+      <if test="PROVINCE != null">
+        #{PROVINCE,jdbcType=VARCHAR},
+      </if>
+      <if test="YEAR != null">
+        #{YEAR,jdbcType=VARCHAR},
+      </if>
+      <if test="SERVERID != null">
+        #{SERVERID,jdbcType=VARCHAR},
+      </if>
+      <if test="SRCPROVINCE != null">
+        #{SRCPROVINCE,jdbcType=VARCHAR},
+      </if>
+      <if test="SRCYEAR != null">
+        #{SRCYEAR,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <!--@mbg.generated-->
+  select
+  <include refid="Base_Column_List" />
+  from FASP_T_SYNCDATABASE
+  where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+</mapper>

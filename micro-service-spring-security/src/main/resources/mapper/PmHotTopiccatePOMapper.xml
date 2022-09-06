@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.mof.fasp3.masterdata.maincollector.executive.server.dao.PmHotTopiccatePOMapper">
+  <resultMap id="BaseResultMap" type="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PmHotTopiccatePO">
+    <!--@mbg.generated-->
+    <!--@Table PM_HOT_TOPICCATE-->
+    <id column="PRO_HOT_TOPIC_ID" jdbcType="VARCHAR" property="PRO_HOT_TOPIC_ID" />
+    <result column="MOF_DIV_CODE" jdbcType="VARCHAR" property="MOF_DIV_CODE" />
+    <result column="SETUP_YEAR" jdbcType="VARCHAR" property="SETUP_YEAR" />
+    <result column="PRO_CODE" jdbcType="VARCHAR" property="PRO_CODE" />
+    <result column="HOT_TOPIC_CATE_CODE" jdbcType="VARCHAR" property="HOT_TOPIC_CATE_CODE" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="UPDATE_TIME" />
+    <result column="IS_DELETED" jdbcType="VARCHAR" property="IS_DELETED" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="CREATE_TIME" />
+    <result column="BGT_ID" jdbcType="VARCHAR" property="BGT_ID" />
+    <result column="PARAM_1" jdbcType="VARCHAR" property="PARAM_1" />
+    <result column="PARAM_2" jdbcType="VARCHAR" property="PARAM_2" />
+    <result column="PARAM_3" jdbcType="VARCHAR" property="PARAM_3" />
+    <result column="PARAM_4" jdbcType="VARCHAR" property="PARAM_4" />
+    <result column="PARAM_5" jdbcType="VARCHAR" property="PARAM_5" />
+    <result column="MOF_DIV_NAME" jdbcType="VARCHAR" property="MOF_DIV_NAME" />
+    <result column="PRO_NAME" jdbcType="VARCHAR" property="PRO_NAME" />
+    <result column="HOT_TOPIC_CATE_NAME" jdbcType="VARCHAR" property="HOT_TOPIC_CATE_NAME" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PRO_HOT_TOPIC_ID, MOF_DIV_CODE, SETUP_YEAR, PRO_CODE, HOT_TOPIC_CATE_CODE, UPDATE_TIME, 
+    IS_DELETED, CREATE_TIME, BGT_ID, PARAM_1, PARAM_2, PARAM_3, PARAM_4, PARAM_5, MOF_DIV_NAME, 
+    PRO_NAME, HOT_TOPIC_CATE_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from PM_HOT_TOPICCATE
+    where PRO_HOT_TOPIC_ID = #{PRO_HOT_TOPIC_ID,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from PM_HOT_TOPICCATE
+    where PRO_HOT_TOPIC_ID = #{PRO_HOT_TOPIC_ID,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PmHotTopiccatePO">
+    <!--@mbg.generated-->
+    insert into PM_HOT_TOPICCATE (PRO_HOT_TOPIC_ID, MOF_DIV_CODE, SETUP_YEAR, 
+      PRO_CODE, HOT_TOPIC_CATE_CODE, UPDATE_TIME, 
+      IS_DELETED, CREATE_TIME, BGT_ID, 
+      PARAM_1, PARAM_2, PARAM_3, 
+      PARAM_4, PARAM_5, MOF_DIV_NAME, 
+      PRO_NAME, HOT_TOPIC_CATE_NAME)
+    values (#{PRO_HOT_TOPIC_ID,jdbcType=VARCHAR}, #{MOF_DIV_CODE,jdbcType=VARCHAR}, #{SETUP_YEAR,jdbcType=VARCHAR}, 
+      #{PRO_CODE,jdbcType=VARCHAR}, #{HOT_TOPIC_CATE_CODE,jdbcType=VARCHAR}, #{UPDATE_TIME,jdbcType=TIMESTAMP}, 
+      #{IS_DELETED,jdbcType=VARCHAR}, #{CREATE_TIME,jdbcType=TIMESTAMP}, #{BGT_ID,jdbcType=VARCHAR}, 
+      #{PARAM_1,jdbcType=VARCHAR}, #{PARAM_2,jdbcType=VARCHAR}, #{PARAM_3,jdbcType=VARCHAR}, 
+      #{PARAM_4,jdbcType=VARCHAR}, #{PARAM_5,jdbcType=VARCHAR}, #{MOF_DIV_NAME,jdbcType=VARCHAR}, 
+      #{PRO_NAME,jdbcType=VARCHAR}, #{HOT_TOPIC_CATE_NAME,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PmHotTopiccatePO">
+    <!--@mbg.generated-->
+    insert into PM_HOT_TOPICCATE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="PRO_HOT_TOPIC_ID != null">
+        PRO_HOT_TOPIC_ID,
+      </if>
+      <if test="MOF_DIV_CODE != null">
+        MOF_DIV_CODE,
+      </if>
+      <if test="SETUP_YEAR != null">
+        SETUP_YEAR,
+      </if>
+      <if test="PRO_CODE != null">
+        PRO_CODE,
+      </if>
+      <if test="HOT_TOPIC_CATE_CODE != null">
+        HOT_TOPIC_CATE_CODE,
+      </if>
+      <if test="UPDATE_TIME != null">
+        UPDATE_TIME,
+      </if>
+      <if test="IS_DELETED != null">
+        IS_DELETED,
+      </if>
+      <if test="CREATE_TIME != null">
+        CREATE_TIME,
+      </if>
+      <if test="BGT_ID != null">
+        BGT_ID,
+      </if>
+      <if test="PARAM_1 != null">
+        PARAM_1,
+      </if>
+      <if test="PARAM_2 != null">
+        PARAM_2,
+      </if>
+      <if test="PARAM_3 != null">
+        PARAM_3,
+      </if>
+      <if test="PARAM_4 != null">
+        PARAM_4,
+      </if>
+      <if test="PARAM_5 != null">
+        PARAM_5,
+      </if>
+      <if test="MOF_DIV_NAME != null">
+        MOF_DIV_NAME,
+      </if>
+      <if test="PRO_NAME != null">
+        PRO_NAME,
+      </if>
+      <if test="HOT_TOPIC_CATE_NAME != null">
+        HOT_TOPIC_CATE_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="PRO_HOT_TOPIC_ID != null">
+        #{PRO_HOT_TOPIC_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="MOF_DIV_CODE != null">
+        #{MOF_DIV_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="SETUP_YEAR != null">
+        #{SETUP_YEAR,jdbcType=VARCHAR},
+      </if>
+      <if test="PRO_CODE != null">
+        #{PRO_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="HOT_TOPIC_CATE_CODE != null">
+        #{HOT_TOPIC_CATE_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATE_TIME != null">
+        #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IS_DELETED != null">
+        #{IS_DELETED,jdbcType=VARCHAR},
+      </if>
+      <if test="CREATE_TIME != null">
+        #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="BGT_ID != null">
+        #{BGT_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_1 != null">
+        #{PARAM_1,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_2 != null">
+        #{PARAM_2,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_3 != null">
+        #{PARAM_3,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_4 != null">
+        #{PARAM_4,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_5 != null">
+        #{PARAM_5,jdbcType=VARCHAR},
+      </if>
+      <if test="MOF_DIV_NAME != null">
+        #{MOF_DIV_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PRO_NAME != null">
+        #{PRO_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="HOT_TOPIC_CATE_NAME != null">
+        #{HOT_TOPIC_CATE_NAME,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PmHotTopiccatePO">
+    <!--@mbg.generated-->
+    update PM_HOT_TOPICCATE
+    <set>
+      <if test="MOF_DIV_CODE != null">
+        MOF_DIV_CODE = #{MOF_DIV_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="SETUP_YEAR != null">
+        SETUP_YEAR = #{SETUP_YEAR,jdbcType=VARCHAR},
+      </if>
+      <if test="PRO_CODE != null">
+        PRO_CODE = #{PRO_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="HOT_TOPIC_CATE_CODE != null">
+        HOT_TOPIC_CATE_CODE = #{HOT_TOPIC_CATE_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATE_TIME != null">
+        UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IS_DELETED != null">
+        IS_DELETED = #{IS_DELETED,jdbcType=VARCHAR},
+      </if>
+      <if test="CREATE_TIME != null">
+        CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="BGT_ID != null">
+        BGT_ID = #{BGT_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_1 != null">
+        PARAM_1 = #{PARAM_1,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_2 != null">
+        PARAM_2 = #{PARAM_2,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_3 != null">
+        PARAM_3 = #{PARAM_3,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_4 != null">
+        PARAM_4 = #{PARAM_4,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_5 != null">
+        PARAM_5 = #{PARAM_5,jdbcType=VARCHAR},
+      </if>
+      <if test="MOF_DIV_NAME != null">
+        MOF_DIV_NAME = #{MOF_DIV_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PRO_NAME != null">
+        PRO_NAME = #{PRO_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="HOT_TOPIC_CATE_NAME != null">
+        HOT_TOPIC_CATE_NAME = #{HOT_TOPIC_CATE_NAME,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PRO_HOT_TOPIC_ID = #{PRO_HOT_TOPIC_ID,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PmHotTopiccatePO">
+    <!--@mbg.generated-->
+    update PM_HOT_TOPICCATE
+    set MOF_DIV_CODE = #{MOF_DIV_CODE,jdbcType=VARCHAR},
+      SETUP_YEAR = #{SETUP_YEAR,jdbcType=VARCHAR},
+      PRO_CODE = #{PRO_CODE,jdbcType=VARCHAR},
+      HOT_TOPIC_CATE_CODE = #{HOT_TOPIC_CATE_CODE,jdbcType=VARCHAR},
+      UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      IS_DELETED = #{IS_DELETED,jdbcType=VARCHAR},
+      CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      BGT_ID = #{BGT_ID,jdbcType=VARCHAR},
+      PARAM_1 = #{PARAM_1,jdbcType=VARCHAR},
+      PARAM_2 = #{PARAM_2,jdbcType=VARCHAR},
+      PARAM_3 = #{PARAM_3,jdbcType=VARCHAR},
+      PARAM_4 = #{PARAM_4,jdbcType=VARCHAR},
+      PARAM_5 = #{PARAM_5,jdbcType=VARCHAR},
+      MOF_DIV_NAME = #{MOF_DIV_NAME,jdbcType=VARCHAR},
+      PRO_NAME = #{PRO_NAME,jdbcType=VARCHAR},
+      HOT_TOPIC_CATE_NAME = #{HOT_TOPIC_CATE_NAME,jdbcType=VARCHAR}
+    where PRO_HOT_TOPIC_ID = #{PRO_HOT_TOPIC_ID,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByProvinceAndYear" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from PM_HOT_TOPICCATE
+    <where>
+      MOF_DIV_CODE = #{MOF_DIV_CODE,jdbcType=VARCHAR}
+      <if test="FISCAL_YEAR != null and FISCAL_YEAR != ''">
+        and SETUP_YEAR =#{FISCAL_YEAR,jdbcType=VARCHAR}
+      </if>
+      <if test="PRO_CODE != null and PRO_CODE != ''">
+        and PRO_CODE =#{PRO_CODE,jdbcType=VARCHAR}
+      </if>
+      <if test="BGT_ID != null and BGT_ID != ''">
+        and BGT_ID = #{BGT_ID,jdbcType=VARCHAR}
+      </if>
+      <if test="START_TIME != null and START_TIME != ''">
+        and UPDATE_TIME >= to_date(#{START_TIME,jdbcType=VARCHAR},'yyyy-MM-dd HH24:mi:ss')
+        and UPDATE_TIME &lt; to_date(#{END_TIME,jdbcType=VARCHAR},'yyyy-MM-dd HH24:mi:ss')
+      </if>
+    </where>
+  </select>
+</mapper>

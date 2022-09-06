@@ -119,4 +119,8 @@ set ele_name            = F_GET_SENSITIVE(ele_name, 2),
 --¥¶ “±ÌÕ—√Ù
 update ele_vc01004 set ele_name =F_GET_SENSITIVE(ele_name,2);
 
+update ele_vd08001 set ele_name =F_GET_SENSITIVE(ele_name,2);
+
 */
+
+

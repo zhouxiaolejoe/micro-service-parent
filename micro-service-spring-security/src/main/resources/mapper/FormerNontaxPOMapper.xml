@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.mof.fasp3.masterdata.maincollector.executive.server.dao.FormerNontaxPOMapper">
+  <resultMap id="BaseResultMap" type="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.FormerNontaxPO">
+    <!--@mbg.generated-->
+    <!--@Table FORMER_NONTAX-->
+    <id column="FISCAL_YEAR" jdbcType="VARCHAR" property="FISCAL_YEAR" />
+    <id column="AGENCY_CODE" jdbcType="VARCHAR" property="AGENCY_CODE" />
+    <id column="NONTAX_PRO_CODE" jdbcType="VARCHAR" property="NONTAX_PRO_CODE" />
+    <result column="NONTAX_PRO_NAME" jdbcType="VARCHAR" property="NONTAX_PRO_NAME" />
+    <result column="PAY_AMT" jdbcType="DECIMAL" property="PAY_AMT" />
+    <result column="PARAM_1" jdbcType="VARCHAR" property="PARAM_1" />
+    <result column="PARAM_2" jdbcType="VARCHAR" property="PARAM_2" />
+    <result column="PARAM_3" jdbcType="VARCHAR" property="PARAM_3" />
+    <result column="PARAM_4" jdbcType="VARCHAR" property="PARAM_4" />
+    <result column="PARAM_5" jdbcType="VARCHAR" property="PARAM_5" />
+    <result column="PARAM_6" jdbcType="DECIMAL" property="PARAM_6" />
+    <result column="PARAM_7" jdbcType="DECIMAL" property="PARAM_7" />
+    <result column="PARAM_8" jdbcType="DECIMAL" property="PARAM_8" />
+    <result column="PARAM_9" jdbcType="DECIMAL" property="PARAM_9" />
+    <result column="PARAM_10" jdbcType="DECIMAL" property="PARAM_10" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    FISCAL_YEAR, AGENCY_CODE, NONTAX_PRO_CODE, NONTAX_PRO_NAME, PAY_AMT, PARAM_1, PARAM_2, 
+    PARAM_3, PARAM_4, PARAM_5, PARAM_6, PARAM_7, PARAM_8, PARAM_9, PARAM_10
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from FORMER_NONTAX
+    where FISCAL_YEAR = #{FISCAL_YEAR,jdbcType=VARCHAR}
+      and AGENCY_CODE = #{AGENCY_CODE,jdbcType=VARCHAR}
+      and NONTAX_PRO_CODE = #{NONTAX_PRO_CODE,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    <!--@mbg.generated-->
+    delete from FORMER_NONTAX
+    where FISCAL_YEAR = #{FISCAL_YEAR,jdbcType=VARCHAR}
+      and AGENCY_CODE = #{AGENCY_CODE,jdbcType=VARCHAR}
+      and NONTAX_PRO_CODE = #{NONTAX_PRO_CODE,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.FormerNontaxPO">
+    <!--@mbg.generated-->
+    insert into FORMER_NONTAX (FISCAL_YEAR, AGENCY_CODE, NONTAX_PRO_CODE, 
+      NONTAX_PRO_NAME, PAY_AMT, PARAM_1, 
+      PARAM_2, PARAM_3, PARAM_4, 
+      PARAM_5, PARAM_6, PARAM_7, 
+      PARAM_8, PARAM_9, PARAM_10
+      )
+    values (#{FISCAL_YEAR,jdbcType=VARCHAR}, #{AGENCY_CODE,jdbcType=VARCHAR}, #{NONTAX_PRO_CODE,jdbcType=VARCHAR}, 
+      #{NONTAX_PRO_NAME,jdbcType=VARCHAR}, #{PAY_AMT,jdbcType=DECIMAL}, #{PARAM_1,jdbcType=VARCHAR}, 
+      #{PARAM_2,jdbcType=VARCHAR}, #{PARAM_3,jdbcType=VARCHAR}, #{PARAM_4,jdbcType=VARCHAR}, 
+      #{PARAM_5,jdbcType=VARCHAR}, #{PARAM_6,jdbcType=DECIMAL}, #{PARAM_7,jdbcType=DECIMAL}, 
+      #{PARAM_8,jdbcType=DECIMAL}, #{PARAM_9,jdbcType=DECIMAL}, #{PARAM_10,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.FormerNontaxPO">
+    <!--@mbg.generated-->
+    insert into FORMER_NONTAX
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="FISCAL_YEAR != null">
+        FISCAL_YEAR,
+      </if>
+      <if test="AGENCY_CODE != null">
+        AGENCY_CODE,
+      </if>
+      <if test="NONTAX_PRO_CODE != null">
+        NONTAX_PRO_CODE,
+      </if>
+      <if test="NONTAX_PRO_NAME != null">
+        NONTAX_PRO_NAME,
+      </if>
+      <if test="PAY_AMT != null">
+        PAY_AMT,
+      </if>
+      <if test="PARAM_1 != null">
+        PARAM_1,
+      </if>
+      <if test="PARAM_2 != null">
+        PARAM_2,
+      </if>
+      <if test="PARAM_3 != null">
+        PARAM_3,
+      </if>
+      <if test="PARAM_4 != null">
+        PARAM_4,
+      </if>
+      <if test="PARAM_5 != null">
+        PARAM_5,
+      </if>
+      <if test="PARAM_6 != null">
+        PARAM_6,
+      </if>
+      <if test="PARAM_7 != null">
+        PARAM_7,
+      </if>
+      <if test="PARAM_8 != null">
+        PARAM_8,
+      </if>
+      <if test="PARAM_9 != null">
+        PARAM_9,
+      </if>
+      <if test="PARAM_10 != null">
+        PARAM_10,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="FISCAL_YEAR != null">
+        #{FISCAL_YEAR,jdbcType=VARCHAR},
+      </if>
+      <if test="AGENCY_CODE != null">
+        #{AGENCY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="NONTAX_PRO_CODE != null">
+        #{NONTAX_PRO_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="NONTAX_PRO_NAME != null">
+        #{NONTAX_PRO_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_AMT != null">
+        #{PAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_1 != null">
+        #{PARAM_1,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_2 != null">
+        #{PARAM_2,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_3 != null">
+        #{PARAM_3,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_4 != null">
+        #{PARAM_4,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_5 != null">
+        #{PARAM_5,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_6 != null">
+        #{PARAM_6,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_7 != null">
+        #{PARAM_7,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_8 != null">
+        #{PARAM_8,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_9 != null">
+        #{PARAM_9,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_10 != null">
+        #{PARAM_10,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.FormerNontaxPO">
+    <!--@mbg.generated-->
+    update FORMER_NONTAX
+    <set>
+      <if test="NONTAX_PRO_NAME != null">
+        NONTAX_PRO_NAME = #{NONTAX_PRO_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_AMT != null">
+        PAY_AMT = #{PAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_1 != null">
+        PARAM_1 = #{PARAM_1,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_2 != null">
+        PARAM_2 = #{PARAM_2,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_3 != null">
+        PARAM_3 = #{PARAM_3,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_4 != null">
+        PARAM_4 = #{PARAM_4,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_5 != null">
+        PARAM_5 = #{PARAM_5,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_6 != null">
+        PARAM_6 = #{PARAM_6,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_7 != null">
+        PARAM_7 = #{PARAM_7,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_8 != null">
+        PARAM_8 = #{PARAM_8,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_9 != null">
+        PARAM_9 = #{PARAM_9,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_10 != null">
+        PARAM_10 = #{PARAM_10,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where FISCAL_YEAR = #{FISCAL_YEAR,jdbcType=VARCHAR}
+      and AGENCY_CODE = #{AGENCY_CODE,jdbcType=VARCHAR}
+      and NONTAX_PRO_CODE = #{NONTAX_PRO_CODE,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.FormerNontaxPO">
+    <!--@mbg.generated-->
+    update FORMER_NONTAX
+    set NONTAX_PRO_NAME = #{NONTAX_PRO_NAME,jdbcType=VARCHAR},
+      PAY_AMT = #{PAY_AMT,jdbcType=DECIMAL},
+      PARAM_1 = #{PARAM_1,jdbcType=VARCHAR},
+      PARAM_2 = #{PARAM_2,jdbcType=VARCHAR},
+      PARAM_3 = #{PARAM_3,jdbcType=VARCHAR},
+      PARAM_4 = #{PARAM_4,jdbcType=VARCHAR},
+      PARAM_5 = #{PARAM_5,jdbcType=VARCHAR},
+      PARAM_6 = #{PARAM_6,jdbcType=DECIMAL},
+      PARAM_7 = #{PARAM_7,jdbcType=DECIMAL},
+      PARAM_8 = #{PARAM_8,jdbcType=DECIMAL},
+      PARAM_9 = #{PARAM_9,jdbcType=DECIMAL},
+      PARAM_10 = #{PARAM_10,jdbcType=DECIMAL}
+    where FISCAL_YEAR = #{FISCAL_YEAR,jdbcType=VARCHAR}
+      and AGENCY_CODE = #{AGENCY_CODE,jdbcType=VARCHAR}
+      and NONTAX_PRO_CODE = #{NONTAX_PRO_CODE,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.mof.fasp3.masterdata.maincollector.executive.server.dao.PayDetailPOMapper">
+  <resultMap id="BaseResultMap" type="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PayDetailPO">
+    <!--@mbg.generated-->
+    <!--@Table PAY_DETAIL-->
+    <id column="PAY_DETAIL_ID" jdbcType="VARCHAR" property="PAY_DETAIL_ID" />
+    <result column="AGENCY_CODE" jdbcType="VARCHAR" property="AGENCY_CODE" />
+    <result column="PAYEE_ACCT_NAME" jdbcType="VARCHAR" property="PAYEE_ACCT_NAME" />
+    <result column="PAYEE_ACCT_NO" jdbcType="VARCHAR" property="PAYEE_ACCT_NO" />
+    <result column="PAYEE_ACCT_BANK_NAME" jdbcType="VARCHAR" property="PAYEE_ACCT_BANK_NAME" />
+    <result column="PAY_AMT" jdbcType="DECIMAL" property="PAY_AMT" />
+    <result column="XPAY_AMT" jdbcType="DECIMAL" property="XPAY_AMT" />
+    <result column="ADD_WORD" jdbcType="VARCHAR" property="ADD_WORD" />
+    <result column="PAY_CERT_NO" jdbcType="VARCHAR" property="PAY_CERT_NO" />
+    <result column="PAY_APPLY_ID" jdbcType="VARCHAR" property="PAY_APPLY_ID" />
+    <result column="TRACKING_ID" jdbcType="VARCHAR" property="TRACKING_ID" />
+    <result column="MOF_DIV_CODE" jdbcType="VARCHAR" property="MOF_DIV_CODE" />
+    <result column="RECEIVER_CODE" jdbcType="VARCHAR" property="RECEIVER_CODE" />
+    <result column="FISCAL_YEAR" jdbcType="VARCHAR" property="FISCAL_YEAR" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="UPDATE_TIME" />
+    <result column="IS_DELETED" jdbcType="VARCHAR" property="IS_DELETED" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="CREATE_TIME" />
+    <result column="IS_TO_PEOP_ENTERP" jdbcType="VARCHAR" property="IS_TO_PEOP_ENTERP" />
+    <result column="PER_NAME" jdbcType="VARCHAR" property="PER_NAME" />
+    <result column="IDEN_NO" jdbcType="VARCHAR" property="IDEN_NO" />
+    <result column="CORP_NAME" jdbcType="VARCHAR" property="CORP_NAME" />
+    <result column="UNIFSOC_CRED_CODE" jdbcType="VARCHAR" property="UNIFSOC_CRED_CODE" />
+    <result column="PAY_MONTH" jdbcType="VARCHAR" property="PAY_MONTH" />
+    <result column="TO_PEOP_ENTERP" jdbcType="VARCHAR" property="TO_PEOP_ENTERP" />
+    <result column="TOWN_CODE" jdbcType="VARCHAR" property="TOWN_CODE" />
+    <result column="TOWN_NAME" jdbcType="VARCHAR" property="TOWN_NAME" />
+    <result column="VILLAGE_CODE" jdbcType="VARCHAR" property="VILLAGE_CODE" />
+    <result column="VILLAGE_NAME" jdbcType="VARCHAR" property="VILLAGE_NAME" />
+    <result column="TO_PEOP_FAMILY" jdbcType="VARCHAR" property="TO_PEOP_FAMILY" />
+    <result column="PARAM_1" jdbcType="VARCHAR" property="PARAM_1" />
+    <result column="PARAM_2" jdbcType="VARCHAR" property="PARAM_2" />
+    <result column="PARAM_3" jdbcType="VARCHAR" property="PARAM_3" />
+    <result column="PARAM_4" jdbcType="VARCHAR" property="PARAM_4" />
+    <result column="PARAM_5" jdbcType="VARCHAR" property="PARAM_5" />
+    <result column="PARAM_6" jdbcType="DECIMAL" property="PARAM_6" />
+    <result column="PARAM_7" jdbcType="DECIMAL" property="PARAM_7" />
+    <result column="PARAM_8" jdbcType="DECIMAL" property="PARAM_8" />
+    <result column="PARAM_9" jdbcType="DECIMAL" property="PARAM_9" />
+    <result column="PARAM_10" jdbcType="DECIMAL" property="PARAM_10" />
+    <result column="MOF_DIV_NAME" jdbcType="VARCHAR" property="MOF_DIV_NAME" />
+    <result column="AGENCY_NAME" jdbcType="VARCHAR" property="AGENCY_NAME" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PAY_DETAIL_ID, AGENCY_CODE, PAYEE_ACCT_NAME, PAYEE_ACCT_NO, PAYEE_ACCT_BANK_NAME, 
+    PAY_AMT, XPAY_AMT, ADD_WORD, PAY_CERT_NO, PAY_APPLY_ID, TRACKING_ID, MOF_DIV_CODE, 
+    RECEIVER_CODE, FISCAL_YEAR, UPDATE_TIME, IS_DELETED, CREATE_TIME, IS_TO_PEOP_ENTERP, 
+    PER_NAME, IDEN_NO, CORP_NAME, UNIFSOC_CRED_CODE, PAY_MONTH, TO_PEOP_ENTERP, TOWN_CODE, 
+    TOWN_NAME, VILLAGE_CODE, VILLAGE_NAME, TO_PEOP_FAMILY, PARAM_1, PARAM_2, PARAM_3, 
+    PARAM_4, PARAM_5, PARAM_6, PARAM_7, PARAM_8, PARAM_9, PARAM_10, MOF_DIV_NAME, AGENCY_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from PAY_DETAIL
+    where PAY_DETAIL_ID = #{PAY_DETAIL_ID,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from PAY_DETAIL
+    where PAY_DETAIL_ID = #{PAY_DETAIL_ID,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PayDetailPO">
+    <!--@mbg.generated-->
+    insert into PAY_DETAIL (PAY_DETAIL_ID, AGENCY_CODE, PAYEE_ACCT_NAME, 
+      PAYEE_ACCT_NO, PAYEE_ACCT_BANK_NAME, PAY_AMT, 
+      XPAY_AMT, ADD_WORD, PAY_CERT_NO, 
+      PAY_APPLY_ID, TRACKING_ID, MOF_DIV_CODE, 
+      RECEIVER_CODE, FISCAL_YEAR, UPDATE_TIME, 
+      IS_DELETED, CREATE_TIME, IS_TO_PEOP_ENTERP, 
+      PER_NAME, IDEN_NO, CORP_NAME, 
+      UNIFSOC_CRED_CODE, PAY_MONTH, TO_PEOP_ENTERP, 
+      TOWN_CODE, TOWN_NAME, VILLAGE_CODE, 
+      VILLAGE_NAME, TO_PEOP_FAMILY, PARAM_1, 
+      PARAM_2, PARAM_3, PARAM_4, 
+      PARAM_5, PARAM_6, PARAM_7, 
+      PARAM_8, PARAM_9, PARAM_10, 
+      MOF_DIV_NAME, AGENCY_NAME)
+    values (#{PAY_DETAIL_ID,jdbcType=VARCHAR}, #{AGENCY_CODE,jdbcType=VARCHAR}, #{PAYEE_ACCT_NAME,jdbcType=VARCHAR}, 
+      #{PAYEE_ACCT_NO,jdbcType=VARCHAR}, #{PAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR}, #{PAY_AMT,jdbcType=DECIMAL}, 
+      #{XPAY_AMT,jdbcType=DECIMAL}, #{ADD_WORD,jdbcType=VARCHAR}, #{PAY_CERT_NO,jdbcType=VARCHAR}, 
+      #{PAY_APPLY_ID,jdbcType=VARCHAR}, #{TRACKING_ID,jdbcType=VARCHAR}, #{MOF_DIV_CODE,jdbcType=VARCHAR}, 
+      #{RECEIVER_CODE,jdbcType=VARCHAR}, #{FISCAL_YEAR,jdbcType=VARCHAR}, #{UPDATE_TIME,jdbcType=TIMESTAMP}, 
+      #{IS_DELETED,jdbcType=VARCHAR}, #{CREATE_TIME,jdbcType=TIMESTAMP}, #{IS_TO_PEOP_ENTERP,jdbcType=VARCHAR}, 
+      #{PER_NAME,jdbcType=VARCHAR}, #{IDEN_NO,jdbcType=VARCHAR}, #{CORP_NAME,jdbcType=VARCHAR}, 
+      #{UNIFSOC_CRED_CODE,jdbcType=VARCHAR}, #{PAY_MONTH,jdbcType=VARCHAR}, #{TO_PEOP_ENTERP,jdbcType=VARCHAR}, 
+      #{TOWN_CODE,jdbcType=VARCHAR}, #{TOWN_NAME,jdbcType=VARCHAR}, #{VILLAGE_CODE,jdbcType=VARCHAR}, 
+      #{VILLAGE_NAME,jdbcType=VARCHAR}, #{TO_PEOP_FAMILY,jdbcType=VARCHAR}, #{PARAM_1,jdbcType=VARCHAR}, 
+      #{PARAM_2,jdbcType=VARCHAR}, #{PARAM_3,jdbcType=VARCHAR}, #{PARAM_4,jdbcType=VARCHAR}, 
+      #{PARAM_5,jdbcType=VARCHAR}, #{PARAM_6,jdbcType=DECIMAL}, #{PARAM_7,jdbcType=DECIMAL}, 
+      #{PARAM_8,jdbcType=DECIMAL}, #{PARAM_9,jdbcType=DECIMAL}, #{PARAM_10,jdbcType=DECIMAL}, 
+      #{MOF_DIV_NAME,jdbcType=VARCHAR}, #{AGENCY_NAME,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PayDetailPO">
+    <!--@mbg.generated-->
+    insert into PAY_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="PAY_DETAIL_ID != null">
+        PAY_DETAIL_ID,
+      </if>
+      <if test="AGENCY_CODE != null">
+        AGENCY_CODE,
+      </if>
+      <if test="PAYEE_ACCT_NAME != null">
+        PAYEE_ACCT_NAME,
+      </if>
+      <if test="PAYEE_ACCT_NO != null">
+        PAYEE_ACCT_NO,
+      </if>
+      <if test="PAYEE_ACCT_BANK_NAME != null">
+        PAYEE_ACCT_BANK_NAME,
+      </if>
+      <if test="PAY_AMT != null">
+        PAY_AMT,
+      </if>
+      <if test="XPAY_AMT != null">
+        XPAY_AMT,
+      </if>
+      <if test="ADD_WORD != null">
+        ADD_WORD,
+      </if>
+      <if test="PAY_CERT_NO != null">
+        PAY_CERT_NO,
+      </if>
+      <if test="PAY_APPLY_ID != null">
+        PAY_APPLY_ID,
+      </if>
+      <if test="TRACKING_ID != null">
+        TRACKING_ID,
+      </if>
+      <if test="MOF_DIV_CODE != null">
+        MOF_DIV_CODE,
+      </if>
+      <if test="RECEIVER_CODE != null">
+        RECEIVER_CODE,
+      </if>
+      <if test="FISCAL_YEAR != null">
+        FISCAL_YEAR,
+      </if>
+      <if test="UPDATE_TIME != null">
+        UPDATE_TIME,
+      </if>
+      <if test="IS_DELETED != null">
+        IS_DELETED,
+      </if>
+      <if test="CREATE_TIME != null">
+        CREATE_TIME,
+      </if>
+      <if test="IS_TO_PEOP_ENTERP != null">
+        IS_TO_PEOP_ENTERP,
+      </if>
+      <if test="PER_NAME != null">
+        PER_NAME,
+      </if>
+      <if test="IDEN_NO != null">
+        IDEN_NO,
+      </if>
+      <if test="CORP_NAME != null">
+        CORP_NAME,
+      </if>
+      <if test="UNIFSOC_CRED_CODE != null">
+        UNIFSOC_CRED_CODE,
+      </if>
+      <if test="PAY_MONTH != null">
+        PAY_MONTH,
+      </if>
+      <if test="TO_PEOP_ENTERP != null">
+        TO_PEOP_ENTERP,
+      </if>
+      <if test="TOWN_CODE != null">
+        TOWN_CODE,
+      </if>
+      <if test="TOWN_NAME != null">
+        TOWN_NAME,
+      </if>
+      <if test="VILLAGE_CODE != null">
+        VILLAGE_CODE,
+      </if>
+      <if test="VILLAGE_NAME != null">
+        VILLAGE_NAME,
+      </if>
+      <if test="TO_PEOP_FAMILY != null">
+        TO_PEOP_FAMILY,
+      </if>
+      <if test="PARAM_1 != null">
+        PARAM_1,
+      </if>
+      <if test="PARAM_2 != null">
+        PARAM_2,
+      </if>
+      <if test="PARAM_3 != null">
+        PARAM_3,
+      </if>
+      <if test="PARAM_4 != null">
+        PARAM_4,
+      </if>
+      <if test="PARAM_5 != null">
+        PARAM_5,
+      </if>
+      <if test="PARAM_6 != null">
+        PARAM_6,
+      </if>
+      <if test="PARAM_7 != null">
+        PARAM_7,
+      </if>
+      <if test="PARAM_8 != null">
+        PARAM_8,
+      </if>
+      <if test="PARAM_9 != null">
+        PARAM_9,
+      </if>
+      <if test="PARAM_10 != null">
+        PARAM_10,
+      </if>
+      <if test="MOF_DIV_NAME != null">
+        MOF_DIV_NAME,
+      </if>
+      <if test="AGENCY_NAME != null">
+        AGENCY_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="PAY_DETAIL_ID != null">
+        #{PAY_DETAIL_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="AGENCY_CODE != null">
+        #{AGENCY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_NAME != null">
+        #{PAYEE_ACCT_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_NO != null">
+        #{PAYEE_ACCT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_BANK_NAME != null">
+        #{PAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_AMT != null">
+        #{PAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="XPAY_AMT != null">
+        #{XPAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="ADD_WORD != null">
+        #{ADD_WORD,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_CERT_NO != null">
+        #{PAY_CERT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_APPLY_ID != null">
+        #{PAY_APPLY_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="TRACKING_ID != null">
+        #{TRACKING_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="MOF_DIV_CODE != null">
+        #{MOF_DIV_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="RECEIVER_CODE != null">
+        #{RECEIVER_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="FISCAL_YEAR != null">
+        #{FISCAL_YEAR,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATE_TIME != null">
+        #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IS_DELETED != null">
+        #{IS_DELETED,jdbcType=VARCHAR},
+      </if>
+      <if test="CREATE_TIME != null">
+        #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IS_TO_PEOP_ENTERP != null">
+        #{IS_TO_PEOP_ENTERP,jdbcType=VARCHAR},
+      </if>
+      <if test="PER_NAME != null">
+        #{PER_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="IDEN_NO != null">
+        #{IDEN_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="CORP_NAME != null">
+        #{CORP_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="UNIFSOC_CRED_CODE != null">
+        #{UNIFSOC_CRED_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_MONTH != null">
+        #{PAY_MONTH,jdbcType=VARCHAR},
+      </if>
+      <if test="TO_PEOP_ENTERP != null">
+        #{TO_PEOP_ENTERP,jdbcType=VARCHAR},
+      </if>
+      <if test="TOWN_CODE != null">
+        #{TOWN_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="TOWN_NAME != null">
+        #{TOWN_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="VILLAGE_CODE != null">
+        #{VILLAGE_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="VILLAGE_NAME != null">
+        #{VILLAGE_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="TO_PEOP_FAMILY != null">
+        #{TO_PEOP_FAMILY,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_1 != null">
+        #{PARAM_1,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_2 != null">
+        #{PARAM_2,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_3 != null">
+        #{PARAM_3,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_4 != null">
+        #{PARAM_4,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_5 != null">
+        #{PARAM_5,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_6 != null">
+        #{PARAM_6,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_7 != null">
+        #{PARAM_7,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_8 != null">
+        #{PARAM_8,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_9 != null">
+        #{PARAM_9,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_10 != null">
+        #{PARAM_10,jdbcType=DECIMAL},
+      </if>
+      <if test="MOF_DIV_NAME != null">
+        #{MOF_DIV_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="AGENCY_NAME != null">
+        #{AGENCY_NAME,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PayDetailPO">
+    <!--@mbg.generated-->
+    update PAY_DETAIL
+    <set>
+      <if test="AGENCY_CODE != null">
+        AGENCY_CODE = #{AGENCY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_NAME != null">
+        PAYEE_ACCT_NAME = #{PAYEE_ACCT_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_NO != null">
+        PAYEE_ACCT_NO = #{PAYEE_ACCT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_BANK_NAME != null">
+        PAYEE_ACCT_BANK_NAME = #{PAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_AMT != null">
+        PAY_AMT = #{PAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="XPAY_AMT != null">
+        XPAY_AMT = #{XPAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="ADD_WORD != null">
+        ADD_WORD = #{ADD_WORD,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_CERT_NO != null">
+        PAY_CERT_NO = #{PAY_CERT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_APPLY_ID != null">
+        PAY_APPLY_ID = #{PAY_APPLY_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="TRACKING_ID != null">
+        TRACKING_ID = #{TRACKING_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="MOF_DIV_CODE != null">
+        MOF_DIV_CODE = #{MOF_DIV_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="RECEIVER_CODE != null">
+        RECEIVER_CODE = #{RECEIVER_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="FISCAL_YEAR != null">
+        FISCAL_YEAR = #{FISCAL_YEAR,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATE_TIME != null">
+        UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IS_DELETED != null">
+        IS_DELETED = #{IS_DELETED,jdbcType=VARCHAR},
+      </if>
+      <if test="CREATE_TIME != null">
+        CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IS_TO_PEOP_ENTERP != null">
+        IS_TO_PEOP_ENTERP = #{IS_TO_PEOP_ENTERP,jdbcType=VARCHAR},
+      </if>
+      <if test="PER_NAME != null">
+        PER_NAME = #{PER_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="IDEN_NO != null">
+        IDEN_NO = #{IDEN_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="CORP_NAME != null">
+        CORP_NAME = #{CORP_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="UNIFSOC_CRED_CODE != null">
+        UNIFSOC_CRED_CODE = #{UNIFSOC_CRED_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_MONTH != null">
+        PAY_MONTH = #{PAY_MONTH,jdbcType=VARCHAR},
+      </if>
+      <if test="TO_PEOP_ENTERP != null">
+        TO_PEOP_ENTERP = #{TO_PEOP_ENTERP,jdbcType=VARCHAR},
+      </if>
+      <if test="TOWN_CODE != null">
+        TOWN_CODE = #{TOWN_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="TOWN_NAME != null">
+        TOWN_NAME = #{TOWN_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="VILLAGE_CODE != null">
+        VILLAGE_CODE = #{VILLAGE_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="VILLAGE_NAME != null">
+        VILLAGE_NAME = #{VILLAGE_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="TO_PEOP_FAMILY != null">
+        TO_PEOP_FAMILY = #{TO_PEOP_FAMILY,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_1 != null">
+        PARAM_1 = #{PARAM_1,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_2 != null">
+        PARAM_2 = #{PARAM_2,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_3 != null">
+        PARAM_3 = #{PARAM_3,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_4 != null">
+        PARAM_4 = #{PARAM_4,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_5 != null">
+        PARAM_5 = #{PARAM_5,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_6 != null">
+        PARAM_6 = #{PARAM_6,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_7 != null">
+        PARAM_7 = #{PARAM_7,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_8 != null">
+        PARAM_8 = #{PARAM_8,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_9 != null">
+        PARAM_9 = #{PARAM_9,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_10 != null">
+        PARAM_10 = #{PARAM_10,jdbcType=DECIMAL},
+      </if>
+      <if test="MOF_DIV_NAME != null">
+        MOF_DIV_NAME = #{MOF_DIV_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="AGENCY_NAME != null">
+        AGENCY_NAME = #{AGENCY_NAME,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PAY_DETAIL_ID = #{PAY_DETAIL_ID,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PayDetailPO">
+    <!--@mbg.generated-->
+    update PAY_DETAIL
+    set AGENCY_CODE = #{AGENCY_CODE,jdbcType=VARCHAR},
+      PAYEE_ACCT_NAME = #{PAYEE_ACCT_NAME,jdbcType=VARCHAR},
+      PAYEE_ACCT_NO = #{PAYEE_ACCT_NO,jdbcType=VARCHAR},
+      PAYEE_ACCT_BANK_NAME = #{PAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      PAY_AMT = #{PAY_AMT,jdbcType=DECIMAL},
+      XPAY_AMT = #{XPAY_AMT,jdbcType=DECIMAL},
+      ADD_WORD = #{ADD_WORD,jdbcType=VARCHAR},
+      PAY_CERT_NO = #{PAY_CERT_NO,jdbcType=VARCHAR},
+      PAY_APPLY_ID = #{PAY_APPLY_ID,jdbcType=VARCHAR},
+      TRACKING_ID = #{TRACKING_ID,jdbcType=VARCHAR},
+      MOF_DIV_CODE = #{MOF_DIV_CODE,jdbcType=VARCHAR},
+      RECEIVER_CODE = #{RECEIVER_CODE,jdbcType=VARCHAR},
+      FISCAL_YEAR = #{FISCAL_YEAR,jdbcType=VARCHAR},
+      UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      IS_DELETED = #{IS_DELETED,jdbcType=VARCHAR},
+      CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      IS_TO_PEOP_ENTERP = #{IS_TO_PEOP_ENTERP,jdbcType=VARCHAR},
+      PER_NAME = #{PER_NAME,jdbcType=VARCHAR},
+      IDEN_NO = #{IDEN_NO,jdbcType=VARCHAR},
+      CORP_NAME = #{CORP_NAME,jdbcType=VARCHAR},
+      UNIFSOC_CRED_CODE = #{UNIFSOC_CRED_CODE,jdbcType=VARCHAR},
+      PAY_MONTH = #{PAY_MONTH,jdbcType=VARCHAR},
+      TO_PEOP_ENTERP = #{TO_PEOP_ENTERP,jdbcType=VARCHAR},
+      TOWN_CODE = #{TOWN_CODE,jdbcType=VARCHAR},
+      TOWN_NAME = #{TOWN_NAME,jdbcType=VARCHAR},
+      VILLAGE_CODE = #{VILLAGE_CODE,jdbcType=VARCHAR},
+      VILLAGE_NAME = #{VILLAGE_NAME,jdbcType=VARCHAR},
+      TO_PEOP_FAMILY = #{TO_PEOP_FAMILY,jdbcType=VARCHAR},
+      PARAM_1 = #{PARAM_1,jdbcType=VARCHAR},
+      PARAM_2 = #{PARAM_2,jdbcType=VARCHAR},
+      PARAM_3 = #{PARAM_3,jdbcType=VARCHAR},
+      PARAM_4 = #{PARAM_4,jdbcType=VARCHAR},
+      PARAM_5 = #{PARAM_5,jdbcType=VARCHAR},
+      PARAM_6 = #{PARAM_6,jdbcType=DECIMAL},
+      PARAM_7 = #{PARAM_7,jdbcType=DECIMAL},
+      PARAM_8 = #{PARAM_8,jdbcType=DECIMAL},
+      PARAM_9 = #{PARAM_9,jdbcType=DECIMAL},
+      PARAM_10 = #{PARAM_10,jdbcType=DECIMAL},
+      MOF_DIV_NAME = #{MOF_DIV_NAME,jdbcType=VARCHAR},
+      AGENCY_NAME = #{AGENCY_NAME,jdbcType=VARCHAR}
+    where PAY_DETAIL_ID = #{PAY_DETAIL_ID,jdbcType=VARCHAR}
+  </update>
+</mapper>

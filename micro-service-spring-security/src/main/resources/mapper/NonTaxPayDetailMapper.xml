@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.mof.fasp3.masterdata.maincollector.executive.server.dao.NonTaxPayDetailMapper">
+  <resultMap id="BaseResultMap" type="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.NonTaxPayDetail">
+    <!--@mbg.generated-->
+    <!--@Table NON_TAX_PAY_DETAIL-->
+    <id column="SORT_NO" jdbcType="VARCHAR" property="SORT_NO" />
+    <result column="NT_PAY_VOUCHER_ID" jdbcType="VARCHAR" property="NT_PAY_VOUCHER_ID" />
+    <result column="NON_TAX_PROJ_CODE" jdbcType="VARCHAR" property="NON_TAX_PROJ_CODE" />
+    <result column="NON_TAX_CODE" jdbcType="VARCHAR" property="NON_TAX_CODE" />
+    <result column="NON_TAX_NAME" jdbcType="VARCHAR" property="NON_TAX_NAME" />
+    <result column="CHARGE_STAND_NAME" jdbcType="VARCHAR" property="CHARGE_STAND_NAME" />
+    <result column="FUND_TYPE_CODE" jdbcType="VARCHAR" property="FUND_TYPE_CODE" />
+    <result column="FUND_TYPE_NAME" jdbcType="VARCHAR" property="FUND_TYPE_NAME" />
+    <result column="CHARGE_STAND_UNIT" jdbcType="VARCHAR" property="CHARGE_STAND_UNIT" />
+    <result column="PAY_NUMBER" jdbcType="VARCHAR" property="PAY_NUMBER" />
+    <result column="PAY_AMT" jdbcType="DECIMAL" property="PAY_AMT" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="UPDATE_TIME" />
+    <result column="IS_DELETED" jdbcType="VARCHAR" property="IS_DELETED" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="CREATE_TIME" />
+    <result column="HOLD1" jdbcType="VARCHAR" property="HOLD1" />
+    <result column="HOLD2" jdbcType="VARCHAR" property="HOLD2" />
+    <result column="HOLD3" jdbcType="VARCHAR" property="HOLD3" />
+    <result column="HOLD4" jdbcType="VARCHAR" property="HOLD4" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    SORT_NO, NT_PAY_VOUCHER_ID, NON_TAX_PROJ_CODE, NON_TAX_CODE, NON_TAX_NAME, CHARGE_STAND_NAME, 
+    FUND_TYPE_CODE, FUND_TYPE_NAME, CHARGE_STAND_UNIT, PAY_NUMBER, PAY_AMT, UPDATE_TIME, 
+    IS_DELETED, CREATE_TIME, HOLD1, HOLD2, HOLD3, HOLD4
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from NON_TAX_PAY_DETAIL
+    where SORT_NO = #{SORT_NO,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from NON_TAX_PAY_DETAIL
+    where SORT_NO = #{SORT_NO,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.NonTaxPayDetail">
+    <!--@mbg.generated-->
+    insert into NON_TAX_PAY_DETAIL (SORT_NO, NT_PAY_VOUCHER_ID, NON_TAX_PROJ_CODE, 
+      NON_TAX_CODE, NON_TAX_NAME, CHARGE_STAND_NAME, 
+      FUND_TYPE_CODE, FUND_TYPE_NAME, CHARGE_STAND_UNIT, 
+      PAY_NUMBER, PAY_AMT, UPDATE_TIME, 
+      IS_DELETED, CREATE_TIME, HOLD1, 
+      HOLD2, HOLD3, HOLD4
+      )
+    values (#{SORT_NO,jdbcType=VARCHAR}, #{NT_PAY_VOUCHER_ID,jdbcType=VARCHAR}, #{NON_TAX_PROJ_CODE,jdbcType=VARCHAR}, 
+      #{NON_TAX_CODE,jdbcType=VARCHAR}, #{NON_TAX_NAME,jdbcType=VARCHAR}, #{CHARGE_STAND_NAME,jdbcType=VARCHAR}, 
+      #{FUND_TYPE_CODE,jdbcType=VARCHAR}, #{FUND_TYPE_NAME,jdbcType=VARCHAR}, #{CHARGE_STAND_UNIT,jdbcType=VARCHAR}, 
+      #{PAY_NUMBER,jdbcType=VARCHAR}, #{PAY_AMT,jdbcType=DECIMAL}, #{UPDATE_TIME,jdbcType=TIMESTAMP}, 
+      #{IS_DELETED,jdbcType=VARCHAR}, #{CREATE_TIME,jdbcType=TIMESTAMP}, #{HOLD1,jdbcType=VARCHAR}, 
+      #{HOLD2,jdbcType=VARCHAR}, #{HOLD3,jdbcType=VARCHAR}, #{HOLD4,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.NonTaxPayDetail">
+    <!--@mbg.generated-->
+    insert into NON_TAX_PAY_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="SORT_NO != null">
+        SORT_NO,
+      </if>
+      <if test="NT_PAY_VOUCHER_ID != null">
+        NT_PAY_VOUCHER_ID,
+      </if>
+      <if test="NON_TAX_PROJ_CODE != null">
+        NON_TAX_PROJ_CODE,
+      </if>
+      <if test="NON_TAX_CODE != null">
+        NON_TAX_CODE,
+      </if>
+      <if test="NON_TAX_NAME != null">
+        NON_TAX_NAME,
+      </if>
+      <if test="CHARGE_STAND_NAME != null">
+        CHARGE_STAND_NAME,
+      </if>
+      <if test="FUND_TYPE_CODE != null">
+        FUND_TYPE_CODE,
+      </if>
+      <if test="FUND_TYPE_NAME != null">
+        FUND_TYPE_NAME,
+      </if>
+      <if test="CHARGE_STAND_UNIT != null">
+        CHARGE_STAND_UNIT,
+      </if>
+      <if test="PAY_NUMBER != null">
+        PAY_NUMBER,
+      </if>
+      <if test="PAY_AMT != null">
+        PAY_AMT,
+      </if>
+      <if test="UPDATE_TIME != null">
+        UPDATE_TIME,
+      </if>
+      <if test="IS_DELETED != null">
+        IS_DELETED,
+      </if>
+      <if test="CREATE_TIME != null">
+        CREATE_TIME,
+      </if>
+      <if test="HOLD1 != null">
+        HOLD1,
+      </if>
+      <if test="HOLD2 != null">
+        HOLD2,
+      </if>
+      <if test="HOLD3 != null">
+        HOLD3,
+      </if>
+      <if test="HOLD4 != null">
+        HOLD4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="SORT_NO != null">
+        #{SORT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="NT_PAY_VOUCHER_ID != null">
+        #{NT_PAY_VOUCHER_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="NON_TAX_PROJ_CODE != null">
+        #{NON_TAX_PROJ_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="NON_TAX_CODE != null">
+        #{NON_TAX_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="NON_TAX_NAME != null">
+        #{NON_TAX_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="CHARGE_STAND_NAME != null">
+        #{CHARGE_STAND_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="FUND_TYPE_CODE != null">
+        #{FUND_TYPE_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="FUND_TYPE_NAME != null">
+        #{FUND_TYPE_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="CHARGE_STAND_UNIT != null">
+        #{CHARGE_STAND_UNIT,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_NUMBER != null">
+        #{PAY_NUMBER,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_AMT != null">
+        #{PAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="UPDATE_TIME != null">
+        #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IS_DELETED != null">
+        #{IS_DELETED,jdbcType=VARCHAR},
+      </if>
+      <if test="CREATE_TIME != null">
+        #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="HOLD1 != null">
+        #{HOLD1,jdbcType=VARCHAR},
+      </if>
+      <if test="HOLD2 != null">
+        #{HOLD2,jdbcType=VARCHAR},
+      </if>
+      <if test="HOLD3 != null">
+        #{HOLD3,jdbcType=VARCHAR},
+      </if>
+      <if test="HOLD4 != null">
+        #{HOLD4,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.NonTaxPayDetail">
+    <!--@mbg.generated-->
+    update NON_TAX_PAY_DETAIL
+    <set>
+      <if test="NT_PAY_VOUCHER_ID != null">
+        NT_PAY_VOUCHER_ID = #{NT_PAY_VOUCHER_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="NON_TAX_PROJ_CODE != null">
+        NON_TAX_PROJ_CODE = #{NON_TAX_PROJ_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="NON_TAX_CODE != null">
+        NON_TAX_CODE = #{NON_TAX_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="NON_TAX_NAME != null">
+        NON_TAX_NAME = #{NON_TAX_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="CHARGE_STAND_NAME != null">
+        CHARGE_STAND_NAME = #{CHARGE_STAND_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="FUND_TYPE_CODE != null">
+        FUND_TYPE_CODE = #{FUND_TYPE_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="FUND_TYPE_NAME != null">
+        FUND_TYPE_NAME = #{FUND_TYPE_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="CHARGE_STAND_UNIT != null">
+        CHARGE_STAND_UNIT = #{CHARGE_STAND_UNIT,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_NUMBER != null">
+        PAY_NUMBER = #{PAY_NUMBER,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_AMT != null">
+        PAY_AMT = #{PAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="UPDATE_TIME != null">
+        UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IS_DELETED != null">
+        IS_DELETED = #{IS_DELETED,jdbcType=VARCHAR},
+      </if>
+      <if test="CREATE_TIME != null">
+        CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="HOLD1 != null">
+        HOLD1 = #{HOLD1,jdbcType=VARCHAR},
+      </if>
+      <if test="HOLD2 != null">
+        HOLD2 = #{HOLD2,jdbcType=VARCHAR},
+      </if>
+      <if test="HOLD3 != null">
+        HOLD3 = #{HOLD3,jdbcType=VARCHAR},
+      </if>
+      <if test="HOLD4 != null">
+        HOLD4 = #{HOLD4,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SORT_NO = #{SORT_NO,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.NonTaxPayDetail">
+    <!--@mbg.generated-->
+    update NON_TAX_PAY_DETAIL
+    set NT_PAY_VOUCHER_ID = #{NT_PAY_VOUCHER_ID,jdbcType=VARCHAR},
+      NON_TAX_PROJ_CODE = #{NON_TAX_PROJ_CODE,jdbcType=VARCHAR},
+      NON_TAX_CODE = #{NON_TAX_CODE,jdbcType=VARCHAR},
+      NON_TAX_NAME = #{NON_TAX_NAME,jdbcType=VARCHAR},
+      CHARGE_STAND_NAME = #{CHARGE_STAND_NAME,jdbcType=VARCHAR},
+      FUND_TYPE_CODE = #{FUND_TYPE_CODE,jdbcType=VARCHAR},
+      FUND_TYPE_NAME = #{FUND_TYPE_NAME,jdbcType=VARCHAR},
+      CHARGE_STAND_UNIT = #{CHARGE_STAND_UNIT,jdbcType=VARCHAR},
+      PAY_NUMBER = #{PAY_NUMBER,jdbcType=VARCHAR},
+      PAY_AMT = #{PAY_AMT,jdbcType=DECIMAL},
+      UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      IS_DELETED = #{IS_DELETED,jdbcType=VARCHAR},
+      CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      HOLD1 = #{HOLD1,jdbcType=VARCHAR},
+      HOLD2 = #{HOLD2,jdbcType=VARCHAR},
+      HOLD3 = #{HOLD3,jdbcType=VARCHAR},
+      HOLD4 = #{HOLD4,jdbcType=VARCHAR}
+    where SORT_NO = #{SORT_NO,jdbcType=VARCHAR}
+  </update>
+</mapper>

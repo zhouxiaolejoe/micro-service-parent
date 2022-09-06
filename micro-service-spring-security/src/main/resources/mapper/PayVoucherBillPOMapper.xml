@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.mof.fasp3.masterdata.maincollector.executive.server.dao.PayVoucherBillPOMapper">
+  <resultMap id="BaseResultMap" type="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PayVoucherBillPO">
+    <!--@mbg.generated-->
+    <!--@Table PAY_VOUCHER_BILL-->
+    <id column="PAY_CERT_ID" jdbcType="VARCHAR" property="PAY_CERT_ID" />
+    <result column="FUND_TYPE_CODE" jdbcType="VARCHAR" property="FUND_TYPE_CODE" />
+    <result column="FISCAL_YEAR" jdbcType="VARCHAR" property="FISCAL_YEAR" />
+    <result column="VOU_DATE" jdbcType="TIMESTAMP" property="VOU_DATE" />
+    <result column="PAY_CERT_NO" jdbcType="VARCHAR" property="PAY_CERT_NO" />
+    <result column="PAY_ACCT_NAME" jdbcType="VARCHAR" property="PAY_ACCT_NAME" />
+    <result column="PAY_ACCT_NO" jdbcType="VARCHAR" property="PAY_ACCT_NO" />
+    <result column="PAY_ACCT_BANK_NAME" jdbcType="VARCHAR" property="PAY_ACCT_BANK_NAME" />
+    <result column="PAYEE_ACCT_NAME" jdbcType="VARCHAR" property="PAYEE_ACCT_NAME" />
+    <result column="PAYEE_ACCT_NO" jdbcType="VARCHAR" property="PAYEE_ACCT_NO" />
+    <result column="PAYEE_ACCT_BANK_NAME" jdbcType="VARCHAR" property="PAYEE_ACCT_BANK_NAME" />
+    <result column="PAY_AMT" jdbcType="DECIMAL" property="PAY_AMT" />
+    <result column="LQD_QUOTA_NOTICE_NO" jdbcType="VARCHAR" property="LQD_QUOTA_NOTICE_NO" />
+    <result column="PAY_CERT_SUM_NO" jdbcType="VARCHAR" property="PAY_CERT_SUM_NO" />
+    <result column="LQD_CERT_NO" jdbcType="VARCHAR" property="LQD_CERT_NO" />
+    <result column="EXP_FUNC_CODE" jdbcType="VARCHAR" property="EXP_FUNC_CODE" />
+    <result column="GOV_BGT_ECO_CODE" jdbcType="VARCHAR" property="GOV_BGT_ECO_CODE" />
+    <result column="DEP_BGT_ECO_CODE" jdbcType="VARCHAR" property="DEP_BGT_ECO_CODE" />
+    <result column="AGENT_BUSINESS_NO" jdbcType="VARCHAR" property="AGENT_BUSINESS_NO" />
+    <result column="XPAY_AMT" jdbcType="DECIMAL" property="XPAY_AMT" />
+    <result column="XPAY_DATE" jdbcType="TIMESTAMP" property="XPAY_DATE" />
+    <result column="AGENCY_CODE" jdbcType="VARCHAR" property="AGENCY_CODE" />
+    <result column="USE_DES" jdbcType="VARCHAR" property="USE_DES" />
+    <result column="SET_MODE_CODE" jdbcType="VARCHAR" property="SET_MODE_CODE" />
+    <result column="PRO_CODE" jdbcType="VARCHAR" property="PRO_CODE" />
+    <result column="MOF_DIV_CODE" jdbcType="VARCHAR" property="MOF_DIV_CODE" />
+    <result column="FOREIGN_AMT" jdbcType="DECIMAL" property="FOREIGN_AMT" />
+    <result column="CURRENCY_CODE" jdbcType="VARCHAR" property="CURRENCY_CODE" />
+    <result column="EST_RAT" jdbcType="DECIMAL" property="EST_RAT" />
+    <result column="RECEIVER_CODE" jdbcType="VARCHAR" property="RECEIVER_CODE" />
+    <result column="RECEIPT_ADD_WORD" jdbcType="VARCHAR" property="RECEIPT_ADD_WORD" />
+    <result column="XPAYEE_ACCT_NAME" jdbcType="VARCHAR" property="XPAYEE_ACCT_NAME" />
+    <result column="XPAYEE_ACCT_NO" jdbcType="VARCHAR" property="XPAYEE_ACCT_NO" />
+    <result column="XPAYEE_ACCT_BANK_NAME" jdbcType="VARCHAR" property="XPAYEE_ACCT_BANK_NAME" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="UPDATE_TIME" />
+    <result column="IS_DELETED" jdbcType="VARCHAR" property="IS_DELETED" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="CREATE_TIME" />
+    <result column="DEPT_CODE" jdbcType="VARCHAR" property="DEPT_CODE" />
+    <result column="PAY_BUS_TYPE_CODE" jdbcType="VARCHAR" property="PAY_BUS_TYPE_CODE" />
+    <result column="ACT_LQD_DATE" jdbcType="TIMESTAMP" property="ACT_LQD_DATE" />
+    <result column="PARAM_1" jdbcType="VARCHAR" property="PARAM_1" />
+    <result column="PARAM_2" jdbcType="VARCHAR" property="PARAM_2" />
+    <result column="PARAM_3" jdbcType="VARCHAR" property="PARAM_3" />
+    <result column="PARAM_4" jdbcType="VARCHAR" property="PARAM_4" />
+    <result column="PARAM_5" jdbcType="VARCHAR" property="PARAM_5" />
+    <result column="PARAM_6" jdbcType="DECIMAL" property="PARAM_6" />
+    <result column="PARAM_7" jdbcType="DECIMAL" property="PARAM_7" />
+    <result column="PARAM_8" jdbcType="DECIMAL" property="PARAM_8" />
+    <result column="PARAM_9" jdbcType="DECIMAL" property="PARAM_9" />
+    <result column="PARAM_10" jdbcType="DECIMAL" property="PARAM_10" />
+    <result column="MOF_DIV_NAME" jdbcType="VARCHAR" property="MOF_DIV_NAME" />
+    <result column="AGENCY_NAME" jdbcType="VARCHAR" property="AGENCY_NAME" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="DEPT_NAME" />
+    <result column="FUND_TYPE_NAME" jdbcType="VARCHAR" property="FUND_TYPE_NAME" />
+    <result column="EXP_FUNC_NAME" jdbcType="VARCHAR" property="EXP_FUNC_NAME" />
+    <result column="GOV_BGT_ECO_NAME" jdbcType="VARCHAR" property="GOV_BGT_ECO_NAME" />
+    <result column="DEP_BGT_ECO_NAME" jdbcType="VARCHAR" property="DEP_BGT_ECO_NAME" />
+    <result column="PRO_NAME" jdbcType="VARCHAR" property="PRO_NAME" />
+    <result column="PAY_BUS_TYPE_NAME" jdbcType="VARCHAR" property="PAY_BUS_TYPE_NAME" />
+    <result column="SET_MODE_NAME" jdbcType="VARCHAR" property="SET_MODE_NAME" />
+    <result column="ABSTRACT" jdbcType="VARCHAR" property="ABSTRACT" />
+    <result column="CHECK_NO" jdbcType="VARCHAR" property="CHECK_NO" />
+    <result column="CURRENCY_NAME" jdbcType="VARCHAR" property="CURRENCY_NAME" />
+    <result column="PAY_CODE" jdbcType="VARCHAR" property="PAY_CODE" />
+    <result column="TAXAYER_ID" jdbcType="VARCHAR" property="TAXAYER_ID" />
+    <result column="TAX_ORG_CODE" jdbcType="VARCHAR" property="TAX_ORG_CODE" />
+    <result column="TAX_BILL_NO" jdbcType="VARCHAR" property="TAX_BILL_NO" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PAY_CERT_ID, FUND_TYPE_CODE, FISCAL_YEAR, VOU_DATE, PAY_CERT_NO, PAY_ACCT_NAME, PAY_ACCT_NO, 
+    PAY_ACCT_BANK_NAME, PAYEE_ACCT_NAME, PAYEE_ACCT_NO, PAYEE_ACCT_BANK_NAME, PAY_AMT, 
+    LQD_QUOTA_NOTICE_NO, PAY_CERT_SUM_NO, LQD_CERT_NO, EXP_FUNC_CODE, GOV_BGT_ECO_CODE, 
+    DEP_BGT_ECO_CODE, AGENT_BUSINESS_NO, XPAY_AMT, XPAY_DATE, AGENCY_CODE, USE_DES, SET_MODE_CODE, 
+    PRO_CODE, MOF_DIV_CODE, FOREIGN_AMT, CURRENCY_CODE, EST_RAT, RECEIVER_CODE, RECEIPT_ADD_WORD, 
+    XPAYEE_ACCT_NAME, XPAYEE_ACCT_NO, XPAYEE_ACCT_BANK_NAME, UPDATE_TIME, IS_DELETED, 
+    CREATE_TIME, DEPT_CODE, PAY_BUS_TYPE_CODE, ACT_LQD_DATE, PARAM_1, PARAM_2, PARAM_3, 
+    PARAM_4, PARAM_5, PARAM_6, PARAM_7, PARAM_8, PARAM_9, PARAM_10, MOF_DIV_NAME, AGENCY_NAME, 
+    DEPT_NAME, FUND_TYPE_NAME, EXP_FUNC_NAME, GOV_BGT_ECO_NAME, DEP_BGT_ECO_NAME, PRO_NAME, 
+    PAY_BUS_TYPE_NAME, SET_MODE_NAME, ABSTRACT, CHECK_NO, CURRENCY_NAME, PAY_CODE, TAXAYER_ID, 
+    TAX_ORG_CODE, TAX_BILL_NO
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from PAY_VOUCHER_BILL
+    where PAY_CERT_ID = #{PAY_CERT_ID,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from PAY_VOUCHER_BILL
+    where PAY_CERT_ID = #{PAY_CERT_ID,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PayVoucherBillPO">
+    <!--@mbg.generated-->
+    insert into PAY_VOUCHER_BILL (PAY_CERT_ID, FUND_TYPE_CODE, FISCAL_YEAR, 
+      VOU_DATE, PAY_CERT_NO, PAY_ACCT_NAME, 
+      PAY_ACCT_NO, PAY_ACCT_BANK_NAME, PAYEE_ACCT_NAME, 
+      PAYEE_ACCT_NO, PAYEE_ACCT_BANK_NAME, PAY_AMT, 
+      LQD_QUOTA_NOTICE_NO, PAY_CERT_SUM_NO, LQD_CERT_NO, 
+      EXP_FUNC_CODE, GOV_BGT_ECO_CODE, DEP_BGT_ECO_CODE, 
+      AGENT_BUSINESS_NO, XPAY_AMT, XPAY_DATE, 
+      AGENCY_CODE, USE_DES, SET_MODE_CODE, 
+      PRO_CODE, MOF_DIV_CODE, FOREIGN_AMT, 
+      CURRENCY_CODE, EST_RAT, RECEIVER_CODE, 
+      RECEIPT_ADD_WORD, XPAYEE_ACCT_NAME, XPAYEE_ACCT_NO, 
+      XPAYEE_ACCT_BANK_NAME, UPDATE_TIME, IS_DELETED, 
+      CREATE_TIME, DEPT_CODE, PAY_BUS_TYPE_CODE, 
+      ACT_LQD_DATE, PARAM_1, PARAM_2, 
+      PARAM_3, PARAM_4, PARAM_5, 
+      PARAM_6, PARAM_7, PARAM_8, 
+      PARAM_9, PARAM_10, MOF_DIV_NAME, 
+      AGENCY_NAME, DEPT_NAME, FUND_TYPE_NAME, 
+      EXP_FUNC_NAME, GOV_BGT_ECO_NAME, DEP_BGT_ECO_NAME, 
+      PRO_NAME, PAY_BUS_TYPE_NAME, SET_MODE_NAME, 
+      ABSTRACT, CHECK_NO, CURRENCY_NAME, 
+      PAY_CODE, TAXAYER_ID, TAX_ORG_CODE, 
+      TAX_BILL_NO)
+    values (#{PAY_CERT_ID,jdbcType=VARCHAR}, #{FUND_TYPE_CODE,jdbcType=VARCHAR}, #{FISCAL_YEAR,jdbcType=VARCHAR}, 
+      #{VOU_DATE,jdbcType=TIMESTAMP}, #{PAY_CERT_NO,jdbcType=VARCHAR}, #{PAY_ACCT_NAME,jdbcType=VARCHAR}, 
+      #{PAY_ACCT_NO,jdbcType=VARCHAR}, #{PAY_ACCT_BANK_NAME,jdbcType=VARCHAR}, #{PAYEE_ACCT_NAME,jdbcType=VARCHAR}, 
+      #{PAYEE_ACCT_NO,jdbcType=VARCHAR}, #{PAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR}, #{PAY_AMT,jdbcType=DECIMAL}, 
+      #{LQD_QUOTA_NOTICE_NO,jdbcType=VARCHAR}, #{PAY_CERT_SUM_NO,jdbcType=VARCHAR}, #{LQD_CERT_NO,jdbcType=VARCHAR}, 
+      #{EXP_FUNC_CODE,jdbcType=VARCHAR}, #{GOV_BGT_ECO_CODE,jdbcType=VARCHAR}, #{DEP_BGT_ECO_CODE,jdbcType=VARCHAR}, 
+      #{AGENT_BUSINESS_NO,jdbcType=VARCHAR}, #{XPAY_AMT,jdbcType=DECIMAL}, #{XPAY_DATE,jdbcType=TIMESTAMP}, 
+      #{AGENCY_CODE,jdbcType=VARCHAR}, #{USE_DES,jdbcType=VARCHAR}, #{SET_MODE_CODE,jdbcType=VARCHAR}, 
+      #{PRO_CODE,jdbcType=VARCHAR}, #{MOF_DIV_CODE,jdbcType=VARCHAR}, #{FOREIGN_AMT,jdbcType=DECIMAL}, 
+      #{CURRENCY_CODE,jdbcType=VARCHAR}, #{EST_RAT,jdbcType=DECIMAL}, #{RECEIVER_CODE,jdbcType=VARCHAR}, 
+      #{RECEIPT_ADD_WORD,jdbcType=VARCHAR}, #{XPAYEE_ACCT_NAME,jdbcType=VARCHAR}, #{XPAYEE_ACCT_NO,jdbcType=VARCHAR}, 
+      #{XPAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR}, #{UPDATE_TIME,jdbcType=TIMESTAMP}, #{IS_DELETED,jdbcType=VARCHAR}, 
+      #{CREATE_TIME,jdbcType=TIMESTAMP}, #{DEPT_CODE,jdbcType=VARCHAR}, #{PAY_BUS_TYPE_CODE,jdbcType=VARCHAR}, 
+      #{ACT_LQD_DATE,jdbcType=TIMESTAMP}, #{PARAM_1,jdbcType=VARCHAR}, #{PARAM_2,jdbcType=VARCHAR}, 
+      #{PARAM_3,jdbcType=VARCHAR}, #{PARAM_4,jdbcType=VARCHAR}, #{PARAM_5,jdbcType=VARCHAR}, 
+      #{PARAM_6,jdbcType=DECIMAL}, #{PARAM_7,jdbcType=DECIMAL}, #{PARAM_8,jdbcType=DECIMAL}, 
+      #{PARAM_9,jdbcType=DECIMAL}, #{PARAM_10,jdbcType=DECIMAL}, #{MOF_DIV_NAME,jdbcType=VARCHAR}, 
+      #{AGENCY_NAME,jdbcType=VARCHAR}, #{DEPT_NAME,jdbcType=VARCHAR}, #{FUND_TYPE_NAME,jdbcType=VARCHAR}, 
+      #{EXP_FUNC_NAME,jdbcType=VARCHAR}, #{GOV_BGT_ECO_NAME,jdbcType=VARCHAR}, #{DEP_BGT_ECO_NAME,jdbcType=VARCHAR}, 
+      #{PRO_NAME,jdbcType=VARCHAR}, #{PAY_BUS_TYPE_NAME,jdbcType=VARCHAR}, #{SET_MODE_NAME,jdbcType=VARCHAR}, 
+      #{ABSTRACT,jdbcType=VARCHAR}, #{CHECK_NO,jdbcType=VARCHAR}, #{CURRENCY_NAME,jdbcType=VARCHAR}, 
+      #{PAY_CODE,jdbcType=VARCHAR}, #{TAXAYER_ID,jdbcType=VARCHAR}, #{TAX_ORG_CODE,jdbcType=VARCHAR}, 
+      #{TAX_BILL_NO,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PayVoucherBillPO">
+    <!--@mbg.generated-->
+    insert into PAY_VOUCHER_BILL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="PAY_CERT_ID != null">
+        PAY_CERT_ID,
+      </if>
+      <if test="FUND_TYPE_CODE != null">
+        FUND_TYPE_CODE,
+      </if>
+      <if test="FISCAL_YEAR != null">
+        FISCAL_YEAR,
+      </if>
+      <if test="VOU_DATE != null">
+        VOU_DATE,
+      </if>
+      <if test="PAY_CERT_NO != null">
+        PAY_CERT_NO,
+      </if>
+      <if test="PAY_ACCT_NAME != null">
+        PAY_ACCT_NAME,
+      </if>
+      <if test="PAY_ACCT_NO != null">
+        PAY_ACCT_NO,
+      </if>
+      <if test="PAY_ACCT_BANK_NAME != null">
+        PAY_ACCT_BANK_NAME,
+      </if>
+      <if test="PAYEE_ACCT_NAME != null">
+        PAYEE_ACCT_NAME,
+      </if>
+      <if test="PAYEE_ACCT_NO != null">
+        PAYEE_ACCT_NO,
+      </if>
+      <if test="PAYEE_ACCT_BANK_NAME != null">
+        PAYEE_ACCT_BANK_NAME,
+      </if>
+      <if test="PAY_AMT != null">
+        PAY_AMT,
+      </if>
+      <if test="LQD_QUOTA_NOTICE_NO != null">
+        LQD_QUOTA_NOTICE_NO,
+      </if>
+      <if test="PAY_CERT_SUM_NO != null">
+        PAY_CERT_SUM_NO,
+      </if>
+      <if test="LQD_CERT_NO != null">
+        LQD_CERT_NO,
+      </if>
+      <if test="EXP_FUNC_CODE != null">
+        EXP_FUNC_CODE,
+      </if>
+      <if test="GOV_BGT_ECO_CODE != null">
+        GOV_BGT_ECO_CODE,
+      </if>
+      <if test="DEP_BGT_ECO_CODE != null">
+        DEP_BGT_ECO_CODE,
+      </if>
+      <if test="AGENT_BUSINESS_NO != null">
+        AGENT_BUSINESS_NO,
+      </if>
+      <if test="XPAY_AMT != null">
+        XPAY_AMT,
+      </if>
+      <if test="XPAY_DATE != null">
+        XPAY_DATE,
+      </if>
+      <if test="AGENCY_CODE != null">
+        AGENCY_CODE,
+      </if>
+      <if test="USE_DES != null">
+        USE_DES,
+      </if>
+      <if test="SET_MODE_CODE != null">
+        SET_MODE_CODE,
+      </if>
+      <if test="PRO_CODE != null">
+        PRO_CODE,
+      </if>
+      <if test="MOF_DIV_CODE != null">
+        MOF_DIV_CODE,
+      </if>
+      <if test="FOREIGN_AMT != null">
+        FOREIGN_AMT,
+      </if>
+      <if test="CURRENCY_CODE != null">
+        CURRENCY_CODE,
+      </if>
+      <if test="EST_RAT != null">
+        EST_RAT,
+      </if>
+      <if test="RECEIVER_CODE != null">
+        RECEIVER_CODE,
+      </if>
+      <if test="RECEIPT_ADD_WORD != null">
+        RECEIPT_ADD_WORD,
+      </if>
+      <if test="XPAYEE_ACCT_NAME != null">
+        XPAYEE_ACCT_NAME,
+      </if>
+      <if test="XPAYEE_ACCT_NO != null">
+        XPAYEE_ACCT_NO,
+      </if>
+      <if test="XPAYEE_ACCT_BANK_NAME != null">
+        XPAYEE_ACCT_BANK_NAME,
+      </if>
+      <if test="UPDATE_TIME != null">
+        UPDATE_TIME,
+      </if>
+      <if test="IS_DELETED != null">
+        IS_DELETED,
+      </if>
+      <if test="CREATE_TIME != null">
+        CREATE_TIME,
+      </if>
+      <if test="DEPT_CODE != null">
+        DEPT_CODE,
+      </if>
+      <if test="PAY_BUS_TYPE_CODE != null">
+        PAY_BUS_TYPE_CODE,
+      </if>
+      <if test="ACT_LQD_DATE != null">
+        ACT_LQD_DATE,
+      </if>
+      <if test="PARAM_1 != null">
+        PARAM_1,
+      </if>
+      <if test="PARAM_2 != null">
+        PARAM_2,
+      </if>
+      <if test="PARAM_3 != null">
+        PARAM_3,
+      </if>
+      <if test="PARAM_4 != null">
+        PARAM_4,
+      </if>
+      <if test="PARAM_5 != null">
+        PARAM_5,
+      </if>
+      <if test="PARAM_6 != null">
+        PARAM_6,
+      </if>
+      <if test="PARAM_7 != null">
+        PARAM_7,
+      </if>
+      <if test="PARAM_8 != null">
+        PARAM_8,
+      </if>
+      <if test="PARAM_9 != null">
+        PARAM_9,
+      </if>
+      <if test="PARAM_10 != null">
+        PARAM_10,
+      </if>
+      <if test="MOF_DIV_NAME != null">
+        MOF_DIV_NAME,
+      </if>
+      <if test="AGENCY_NAME != null">
+        AGENCY_NAME,
+      </if>
+      <if test="DEPT_NAME != null">
+        DEPT_NAME,
+      </if>
+      <if test="FUND_TYPE_NAME != null">
+        FUND_TYPE_NAME,
+      </if>
+      <if test="EXP_FUNC_NAME != null">
+        EXP_FUNC_NAME,
+      </if>
+      <if test="GOV_BGT_ECO_NAME != null">
+        GOV_BGT_ECO_NAME,
+      </if>
+      <if test="DEP_BGT_ECO_NAME != null">
+        DEP_BGT_ECO_NAME,
+      </if>
+      <if test="PRO_NAME != null">
+        PRO_NAME,
+      </if>
+      <if test="PAY_BUS_TYPE_NAME != null">
+        PAY_BUS_TYPE_NAME,
+      </if>
+      <if test="SET_MODE_NAME != null">
+        SET_MODE_NAME,
+      </if>
+      <if test="ABSTRACT != null">
+        ABSTRACT,
+      </if>
+      <if test="CHECK_NO != null">
+        CHECK_NO,
+      </if>
+      <if test="CURRENCY_NAME != null">
+        CURRENCY_NAME,
+      </if>
+      <if test="PAY_CODE != null">
+        PAY_CODE,
+      </if>
+      <if test="TAXAYER_ID != null">
+        TAXAYER_ID,
+      </if>
+      <if test="TAX_ORG_CODE != null">
+        TAX_ORG_CODE,
+      </if>
+      <if test="TAX_BILL_NO != null">
+        TAX_BILL_NO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="PAY_CERT_ID != null">
+        #{PAY_CERT_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="FUND_TYPE_CODE != null">
+        #{FUND_TYPE_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="FISCAL_YEAR != null">
+        #{FISCAL_YEAR,jdbcType=VARCHAR},
+      </if>
+      <if test="VOU_DATE != null">
+        #{VOU_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="PAY_CERT_NO != null">
+        #{PAY_CERT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_ACCT_NAME != null">
+        #{PAY_ACCT_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_ACCT_NO != null">
+        #{PAY_ACCT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_ACCT_BANK_NAME != null">
+        #{PAY_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_NAME != null">
+        #{PAYEE_ACCT_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_NO != null">
+        #{PAYEE_ACCT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_BANK_NAME != null">
+        #{PAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_AMT != null">
+        #{PAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="LQD_QUOTA_NOTICE_NO != null">
+        #{LQD_QUOTA_NOTICE_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_CERT_SUM_NO != null">
+        #{PAY_CERT_SUM_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="LQD_CERT_NO != null">
+        #{LQD_CERT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="EXP_FUNC_CODE != null">
+        #{EXP_FUNC_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="GOV_BGT_ECO_CODE != null">
+        #{GOV_BGT_ECO_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="DEP_BGT_ECO_CODE != null">
+        #{DEP_BGT_ECO_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="AGENT_BUSINESS_NO != null">
+        #{AGENT_BUSINESS_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="XPAY_AMT != null">
+        #{XPAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="XPAY_DATE != null">
+        #{XPAY_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="AGENCY_CODE != null">
+        #{AGENCY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="USE_DES != null">
+        #{USE_DES,jdbcType=VARCHAR},
+      </if>
+      <if test="SET_MODE_CODE != null">
+        #{SET_MODE_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PRO_CODE != null">
+        #{PRO_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="MOF_DIV_CODE != null">
+        #{MOF_DIV_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="FOREIGN_AMT != null">
+        #{FOREIGN_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="CURRENCY_CODE != null">
+        #{CURRENCY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="EST_RAT != null">
+        #{EST_RAT,jdbcType=DECIMAL},
+      </if>
+      <if test="RECEIVER_CODE != null">
+        #{RECEIVER_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="RECEIPT_ADD_WORD != null">
+        #{RECEIPT_ADD_WORD,jdbcType=VARCHAR},
+      </if>
+      <if test="XPAYEE_ACCT_NAME != null">
+        #{XPAYEE_ACCT_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="XPAYEE_ACCT_NO != null">
+        #{XPAYEE_ACCT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="XPAYEE_ACCT_BANK_NAME != null">
+        #{XPAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATE_TIME != null">
+        #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IS_DELETED != null">
+        #{IS_DELETED,jdbcType=VARCHAR},
+      </if>
+      <if test="CREATE_TIME != null">
+        #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="DEPT_CODE != null">
+        #{DEPT_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_BUS_TYPE_CODE != null">
+        #{PAY_BUS_TYPE_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="ACT_LQD_DATE != null">
+        #{ACT_LQD_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="PARAM_1 != null">
+        #{PARAM_1,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_2 != null">
+        #{PARAM_2,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_3 != null">
+        #{PARAM_3,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_4 != null">
+        #{PARAM_4,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_5 != null">
+        #{PARAM_5,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_6 != null">
+        #{PARAM_6,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_7 != null">
+        #{PARAM_7,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_8 != null">
+        #{PARAM_8,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_9 != null">
+        #{PARAM_9,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_10 != null">
+        #{PARAM_10,jdbcType=DECIMAL},
+      </if>
+      <if test="MOF_DIV_NAME != null">
+        #{MOF_DIV_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="AGENCY_NAME != null">
+        #{AGENCY_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="DEPT_NAME != null">
+        #{DEPT_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="FUND_TYPE_NAME != null">
+        #{FUND_TYPE_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="EXP_FUNC_NAME != null">
+        #{EXP_FUNC_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="GOV_BGT_ECO_NAME != null">
+        #{GOV_BGT_ECO_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="DEP_BGT_ECO_NAME != null">
+        #{DEP_BGT_ECO_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PRO_NAME != null">
+        #{PRO_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_BUS_TYPE_NAME != null">
+        #{PAY_BUS_TYPE_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="SET_MODE_NAME != null">
+        #{SET_MODE_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="ABSTRACT != null">
+        #{ABSTRACT,jdbcType=VARCHAR},
+      </if>
+      <if test="CHECK_NO != null">
+        #{CHECK_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="CURRENCY_NAME != null">
+        #{CURRENCY_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_CODE != null">
+        #{PAY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="TAXAYER_ID != null">
+        #{TAXAYER_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="TAX_ORG_CODE != null">
+        #{TAX_ORG_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="TAX_BILL_NO != null">
+        #{TAX_BILL_NO,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PayVoucherBillPO">
+    <!--@mbg.generated-->
+    update PAY_VOUCHER_BILL
+    <set>
+      <if test="FUND_TYPE_CODE != null">
+        FUND_TYPE_CODE = #{FUND_TYPE_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="FISCAL_YEAR != null">
+        FISCAL_YEAR = #{FISCAL_YEAR,jdbcType=VARCHAR},
+      </if>
+      <if test="VOU_DATE != null">
+        VOU_DATE = #{VOU_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="PAY_CERT_NO != null">
+        PAY_CERT_NO = #{PAY_CERT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_ACCT_NAME != null">
+        PAY_ACCT_NAME = #{PAY_ACCT_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_ACCT_NO != null">
+        PAY_ACCT_NO = #{PAY_ACCT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_ACCT_BANK_NAME != null">
+        PAY_ACCT_BANK_NAME = #{PAY_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_NAME != null">
+        PAYEE_ACCT_NAME = #{PAYEE_ACCT_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_NO != null">
+        PAYEE_ACCT_NO = #{PAYEE_ACCT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_BANK_NAME != null">
+        PAYEE_ACCT_BANK_NAME = #{PAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_AMT != null">
+        PAY_AMT = #{PAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="LQD_QUOTA_NOTICE_NO != null">
+        LQD_QUOTA_NOTICE_NO = #{LQD_QUOTA_NOTICE_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_CERT_SUM_NO != null">
+        PAY_CERT_SUM_NO = #{PAY_CERT_SUM_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="LQD_CERT_NO != null">
+        LQD_CERT_NO = #{LQD_CERT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="EXP_FUNC_CODE != null">
+        EXP_FUNC_CODE = #{EXP_FUNC_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="GOV_BGT_ECO_CODE != null">
+        GOV_BGT_ECO_CODE = #{GOV_BGT_ECO_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="DEP_BGT_ECO_CODE != null">
+        DEP_BGT_ECO_CODE = #{DEP_BGT_ECO_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="AGENT_BUSINESS_NO != null">
+        AGENT_BUSINESS_NO = #{AGENT_BUSINESS_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="XPAY_AMT != null">
+        XPAY_AMT = #{XPAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="XPAY_DATE != null">
+        XPAY_DATE = #{XPAY_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="AGENCY_CODE != null">
+        AGENCY_CODE = #{AGENCY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="USE_DES != null">
+        USE_DES = #{USE_DES,jdbcType=VARCHAR},
+      </if>
+      <if test="SET_MODE_CODE != null">
+        SET_MODE_CODE = #{SET_MODE_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PRO_CODE != null">
+        PRO_CODE = #{PRO_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="MOF_DIV_CODE != null">
+        MOF_DIV_CODE = #{MOF_DIV_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="FOREIGN_AMT != null">
+        FOREIGN_AMT = #{FOREIGN_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="CURRENCY_CODE != null">
+        CURRENCY_CODE = #{CURRENCY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="EST_RAT != null">
+        EST_RAT = #{EST_RAT,jdbcType=DECIMAL},
+      </if>
+      <if test="RECEIVER_CODE != null">
+        RECEIVER_CODE = #{RECEIVER_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="RECEIPT_ADD_WORD != null">
+        RECEIPT_ADD_WORD = #{RECEIPT_ADD_WORD,jdbcType=VARCHAR},
+      </if>
+      <if test="XPAYEE_ACCT_NAME != null">
+        XPAYEE_ACCT_NAME = #{XPAYEE_ACCT_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="XPAYEE_ACCT_NO != null">
+        XPAYEE_ACCT_NO = #{XPAYEE_ACCT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="XPAYEE_ACCT_BANK_NAME != null">
+        XPAYEE_ACCT_BANK_NAME = #{XPAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATE_TIME != null">
+        UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IS_DELETED != null">
+        IS_DELETED = #{IS_DELETED,jdbcType=VARCHAR},
+      </if>
+      <if test="CREATE_TIME != null">
+        CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="DEPT_CODE != null">
+        DEPT_CODE = #{DEPT_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_BUS_TYPE_CODE != null">
+        PAY_BUS_TYPE_CODE = #{PAY_BUS_TYPE_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="ACT_LQD_DATE != null">
+        ACT_LQD_DATE = #{ACT_LQD_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="PARAM_1 != null">
+        PARAM_1 = #{PARAM_1,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_2 != null">
+        PARAM_2 = #{PARAM_2,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_3 != null">
+        PARAM_3 = #{PARAM_3,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_4 != null">
+        PARAM_4 = #{PARAM_4,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_5 != null">
+        PARAM_5 = #{PARAM_5,jdbcType=VARCHAR},
+      </if>
+      <if test="PARAM_6 != null">
+        PARAM_6 = #{PARAM_6,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_7 != null">
+        PARAM_7 = #{PARAM_7,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_8 != null">
+        PARAM_8 = #{PARAM_8,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_9 != null">
+        PARAM_9 = #{PARAM_9,jdbcType=DECIMAL},
+      </if>
+      <if test="PARAM_10 != null">
+        PARAM_10 = #{PARAM_10,jdbcType=DECIMAL},
+      </if>
+      <if test="MOF_DIV_NAME != null">
+        MOF_DIV_NAME = #{MOF_DIV_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="AGENCY_NAME != null">
+        AGENCY_NAME = #{AGENCY_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="DEPT_NAME != null">
+        DEPT_NAME = #{DEPT_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="FUND_TYPE_NAME != null">
+        FUND_TYPE_NAME = #{FUND_TYPE_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="EXP_FUNC_NAME != null">
+        EXP_FUNC_NAME = #{EXP_FUNC_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="GOV_BGT_ECO_NAME != null">
+        GOV_BGT_ECO_NAME = #{GOV_BGT_ECO_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="DEP_BGT_ECO_NAME != null">
+        DEP_BGT_ECO_NAME = #{DEP_BGT_ECO_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PRO_NAME != null">
+        PRO_NAME = #{PRO_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_BUS_TYPE_NAME != null">
+        PAY_BUS_TYPE_NAME = #{PAY_BUS_TYPE_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="SET_MODE_NAME != null">
+        SET_MODE_NAME = #{SET_MODE_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="ABSTRACT != null">
+        ABSTRACT = #{ABSTRACT,jdbcType=VARCHAR},
+      </if>
+      <if test="CHECK_NO != null">
+        CHECK_NO = #{CHECK_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="CURRENCY_NAME != null">
+        CURRENCY_NAME = #{CURRENCY_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_CODE != null">
+        PAY_CODE = #{PAY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="TAXAYER_ID != null">
+        TAXAYER_ID = #{TAXAYER_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="TAX_ORG_CODE != null">
+        TAX_ORG_CODE = #{TAX_ORG_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="TAX_BILL_NO != null">
+        TAX_BILL_NO = #{TAX_BILL_NO,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PAY_CERT_ID = #{PAY_CERT_ID,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.PayVoucherBillPO">
+    <!--@mbg.generated-->
+    update PAY_VOUCHER_BILL
+    set FUND_TYPE_CODE = #{FUND_TYPE_CODE,jdbcType=VARCHAR},
+      FISCAL_YEAR = #{FISCAL_YEAR,jdbcType=VARCHAR},
+      VOU_DATE = #{VOU_DATE,jdbcType=TIMESTAMP},
+      PAY_CERT_NO = #{PAY_CERT_NO,jdbcType=VARCHAR},
+      PAY_ACCT_NAME = #{PAY_ACCT_NAME,jdbcType=VARCHAR},
+      PAY_ACCT_NO = #{PAY_ACCT_NO,jdbcType=VARCHAR},
+      PAY_ACCT_BANK_NAME = #{PAY_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      PAYEE_ACCT_NAME = #{PAYEE_ACCT_NAME,jdbcType=VARCHAR},
+      PAYEE_ACCT_NO = #{PAYEE_ACCT_NO,jdbcType=VARCHAR},
+      PAYEE_ACCT_BANK_NAME = #{PAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      PAY_AMT = #{PAY_AMT,jdbcType=DECIMAL},
+      LQD_QUOTA_NOTICE_NO = #{LQD_QUOTA_NOTICE_NO,jdbcType=VARCHAR},
+      PAY_CERT_SUM_NO = #{PAY_CERT_SUM_NO,jdbcType=VARCHAR},
+      LQD_CERT_NO = #{LQD_CERT_NO,jdbcType=VARCHAR},
+      EXP_FUNC_CODE = #{EXP_FUNC_CODE,jdbcType=VARCHAR},
+      GOV_BGT_ECO_CODE = #{GOV_BGT_ECO_CODE,jdbcType=VARCHAR},
+      DEP_BGT_ECO_CODE = #{DEP_BGT_ECO_CODE,jdbcType=VARCHAR},
+      AGENT_BUSINESS_NO = #{AGENT_BUSINESS_NO,jdbcType=VARCHAR},
+      XPAY_AMT = #{XPAY_AMT,jdbcType=DECIMAL},
+      XPAY_DATE = #{XPAY_DATE,jdbcType=TIMESTAMP},
+      AGENCY_CODE = #{AGENCY_CODE,jdbcType=VARCHAR},
+      USE_DES = #{USE_DES,jdbcType=VARCHAR},
+      SET_MODE_CODE = #{SET_MODE_CODE,jdbcType=VARCHAR},
+      PRO_CODE = #{PRO_CODE,jdbcType=VARCHAR},
+      MOF_DIV_CODE = #{MOF_DIV_CODE,jdbcType=VARCHAR},
+      FOREIGN_AMT = #{FOREIGN_AMT,jdbcType=DECIMAL},
+      CURRENCY_CODE = #{CURRENCY_CODE,jdbcType=VARCHAR},
+      EST_RAT = #{EST_RAT,jdbcType=DECIMAL},
+      RECEIVER_CODE = #{RECEIVER_CODE,jdbcType=VARCHAR},
+      RECEIPT_ADD_WORD = #{RECEIPT_ADD_WORD,jdbcType=VARCHAR},
+      XPAYEE_ACCT_NAME = #{XPAYEE_ACCT_NAME,jdbcType=VARCHAR},
+      XPAYEE_ACCT_NO = #{XPAYEE_ACCT_NO,jdbcType=VARCHAR},
+      XPAYEE_ACCT_BANK_NAME = #{XPAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      IS_DELETED = #{IS_DELETED,jdbcType=VARCHAR},
+      CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      DEPT_CODE = #{DEPT_CODE,jdbcType=VARCHAR},
+      PAY_BUS_TYPE_CODE = #{PAY_BUS_TYPE_CODE,jdbcType=VARCHAR},
+      ACT_LQD_DATE = #{ACT_LQD_DATE,jdbcType=TIMESTAMP},
+      PARAM_1 = #{PARAM_1,jdbcType=VARCHAR},
+      PARAM_2 = #{PARAM_2,jdbcType=VARCHAR},
+      PARAM_3 = #{PARAM_3,jdbcType=VARCHAR},
+      PARAM_4 = #{PARAM_4,jdbcType=VARCHAR},
+      PARAM_5 = #{PARAM_5,jdbcType=VARCHAR},
+      PARAM_6 = #{PARAM_6,jdbcType=DECIMAL},
+      PARAM_7 = #{PARAM_7,jdbcType=DECIMAL},
+      PARAM_8 = #{PARAM_8,jdbcType=DECIMAL},
+      PARAM_9 = #{PARAM_9,jdbcType=DECIMAL},
+      PARAM_10 = #{PARAM_10,jdbcType=DECIMAL},
+      MOF_DIV_NAME = #{MOF_DIV_NAME,jdbcType=VARCHAR},
+      AGENCY_NAME = #{AGENCY_NAME,jdbcType=VARCHAR},
+      DEPT_NAME = #{DEPT_NAME,jdbcType=VARCHAR},
+      FUND_TYPE_NAME = #{FUND_TYPE_NAME,jdbcType=VARCHAR},
+      EXP_FUNC_NAME = #{EXP_FUNC_NAME,jdbcType=VARCHAR},
+      GOV_BGT_ECO_NAME = #{GOV_BGT_ECO_NAME,jdbcType=VARCHAR},
+      DEP_BGT_ECO_NAME = #{DEP_BGT_ECO_NAME,jdbcType=VARCHAR},
+      PRO_NAME = #{PRO_NAME,jdbcType=VARCHAR},
+      PAY_BUS_TYPE_NAME = #{PAY_BUS_TYPE_NAME,jdbcType=VARCHAR},
+      SET_MODE_NAME = #{SET_MODE_NAME,jdbcType=VARCHAR},
+      ABSTRACT = #{ABSTRACT,jdbcType=VARCHAR},
+      CHECK_NO = #{CHECK_NO,jdbcType=VARCHAR},
+      CURRENCY_NAME = #{CURRENCY_NAME,jdbcType=VARCHAR},
+      PAY_CODE = #{PAY_CODE,jdbcType=VARCHAR},
+      TAXAYER_ID = #{TAXAYER_ID,jdbcType=VARCHAR},
+      TAX_ORG_CODE = #{TAX_ORG_CODE,jdbcType=VARCHAR},
+      TAX_BILL_NO = #{TAX_BILL_NO,jdbcType=VARCHAR}
+    where PAY_CERT_ID = #{PAY_CERT_ID,jdbcType=VARCHAR}
+  </update>
+</mapper>

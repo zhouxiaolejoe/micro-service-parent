@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.mof.fasp3.masterdata.maincollector.executive.server.dao.NonTaxPayPOMapper">
+  <resultMap id="BaseResultMap" type="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.NonTaxPayPO">
+    <!--@mbg.generated-->
+    <!--@Table NON_TAX_PAY-->
+    <id column="NT_PAY_VOUCHER_ID" jdbcType="VARCHAR" property="NT_PAY_VOUCHER_ID" />
+    <result column="NON_TAX_PAY_CODE" jdbcType="VARCHAR" property="NON_TAX_PAY_CODE" />
+    <result column="MOF_DIV_CODE" jdbcType="VARCHAR" property="MOF_DIV_CODE" />
+    <result column="MOF_DIV_NAME" jdbcType="VARCHAR" property="MOF_DIV_NAME" />
+    <result column="EXEC_AGENCY_CODE" jdbcType="VARCHAR" property="EXEC_AGENCY_CODE" />
+    <result column="EXEC_AGENCY_NAME" jdbcType="VARCHAR" property="EXEC_AGENCY_NAME" />
+    <result column="NON_TAX_PAY_NO" jdbcType="VARCHAR" property="NON_TAX_PAY_NO" />
+    <result column="AUTHOR" jdbcType="VARCHAR" property="AUTHOR" />
+    <result column="BILL_DATE" jdbcType="TIMESTAMP" property="BILL_DATE" />
+    <result column="EFF_DATE" jdbcType="TIMESTAMP" property="EFF_DATE" />
+    <result column="PAYER_NAME" jdbcType="VARCHAR" property="PAYER_NAME" />
+    <result column="PAYER_ACC_NO" jdbcType="VARCHAR" property="PAYER_ACC_NO" />
+    <result column="PAYER_OPEN_BANK" jdbcType="VARCHAR" property="PAYER_OPEN_BANK" />
+    <result column="ACT_PAYER_NAME" jdbcType="VARCHAR" property="ACT_PAYER_NAME" />
+    <result column="ACT_PAYER_ACC_NO" jdbcType="VARCHAR" property="ACT_PAYER_ACC_NO" />
+    <result column="ACT_PAYER_OPEN_BANK" jdbcType="VARCHAR" property="ACT_PAYER_OPEN_BANK" />
+    <result column="TOTAL_PAY_AMT" jdbcType="DECIMAL" property="TOTAL_PAY_AMT" />
+    <result column="PAY_AMT" jdbcType="DECIMAL" property="PAY_AMT" />
+    <result column="DELAY_AMT" jdbcType="DECIMAL" property="DELAY_AMT" />
+    <result column="PAID_AMT" jdbcType="DECIMAL" property="PAID_AMT" />
+    <result column="REC_ACCTTYPE" jdbcType="VARCHAR" property="REC_ACCTTYPE" />
+    <result column="PAYEE_ACCT_NAME" jdbcType="VARCHAR" property="PAYEE_ACCT_NAME" />
+    <result column="PAYEE_ACCT_NO" jdbcType="VARCHAR" property="PAYEE_ACCT_NO" />
+    <result column="PAYEE_ACCT_BANK_NAME" jdbcType="VARCHAR" property="PAYEE_ACCT_BANK_NAME" />
+    <result column="PAYEE_ACCT_BANK_CODE" jdbcType="VARCHAR" property="PAYEE_ACCT_BANK_CODE" />
+    <result column="PAY_DATE" jdbcType="TIMESTAMP" property="PAY_DATE" />
+    <result column="PAY_WAY_CODE" jdbcType="VARCHAR" property="PAY_WAY_CODE" />
+    <result column="PAY_WAY_NAME" jdbcType="VARCHAR" property="PAY_WAY_NAME" />
+    <result column="BELONG_ORG_CODE" jdbcType="VARCHAR" property="BELONG_ORG_CODE" />
+    <result column="BELONG_ORG_NAME" jdbcType="VARCHAR" property="BELONG_ORG_NAME" />
+    <result column="RECORD_DATE" jdbcType="TIMESTAMP" property="RECORD_DATE" />
+    <result column="PAY_IN_MET_CODE" jdbcType="VARCHAR" property="PAY_IN_MET_CODE" />
+    <result column="PAY_IN_MET_NAME" jdbcType="VARCHAR" property="PAY_IN_MET_NAME" />
+    <result column="BUS_TYPE" jdbcType="VARCHAR" property="BUS_TYPE" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="UPDATE_TIME" />
+    <result column="IS_DELETED" jdbcType="VARCHAR" property="IS_DELETED" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="CREATE_TIME" />
+    <result column="HOLD1" jdbcType="VARCHAR" property="HOLD1" />
+    <result column="HOLD2" jdbcType="VARCHAR" property="HOLD2" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    NT_PAY_VOUCHER_ID, NON_TAX_PAY_CODE, MOF_DIV_CODE, MOF_DIV_NAME, EXEC_AGENCY_CODE, 
+    EXEC_AGENCY_NAME, NON_TAX_PAY_NO, AUTHOR, BILL_DATE, EFF_DATE, PAYER_NAME, PAYER_ACC_NO, 
+    PAYER_OPEN_BANK, ACT_PAYER_NAME, ACT_PAYER_ACC_NO, ACT_PAYER_OPEN_BANK, TOTAL_PAY_AMT, 
+    PAY_AMT, DELAY_AMT, PAID_AMT, REC_ACCTTYPE, PAYEE_ACCT_NAME, PAYEE_ACCT_NO, PAYEE_ACCT_BANK_NAME, 
+    PAYEE_ACCT_BANK_CODE, PAY_DATE, PAY_WAY_CODE, PAY_WAY_NAME, BELONG_ORG_CODE, BELONG_ORG_NAME, 
+    RECORD_DATE, PAY_IN_MET_CODE, PAY_IN_MET_NAME, BUS_TYPE, UPDATE_TIME, IS_DELETED, 
+    CREATE_TIME, HOLD1, HOLD2
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from NON_TAX_PAY
+    where NT_PAY_VOUCHER_ID = #{NT_PAY_VOUCHER_ID,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from NON_TAX_PAY
+    where NT_PAY_VOUCHER_ID = #{NT_PAY_VOUCHER_ID,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.NonTaxPayPO">
+    <!--@mbg.generated-->
+    insert into NON_TAX_PAY (NT_PAY_VOUCHER_ID, NON_TAX_PAY_CODE, 
+      MOF_DIV_CODE, MOF_DIV_NAME, EXEC_AGENCY_CODE, 
+      EXEC_AGENCY_NAME, NON_TAX_PAY_NO, AUTHOR, 
+      BILL_DATE, EFF_DATE, PAYER_NAME, 
+      PAYER_ACC_NO, PAYER_OPEN_BANK, ACT_PAYER_NAME, 
+      ACT_PAYER_ACC_NO, ACT_PAYER_OPEN_BANK, 
+      TOTAL_PAY_AMT, PAY_AMT, DELAY_AMT, 
+      PAID_AMT, REC_ACCTTYPE, PAYEE_ACCT_NAME, 
+      PAYEE_ACCT_NO, PAYEE_ACCT_BANK_NAME, PAYEE_ACCT_BANK_CODE, 
+      PAY_DATE, PAY_WAY_CODE, PAY_WAY_NAME, 
+      BELONG_ORG_CODE, BELONG_ORG_NAME, RECORD_DATE, 
+      PAY_IN_MET_CODE, PAY_IN_MET_NAME, BUS_TYPE, 
+      UPDATE_TIME, IS_DELETED, CREATE_TIME, 
+      HOLD1, HOLD2)
+    values (#{NT_PAY_VOUCHER_ID,jdbcType=VARCHAR}, #{NON_TAX_PAY_CODE,jdbcType=VARCHAR}, 
+      #{MOF_DIV_CODE,jdbcType=VARCHAR}, #{MOF_DIV_NAME,jdbcType=VARCHAR}, #{EXEC_AGENCY_CODE,jdbcType=VARCHAR}, 
+      #{EXEC_AGENCY_NAME,jdbcType=VARCHAR}, #{NON_TAX_PAY_NO,jdbcType=VARCHAR}, #{AUTHOR,jdbcType=VARCHAR}, 
+      #{BILL_DATE,jdbcType=TIMESTAMP}, #{EFF_DATE,jdbcType=TIMESTAMP}, #{PAYER_NAME,jdbcType=VARCHAR}, 
+      #{PAYER_ACC_NO,jdbcType=VARCHAR}, #{PAYER_OPEN_BANK,jdbcType=VARCHAR}, #{ACT_PAYER_NAME,jdbcType=VARCHAR}, 
+      #{ACT_PAYER_ACC_NO,jdbcType=VARCHAR}, #{ACT_PAYER_OPEN_BANK,jdbcType=VARCHAR}, 
+      #{TOTAL_PAY_AMT,jdbcType=DECIMAL}, #{PAY_AMT,jdbcType=DECIMAL}, #{DELAY_AMT,jdbcType=DECIMAL}, 
+      #{PAID_AMT,jdbcType=DECIMAL}, #{REC_ACCTTYPE,jdbcType=VARCHAR}, #{PAYEE_ACCT_NAME,jdbcType=VARCHAR}, 
+      #{PAYEE_ACCT_NO,jdbcType=VARCHAR}, #{PAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR}, #{PAYEE_ACCT_BANK_CODE,jdbcType=VARCHAR}, 
+      #{PAY_DATE,jdbcType=TIMESTAMP}, #{PAY_WAY_CODE,jdbcType=VARCHAR}, #{PAY_WAY_NAME,jdbcType=VARCHAR}, 
+      #{BELONG_ORG_CODE,jdbcType=VARCHAR}, #{BELONG_ORG_NAME,jdbcType=VARCHAR}, #{RECORD_DATE,jdbcType=TIMESTAMP}, 
+      #{PAY_IN_MET_CODE,jdbcType=VARCHAR}, #{PAY_IN_MET_NAME,jdbcType=VARCHAR}, #{BUS_TYPE,jdbcType=VARCHAR}, 
+      #{UPDATE_TIME,jdbcType=TIMESTAMP}, #{IS_DELETED,jdbcType=VARCHAR}, #{CREATE_TIME,jdbcType=TIMESTAMP}, 
+      #{HOLD1,jdbcType=VARCHAR}, #{HOLD2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.NonTaxPayPO">
+    <!--@mbg.generated-->
+    insert into NON_TAX_PAY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="NT_PAY_VOUCHER_ID != null">
+        NT_PAY_VOUCHER_ID,
+      </if>
+      <if test="NON_TAX_PAY_CODE != null">
+        NON_TAX_PAY_CODE,
+      </if>
+      <if test="MOF_DIV_CODE != null">
+        MOF_DIV_CODE,
+      </if>
+      <if test="MOF_DIV_NAME != null">
+        MOF_DIV_NAME,
+      </if>
+      <if test="EXEC_AGENCY_CODE != null">
+        EXEC_AGENCY_CODE,
+      </if>
+      <if test="EXEC_AGENCY_NAME != null">
+        EXEC_AGENCY_NAME,
+      </if>
+      <if test="NON_TAX_PAY_NO != null">
+        NON_TAX_PAY_NO,
+      </if>
+      <if test="AUTHOR != null">
+        AUTHOR,
+      </if>
+      <if test="BILL_DATE != null">
+        BILL_DATE,
+      </if>
+      <if test="EFF_DATE != null">
+        EFF_DATE,
+      </if>
+      <if test="PAYER_NAME != null">
+        PAYER_NAME,
+      </if>
+      <if test="PAYER_ACC_NO != null">
+        PAYER_ACC_NO,
+      </if>
+      <if test="PAYER_OPEN_BANK != null">
+        PAYER_OPEN_BANK,
+      </if>
+      <if test="ACT_PAYER_NAME != null">
+        ACT_PAYER_NAME,
+      </if>
+      <if test="ACT_PAYER_ACC_NO != null">
+        ACT_PAYER_ACC_NO,
+      </if>
+      <if test="ACT_PAYER_OPEN_BANK != null">
+        ACT_PAYER_OPEN_BANK,
+      </if>
+      <if test="TOTAL_PAY_AMT != null">
+        TOTAL_PAY_AMT,
+      </if>
+      <if test="PAY_AMT != null">
+        PAY_AMT,
+      </if>
+      <if test="DELAY_AMT != null">
+        DELAY_AMT,
+      </if>
+      <if test="PAID_AMT != null">
+        PAID_AMT,
+      </if>
+      <if test="REC_ACCTTYPE != null">
+        REC_ACCTTYPE,
+      </if>
+      <if test="PAYEE_ACCT_NAME != null">
+        PAYEE_ACCT_NAME,
+      </if>
+      <if test="PAYEE_ACCT_NO != null">
+        PAYEE_ACCT_NO,
+      </if>
+      <if test="PAYEE_ACCT_BANK_NAME != null">
+        PAYEE_ACCT_BANK_NAME,
+      </if>
+      <if test="PAYEE_ACCT_BANK_CODE != null">
+        PAYEE_ACCT_BANK_CODE,
+      </if>
+      <if test="PAY_DATE != null">
+        PAY_DATE,
+      </if>
+      <if test="PAY_WAY_CODE != null">
+        PAY_WAY_CODE,
+      </if>
+      <if test="PAY_WAY_NAME != null">
+        PAY_WAY_NAME,
+      </if>
+      <if test="BELONG_ORG_CODE != null">
+        BELONG_ORG_CODE,
+      </if>
+      <if test="BELONG_ORG_NAME != null">
+        BELONG_ORG_NAME,
+      </if>
+      <if test="RECORD_DATE != null">
+        RECORD_DATE,
+      </if>
+      <if test="PAY_IN_MET_CODE != null">
+        PAY_IN_MET_CODE,
+      </if>
+      <if test="PAY_IN_MET_NAME != null">
+        PAY_IN_MET_NAME,
+      </if>
+      <if test="BUS_TYPE != null">
+        BUS_TYPE,
+      </if>
+      <if test="UPDATE_TIME != null">
+        UPDATE_TIME,
+      </if>
+      <if test="IS_DELETED != null">
+        IS_DELETED,
+      </if>
+      <if test="CREATE_TIME != null">
+        CREATE_TIME,
+      </if>
+      <if test="HOLD1 != null">
+        HOLD1,
+      </if>
+      <if test="HOLD2 != null">
+        HOLD2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="NT_PAY_VOUCHER_ID != null">
+        #{NT_PAY_VOUCHER_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="NON_TAX_PAY_CODE != null">
+        #{NON_TAX_PAY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="MOF_DIV_CODE != null">
+        #{MOF_DIV_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="MOF_DIV_NAME != null">
+        #{MOF_DIV_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="EXEC_AGENCY_CODE != null">
+        #{EXEC_AGENCY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="EXEC_AGENCY_NAME != null">
+        #{EXEC_AGENCY_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="NON_TAX_PAY_NO != null">
+        #{NON_TAX_PAY_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="AUTHOR != null">
+        #{AUTHOR,jdbcType=VARCHAR},
+      </if>
+      <if test="BILL_DATE != null">
+        #{BILL_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="EFF_DATE != null">
+        #{EFF_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="PAYER_NAME != null">
+        #{PAYER_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYER_ACC_NO != null">
+        #{PAYER_ACC_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYER_OPEN_BANK != null">
+        #{PAYER_OPEN_BANK,jdbcType=VARCHAR},
+      </if>
+      <if test="ACT_PAYER_NAME != null">
+        #{ACT_PAYER_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="ACT_PAYER_ACC_NO != null">
+        #{ACT_PAYER_ACC_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="ACT_PAYER_OPEN_BANK != null">
+        #{ACT_PAYER_OPEN_BANK,jdbcType=VARCHAR},
+      </if>
+      <if test="TOTAL_PAY_AMT != null">
+        #{TOTAL_PAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="PAY_AMT != null">
+        #{PAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="DELAY_AMT != null">
+        #{DELAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="PAID_AMT != null">
+        #{PAID_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="REC_ACCTTYPE != null">
+        #{REC_ACCTTYPE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_NAME != null">
+        #{PAYEE_ACCT_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_NO != null">
+        #{PAYEE_ACCT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_BANK_NAME != null">
+        #{PAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_BANK_CODE != null">
+        #{PAYEE_ACCT_BANK_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_DATE != null">
+        #{PAY_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="PAY_WAY_CODE != null">
+        #{PAY_WAY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_WAY_NAME != null">
+        #{PAY_WAY_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="BELONG_ORG_CODE != null">
+        #{BELONG_ORG_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="BELONG_ORG_NAME != null">
+        #{BELONG_ORG_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="RECORD_DATE != null">
+        #{RECORD_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="PAY_IN_MET_CODE != null">
+        #{PAY_IN_MET_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_IN_MET_NAME != null">
+        #{PAY_IN_MET_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="BUS_TYPE != null">
+        #{BUS_TYPE,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATE_TIME != null">
+        #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IS_DELETED != null">
+        #{IS_DELETED,jdbcType=VARCHAR},
+      </if>
+      <if test="CREATE_TIME != null">
+        #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="HOLD1 != null">
+        #{HOLD1,jdbcType=VARCHAR},
+      </if>
+      <if test="HOLD2 != null">
+        #{HOLD2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.NonTaxPayPO">
+    <!--@mbg.generated-->
+    update NON_TAX_PAY
+    <set>
+      <if test="NON_TAX_PAY_CODE != null">
+        NON_TAX_PAY_CODE = #{NON_TAX_PAY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="MOF_DIV_CODE != null">
+        MOF_DIV_CODE = #{MOF_DIV_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="MOF_DIV_NAME != null">
+        MOF_DIV_NAME = #{MOF_DIV_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="EXEC_AGENCY_CODE != null">
+        EXEC_AGENCY_CODE = #{EXEC_AGENCY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="EXEC_AGENCY_NAME != null">
+        EXEC_AGENCY_NAME = #{EXEC_AGENCY_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="NON_TAX_PAY_NO != null">
+        NON_TAX_PAY_NO = #{NON_TAX_PAY_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="AUTHOR != null">
+        AUTHOR = #{AUTHOR,jdbcType=VARCHAR},
+      </if>
+      <if test="BILL_DATE != null">
+        BILL_DATE = #{BILL_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="EFF_DATE != null">
+        EFF_DATE = #{EFF_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="PAYER_NAME != null">
+        PAYER_NAME = #{PAYER_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYER_ACC_NO != null">
+        PAYER_ACC_NO = #{PAYER_ACC_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYER_OPEN_BANK != null">
+        PAYER_OPEN_BANK = #{PAYER_OPEN_BANK,jdbcType=VARCHAR},
+      </if>
+      <if test="ACT_PAYER_NAME != null">
+        ACT_PAYER_NAME = #{ACT_PAYER_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="ACT_PAYER_ACC_NO != null">
+        ACT_PAYER_ACC_NO = #{ACT_PAYER_ACC_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="ACT_PAYER_OPEN_BANK != null">
+        ACT_PAYER_OPEN_BANK = #{ACT_PAYER_OPEN_BANK,jdbcType=VARCHAR},
+      </if>
+      <if test="TOTAL_PAY_AMT != null">
+        TOTAL_PAY_AMT = #{TOTAL_PAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="PAY_AMT != null">
+        PAY_AMT = #{PAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="DELAY_AMT != null">
+        DELAY_AMT = #{DELAY_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="PAID_AMT != null">
+        PAID_AMT = #{PAID_AMT,jdbcType=DECIMAL},
+      </if>
+      <if test="REC_ACCTTYPE != null">
+        REC_ACCTTYPE = #{REC_ACCTTYPE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_NAME != null">
+        PAYEE_ACCT_NAME = #{PAYEE_ACCT_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_NO != null">
+        PAYEE_ACCT_NO = #{PAYEE_ACCT_NO,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_BANK_NAME != null">
+        PAYEE_ACCT_BANK_NAME = #{PAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="PAYEE_ACCT_BANK_CODE != null">
+        PAYEE_ACCT_BANK_CODE = #{PAYEE_ACCT_BANK_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_DATE != null">
+        PAY_DATE = #{PAY_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="PAY_WAY_CODE != null">
+        PAY_WAY_CODE = #{PAY_WAY_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_WAY_NAME != null">
+        PAY_WAY_NAME = #{PAY_WAY_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="BELONG_ORG_CODE != null">
+        BELONG_ORG_CODE = #{BELONG_ORG_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="BELONG_ORG_NAME != null">
+        BELONG_ORG_NAME = #{BELONG_ORG_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="RECORD_DATE != null">
+        RECORD_DATE = #{RECORD_DATE,jdbcType=TIMESTAMP},
+      </if>
+      <if test="PAY_IN_MET_CODE != null">
+        PAY_IN_MET_CODE = #{PAY_IN_MET_CODE,jdbcType=VARCHAR},
+      </if>
+      <if test="PAY_IN_MET_NAME != null">
+        PAY_IN_MET_NAME = #{PAY_IN_MET_NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="BUS_TYPE != null">
+        BUS_TYPE = #{BUS_TYPE,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATE_TIME != null">
+        UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IS_DELETED != null">
+        IS_DELETED = #{IS_DELETED,jdbcType=VARCHAR},
+      </if>
+      <if test="CREATE_TIME != null">
+        CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="HOLD1 != null">
+        HOLD1 = #{HOLD1,jdbcType=VARCHAR},
+      </if>
+      <if test="HOLD2 != null">
+        HOLD2 = #{HOLD2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where NT_PAY_VOUCHER_ID = #{NT_PAY_VOUCHER_ID,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gov.mof.fasp3.masterdata.maincollector.executive.server.entity.NonTaxPayPO">
+    <!--@mbg.generated-->
+    update NON_TAX_PAY
+    set NON_TAX_PAY_CODE = #{NON_TAX_PAY_CODE,jdbcType=VARCHAR},
+      MOF_DIV_CODE = #{MOF_DIV_CODE,jdbcType=VARCHAR},
+      MOF_DIV_NAME = #{MOF_DIV_NAME,jdbcType=VARCHAR},
+      EXEC_AGENCY_CODE = #{EXEC_AGENCY_CODE,jdbcType=VARCHAR},
+      EXEC_AGENCY_NAME = #{EXEC_AGENCY_NAME,jdbcType=VARCHAR},
+      NON_TAX_PAY_NO = #{NON_TAX_PAY_NO,jdbcType=VARCHAR},
+      AUTHOR = #{AUTHOR,jdbcType=VARCHAR},
+      BILL_DATE = #{BILL_DATE,jdbcType=TIMESTAMP},
+      EFF_DATE = #{EFF_DATE,jdbcType=TIMESTAMP},
+      PAYER_NAME = #{PAYER_NAME,jdbcType=VARCHAR},
+      PAYER_ACC_NO = #{PAYER_ACC_NO,jdbcType=VARCHAR},
+      PAYER_OPEN_BANK = #{PAYER_OPEN_BANK,jdbcType=VARCHAR},
+      ACT_PAYER_NAME = #{ACT_PAYER_NAME,jdbcType=VARCHAR},
+      ACT_PAYER_ACC_NO = #{ACT_PAYER_ACC_NO,jdbcType=VARCHAR},
+      ACT_PAYER_OPEN_BANK = #{ACT_PAYER_OPEN_BANK,jdbcType=VARCHAR},
+      TOTAL_PAY_AMT = #{TOTAL_PAY_AMT,jdbcType=DECIMAL},
+      PAY_AMT = #{PAY_AMT,jdbcType=DECIMAL},
+      DELAY_AMT = #{DELAY_AMT,jdbcType=DECIMAL},
+      PAID_AMT = #{PAID_AMT,jdbcType=DECIMAL},
+      REC_ACCTTYPE = #{REC_ACCTTYPE,jdbcType=VARCHAR},
+      PAYEE_ACCT_NAME = #{PAYEE_ACCT_NAME,jdbcType=VARCHAR},
+      PAYEE_ACCT_NO = #{PAYEE_ACCT_NO,jdbcType=VARCHAR},
+      PAYEE_ACCT_BANK_NAME = #{PAYEE_ACCT_BANK_NAME,jdbcType=VARCHAR},
+      PAYEE_ACCT_BANK_CODE = #{PAYEE_ACCT_BANK_CODE,jdbcType=VARCHAR},
+      PAY_DATE = #{PAY_DATE,jdbcType=TIMESTAMP},
+      PAY_WAY_CODE = #{PAY_WAY_CODE,jdbcType=VARCHAR},
+      PAY_WAY_NAME = #{PAY_WAY_NAME,jdbcType=VARCHAR},
+      BELONG_ORG_CODE = #{BELONG_ORG_CODE,jdbcType=VARCHAR},
+      BELONG_ORG_NAME = #{BELONG_ORG_NAME,jdbcType=VARCHAR},
+      RECORD_DATE = #{RECORD_DATE,jdbcType=TIMESTAMP},
+      PAY_IN_MET_CODE = #{PAY_IN_MET_CODE,jdbcType=VARCHAR},
+      PAY_IN_MET_NAME = #{PAY_IN_MET_NAME,jdbcType=VARCHAR},
+      BUS_TYPE = #{BUS_TYPE,jdbcType=VARCHAR},
+      UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      IS_DELETED = #{IS_DELETED,jdbcType=VARCHAR},
+      CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      HOLD1 = #{HOLD1,jdbcType=VARCHAR},
+      HOLD2 = #{HOLD2,jdbcType=VARCHAR}
+    where NT_PAY_VOUCHER_ID = #{NT_PAY_VOUCHER_ID,jdbcType=VARCHAR}
+  </update>
+</mapper>
